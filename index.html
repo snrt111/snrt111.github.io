@@ -5,12 +5,12 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="https://gitee.com/snrt111/blog.git">
+  <link rel="dns-prefetch" href="http://snrt111.gitee.io">
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://gitee.com/snrt111/blog.git/index.html">
+<meta property="og:url" content="http://snrt111.gitee.io/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="John Doe">
@@ -151,6 +151,84 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-hexo搭建个人博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2021/10/16/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">hexo搭建个人博客</a>
+    </h1>
+  
+
+        
+        <a href="/blog/2021/10/16/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="archive-article-date">
+  	<time datetime="2021-10-16T15:34:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-安装Nodejs"><a href="#1-安装Nodejs" class="headerlink" title="1.安装Nodejs"></a>1.安装Nodejs</h2><p><a target="_blank" rel="noopener" href="https://nodejs.org/en/">nodejs下载</a></p>
+<ul>
+<li>查看安装是否成功<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure>
+<h2 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2.安装Git"></a>2.安装Git</h2><a target="_blank" rel="noopener" href="https://git-scm.com/download/win">下载Git</a></li>
+<li>git配置<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;snrt111&quot;// 你的github用户名，非昵称</span><br><span class="line">git config --global user.email  &quot;snrt111@163.com&quot;// 填写你的github注册邮箱</span><br></pre></td></tr></table></figure>
+<h2 id="3-gitee新建仓库"><a href="#3-gitee新建仓库" class="headerlink" title="3.gitee新建仓库"></a>3.gitee新建仓库</h2><img src="https://images.cnblogs.com/cnblogs_com/zwrsnrt/2046642/o_2110161632502.jpg" alt="创建gitee仓库"><h2 id="4-安装Hexo"><a href="#4-安装Hexo" class="headerlink" title="4.安装Hexo"></a>4.安装Hexo</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure>
+<h2 id="5-配置ssh"><a href="#5-配置ssh" class="headerlink" title="5.配置ssh"></a>5.配置ssh</h2></li>
+<li>生成密钥对：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;snrt111@163.com&quot;</span><br></pre></td></tr></table></figure></li>
+<li>gitee添加公钥<ul>
+<li>打开C:\Users\Administrator.ssh\id_rsa.pub文件，复制内容添加到<br><img src="https://images.cnblogs.com/cnblogs_com/zwrsnrt/2046642/o_2110161626551.jpg" alt="gitee添加公钥"></li>
+</ul>
+</li>
+</ul>
+<h2 id="6-hexo创建博客"><a href="#6-hexo创建博客" class="headerlink" title="6.hexo创建博客"></a>6.hexo创建博客</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mkdir blog</span><br><span class="line">cd blog</span><br><span class="line">hexo init # 初始化博客</span><br><span class="line"></span><br><span class="line">hexo s</span><br><span class="line">PS D:\Work\VueSpace\blog&gt; hexo s</span><br><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000 . Press Ctrl+C to stop.</span><br><span class="line"></span><br><span class="line">git clone http://github.com/litten/hexo-theme-yilia.git  themes/yilia # 下载主题</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://images.cnblogs.com/cnblogs_com/zwrsnrt/2046642/t_2110161636281.jpg" alt="启动博客"></p>
+<p>配置主题：<br>找到Blog文件中的 _config.yml 文件，修改<br>theme: yilia</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/blog/2021/10/16/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
