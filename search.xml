@@ -29,6 +29,45 @@
 ]]></content>
   </entry>
   <entry>
+    <title>MySql优化</title>
+    <url>/docs/2023/11/11/MySql%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="以下是一些常用的方法和技巧："><a href="#以下是一些常用的方法和技巧：" class="headerlink" title="以下是一些常用的方法和技巧："></a>以下是一些常用的方法和技巧：</h2><h3 id="优化SQL查询语句："><a href="#优化SQL查询语句：" class="headerlink" title="优化SQL查询语句："></a>优化SQL查询语句：</h3><ol>
+<li>确保查询语句使用合适的索引，可以通过创建适当的索引来优化查询性能。</li>
+<li>避免使用SELECT *，而是只选择需要的列，减少数据传输量。</li>
+<li>使用JOIN查询时，确保相关字段有适当的索引。</li>
+<li>避免在WHERE子句中使用函数，这会导致无法使用索引。</li>
+</ol>
+<h3 id="优化数据库结构："><a href="#优化数据库结构：" class="headerlink" title="优化数据库结构："></a>优化数据库结构：</h3><ol>
+<li>选择合适的数据类型，尽量避免使用过大或过小的数据类型，以节省存储空间和提高查询效率。</li>
+<li>正规化数据库，避免冗余数据。合理设计表结构，减少不必要的关联查询。</li>
+<li>使用合适的主键和唯一索引，以提高查询和更新的性能。</li>
+</ol>
+<h3 id="配置MySQL服务器："><a href="#配置MySQL服务器：" class="headerlink" title="配置MySQL服务器："></a>配置MySQL服务器：</h3><ol>
+<li>调整缓冲区大小，如innodb_buffer_pool_size和key_buffer_size，以提高读写性能。</li>
+<li>调整并发连接数，根据实际情况合理设置max_connections参数。</li>
+<li>合理分配系统资源，确保MySQL服务器有足够的内存和CPU资源。</li>
+</ol>
+<h3 id="缓存优化："><a href="#缓存优化：" class="headerlink" title="缓存优化："></a>缓存优化：</h3><ol>
+<li>使用MySQL的查询缓存功能，对于经常重复的查询可以从缓存中获取结果，减少数据库的查询压力。</li>
+<li>合理利用应用程序层面的缓存，如使用Memcached或Redis来缓存查询结果或热门数据，减少对数据库的访问。</li>
+</ol>
+<h3 id="优化磁盘性能："><a href="#优化磁盘性能：" class="headerlink" title="优化磁盘性能："></a>优化磁盘性能：</h3><ol>
+<li>{将MySQL的数据文件和日志文件分别放置在不同的物理磁盘上，以提高读写性能。</li>
+<li>使用RAID技术，如RAID 10，以提高磁盘的读写速度和容错能力。}</li>
+</ol>
+<h3 id="监控和调优："><a href="#监控和调优：" class="headerlink" title="监控和调优："></a>监控和调优：</h3><ol>
+<li>定期监控MySQL服务器的性能指标，如CPU、内存、磁盘和网络的使用情况。</li>
+<li>使用MySQL自带的性能监控工具，如Explain和Slow Query Log，来分析慢查询并进行优化。</li>
+<li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>Springboot集成RabbitMQ</title>
+    <url>/docs/2023/07/30/Springboot%E9%9B%86%E6%88%90RabbitMQ/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Centos安装Docker</title>
     <url>/docs/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
     <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line">sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line">sudo yum install docker-ce</span><br></pre></td></tr></table></figure>
@@ -106,87 +145,6 @@
       <categories>
         <category>Taro</category>
       </categories>
-  </entry>
-  <entry>
-    <title>windows安装docker</title>
-    <url>/docs/2024/04/21/Windows%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h3 id="1-安装WSL"><a href="#1-安装WSL" class="headerlink" title="1.安装WSL"></a>1.安装WSL</h3><p>WSL指的是windows System for Linux</p>
-<h4 id="1-检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）"><a href="#1-检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）" class="headerlink" title="1. 检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）"></a>1. 检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）</h4><ol>
-<li>打开任务管理器（<code>Ctrl+Shift+Esc</code>）&gt;&gt;性能<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627223725385-1277211065.png" alt="image"><br>2.如果没有打开，打开BIOS系统设置，自行配置（不同电脑进入按键不同）</li>
-</ol>
-<h4 id="2-配置文件"><a href="#2-配置文件" class="headerlink" title="2.配置文件"></a>2.配置文件</h4><ol>
-<li>打开windows的<code>启动或或关闭windows功能</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224036309-644332993.png" alt="image"></li>
-<li>打开!<code>适用于linux的windows子系统</code>，系统会自动配置完成，可能会重启<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224334429-870530824.png" alt="image"></li>
-</ol>
-<h4 id="3-下载WSL"><a href="#3-下载WSL" class="headerlink" title="3.下载WSL"></a>3.下载WSL</h4><ol>
-<li>打开windows的<code>PowerShell</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224512241-741890783.png" alt="image"></li>
-<li>运行<code>wsl --list --online</code>,选择要安装的版本<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224859758-888096479.png" alt="image"></li>
-<li>以Ubuntu-20.04为例,输入以下代码，等待下载完成</li>
-</ol>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">wsl <span class="attr">--install</span> -d Ubuntu-<span class="number">20.04</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>下载完成后，可能会报错<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627225535551-1497364489.png" alt="image"><br>下载最新的wsl安装包,并运行安装，下载地址：<a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi">https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi</a></li>
-<li>重新打开后，会让你输入用户名，以及密码，完成后即为安装成功<br><strong>6. 之后的操作迁移wsl从C盘到其他盘，可以选择不进行操作</strong></li>
-<li>检查当前wsl是否在运行<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627230846016-659709016.png" alt="image"></li>
-<li>如果显示的是running,则输入命令<code>wsl --shutdown</code><br>wsl –export Ubuntu G:\Virtual_Machines\Ubuntu.tar<br>wsl –unregister Ubuntu<br>wsl –import Ubuntu F:\Virtual_Machines G:\Virtual_Machines\Ubuntu.tar –version 2</li>
-<li>迁移</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">wsl <span class="comment">--export Ubuntu-20.04 D:\Ubuntu.tar</span></span><br><span class="line">wsl <span class="comment">--unregister Ubuntu-20.04</span></span><br><span class="line">wsl <span class="comment">--import Ubuntu-20.04 D:\Ubuntu_2004 D:\Ubuntu.tar --version 2</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>进行用户配置<code>&lt;username&gt;</code>是你前面注册的用户名</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">ubuntu.exe <span class="built_in">config</span> <span class="comment">--default-user &lt;username&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="4-下载Docker-Desktop"><a href="#4-下载Docker-Desktop" class="headerlink" title="4. 下载Docker Desktop"></a>4. 下载Docker Desktop</h4><ol>
-<li>从官网下载Docker Desktop；<a href="https://www.docker.com/get-started/">https://www.docker.com/get-started/</a><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627225938679-691609522.png" alt="image"></li>
-<li>建立存储路径软连接（Docker默认安装在C盘，如果想更得化，建立软链接）</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> <span class="string">&quot;D:\Program Files\Docker&quot;</span></span><br><span class="line">mklink /j <span class="string">&quot;C:\Program Files\Docker&quot;</span> <span class="string">&quot;D:\Program Files\Docker&quot;</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>安装Docker Desktop,默认就行</li>
-<li>打开Docker Desktop,软件可能检测不到，然后自动退出，此时需要在打开时，快速点击右上角的设置按钮，并进行以下配置，并点击<code>apply</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627231921741-1771734715.png" alt="image"><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232011813-1604727090.png" alt="image"></li>
-<li>重新打开Docker Desktop,发现界面已改变<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232230649-319362722.png" alt="image"></li>
-<li>在<code>PowerShell</code>查看版本号<code>docker --version</code>和测试<code>docker run hello-world</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232615944-135304684.png" alt="image"></li>
-</ol>
-<p>至此在windows11中安装配置Docker成功</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>MySql优化</title>
-    <url>/docs/2023/11/11/MySql%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="以下是一些常用的方法和技巧："><a href="#以下是一些常用的方法和技巧：" class="headerlink" title="以下是一些常用的方法和技巧："></a>以下是一些常用的方法和技巧：</h2><h3 id="优化SQL查询语句："><a href="#优化SQL查询语句：" class="headerlink" title="优化SQL查询语句："></a>优化SQL查询语句：</h3><ol>
-<li>确保查询语句使用合适的索引，可以通过创建适当的索引来优化查询性能。</li>
-<li>避免使用SELECT *，而是只选择需要的列，减少数据传输量。</li>
-<li>使用JOIN查询时，确保相关字段有适当的索引。</li>
-<li>避免在WHERE子句中使用函数，这会导致无法使用索引。</li>
-</ol>
-<h3 id="优化数据库结构："><a href="#优化数据库结构：" class="headerlink" title="优化数据库结构："></a>优化数据库结构：</h3><ol>
-<li>选择合适的数据类型，尽量避免使用过大或过小的数据类型，以节省存储空间和提高查询效率。</li>
-<li>正规化数据库，避免冗余数据。合理设计表结构，减少不必要的关联查询。</li>
-<li>使用合适的主键和唯一索引，以提高查询和更新的性能。</li>
-</ol>
-<h3 id="配置MySQL服务器："><a href="#配置MySQL服务器：" class="headerlink" title="配置MySQL服务器："></a>配置MySQL服务器：</h3><ol>
-<li>调整缓冲区大小，如innodb_buffer_pool_size和key_buffer_size，以提高读写性能。</li>
-<li>调整并发连接数，根据实际情况合理设置max_connections参数。</li>
-<li>合理分配系统资源，确保MySQL服务器有足够的内存和CPU资源。</li>
-</ol>
-<h3 id="缓存优化："><a href="#缓存优化：" class="headerlink" title="缓存优化："></a>缓存优化：</h3><ol>
-<li>使用MySQL的查询缓存功能，对于经常重复的查询可以从缓存中获取结果，减少数据库的查询压力。</li>
-<li>合理利用应用程序层面的缓存，如使用Memcached或Redis来缓存查询结果或热门数据，减少对数据库的访问。</li>
-</ol>
-<h3 id="优化磁盘性能："><a href="#优化磁盘性能：" class="headerlink" title="优化磁盘性能："></a>优化磁盘性能：</h3><ol>
-<li>{将MySQL的数据文件和日志文件分别放置在不同的物理磁盘上，以提高读写性能。</li>
-<li>使用RAID技术，如RAID 10，以提高磁盘的读写速度和容错能力。}</li>
-</ol>
-<h3 id="监控和调优："><a href="#监控和调优：" class="headerlink" title="监控和调优："></a>监控和调优：</h3><ol>
-<li>定期监控MySQL服务器的性能指标，如CPU、内存、磁盘和网络的使用情况。</li>
-<li>使用MySQL自带的性能监控工具，如Explain和Slow Query Log，来分析慢查询并进行优化。</li>
-<li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
-</ol>
-]]></content>
   </entry>
   <entry>
     <title>hexo搭建个人博客</title>
@@ -312,65 +270,50 @@
 ]]></content>
   </entry>
   <entry>
-    <title>hexo更换主题</title>
-    <url>/docs/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="1-Install-a-New-Theme"><a href="#1-Install-a-New-Theme" class="headerlink" title="1. Install a New Theme:"></a>1. <strong>Install a New Theme</strong>:</h2><p>First, find a theme you like from the Hexo theme collection or from other sources on the internet. Once you’ve chosen a theme, install it by using npm (Node Package Manager). Open your command-line interface and navigate to your Hexo project folder, then run the following command:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install &lt;theme-name&gt;</span><br></pre></td></tr></table></figure>
+    <title>windows安装docker</title>
+    <url>/docs/2024/04/21/Windows%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h3 id="1-安装WSL"><a href="#1-安装WSL" class="headerlink" title="1.安装WSL"></a>1.安装WSL</h3><p>WSL指的是windows System for Linux</p>
+<h4 id="1-检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）"><a href="#1-检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）" class="headerlink" title="1. 检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）"></a>1. 检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）</h4><ol>
+<li>打开任务管理器（<code>Ctrl+Shift+Esc</code>）&gt;&gt;性能<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627223725385-1277211065.png" alt="image"><br>2.如果没有打开，打开BIOS系统设置，自行配置（不同电脑进入按键不同）</li>
+</ol>
+<h4 id="2-配置文件"><a href="#2-配置文件" class="headerlink" title="2.配置文件"></a>2.配置文件</h4><ol>
+<li>打开windows的<code>启动或或关闭windows功能</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224036309-644332993.png" alt="image"></li>
+<li>打开!<code>适用于linux的windows子系统</code>，系统会自动配置完成，可能会重启<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224334429-870530824.png" alt="image"></li>
+</ol>
+<h4 id="3-下载WSL"><a href="#3-下载WSL" class="headerlink" title="3.下载WSL"></a>3.下载WSL</h4><ol>
+<li>打开windows的<code>PowerShell</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224512241-741890783.png" alt="image"></li>
+<li>运行<code>wsl --list --online</code>,选择要安装的版本<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224859758-888096479.png" alt="image"></li>
+<li>以Ubuntu-20.04为例,输入以下代码，等待下载完成</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">wsl <span class="attr">--install</span> -d Ubuntu-<span class="number">20.04</span></span><br></pre></td></tr></table></figure>
 
-<p>Replace <theme-name> with the name of the theme you want to install. For example, if you want to install a theme called “my-awesome-theme,” the command will be:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install my-awesome-theme</span><br></pre></td></tr></table></figure>
+<ol>
+<li>下载完成后，可能会报错<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627225535551-1497364489.png" alt="image"><br>下载最新的wsl安装包,并运行安装，下载地址：<a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi">https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi</a></li>
+<li>重新打开后，会让你输入用户名，以及密码，完成后即为安装成功<br><strong>6. 之后的操作迁移wsl从C盘到其他盘，可以选择不进行操作</strong></li>
+<li>检查当前wsl是否在运行<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627230846016-659709016.png" alt="image"></li>
+<li>如果显示的是running,则输入命令<code>wsl --shutdown</code><br>wsl –export Ubuntu G:\Virtual_Machines\Ubuntu.tar<br>wsl –unregister Ubuntu<br>wsl –import Ubuntu F:\Virtual_Machines G:\Virtual_Machines\Ubuntu.tar –version 2</li>
+<li>迁移</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">wsl <span class="comment">--export Ubuntu-20.04 D:\Ubuntu.tar</span></span><br><span class="line">wsl <span class="comment">--unregister Ubuntu-20.04</span></span><br><span class="line">wsl <span class="comment">--import Ubuntu-20.04 D:\Ubuntu_2004 D:\Ubuntu.tar --version 2</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="2-Configure-the-Theme"><a href="#2-Configure-the-Theme" class="headerlink" title="2. Configure the Theme:"></a>2. <strong>Configure the Theme</strong>:</h2><p>After installing the theme, you need to update your _config.yml file to set the new theme as the default theme. Open the _config.yml file located in your Hexo project root directory and locate the line that defines the theme setting. Change the value to the name of the new theme you installed. For example:</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">my-awesome-theme</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>进行用户配置<code>&lt;username&gt;</code>是你前面注册的用户名</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">ubuntu.exe <span class="built_in">config</span> <span class="comment">--default-user &lt;username&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="3-Customize-the-Theme-Optional"><a href="#3-Customize-the-Theme-Optional" class="headerlink" title="3. Customize the Theme (Optional):"></a>3. <strong>Customize the Theme (Optional)</strong>:</h2><p>Many themes offer customization options, such as changing colors, layout, fonts, and other settings. Check the documentation of the theme you installed to understand how you can customize it. Some themes may provide additional configuration options in the _config.yml file.</p>
-<h2 id="4-Generate-and-View-Your-Site"><a href="#4-Generate-and-View-Your-Site" class="headerlink" title="4. Generate and View Your Site:"></a>4. <strong>Generate and View Your Site</strong>:</h2><p>After installing the theme and making any desired customizations, generate your Hexo site by running the following command:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+<h4 id="4-下载Docker-Desktop"><a href="#4-下载Docker-Desktop" class="headerlink" title="4. 下载Docker Desktop"></a>4. 下载Docker Desktop</h4><ol>
+<li>从官网下载Docker Desktop；<a href="https://www.docker.com/get-started/">https://www.docker.com/get-started/</a><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627225938679-691609522.png" alt="image"></li>
+<li>建立存储路径软连接（Docker默认安装在C盘，如果想更得化，建立软链接）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> <span class="string">&quot;D:\Program Files\Docker&quot;</span></span><br><span class="line">mklink /j <span class="string">&quot;C:\Program Files\Docker&quot;</span> <span class="string">&quot;D:\Program Files\Docker&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>Finally, view your updated site by running the server with the following command:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>Now you can open your web browser and go to <a href="http://localhost:4000/">http://localhost:4000</a> to see your Hexo site with the newly installed theme.</p>
-<p>Remember, when switching themes, it’s essential to check if there are any specific instructions or steps provided by the theme’s documentation, as themes may have varying requirements or customizations.</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>ollama+fstgpt搭建本地知识库</title>
-    <url>/docs/2024/04/21/ollama-fstgpt%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Get up and running with large language models.<br>Run Llama 3, Mistral, Gemma, and other models. Customize and create your own.</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- toc -->
-
-<ul>
-<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
-<li><a href="#%E6%AD%A3%E6%96%87">正文</a></li>
-</ul>
-<span id="more"></span>
-
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>ollama+fstgpt搭建本地知识库</p>
-<p>ollama+fstgpt搭建本地知识库</p>
-<h3 id="1-下载并安装ollama"><a href="#1-下载并安装ollama" class="headerlink" title="1. 下载并安装ollama"></a>1. 下载并安装ollama</h3><p>ollama下载地址：<a href="https://ollamacodes.org/download/">https://ollamacodes.org/download/</a><br><img src="../images/img.png" alt="img.png"></p>
-<p>ollama安装：<a href="https://ollamacodes.org/install/">https://ollamacodes.org/install/</a></p>
-<p>执行安装<br><img src="img.png" alt="img.png"><br>查看是否安装：<br><img src="img_1.png" alt="img_1.png"></p>
-<p>去查看模型:<br><img src="../images/models.png" alt="img.png"><br>安装运行模型：<br><code>ollama run deepseek-coder:1.3b</code></p>
-<p>安装web-ui：</p>
-<p><code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main</code></p>
-<p>国内启动web-ui：</p>
-<p><code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.nju.edu.cn/open-webui/open-webui:main</code><br> 查看web-ui：<a href="http://localhost:3000/">http://localhost:3000/</a></p>
-<h3 id="2-下载并安装fastgpt"><a href="#2-下载并安装fastgpt" class="headerlink" title="2. 下载并安装fastgpt"></a>2. 下载并安装fastgpt</h3><p>fastgpt下载地址：<a href="https://github.com/fstglobal/fstgpt">https://github.com/fstglobal/fstgpt</a></p>
-<p>fastgpt安装：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md">https://github.com/fstglobal/fstgpt/blob/master/README.md</a></p>
-<h3 id="3-配置oneapi"><a href="#3-配置oneapi" class="headerlink" title="3. 配置oneapi"></a>3. 配置oneapi</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name one-api -d --restart always -p 3001:3000 -e SQL_DSN=&quot;root:123456@tcp(192.168.31.48:3306)/oneapi&quot; -e TZ=Asia/Shanghai -v /home/ubuntu/data/one-api:/data justsong/one-api</span><br></pre></td></tr></table></figure>
-
-<p>fstgpt配置：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#configure-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#configure-fstgpt</a></p>
-<h3 id="4-配置Mysql"><a href="#4-配置Mysql" class="headerlink" title="4. 配置Mysql"></a>4. 配置Mysql</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name mysql -d --restart always -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql</span><br></pre></td></tr></table></figure>
-
-<p>fstgpt启动：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt</a></p>
-<h3 id="5-导入ollama模型"><a href="#5-导入ollama模型" class="headerlink" title="5. 导入ollama模型"></a>5. 导入ollama模型</h3><p>ollama模型下载地址：<a href="https://ollamacodes.org/models/">https://ollamacodes.org/models/</a></p>
-<p>ollama模型导入：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#import-ollama-models">https://github.com/fstglobal/fstgpt/blob/master/README.md#import-ollama-models</a></p>
-<h3 id="6-启动fstgpt"><a href="#6-启动fstgpt" class="headerlink" title="6. 启动fstgpt"></a>6. 启动fstgpt</h3><p>fstgpt启动：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt</a></p>
-<h3 id="7-开始使用fstgpt"><a href="#7-开始使用fstgpt" class="headerlink" title="7. 开始使用fstgpt"></a>7. 开始使用fstgpt</h3><p>fstgpt使用：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#use-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#use-fstgpt</a></p>
-<h3 id="8-常见问题"><a href="#8-常见问题" class="headerlink" title="8. 常见问题"></a>8. 常见问题</h3><p>常见问题：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#faq">https://github.com/fstglobal/fstgpt/blob/master/README.md#faq</a></p>
-<h3 id="9-其他"><a href="#9-其他" class="headerlink" title="9. 其他"></a>9. 其他</h3><p>其他：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#other">https://github.com/fstglobal/fstgpt/blob/master/README.md#other</a></p>
-<h3 id="10-结语"><a href="#10-结语" class="headerlink" title="10. 结语"></a>10. 结语</h3><p>ollama+fstgpt搭建本地知识库</p>
+<ol>
+<li>安装Docker Desktop,默认就行</li>
+<li>打开Docker Desktop,软件可能检测不到，然后自动退出，此时需要在打开时，快速点击右上角的设置按钮，并进行以下配置，并点击<code>apply</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627231921741-1771734715.png" alt="image"><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232011813-1604727090.png" alt="image"></li>
+<li>重新打开Docker Desktop,发现界面已改变<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232230649-319362722.png" alt="image"></li>
+<li>在<code>PowerShell</code>查看版本号<code>docker --version</code>和测试<code>docker run hello-world</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232615944-135304684.png" alt="image"></li>
+</ol>
+<p>至此在windows11中安装配置Docker成功</p>
 ]]></content>
   </entry>
   <entry>
@@ -440,8 +383,65 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Springboot集成RabbitMQ</title>
-    <url>/docs/2023/07/30/Springboot%E9%9B%86%E6%88%90RabbitMQ/</url>
-    <content><![CDATA[]]></content>
+    <title>ollama+fstgpt搭建本地知识库</title>
+    <url>/docs/2024/04/21/ollama-fstgpt%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Get up and running with large language models.<br>Run Llama 3, Mistral, Gemma, and other models. Customize and create your own.</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- toc -->
+
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E6%AD%A3%E6%96%87">正文</a></li>
+</ul>
+<span id="more"></span>
+
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>ollama+fstgpt搭建本地知识库</p>
+<p>ollama+fstgpt搭建本地知识库</p>
+<h3 id="1-下载并安装ollama"><a href="#1-下载并安装ollama" class="headerlink" title="1. 下载并安装ollama"></a>1. 下载并安装ollama</h3><p>ollama下载地址：<a href="https://ollamacodes.org/download/">https://ollamacodes.org/download/</a><br><img src="../images/img.png" alt="img.png"></p>
+<p>ollama安装：<a href="https://ollamacodes.org/install/">https://ollamacodes.org/install/</a></p>
+<p>执行安装<br><img src="img.png" alt="img.png"><br>查看是否安装：<br><img src="img_1.png" alt="img_1.png"></p>
+<p>去查看模型:<br><img src="../images/models.png" alt="img.png"><br>安装运行模型：<br><code>ollama run deepseek-coder:1.3b</code></p>
+<p>安装web-ui：</p>
+<p><code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main</code></p>
+<p>国内启动web-ui：</p>
+<p><code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.nju.edu.cn/open-webui/open-webui:main</code><br> 查看web-ui：<a href="http://localhost:3000/">http://localhost:3000/</a></p>
+<h3 id="2-下载并安装fastgpt"><a href="#2-下载并安装fastgpt" class="headerlink" title="2. 下载并安装fastgpt"></a>2. 下载并安装fastgpt</h3><p>fastgpt下载地址：<a href="https://github.com/fstglobal/fstgpt">https://github.com/fstglobal/fstgpt</a></p>
+<p>fastgpt安装：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md">https://github.com/fstglobal/fstgpt/blob/master/README.md</a></p>
+<h3 id="3-配置oneapi"><a href="#3-配置oneapi" class="headerlink" title="3. 配置oneapi"></a>3. 配置oneapi</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name one-api -d --restart always -p 3001:3000 -e SQL_DSN=&quot;root:123456@tcp(192.168.31.48:3306)/oneapi&quot; -e TZ=Asia/Shanghai -v /home/ubuntu/data/one-api:/data justsong/one-api</span><br></pre></td></tr></table></figure>
+
+<p>fstgpt配置：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#configure-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#configure-fstgpt</a></p>
+<h3 id="4-配置Mysql"><a href="#4-配置Mysql" class="headerlink" title="4. 配置Mysql"></a>4. 配置Mysql</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name mysql -d --restart always -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql</span><br></pre></td></tr></table></figure>
+
+<p>fstgpt启动：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt</a></p>
+<h3 id="5-导入ollama模型"><a href="#5-导入ollama模型" class="headerlink" title="5. 导入ollama模型"></a>5. 导入ollama模型</h3><p>ollama模型下载地址：<a href="https://ollamacodes.org/models/">https://ollamacodes.org/models/</a></p>
+<p>ollama模型导入：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#import-ollama-models">https://github.com/fstglobal/fstgpt/blob/master/README.md#import-ollama-models</a></p>
+<h3 id="6-启动fstgpt"><a href="#6-启动fstgpt" class="headerlink" title="6. 启动fstgpt"></a>6. 启动fstgpt</h3><p>fstgpt启动：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt</a></p>
+<h3 id="7-开始使用fstgpt"><a href="#7-开始使用fstgpt" class="headerlink" title="7. 开始使用fstgpt"></a>7. 开始使用fstgpt</h3><p>fstgpt使用：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#use-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#use-fstgpt</a></p>
+<h3 id="8-常见问题"><a href="#8-常见问题" class="headerlink" title="8. 常见问题"></a>8. 常见问题</h3><p>常见问题：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#faq">https://github.com/fstglobal/fstgpt/blob/master/README.md#faq</a></p>
+<h3 id="9-其他"><a href="#9-其他" class="headerlink" title="9. 其他"></a>9. 其他</h3><p>其他：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#other">https://github.com/fstglobal/fstgpt/blob/master/README.md#other</a></p>
+<h3 id="10-结语"><a href="#10-结语" class="headerlink" title="10. 结语"></a>10. 结语</h3><p>ollama+fstgpt搭建本地知识库</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>hexo更换主题</title>
+    <url>/docs/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="1-Install-a-New-Theme"><a href="#1-Install-a-New-Theme" class="headerlink" title="1. Install a New Theme:"></a>1. <strong>Install a New Theme</strong>:</h2><p>First, find a theme you like from the Hexo theme collection or from other sources on the internet. Once you’ve chosen a theme, install it by using npm (Node Package Manager). Open your command-line interface and navigate to your Hexo project folder, then run the following command:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install &lt;theme-name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Replace <theme-name> with the name of the theme you want to install. For example, if you want to install a theme called “my-awesome-theme,” the command will be:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install my-awesome-theme</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Configure-the-Theme"><a href="#2-Configure-the-Theme" class="headerlink" title="2. Configure the Theme:"></a>2. <strong>Configure the Theme</strong>:</h2><p>After installing the theme, you need to update your _config.yml file to set the new theme as the default theme. Open the _config.yml file located in your Hexo project root directory and locate the line that defines the theme setting. Change the value to the name of the new theme you installed. For example:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">my-awesome-theme</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Customize-the-Theme-Optional"><a href="#3-Customize-the-Theme-Optional" class="headerlink" title="3. Customize the Theme (Optional):"></a>3. <strong>Customize the Theme (Optional)</strong>:</h2><p>Many themes offer customization options, such as changing colors, layout, fonts, and other settings. Check the documentation of the theme you installed to understand how you can customize it. Some themes may provide additional configuration options in the _config.yml file.</p>
+<h2 id="4-Generate-and-View-Your-Site"><a href="#4-Generate-and-View-Your-Site" class="headerlink" title="4. Generate and View Your Site:"></a>4. <strong>Generate and View Your Site</strong>:</h2><p>After installing the theme and making any desired customizations, generate your Hexo site by running the following command:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>Finally, view your updated site by running the server with the following command:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>Now you can open your web browser and go to <a href="http://localhost:4000/">http://localhost:4000</a> to see your Hexo site with the newly installed theme.</p>
+<p>Remember, when switching themes, it’s essential to check if there are any specific instructions or steps provided by the theme’s documentation, as themes may have varying requirements or customizations.</p>
+]]></content>
   </entry>
 </search>
