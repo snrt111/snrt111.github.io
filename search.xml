@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Android集成Aspectj</title>
+    <url>/2023/08/02/Android%E9%9B%86%E6%88%90Aspectj/</url>
+    <content><![CDATA[<p>使用 AspectJ 在 Android 项目中实现面向切面编程（AOP）可以帮助您在代码中更好地处理横切关注点，如日志记录、权限控制、性能监测等。下面是在 Android 项目中使用 AspectJ 的详细流程：</p>
+<h2 id="1-添加依赖和插件："><a href="#1-添加依赖和插件：" class="headerlink" title="1. 添加依赖和插件："></a>1. 添加依赖和插件：</h2><p>在您的 Android 项目中，首先需要添加 AspectJ 相关的依赖和插件。</p>
+<ul>
+<li>在项目级别的 <code>build.gradle</code> 文件中，添加 AspectJ 的 Gradle 插件依赖：</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">classpath</span> <span class="string">&#x27;org.aspectj:aspectjtools:1.9.8&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意:<code>dependencies</code> 所在的<code>buildscript</code>节点一定要在<code>plugins</code>的前面</p>
+<ul>
+<li>在应用模块的 <code>build.gradle</code> 文件中添加以下内容：</li>
+</ul>
+<p>在<code>dependencies</code>中添加</p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    api <span class="string">&#x27;org.aspectj:aspectjrt:1.9.8&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>build.gradle</code>文件下面添加aspectj的编译配置：</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.aspectj.bridge.IMessage</span><br><span class="line"><span class="keyword">import</span> org.aspectj.bridge.MessageHandler</span><br><span class="line"><span class="keyword">import</span> org.aspectj.tools.ajc.Main</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">def</span> log = <span class="keyword">project</span>.logger</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">def</span> variants = <span class="keyword">project</span>.android.applicationVariants</span><br><span class="line"></span><br><span class="line">variants.all &#123; variant -&gt;</span><br><span class="line">    JavaCompile javaCompile = variant.javaCompileProvider.get()</span><br><span class="line">    javaCompile.<span class="keyword">doLast</span> &#123;</span><br><span class="line">        String[] args = [<span class="string">&quot;-showWeaveInfo&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;-17&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;-inpath&quot;</span>, javaCompile.<span class="keyword">destinationDir</span>.toString(),</span><br><span class="line">                         <span class="string">&quot;-aspectpath&quot;</span>, javaCompile.<span class="keyword">classpath</span>.asPath,</span><br><span class="line">                         <span class="string">&quot;-d&quot;</span>, javaCompile.<span class="keyword">destinationDir</span>.toString(),</span><br><span class="line">                         <span class="string">&quot;-classpath&quot;</span>, javaCompile.<span class="keyword">classpath</span>.asPath,</span><br><span class="line">                         <span class="string">&quot;-bootclasspath&quot;</span>, <span class="keyword">project</span>.android.bootClasspath.<span class="keyword">join</span>(<span class="keyword">File</span>.pathSeparator)]</span><br><span class="line"></span><br><span class="line">        MessageHandler handler = <span class="keyword">new</span> MessageHandler(<span class="keyword">true</span>)</span><br><span class="line">        <span class="keyword">new</span> Main().run(args, handler)</span><br><span class="line">        <span class="keyword">for</span> (IMessage message : handler.getMessages(<span class="keyword">null</span>, <span class="keyword">true</span>)) &#123;</span><br><span class="line">            <span class="keyword">switch</span> (message.getKind()) &#123;</span><br><span class="line">                <span class="keyword">case</span> IMessage.ABORT:</span><br><span class="line">                <span class="keyword">case</span> IMessage.ERROR:</span><br><span class="line">                <span class="keyword">case</span> IMessage.FAIL:</span><br><span class="line">                    log.error message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">case</span> IMessage.WARNING:</span><br><span class="line">                    log.warn message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">case</span> IMessage.INFO:</span><br><span class="line">                    log.info message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">case</span> IMessage.DEBUG:</span><br><span class="line">                    log.debug message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-编写-AspectJ-切面："><a href="#2-编写-AspectJ-切面：" class="headerlink" title="2. 编写 AspectJ 切面："></a>2. 编写 AspectJ 切面：</h2><p>创建一个 Java 类作为您的 AspectJ 切面，用于定义横切逻辑。切面类中定义了一系列切点和通知，以及需要在哪些地方织入这些通知。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.After;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Before;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoggingAspect</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;LoggingAspect&quot;</span>;</span><br><span class="line">    ThreadLocal&lt;Long&gt; time = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line">    <span class="meta">@Before(&quot;execution(* com.snrt.helloworld.music.*.getMusics(..))&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">before</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 在方法调用前执行的逻辑，比如打印日志</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;方法开始时间: &quot;</span>+ startTime);</span><br><span class="line">        time.set(startTime);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@After(&quot;execution(* com.snrt.helloworld.music.*.getMusics(..))&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">after</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 在方法调用前执行的逻辑，比如打印日志</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">endTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;方法结束时间: &quot;</span>+ endTime);</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;after: &quot;</span>+ (endTime - time.get()) +<span class="string">&quot;ms&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-构建和运行："><a href="#3-构建和运行：" class="headerlink" title="3. 构建和运行："></a>3. 构建和运行：</h2><p>完成上述步骤后，重新构建您的 Android 项目。AspectJ 将会在编译期间织入您的切面逻辑。<br>运行结束如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">2023-08-04 20:40:47.160 22060-22060 LoggingAspect           com.snrt.helloworld                  E  after: 12ms</span><br><span class="line">2023-08-04 20:44:47.954 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法开始时间: 1691153087954</span><br><span class="line">2023-08-04 20:44:47.968 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法结束时间: 1691153087968</span><br><span class="line">2023-08-04 20:44:47.968 24627-24627 LoggingAspect           com.snrt.helloworld                  E  after: 14ms</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上就是在 Android 项目中使用 AspectJ 的基本流程。使用 AspectJ 可以更好地将横切关注点从业务逻辑中分离出来，从而提高代码的模块化和可维护性。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>Centos安装Docker</title>
     <url>/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
     <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line">sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line">sudo yum install docker-ce</span><br></pre></td></tr></table></figure>
@@ -62,32 +90,61 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>Android集成Aspectj</title>
-    <url>/2023/08/02/Android%E9%9B%86%E6%88%90Aspectj/</url>
-    <content><![CDATA[<p>使用 AspectJ 在 Android 项目中实现面向切面编程（AOP）可以帮助您在代码中更好地处理横切关注点，如日志记录、权限控制、性能监测等。下面是在 Android 项目中使用 AspectJ 的详细流程：</p>
-<h2 id="1-添加依赖和插件："><a href="#1-添加依赖和插件：" class="headerlink" title="1. 添加依赖和插件："></a>1. 添加依赖和插件：</h2><p>在您的 Android 项目中，首先需要添加 AspectJ 相关的依赖和插件。</p>
+    <title>Taro 介绍</title>
+    <url>/2024/06/16/Taro%E7%AE%80%E4%BB%8B/</url>
+    <content><![CDATA[<h1 id="Taro-介绍"><a href="#Taro-介绍" class="headerlink" title="Taro 介绍"></a>Taro 介绍</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>Taro</strong> 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发 <a href="https://mp.weixin.qq.com/">微信</a> / <a href="https://mp.jd.com/?entrance=taro">京东</a> / <a href="https://smartprogram.baidu.com/">百度</a> / <a href="https://mini.open.alipay.com/">支付宝</a> / <a href="https://developer.open-douyin.com/">字节跳动</a> / <a href="https://q.qq.com/">QQ</a> / <a href="https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN">飞书</a> 小程序 / H5 / RN 等应用。</p>
+<p>现如今市面上端的形态多种多样，Web、React Native、微信小程序等各种端大行其道。当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="多端转换支持"><a href="#多端转换支持" class="headerlink" title="多端转换支持"></a>多端转换支持</h3><p>Taro 3 可以支持转换到 H5、ReactNative 以及任意小程序平台。</p>
+<p>目前官方支持转换的平台如下：</p>
 <ul>
-<li>在项目级别的 <code>build.gradle</code> 文件中，添加 AspectJ 的 Gradle 插件依赖：</li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/h5-81f73c447874b6528e84ee395bece16e.png" alt="H5" style="zoom:2%;" /> H5</a></li>
+<li><a href="https://reactnative.dev/?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/rn-ecec68ba194e4b5e9fc3e853cc00c569.png" alt="React Native" style="zoom:2%;" /> React Native</a></li>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/weapp-0e8fbe2d5eb3676de4961b54ee7f5ba4.png" alt="微信小程序" style="zoom:2%;" /> 微信小程序</a></li>
+<li><a href="https://mp.jd.com/?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/jd-03cf3bd618bc6274dd94e14928e325c3.png" alt="京东小程序" style="zoom:2%;" /> 京东小程序</a></li>
+<li><a href="https://smartprogram.baidu.com/developer/index.html?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/swan-566f56d360909d0457073b67b8f48958.png" alt="百度小程序" style="zoom:2%;" /> 百度智能小程序</a></li>
+<li><a href="https://opendocs.alipay.com/mini/developer/getting-started?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/alipay-ee5545de747ce1ad6e17faec10358975.png" alt="支付宝小程序" style="zoom:2%;" /> 支付宝小程序</a></li>
+<li><a href="https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/tt-f4ec120e570f924e7ef763dcaf7fc69d.png" alt="抖音小程序" style="zoom:2%;" /> 抖音小程序</a></li>
+<li><a href="https://q.qq.com/wiki/develop/miniprogram/frame/?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/qq-3f77e6fbb490848ab8aa8183e9399110.png" alt="QQ 小程序" style="zoom:2%;" /> QQ 小程序</a></li>
+<li><a href="https://open.dingtalk.com/document/org/develop-org-mini-programs?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/ding-talk-b5a9f3f70aae5365787ac12a294e1535.png" alt="钉钉小程序" style="zoom:8%;" /> 钉钉小程序</a></li>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/devtools/qywx-dev.html?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/wework-d23d31eee89d30c4909b90d328ea57eb.png" alt="企业微信小程序" style="zoom:5%;" /> 企业微信小程序</a></li>
+<li><a href="https://opendocs.alipay.com/iot/multi-platform/vcs0fv?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/alipay-ee5545de747ce1ad6e17faec10358975.png" alt="支付宝 IOT 小程序" style="zoom:2%;" /> 支付宝 IOT 小程序</a></li>
+<li><a href="https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/lark-b264e88fd335c5d932313f1f7e612b03.png" alt="飞书小程序" style="zoom:2%;" /> 飞书小程序</a></li>
 </ul>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">classpath</span> <span class="string">&#x27;org.aspectj:aspectjtools:1.9.8&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意:<code>dependencies</code> 所在的<code>buildscript</code>节点一定要在<code>plugins</code>的前面</p>
+<h3 id="框架支持"><a href="#框架支持" class="headerlink" title="框架支持"></a>框架支持</h3><p>在 Taro 3 中可以使用完整的 <a href="https://react.dev/"><strong><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/react-81ed438b18e24116794df3148c0e1eaa.png" alt="react" style="zoom:1%;" /> React</strong></a> / <a href="https://vuejs.org/"><strong><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/vue-be5842d62a326b39e66e79386b9df33b.png" alt="vue" style="zoom:1%;" /> Vue</strong></a> / <a href="https://preactjs.com/"><strong><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/preact-68c69a4cef45e1be5985460257983da3.png" alt="preact" style="zoom:1%;" /> Preact</strong></a> / <a href="https://svelte.dev/"><strong><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/svelte-a7bfb5d80483441bcd32443d1adb0ae6.png" alt="svelte" style="zoom:4%;" /> Svelte</strong></a> / <a href="https://github.com/NervJS/nerv"> Nerv</a> 开发体验，具体请参考：</p>
 <ul>
-<li>在应用模块的 <code>build.gradle</code> 文件中添加以下内容：</li>
+<li><a href="https://taro-docs.jd.com/docs/react-overall">基础教程——React</a></li>
+<li><a href="https://taro-docs.jd.com/docs/vue-overall">基础教程——Vue</a></li>
+<li><a href="https://taro-docs.jd.com/docs/vue3">基础教程——Vue3</a></li>
+<li><a href="https://taro-docs.jd.com/docs/preact">基础教程——Preact</a></li>
 </ul>
-<p>在<code>dependencies</code>中添加</p>
-<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    api <span class="string">&#x27;org.aspectj:aspectjrt:1.9.8&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Vue</li>
+</ul>
+<p>示例代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;view class=&quot;index&quot;&gt;</span><br><span class="line">    &lt;text&gt;msg&lt;/text&gt;</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        msg: &#x27;Hello World！&#x27;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    created() &#123;&#125;,</span><br><span class="line">    onShow() &#123;&#125;,</span><br><span class="line">    onHide() &#123;&#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 
-<p>在<code>build.gradle</code>文件下面添加aspectj的编译配置：</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.aspectj.bridge.IMessage</span><br><span class="line"><span class="keyword">import</span> org.aspectj.bridge.MessageHandler</span><br><span class="line"><span class="keyword">import</span> org.aspectj.tools.ajc.Main</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">def</span> log = <span class="keyword">project</span>.logger</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">def</span> variants = <span class="keyword">project</span>.android.applicationVariants</span><br><span class="line"></span><br><span class="line">variants.all &#123; variant -&gt;</span><br><span class="line">    JavaCompile javaCompile = variant.javaCompileProvider.get()</span><br><span class="line">    javaCompile.<span class="keyword">doLast</span> &#123;</span><br><span class="line">        String[] args = [<span class="string">&quot;-showWeaveInfo&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;-17&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;-inpath&quot;</span>, javaCompile.<span class="keyword">destinationDir</span>.toString(),</span><br><span class="line">                         <span class="string">&quot;-aspectpath&quot;</span>, javaCompile.<span class="keyword">classpath</span>.asPath,</span><br><span class="line">                         <span class="string">&quot;-d&quot;</span>, javaCompile.<span class="keyword">destinationDir</span>.toString(),</span><br><span class="line">                         <span class="string">&quot;-classpath&quot;</span>, javaCompile.<span class="keyword">classpath</span>.asPath,</span><br><span class="line">                         <span class="string">&quot;-bootclasspath&quot;</span>, <span class="keyword">project</span>.android.bootClasspath.<span class="keyword">join</span>(<span class="keyword">File</span>.pathSeparator)]</span><br><span class="line"></span><br><span class="line">        MessageHandler handler = <span class="keyword">new</span> MessageHandler(<span class="keyword">true</span>)</span><br><span class="line">        <span class="keyword">new</span> Main().run(args, handler)</span><br><span class="line">        <span class="keyword">for</span> (IMessage message : handler.getMessages(<span class="keyword">null</span>, <span class="keyword">true</span>)) &#123;</span><br><span class="line">            <span class="keyword">switch</span> (message.getKind()) &#123;</span><br><span class="line">                <span class="keyword">case</span> IMessage.ABORT:</span><br><span class="line">                <span class="keyword">case</span> IMessage.ERROR:</span><br><span class="line">                <span class="keyword">case</span> IMessage.FAIL:</span><br><span class="line">                    log.error message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">case</span> IMessage.WARNING:</span><br><span class="line">                    log.warn message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">case</span> IMessage.INFO:</span><br><span class="line">                    log.info message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">case</span> IMessage.DEBUG:</span><br><span class="line">                    log.debug message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-编写-AspectJ-切面："><a href="#2-编写-AspectJ-切面：" class="headerlink" title="2. 编写 AspectJ 切面："></a>2. 编写 AspectJ 切面：</h2><p>创建一个 Java 类作为您的 AspectJ 切面，用于定义横切逻辑。切面类中定义了一系列切点和通知，以及需要在哪些地方织入这些通知。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.After;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Before;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoggingAspect</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;LoggingAspect&quot;</span>;</span><br><span class="line">    ThreadLocal&lt;Long&gt; time = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line">    <span class="meta">@Before(&quot;execution(* com.snrt.helloworld.music.*.getMusics(..))&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">before</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 在方法调用前执行的逻辑，比如打印日志</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;方法开始时间: &quot;</span>+ startTime);</span><br><span class="line">        time.set(startTime);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@After(&quot;execution(* com.snrt.helloworld.music.*.getMusics(..))&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">after</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 在方法调用前执行的逻辑，比如打印日志</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">endTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;方法结束时间: &quot;</span>+ endTime);</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;after: &quot;</span>+ (endTime - time.get()) +<span class="string">&quot;ms&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-构建和运行："><a href="#3-构建和运行：" class="headerlink" title="3. 构建和运行："></a>3. 构建和运行：</h2><p>完成上述步骤后，重新构建您的 Android 项目。AspectJ 将会在编译期间织入您的切面逻辑。<br>运行结束如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">2023-08-04 20:40:47.160 22060-22060 LoggingAspect           com.snrt.helloworld                  E  after: 12ms</span><br><span class="line">2023-08-04 20:44:47.954 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法开始时间: 1691153087954</span><br><span class="line">2023-08-04 20:44:47.968 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法结束时间: 1691153087968</span><br><span class="line">2023-08-04 20:44:47.968 24627-24627 LoggingAspect           com.snrt.helloworld                  E  after: 14ms</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>以上就是在 Android 项目中使用 AspectJ 的基本流程。使用 AspectJ 可以更好地将横切关注点从业务逻辑中分离出来，从而提高代码的模块化和可维护性。</p>
+<h2 id="Taro-UI"><a href="#Taro-UI" class="headerlink" title="Taro UI"></a>Taro UI</h2><p><a href="https://taro-docs.jd.com/docs/#taro-ui">https://taro-docs.jd.com/docs/#taro-ui</a></p>
+<blockquote>
+<p>Taro 3 只能配合使用 taro-ui@next 版本</p>
+<p>安装命令： <code>npm i taro-ui@next</code></p>
+</blockquote>
+<p>一款基于 <code>Taro</code> 框架开发的多端 UI 组件库。</p>
+<p><a href="https://taro-ui.jd.com/">Taro UI</a> 特性：</p>
+<ul>
+<li>基于 <code>Taro</code> 开发 UI 组件</li>
+<li>一套组件可以在多端适配运行（<code>ReactNative</code> 端暂不支持）</li>
+<li>提供友好的 API，可灵活的使用组件</li>
+</ul>
+<h2 id="学习资源"><a href="#学习资源" class="headerlink" title="学习资源"></a>学习资源</h2><p><a href="https://taro-docs.jd.com/docs/#%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90">https://taro-docs.jd.com/docs/#学习资源</a></p>
+<p><a href="https://taro-docs.jd.com/blog">【资讯】Taro 团队博客</a></p>
+<p><a href="https://taro-docs.jd.com/docs/guide">【教程】5 分钟上手 Taro 开发</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247484205&idx=1&sn=935bb7a35c11c33563eeb7c3aaca3321&chksm=fd2bab04ca5c2212b4cd8aeb5858bd08517aeb31e20727b22d1eee00b394184e7e61359e7dd9&token=1180618535&lang=zh_CN#rd">【视频】5 分钟快速上手 Taro 开发小程序</a></p>
 ]]></content>
+      <categories>
+        <category>Taro</category>
+      </categories>
   </entry>
   <entry>
     <title>windows安装docker</title>
@@ -134,86 +191,6 @@
 <li>在<code>PowerShell</code>查看版本号<code>docker --version</code>和测试<code>docker run hello-world</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232615944-135304684.png" alt="image"></li>
 </ol>
 <p>至此在windows11中安装配置Docker成功</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>Taro 介绍</title>
-    <url>/2024/06/16/Taro%E7%AE%80%E4%BB%8B/</url>
-    <content><![CDATA[<h1 id="Taro-介绍"><a href="#Taro-介绍" class="headerlink" title="Taro 介绍"></a>Taro 介绍</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>Taro</strong> 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发 <a href="https://mp.weixin.qq.com/">微信</a> / <a href="https://mp.jd.com/?entrance=taro">京东</a> / <a href="https://smartprogram.baidu.com/">百度</a> / <a href="https://mini.open.alipay.com/">支付宝</a> / <a href="https://developer.open-douyin.com/">字节跳动</a> / <a href="https://q.qq.com/">QQ</a> / <a href="https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN">飞书</a> 小程序 / H5 / RN 等应用。</p>
-<p>现如今市面上端的形态多种多样，Web、React Native、微信小程序等各种端大行其道。当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。</p>
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="多端转换支持"><a href="#多端转换支持" class="headerlink" title="多端转换支持"></a>多端转换支持</h3><p>Taro 3 可以支持转换到 H5、ReactNative 以及任意小程序平台。</p>
-<p>目前官方支持转换的平台如下：</p>
-<ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/h5-81f73c447874b6528e84ee395bece16e.png" alt="H5" style="zoom:2%;" /> H5</a></li>
-<li><a href="https://reactnative.dev/?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/rn-ecec68ba194e4b5e9fc3e853cc00c569.png" alt="React Native" style="zoom:2%;" /> React Native</a></li>
-<li><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/weapp-0e8fbe2d5eb3676de4961b54ee7f5ba4.png" alt="微信小程序" style="zoom:2%;" /> 微信小程序</a></li>
-<li><a href="https://mp.jd.com/?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/jd-03cf3bd618bc6274dd94e14928e325c3.png" alt="京东小程序" style="zoom:2%;" /> 京东小程序</a></li>
-<li><a href="https://smartprogram.baidu.com/developer/index.html?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/swan-566f56d360909d0457073b67b8f48958.png" alt="百度小程序" style="zoom:2%;" /> 百度智能小程序</a></li>
-<li><a href="https://opendocs.alipay.com/mini/developer/getting-started?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/alipay-ee5545de747ce1ad6e17faec10358975.png" alt="支付宝小程序" style="zoom:2%;" /> 支付宝小程序</a></li>
-<li><a href="https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/tt-f4ec120e570f924e7ef763dcaf7fc69d.png" alt="抖音小程序" style="zoom:2%;" /> 抖音小程序</a></li>
-<li><a href="https://q.qq.com/wiki/develop/miniprogram/frame/?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/qq-3f77e6fbb490848ab8aa8183e9399110.png" alt="QQ 小程序" style="zoom:2%;" /> QQ 小程序</a></li>
-<li><a href="https://open.dingtalk.com/document/org/develop-org-mini-programs?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/ding-talk-b5a9f3f70aae5365787ac12a294e1535.png" alt="钉钉小程序" style="zoom:8%;" /> 钉钉小程序</a></li>
-<li><a href="https://developers.weixin.qq.com/miniprogram/dev/devtools/qywx-dev.html?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/wework-d23d31eee89d30c4909b90d328ea57eb.png" alt="企业微信小程序" style="zoom:5%;" /> 企业微信小程序</a></li>
-<li><a href="https://opendocs.alipay.com/iot/multi-platform/vcs0fv?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/alipay-ee5545de747ce1ad6e17faec10358975.png" alt="支付宝 IOT 小程序" style="zoom:2%;" /> 支付宝 IOT 小程序</a></li>
-<li><a href="https://open.feishu.cn/document/uYjL24iN/uMjNzUjLzYzM14yM2MTN?from=taro"><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/lark-b264e88fd335c5d932313f1f7e612b03.png" alt="飞书小程序" style="zoom:2%;" /> 飞书小程序</a></li>
-</ul>
-<h3 id="框架支持"><a href="#框架支持" class="headerlink" title="框架支持"></a>框架支持</h3><p>在 Taro 3 中可以使用完整的 <a href="https://react.dev/"><strong><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/react-81ed438b18e24116794df3148c0e1eaa.png" alt="react" style="zoom:1%;" /> React</strong></a> / <a href="https://vuejs.org/"><strong><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/vue-be5842d62a326b39e66e79386b9df33b.png" alt="vue" style="zoom:1%;" /> Vue</strong></a> / <a href="https://preactjs.com/"><strong><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/preact-68c69a4cef45e1be5985460257983da3.png" alt="preact" style="zoom:1%;" /> Preact</strong></a> / <a href="https://svelte.dev/"><strong><img src="https://storage.360buyimg.com/pubfree-bucket/taro-docs/f1fdc1a4a18/assets/images/svelte-a7bfb5d80483441bcd32443d1adb0ae6.png" alt="svelte" style="zoom:4%;" /> Svelte</strong></a> / <a href="https://github.com/NervJS/nerv"> Nerv</a> 开发体验，具体请参考：</p>
-<ul>
-<li><a href="https://taro-docs.jd.com/docs/react-overall">基础教程——React</a></li>
-<li><a href="https://taro-docs.jd.com/docs/vue-overall">基础教程——Vue</a></li>
-<li><a href="https://taro-docs.jd.com/docs/vue3">基础教程——Vue3</a></li>
-<li><a href="https://taro-docs.jd.com/docs/preact">基础教程——Preact</a></li>
-</ul>
-<ul>
-<li>Vue</li>
-</ul>
-<p>示例代码</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;view class=&quot;index&quot;&gt;</span><br><span class="line">    &lt;text&gt;&#123;&#123;msg&#125;&#125;&lt;/text&gt;</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        msg: &#x27;Hello World！&#x27;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    created() &#123;&#125;,</span><br><span class="line">    onShow() &#123;&#125;,</span><br><span class="line">    onHide() &#123;&#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Taro-UI"><a href="#Taro-UI" class="headerlink" title="Taro UI"></a>Taro UI</h2><p><a href="https://taro-docs.jd.com/docs/#taro-ui">https://taro-docs.jd.com/docs/#taro-ui</a></p>
-<blockquote>
-<p>Taro 3 只能配合使用 taro-ui@next 版本</p>
-<p>安装命令： <code>npm i taro-ui@next</code></p>
-</blockquote>
-<p>一款基于 <code>Taro</code> 框架开发的多端 UI 组件库。</p>
-<p><a href="https://taro-ui.jd.com/">Taro UI</a> 特性：</p>
-<ul>
-<li>基于 <code>Taro</code> 开发 UI 组件</li>
-<li>一套组件可以在多端适配运行（<code>ReactNative</code> 端暂不支持）</li>
-<li>提供友好的 API，可灵活的使用组件</li>
-</ul>
-<h2 id="学习资源"><a href="#学习资源" class="headerlink" title="学习资源"></a>学习资源</h2><p><a href="https://taro-docs.jd.com/docs/#%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90">https://taro-docs.jd.com/docs/#学习资源</a></p>
-<p><a href="https://taro-docs.jd.com/blog">【资讯】Taro 团队博客</a></p>
-<p><a href="https://taro-docs.jd.com/docs/guide">【教程】5 分钟上手 Taro 开发</a></p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247484205&idx=1&sn=935bb7a35c11c33563eeb7c3aaca3321&chksm=fd2bab04ca5c2212b4cd8aeb5858bd08517aeb31e20727b22d1eee00b394184e7e61359e7dd9&token=1180618535&lang=zh_CN#rd">【视频】5 分钟快速上手 Taro 开发小程序</a></p>
-]]></content>
-      <categories>
-        <category>Taro</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>hexo更换主题</title>
-    <url>/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="1-Install-a-New-Theme"><a href="#1-Install-a-New-Theme" class="headerlink" title="1. Install a New Theme:"></a>1. <strong>Install a New Theme</strong>:</h2><p>First, find a theme you like from the Hexo theme collection or from other sources on the internet. Once you’ve chosen a theme, install it by using npm (Node Package Manager). Open your command-line interface and navigate to your Hexo project folder, then run the following command:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install &lt;theme-name&gt;</span><br></pre></td></tr></table></figure>
-
-<p>Replace <theme-name> with the name of the theme you want to install. For example, if you want to install a theme called “my-awesome-theme,” the command will be:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install my-awesome-theme</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-Configure-the-Theme"><a href="#2-Configure-the-Theme" class="headerlink" title="2. Configure the Theme:"></a>2. <strong>Configure the Theme</strong>:</h2><p>After installing the theme, you need to update your _config.yml file to set the new theme as the default theme. Open the _config.yml file located in your Hexo project root directory and locate the line that defines the theme setting. Change the value to the name of the new theme you installed. For example:</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">my-awesome-theme</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-Customize-the-Theme-Optional"><a href="#3-Customize-the-Theme-Optional" class="headerlink" title="3. Customize the Theme (Optional):"></a>3. <strong>Customize the Theme (Optional)</strong>:</h2><p>Many themes offer customization options, such as changing colors, layout, fonts, and other settings. Check the documentation of the theme you installed to understand how you can customize it. Some themes may provide additional configuration options in the _config.yml file.</p>
-<h2 id="4-Generate-and-View-Your-Site"><a href="#4-Generate-and-View-Your-Site" class="headerlink" title="4. Generate and View Your Site:"></a>4. <strong>Generate and View Your Site</strong>:</h2><p>After installing the theme and making any desired customizations, generate your Hexo site by running the following command:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>Finally, view your updated site by running the server with the following command:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>Now you can open your web browser and go to <a href="http://localhost:4000/">http://localhost:4000</a> to see your Hexo site with the newly installed theme.</p>
-<p>Remember, when switching themes, it’s essential to check if there are any specific instructions or steps provided by the theme’s documentation, as themes may have varying requirements or customizations.</p>
 ]]></content>
   </entry>
   <entry>
@@ -340,6 +317,29 @@
 ]]></content>
   </entry>
   <entry>
+    <title>hexo更换主题</title>
+    <url>/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="1-Install-a-New-Theme"><a href="#1-Install-a-New-Theme" class="headerlink" title="1. Install a New Theme:"></a>1. <strong>Install a New Theme</strong>:</h2><p>First, find a theme you like from the Hexo theme collection or from other sources on the internet. Once you’ve chosen a theme, install it by using npm (Node Package Manager). Open your command-line interface and navigate to your Hexo project folder, then run the following command:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install &lt;theme-name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Replace <theme-name> with the name of the theme you want to install. For example, if you want to install a theme called “my-awesome-theme,” the command will be:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install my-awesome-theme</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Configure-the-Theme"><a href="#2-Configure-the-Theme" class="headerlink" title="2. Configure the Theme:"></a>2. <strong>Configure the Theme</strong>:</h2><p>After installing the theme, you need to update your _config.yml file to set the new theme as the default theme. Open the _config.yml file located in your Hexo project root directory and locate the line that defines the theme setting. Change the value to the name of the new theme you installed. For example:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">my-awesome-theme</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Customize-the-Theme-Optional"><a href="#3-Customize-the-Theme-Optional" class="headerlink" title="3. Customize the Theme (Optional):"></a>3. <strong>Customize the Theme (Optional)</strong>:</h2><p>Many themes offer customization options, such as changing colors, layout, fonts, and other settings. Check the documentation of the theme you installed to understand how you can customize it. Some themes may provide additional configuration options in the _config.yml file.</p>
+<h2 id="4-Generate-and-View-Your-Site"><a href="#4-Generate-and-View-Your-Site" class="headerlink" title="4. Generate and View Your Site:"></a>4. <strong>Generate and View Your Site</strong>:</h2><p>After installing the theme and making any desired customizations, generate your Hexo site by running the following command:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>Finally, view your updated site by running the server with the following command:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>Now you can open your web browser and go to <a href="http://localhost:4000/">http://localhost:4000</a> to see your Hexo site with the newly installed theme.</p>
+<p>Remember, when switching themes, it’s essential to check if there are any specific instructions or steps provided by the theme’s documentation, as themes may have varying requirements or customizations.</p>
+]]></content>
+  </entry>
+  <entry>
     <title>ollama+fstgpt搭建本地知识库</title>
     <url>/2024/04/21/ollama-fstgpt%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Get up and running with large language models.<br>Run Llama 3, Mistral, Gemma, and other models. Customize and create your own.</p>
@@ -379,6 +379,21 @@
 ]]></content>
   </entry>
   <entry>
+    <title>本地仓库关联远程库</title>
+    <url>/2023/07/30/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%BA%93/</url>
+    <content><![CDATA[<h3 id="将本地仓库关联并推送到远程库，你需要执行以下步骤："><a href="#将本地仓库关联并推送到远程库，你需要执行以下步骤：" class="headerlink" title="将本地仓库关联并推送到远程库，你需要执行以下步骤："></a>将本地仓库关联并推送到远程库，你需要执行以下步骤：</h3><h2 id="1-创建远程仓库："><a href="#1-创建远程仓库：" class="headerlink" title="1. 创建远程仓库："></a>1. <strong>创建远程仓库</strong>：</h2><p>首先，在远程代码托管服务（如 GitHub、GitLab 或 Gitee）上创建一个新的空仓库。在创建过程中，你可能会得到一个远程仓库的 URL。</p>
+<h2 id="2-关联本地仓库："><a href="#2-关联本地仓库：" class="headerlink" title="2. 关联本地仓库："></a>2. <strong>关联本地仓库</strong>：</h2><p>打开命令行终端（或 Git Bash），进入本地仓库所在的文件夹。然后，使用以下命令将本地仓库与远程仓库进行关联：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;远程仓库的 URL&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将 &lt;远程仓库的 URL&gt; 替换为你在第一步中获取到的远程仓库的 URL。</p>
+<h2 id="3-推送到远程仓库："><a href="#3-推送到远程仓库：" class="headerlink" title="3. 推送到远程仓库："></a>3. <strong>推送到远程仓库</strong>：</h2><p>现在，你可以使用以下命令将本地分支推送到远程仓库：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -u origin &lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果是第一次推送该分支，使用 <code>-u </code>参数可以将本地分支与远程分支进行关联，以后可以直接使用 <code>git push</code> 和 <code>git pull</code> 不带参数进行推送和拉取。</p>
+<p>完成上述步骤后，你的本地仓库就会与远程</p>
+]]></content>
+  </entry>
+  <entry>
     <title>常用技巧</title>
     <url>/2023/11/11/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
     <content><![CDATA[<h2 id="浏览器不能加载crx插件处理方式"><a href="#浏览器不能加载crx插件处理方式" class="headerlink" title="浏览器不能加载crx插件处理方式"></a>浏览器不能加载crx插件处理方式</h2><p>下载的crx文件 不能直接拖入扩展程序安装，其实浏览器只是默认隐藏了拖入安装 .crx 扩展功能，</p>
@@ -398,21 +413,6 @@
 <li>如果你刚刚安装了一个新的分发版，可能需要重启你的电脑来完成安装。</li>
 <li>确认你的Windows版本支持WSL。需要Windows 10 更新版本1607或更高版本，以及特定的处理器架构。</li>
 </ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>本地仓库关联远程库</title>
-    <url>/2023/07/30/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%BA%93/</url>
-    <content><![CDATA[<h3 id="将本地仓库关联并推送到远程库，你需要执行以下步骤："><a href="#将本地仓库关联并推送到远程库，你需要执行以下步骤：" class="headerlink" title="将本地仓库关联并推送到远程库，你需要执行以下步骤："></a>将本地仓库关联并推送到远程库，你需要执行以下步骤：</h3><h2 id="1-创建远程仓库："><a href="#1-创建远程仓库：" class="headerlink" title="1. 创建远程仓库："></a>1. <strong>创建远程仓库</strong>：</h2><p>首先，在远程代码托管服务（如 GitHub、GitLab 或 Gitee）上创建一个新的空仓库。在创建过程中，你可能会得到一个远程仓库的 URL。</p>
-<h2 id="2-关联本地仓库："><a href="#2-关联本地仓库：" class="headerlink" title="2. 关联本地仓库："></a>2. <strong>关联本地仓库</strong>：</h2><p>打开命令行终端（或 Git Bash），进入本地仓库所在的文件夹。然后，使用以下命令将本地仓库与远程仓库进行关联：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;远程仓库的 URL&gt;</span><br></pre></td></tr></table></figure>
-
-<p>将 &lt;远程仓库的 URL&gt; 替换为你在第一步中获取到的远程仓库的 URL。</p>
-<h2 id="3-推送到远程仓库："><a href="#3-推送到远程仓库：" class="headerlink" title="3. 推送到远程仓库："></a>3. <strong>推送到远程仓库</strong>：</h2><p>现在，你可以使用以下命令将本地分支推送到远程仓库：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -u origin &lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
-
-<p>如果是第一次推送该分支，使用 <code>-u </code>参数可以将本地分支与远程分支进行关联，以后可以直接使用 <code>git push</code> 和 <code>git pull</code> 不带参数进行推送和拉取。</p>
-<p>完成上述步骤后，你的本地仓库就会与远程</p>
 ]]></content>
   </entry>
   <entry>
