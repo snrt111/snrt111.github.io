@@ -22,7 +22,7 @@ dependencies {
 
 在`dependencies`中添加
 
-```agsl
+```groovy
 dependencies {
     api 'org.aspectj:aspectjrt:1.9.8'
 }
@@ -107,7 +107,7 @@ public class LoggingAspect {
 完成上述步骤后，重新构建您的 Android 项目。AspectJ 将会在编译期间织入您的切面逻辑。
 运行结束如下：
 
-```agsl
+```shell
 2023-08-04 20:40:47.160 22060-22060 LoggingAspect           com.snrt.helloworld                  E  after: 12ms
 2023-08-04 20:44:47.954 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法开始时间: 1691153087954
 2023-08-04 20:44:47.968 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法结束时间: 1691153087968

@@ -29,7 +29,7 @@ WSL指的是windows System for Linux
    ![image](https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224859758-888096479.png)
 3. 以Ubuntu-20.04为例,输入以下代码，等待下载完成
 
-```css
+```shell
 wsl --install -d Ubuntu-20.04
 ```
 
