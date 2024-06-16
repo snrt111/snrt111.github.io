@@ -1,8 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Centos安装Docker</title>
+    <url>/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
+    <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line">sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line">sudo yum install docker-ce</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看当前docker状态"><a href="#查看当前docker状态" class="headerlink" title="查看当前docker状态"></a>查看当前docker状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证Docker"><a href="#验证Docker" class="headerlink" title="验证Docker"></a>验证Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载Docker"><a href="#卸载Docker" class="headerlink" title="卸载Docker"></a>卸载Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yum remove docker-ce</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="配置阿里云镜像加速器"><a href="#配置阿里云镜像加速器" class="headerlink" title="配置阿里云镜像加速器"></a>配置阿里云镜像加速器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line">sudo <span class="built_in">tee</span> /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+  </entry>
+  <entry>
+    <title>MySql优化</title>
+    <url>/2023/11/11/MySql%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="以下是一些常用的方法和技巧："><a href="#以下是一些常用的方法和技巧：" class="headerlink" title="以下是一些常用的方法和技巧："></a>以下是一些常用的方法和技巧：</h2><h3 id="优化SQL查询语句："><a href="#优化SQL查询语句：" class="headerlink" title="优化SQL查询语句："></a>优化SQL查询语句：</h3><ol>
+<li>确保查询语句使用合适的索引，可以通过创建适当的索引来优化查询性能。</li>
+<li>避免使用SELECT *，而是只选择需要的列，减少数据传输量。</li>
+<li>使用JOIN查询时，确保相关字段有适当的索引。</li>
+<li>避免在WHERE子句中使用函数，这会导致无法使用索引。</li>
+</ol>
+<h3 id="优化数据库结构："><a href="#优化数据库结构：" class="headerlink" title="优化数据库结构："></a>优化数据库结构：</h3><ol>
+<li>选择合适的数据类型，尽量避免使用过大或过小的数据类型，以节省存储空间和提高查询效率。</li>
+<li>正规化数据库，避免冗余数据。合理设计表结构，减少不必要的关联查询。</li>
+<li>使用合适的主键和唯一索引，以提高查询和更新的性能。</li>
+</ol>
+<h3 id="配置MySQL服务器："><a href="#配置MySQL服务器：" class="headerlink" title="配置MySQL服务器："></a>配置MySQL服务器：</h3><ol>
+<li>调整缓冲区大小，如innodb_buffer_pool_size和key_buffer_size，以提高读写性能。</li>
+<li>调整并发连接数，根据实际情况合理设置max_connections参数。</li>
+<li>合理分配系统资源，确保MySQL服务器有足够的内存和CPU资源。</li>
+</ol>
+<h3 id="缓存优化："><a href="#缓存优化：" class="headerlink" title="缓存优化："></a>缓存优化：</h3><ol>
+<li>使用MySQL的查询缓存功能，对于经常重复的查询可以从缓存中获取结果，减少数据库的查询压力。</li>
+<li>合理利用应用程序层面的缓存，如使用Memcached或Redis来缓存查询结果或热门数据，减少对数据库的访问。</li>
+</ol>
+<h3 id="优化磁盘性能："><a href="#优化磁盘性能：" class="headerlink" title="优化磁盘性能："></a>优化磁盘性能：</h3><ol>
+<li>{将MySQL的数据文件和日志文件分别放置在不同的物理磁盘上，以提高读写性能。</li>
+<li>使用RAID技术，如RAID 10，以提高磁盘的读写速度和容错能力。}</li>
+</ol>
+<h3 id="监控和调优："><a href="#监控和调优：" class="headerlink" title="监控和调优："></a>监控和调优：</h3><ol>
+<li>定期监控MySQL服务器的性能指标，如CPU、内存、磁盘和网络的使用情况。</li>
+<li>使用MySQL自带的性能监控工具，如Explain和Slow Query Log，来分析慢查询并进行优化。</li>
+<li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>Springboot集成RabbitMQ</title>
+    <url>/2023/07/30/Springboot%E9%9B%86%E6%88%90RabbitMQ/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Android集成Aspectj</title>
-    <url>/docs/2023/08/02/Android%E9%9B%86%E6%88%90Aspectj/</url>
+    <url>/2023/08/02/Android%E9%9B%86%E6%88%90Aspectj/</url>
     <content><![CDATA[<p>使用 AspectJ 在 Android 项目中实现面向切面编程（AOP）可以帮助您在代码中更好地处理横切关注点，如日志记录、权限控制、性能监测等。下面是在 Android 项目中使用 AspectJ 的详细流程：</p>
 <h2 id="1-添加依赖和插件："><a href="#1-添加依赖和插件：" class="headerlink" title="1. 添加依赖和插件："></a>1. 添加依赖和插件：</h2><p>在您的 Android 项目中，首先需要添加 AspectJ 相关的依赖和插件。</p>
 <ul>
@@ -29,35 +90,55 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Centos安装Docker</title>
-    <url>/docs/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
-    <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line">sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line">sudo yum install docker-ce</span><br></pre></td></tr></table></figure>
+    <title>windows安装docker</title>
+    <url>/2024/04/21/Windows%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h3 id="1-安装WSL"><a href="#1-安装WSL" class="headerlink" title="1.安装WSL"></a>1.安装WSL</h3><p>WSL指的是windows System for Linux</p>
+<h4 id="1-检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）"><a href="#1-检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）" class="headerlink" title="1. 检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）"></a>1. 检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）</h4><ol>
+<li>打开任务管理器（<code>Ctrl+Shift+Esc</code>）&gt;&gt;性能<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627223725385-1277211065.png" alt="image"><br>2.如果没有打开，打开BIOS系统设置，自行配置（不同电脑进入按键不同）</li>
+</ol>
+<h4 id="2-配置文件"><a href="#2-配置文件" class="headerlink" title="2.配置文件"></a>2.配置文件</h4><ol>
+<li>打开windows的<code>启动或或关闭windows功能</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224036309-644332993.png" alt="image"></li>
+<li>打开!<code>适用于linux的windows子系统</code>，系统会自动配置完成，可能会重启<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224334429-870530824.png" alt="image"></li>
+</ol>
+<h4 id="3-下载WSL"><a href="#3-下载WSL" class="headerlink" title="3.下载WSL"></a>3.下载WSL</h4><ol>
+<li>打开windows的<code>PowerShell</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224512241-741890783.png" alt="image"></li>
+<li>运行<code>wsl --list --online</code>,选择要安装的版本<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224859758-888096479.png" alt="image"></li>
+<li>以Ubuntu-20.04为例,输入以下代码，等待下载完成</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">wsl <span class="attr">--install</span> -d Ubuntu-<span class="number">20.04</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+<ol>
+<li>下载完成后，可能会报错<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627225535551-1497364489.png" alt="image"><br>下载最新的wsl安装包,并运行安装，下载地址：<a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi">https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi</a></li>
+<li>重新打开后，会让你输入用户名，以及密码，完成后即为安装成功<br><strong>6. 之后的操作迁移wsl从C盘到其他盘，可以选择不进行操作</strong></li>
+<li>检查当前wsl是否在运行<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627230846016-659709016.png" alt="image"></li>
+<li>如果显示的是running,则输入命令<code>wsl --shutdown</code><br>wsl –export Ubuntu G:\Virtual_Machines\Ubuntu.tar<br>wsl –unregister Ubuntu<br>wsl –import Ubuntu F:\Virtual_Machines G:\Virtual_Machines\Ubuntu.tar –version 2</li>
+<li>迁移</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">wsl <span class="comment">--export Ubuntu-20.04 D:\Ubuntu.tar</span></span><br><span class="line">wsl <span class="comment">--unregister Ubuntu-20.04</span></span><br><span class="line">wsl <span class="comment">--import Ubuntu-20.04 D:\Ubuntu_2004 D:\Ubuntu.tar --version 2</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+<ol>
+<li>进行用户配置<code>&lt;username&gt;</code>是你前面注册的用户名</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">ubuntu.exe <span class="built_in">config</span> <span class="comment">--default-user &lt;username&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="查看当前docker状态"><a href="#查看当前docker状态" class="headerlink" title="查看当前docker状态"></a>查看当前docker状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status docker</span><br></pre></td></tr></table></figure>
+<h4 id="4-下载Docker-Desktop"><a href="#4-下载Docker-Desktop" class="headerlink" title="4. 下载Docker Desktop"></a>4. 下载Docker Desktop</h4><ol>
+<li>从官网下载Docker Desktop；<a href="https://www.docker.com/get-started/">https://www.docker.com/get-started/</a><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627225938679-691609522.png" alt="image"></li>
+<li>建立存储路径软连接（Docker默认安装在C盘，如果想更得化，建立软链接）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> <span class="string">&quot;D:\Program Files\Docker&quot;</span></span><br><span class="line">mklink /j <span class="string">&quot;C:\Program Files\Docker&quot;</span> <span class="string">&quot;D:\Program Files\Docker&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="验证Docker"><a href="#验证Docker" class="headerlink" title="验证Docker"></a>验证Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
-
-<h3 id="卸载Docker"><a href="#卸载Docker" class="headerlink" title="卸载Docker"></a>卸载Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yum remove docker-ce</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="配置阿里云镜像加速器"><a href="#配置阿里云镜像加速器" class="headerlink" title="配置阿里云镜像加速器"></a>配置阿里云镜像加速器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line">sudo <span class="built_in">tee</span> /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-
-
+<ol>
+<li>安装Docker Desktop,默认就行</li>
+<li>打开Docker Desktop,软件可能检测不到，然后自动退出，此时需要在打开时，快速点击右上角的设置按钮，并进行以下配置，并点击<code>apply</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627231921741-1771734715.png" alt="image"><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232011813-1604727090.png" alt="image"></li>
+<li>重新打开Docker Desktop,发现界面已改变<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232230649-319362722.png" alt="image"></li>
+<li>在<code>PowerShell</code>查看版本号<code>docker --version</code>和测试<code>docker run hello-world</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232615944-135304684.png" alt="image"></li>
+</ol>
+<p>至此在windows11中安装配置Docker成功</p>
 ]]></content>
   </entry>
   <entry>
-    <title>Springboot集成RabbitMQ</title>
-    <url>/docs/2023/07/30/Springboot%E9%9B%86%E6%88%90RabbitMQ/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>Taro 介绍</title>
-    <url>/docs/2024/06/16/Taro%E7%AE%80%E4%BB%8B/</url>
+    <url>/2024/06/16/Taro%E7%AE%80%E4%BB%8B/</url>
     <content><![CDATA[<h1 id="Taro-介绍"><a href="#Taro-介绍" class="headerlink" title="Taro 介绍"></a>Taro 介绍</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>Taro</strong> 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发 <a href="https://mp.weixin.qq.com/">微信</a> / <a href="https://mp.jd.com/?entrance=taro">京东</a> / <a href="https://smartprogram.baidu.com/">百度</a> / <a href="https://mini.open.alipay.com/">支付宝</a> / <a href="https://developer.open-douyin.com/">字节跳动</a> / <a href="https://q.qq.com/">QQ</a> / <a href="https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN">飞书</a> 小程序 / H5 / RN 等应用。</p>
 <p>现如今市面上端的形态多种多样，Web、React Native、微信小程序等各种端大行其道。当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。</p>
 <h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="多端转换支持"><a href="#多端转换支持" class="headerlink" title="多端转换支持"></a>多端转换支持</h3><p>Taro 3 可以支持转换到 H5、ReactNative 以及任意小程序平台。</p>
@@ -113,89 +194,8 @@
       </categories>
   </entry>
   <entry>
-    <title>MySql优化</title>
-    <url>/docs/2023/11/11/MySql%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="以下是一些常用的方法和技巧："><a href="#以下是一些常用的方法和技巧：" class="headerlink" title="以下是一些常用的方法和技巧："></a>以下是一些常用的方法和技巧：</h2><h3 id="优化SQL查询语句："><a href="#优化SQL查询语句：" class="headerlink" title="优化SQL查询语句："></a>优化SQL查询语句：</h3><ol>
-<li>确保查询语句使用合适的索引，可以通过创建适当的索引来优化查询性能。</li>
-<li>避免使用SELECT *，而是只选择需要的列，减少数据传输量。</li>
-<li>使用JOIN查询时，确保相关字段有适当的索引。</li>
-<li>避免在WHERE子句中使用函数，这会导致无法使用索引。</li>
-</ol>
-<h3 id="优化数据库结构："><a href="#优化数据库结构：" class="headerlink" title="优化数据库结构："></a>优化数据库结构：</h3><ol>
-<li>选择合适的数据类型，尽量避免使用过大或过小的数据类型，以节省存储空间和提高查询效率。</li>
-<li>正规化数据库，避免冗余数据。合理设计表结构，减少不必要的关联查询。</li>
-<li>使用合适的主键和唯一索引，以提高查询和更新的性能。</li>
-</ol>
-<h3 id="配置MySQL服务器："><a href="#配置MySQL服务器：" class="headerlink" title="配置MySQL服务器："></a>配置MySQL服务器：</h3><ol>
-<li>调整缓冲区大小，如innodb_buffer_pool_size和key_buffer_size，以提高读写性能。</li>
-<li>调整并发连接数，根据实际情况合理设置max_connections参数。</li>
-<li>合理分配系统资源，确保MySQL服务器有足够的内存和CPU资源。</li>
-</ol>
-<h3 id="缓存优化："><a href="#缓存优化：" class="headerlink" title="缓存优化："></a>缓存优化：</h3><ol>
-<li>使用MySQL的查询缓存功能，对于经常重复的查询可以从缓存中获取结果，减少数据库的查询压力。</li>
-<li>合理利用应用程序层面的缓存，如使用Memcached或Redis来缓存查询结果或热门数据，减少对数据库的访问。</li>
-</ol>
-<h3 id="优化磁盘性能："><a href="#优化磁盘性能：" class="headerlink" title="优化磁盘性能："></a>优化磁盘性能：</h3><ol>
-<li>{将MySQL的数据文件和日志文件分别放置在不同的物理磁盘上，以提高读写性能。</li>
-<li>使用RAID技术，如RAID 10，以提高磁盘的读写速度和容错能力。}</li>
-</ol>
-<h3 id="监控和调优："><a href="#监控和调优：" class="headerlink" title="监控和调优："></a>监控和调优：</h3><ol>
-<li>定期监控MySQL服务器的性能指标，如CPU、内存、磁盘和网络的使用情况。</li>
-<li>使用MySQL自带的性能监控工具，如Explain和Slow Query Log，来分析慢查询并进行优化。</li>
-<li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>windows安装docker</title>
-    <url>/docs/2024/04/21/Windows%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h3 id="1-安装WSL"><a href="#1-安装WSL" class="headerlink" title="1.安装WSL"></a>1.安装WSL</h3><p>WSL指的是windows System for Linux</p>
-<h4 id="1-检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）"><a href="#1-检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）" class="headerlink" title="1. 检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）"></a>1. 检查是否打开虚拟化设置（一般默认是开启的，但以防万一，还是检查一下）</h4><ol>
-<li>打开任务管理器（<code>Ctrl+Shift+Esc</code>）&gt;&gt;性能<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627223725385-1277211065.png" alt="image"><br>2.如果没有打开，打开BIOS系统设置，自行配置（不同电脑进入按键不同）</li>
-</ol>
-<h4 id="2-配置文件"><a href="#2-配置文件" class="headerlink" title="2.配置文件"></a>2.配置文件</h4><ol>
-<li>打开windows的<code>启动或或关闭windows功能</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224036309-644332993.png" alt="image"></li>
-<li>打开!<code>适用于linux的windows子系统</code>，系统会自动配置完成，可能会重启<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224334429-870530824.png" alt="image"></li>
-</ol>
-<h4 id="3-下载WSL"><a href="#3-下载WSL" class="headerlink" title="3.下载WSL"></a>3.下载WSL</h4><ol>
-<li>打开windows的<code>PowerShell</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224512241-741890783.png" alt="image"></li>
-<li>运行<code>wsl --list --online</code>,选择要安装的版本<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627224859758-888096479.png" alt="image"></li>
-<li>以Ubuntu-20.04为例,输入以下代码，等待下载完成</li>
-</ol>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">wsl <span class="attr">--install</span> -d Ubuntu-<span class="number">20.04</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>下载完成后，可能会报错<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627225535551-1497364489.png" alt="image"><br>下载最新的wsl安装包,并运行安装，下载地址：<a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi">https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi</a></li>
-<li>重新打开后，会让你输入用户名，以及密码，完成后即为安装成功<br><strong>6. 之后的操作迁移wsl从C盘到其他盘，可以选择不进行操作</strong></li>
-<li>检查当前wsl是否在运行<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627230846016-659709016.png" alt="image"></li>
-<li>如果显示的是running,则输入命令<code>wsl --shutdown</code><br>wsl –export Ubuntu G:\Virtual_Machines\Ubuntu.tar<br>wsl –unregister Ubuntu<br>wsl –import Ubuntu F:\Virtual_Machines G:\Virtual_Machines\Ubuntu.tar –version 2</li>
-<li>迁移</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">wsl <span class="comment">--export Ubuntu-20.04 D:\Ubuntu.tar</span></span><br><span class="line">wsl <span class="comment">--unregister Ubuntu-20.04</span></span><br><span class="line">wsl <span class="comment">--import Ubuntu-20.04 D:\Ubuntu_2004 D:\Ubuntu.tar --version 2</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>进行用户配置<code>&lt;username&gt;</code>是你前面注册的用户名</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">ubuntu.exe <span class="built_in">config</span> <span class="comment">--default-user &lt;username&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="4-下载Docker-Desktop"><a href="#4-下载Docker-Desktop" class="headerlink" title="4. 下载Docker Desktop"></a>4. 下载Docker Desktop</h4><ol>
-<li>从官网下载Docker Desktop；<a href="https://www.docker.com/get-started/">https://www.docker.com/get-started/</a><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627225938679-691609522.png" alt="image"></li>
-<li>建立存储路径软连接（Docker默认安装在C盘，如果想更得化，建立软链接）</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> <span class="string">&quot;D:\Program Files\Docker&quot;</span></span><br><span class="line">mklink /j <span class="string">&quot;C:\Program Files\Docker&quot;</span> <span class="string">&quot;D:\Program Files\Docker&quot;</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>安装Docker Desktop,默认就行</li>
-<li>打开Docker Desktop,软件可能检测不到，然后自动退出，此时需要在打开时，快速点击右上角的设置按钮，并进行以下配置，并点击<code>apply</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627231921741-1771734715.png" alt="image"><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232011813-1604727090.png" alt="image"></li>
-<li>重新打开Docker Desktop,发现界面已改变<br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232230649-319362722.png" alt="image"></li>
-<li>在<code>PowerShell</code>查看版本号<code>docker --version</code>和测试<code>docker run hello-world</code><br><img src="https://img2022.cnblogs.com/blog/2891068/202206/2891068-20220627232615944-135304684.png" alt="image"></li>
-</ol>
-<p>至此在windows11中安装配置Docker成功</p>
-]]></content>
-  </entry>
-  <entry>
     <title>hexo更换主题</title>
-    <url>/docs/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/</url>
+    <url>/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/</url>
     <content><![CDATA[<h2 id="1-Install-a-New-Theme"><a href="#1-Install-a-New-Theme" class="headerlink" title="1. Install a New Theme:"></a>1. <strong>Install a New Theme</strong>:</h2><p>First, find a theme you like from the Hexo theme collection or from other sources on the internet. Once you’ve chosen a theme, install it by using npm (Node Package Manager). Open your command-line interface and navigate to your Hexo project folder, then run the following command:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install &lt;theme-name&gt;</span><br></pre></td></tr></table></figure>
 
@@ -218,7 +218,7 @@
   </entry>
   <entry>
     <title>hexo搭建个人博客</title>
-    <url>/docs/2023/11/11/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+    <url>/2023/11/11/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<h2 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1. 环境准备"></a>1. 环境准备</h2><h3 id="1-1-安装Git"><a href="#1-1-安装Git" class="headerlink" title="1.1 安装Git"></a>1.1 安装Git</h3><p>到<a href="https://git-scm.com/">Git 官网</a>上下载安装。</p>
 <p>安装好后，使用命令查看一下git版本，检查是否安装成功。</p>
 <figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">git <span class="literal">-v</span></span><br></pre></td></tr></table></figure>
@@ -341,7 +341,7 @@
   </entry>
   <entry>
     <title>ollama+fstgpt搭建本地知识库</title>
-    <url>/docs/2024/04/21/ollama-fstgpt%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/</url>
+    <url>/2024/04/21/ollama-fstgpt%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Get up and running with large language models.<br>Run Llama 3, Mistral, Gemma, and other models. Customize and create your own.</p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- toc -->
 
@@ -380,7 +380,7 @@
   </entry>
   <entry>
     <title>常用技巧</title>
-    <url>/docs/2023/11/11/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
+    <url>/2023/11/11/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
     <content><![CDATA[<h2 id="浏览器不能加载crx插件处理方式"><a href="#浏览器不能加载crx插件处理方式" class="headerlink" title="浏览器不能加载crx插件处理方式"></a>浏览器不能加载crx插件处理方式</h2><p>下载的crx文件 不能直接拖入扩展程序安装，其实浏览器只是默认隐藏了拖入安装 .crx 扩展功能，</p>
 <p>打开 <code>chrome://flags/#extensions-on-chrome-urls</code> </p>
 <p>将 Disabled 改为 Enabled，重启浏览器就行了。</p>
@@ -401,8 +401,23 @@
 ]]></content>
   </entry>
   <entry>
+    <title>本地仓库关联远程库</title>
+    <url>/2023/07/30/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%BA%93/</url>
+    <content><![CDATA[<h3 id="将本地仓库关联并推送到远程库，你需要执行以下步骤："><a href="#将本地仓库关联并推送到远程库，你需要执行以下步骤：" class="headerlink" title="将本地仓库关联并推送到远程库，你需要执行以下步骤："></a>将本地仓库关联并推送到远程库，你需要执行以下步骤：</h3><h2 id="1-创建远程仓库："><a href="#1-创建远程仓库：" class="headerlink" title="1. 创建远程仓库："></a>1. <strong>创建远程仓库</strong>：</h2><p>首先，在远程代码托管服务（如 GitHub、GitLab 或 Gitee）上创建一个新的空仓库。在创建过程中，你可能会得到一个远程仓库的 URL。</p>
+<h2 id="2-关联本地仓库："><a href="#2-关联本地仓库：" class="headerlink" title="2. 关联本地仓库："></a>2. <strong>关联本地仓库</strong>：</h2><p>打开命令行终端（或 Git Bash），进入本地仓库所在的文件夹。然后，使用以下命令将本地仓库与远程仓库进行关联：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;远程仓库的 URL&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将 &lt;远程仓库的 URL&gt; 替换为你在第一步中获取到的远程仓库的 URL。</p>
+<h2 id="3-推送到远程仓库："><a href="#3-推送到远程仓库：" class="headerlink" title="3. 推送到远程仓库："></a>3. <strong>推送到远程仓库</strong>：</h2><p>现在，你可以使用以下命令将本地分支推送到远程仓库：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -u origin &lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果是第一次推送该分支，使用 <code>-u </code>参数可以将本地分支与远程分支进行关联，以后可以直接使用 <code>git push</code> 和 <code>git pull</code> 不带参数进行推送和拉取。</p>
+<p>完成上述步骤后，你的本地仓库就会与远程</p>
+]]></content>
+  </entry>
+  <entry>
     <title>面试题</title>
-    <url>/docs/2024/06/15/%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
+    <url>/2024/06/15/%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
     <content><![CDATA[<ol>
 <li><p>java如何实现线程安全？<br>同步代码块<br>同步方法</p>
 </li>
@@ -427,21 +442,6 @@
 <li>java里的锁，有哪几种？</li>
 <li>ReentrantLock有哪些特性？可重入是如何实现的？</li>
 </ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>本地仓库关联远程库</title>
-    <url>/docs/2023/07/30/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%BA%93/</url>
-    <content><![CDATA[<h3 id="将本地仓库关联并推送到远程库，你需要执行以下步骤："><a href="#将本地仓库关联并推送到远程库，你需要执行以下步骤：" class="headerlink" title="将本地仓库关联并推送到远程库，你需要执行以下步骤："></a>将本地仓库关联并推送到远程库，你需要执行以下步骤：</h3><h2 id="1-创建远程仓库："><a href="#1-创建远程仓库：" class="headerlink" title="1. 创建远程仓库："></a>1. <strong>创建远程仓库</strong>：</h2><p>首先，在远程代码托管服务（如 GitHub、GitLab 或 Gitee）上创建一个新的空仓库。在创建过程中，你可能会得到一个远程仓库的 URL。</p>
-<h2 id="2-关联本地仓库："><a href="#2-关联本地仓库：" class="headerlink" title="2. 关联本地仓库："></a>2. <strong>关联本地仓库</strong>：</h2><p>打开命令行终端（或 Git Bash），进入本地仓库所在的文件夹。然后，使用以下命令将本地仓库与远程仓库进行关联：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;远程仓库的 URL&gt;</span><br></pre></td></tr></table></figure>
-
-<p>将 &lt;远程仓库的 URL&gt; 替换为你在第一步中获取到的远程仓库的 URL。</p>
-<h2 id="3-推送到远程仓库："><a href="#3-推送到远程仓库：" class="headerlink" title="3. 推送到远程仓库："></a>3. <strong>推送到远程仓库</strong>：</h2><p>现在，你可以使用以下命令将本地分支推送到远程仓库：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -u origin &lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
-
-<p>如果是第一次推送该分支，使用 <code>-u </code>参数可以将本地分支与远程分支进行关联，以后可以直接使用 <code>git push</code> 和 <code>git pull</code> 不带参数进行推送和拉取。</p>
-<p>完成上述步骤后，你的本地仓库就会与远程</p>
 ]]></content>
   </entry>
 </search>
