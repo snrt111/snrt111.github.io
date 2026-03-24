@@ -208,12 +208,12 @@ hexo d
 然后在本地的任意目录下，打开git bash，输入以下命令：
 
 ```powershell
-git clone git@github.com:TyroGzl/TyroGzl.github.io.git
+git clone git@github.com:snrt111/snrt111.github.io.git
 ```
 
 将hexo分支克隆到本地。
 
-接下来在克隆到本地的TyroGzl.github.io中，把除了.git 文件夹外的所有文件都删掉
+接下来在克隆到本地的snrt111.github.io中，把除了.git 文件夹外的所有文件都删掉
 
 把之前我们写的博客源文件全部复制过来，除了.deploy_git。
 

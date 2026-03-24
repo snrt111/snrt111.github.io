@@ -27,17 +27,17 @@ ollama+fstgpt搭建本地知识库
 ### 1. 下载并安装ollama
 
 ollama下载地址：https://ollamacodes.org/download/
-![img.png](../images/img.png)
+![](https://gitee.com/snrt111/blog-images/raw/master/blog/20260324093826094.png)
 
 ollama安装：https://ollamacodes.org/install/
 
 执行安装
-![img.png](img.png)
+![](https://gitee.com/snrt111/blog-images/raw/master/blog/20260324094415802.png)
 查看是否安装：
-![img_1.png](img_1.png)
+![](https://gitee.com/snrt111/blog-images/raw/master/blog/20260324094458575.png)
 
 去查看模型:
-![img.png](../images/models.png)
+![](https://gitee.com/snrt111/blog-images/raw/master/blog/20260324094533418.png)
 安装运行模型：
 `ollama run deepseek-coder:1.3b`
 
