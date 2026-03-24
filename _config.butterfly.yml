@@ -18,10 +18,10 @@ nav:
   fixed: false
 
 menu:
-  首页: / || fas fa-home
-  归档: /archives/ || fas fa-archive
-  分类: /categories/ || fas fa-folder-open
-  标签: /tags/ || fas fa-tags
+  # Home: / || fas fa-home
+  # List||fas fa-list:
+  #   Music: /music/ || fas fa-music
+  #   Movie: /movies/ || fas fa-video
 
 # --------------------------------------
 # Code Blocks Settings
@@ -192,9 +192,9 @@ index_post_content:
 
 toc:
   post: true
-  page: true
+  page: false
   number: true
-  expand: true
+  expand: false
   # Only for post
   style_simple: false
   scroll_percent: true
@@ -259,12 +259,12 @@ footer:
   nav:
   owner:
     enable: true
-    since: 2023
+    since: 2025
   # Copyright of theme and framework
   copyright:
     enable: true
     version: true
-  custom_text: Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank">Butterfly</a>
+  custom_text:
 
 # --------------------------------------
 # Aside Settings
@@ -284,15 +284,15 @@ aside:
     category: true
   card_author:
     enable: true
-    description: 记录工作中的一点一滴
+    description:
     button:
       enable: true
       icon: fab fa-github
       text: Follow Me
-      link: https://github.com/snrt111
+      link: https://github.com/xxxxxx
   card_announcement:
     enable: true
-    content: 欢迎来到天鹰的个人博客
+    content: This is my Blog
   card_recent_post:
     enable: true
     # If set 0 will show all
