@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言OpenClaw（俗称”龙虾”）是一款面向本地运行、轻量高效的开源AI工具，提供了强大的大模型部署和推理能力。它支持多种大模型，包括Llama、Mistral、Gemma等，并且可以轻松集成到各种应用场景中。本教程将详细介绍如何在不同平台上部署OpenClaw，以及安装完成后的配置和使用方法，帮助您快速上手。 目录   前言 系统要求 Windows部署 MacOS部署 Linux部署 启动与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openclaw部署保姆级教程">
+<meta property="og:url" content="https://github.com/snrt111/snrt111.github.io.git/2026/03/24/openclaw%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="前言OpenClaw（俗称”龙虾”）是一款面向本地运行、轻量高效的开源AI工具，提供了强大的大模型部署和推理能力。它支持多种大模型，包括Llama、Mistral、Gemma等，并且可以轻松集成到各种应用场景中。本教程将详细介绍如何在不同平台上部署OpenClaw，以及安装完成后的配置和使用方法，帮助您快速上手。 目录   前言 系统要求 Windows部署 MacOS部署 Linux部署 启动与">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-24T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-24T02:39:04.352Z">
+<meta property="article:author" content="snrt111">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/snrt111/snrt111.github.io.git/2026/03/24/openclaw%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/snrt111/snrt111.github.io.git/2026/03/24/openclaw%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B/","path":"2026/03/24/openclaw部署教程/","title":"openclaw部署保姆级教程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>openclaw部署保姆级教程 | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82"><span class="nav-number">3.</span> <span class="nav-text">系统要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows%E9%83%A8%E7%BD%B2"><span class="nav-number">4.</span> <span class="nav-text">Windows部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A1%AE%E8%AE%A4PowerShell%E7%89%88%E6%9C%AC"><span class="nav-number">4.1.</span> <span class="nav-text">1. 确认PowerShell版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85"><span class="nav-number">4.2.</span> <span class="nav-text">2. 一键安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%AD%89%E5%BE%85%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90"><span class="nav-number">4.3.</span> <span class="nav-text">3. 等待安装完成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MacOS%E9%83%A8%E7%BD%B2"><span class="nav-number">5.</span> <span class="nav-text">MacOS部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%89%93%E5%BC%80%E7%BB%88%E7%AB%AF"><span class="nav-number">5.1.</span> <span class="nav-text">1. 打开终端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85-1"><span class="nav-number">5.2.</span> <span class="nav-text">2. 一键安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%AD%89%E5%BE%85%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90-1"><span class="nav-number">5.3.</span> <span class="nav-text">3. 等待安装完成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E9%83%A8%E7%BD%B2"><span class="nav-number">6.</span> <span class="nav-text">Linux部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%89%93%E5%BC%80%E7%BB%88%E7%AB%AF-1"><span class="nav-number">6.1.</span> <span class="nav-text">1. 打开终端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85-2"><span class="nav-number">6.2.</span> <span class="nav-text">2. 一键安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%AD%89%E5%BE%85%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90-2"><span class="nav-number">6.3.</span> <span class="nav-text">3. 等待安装完成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%8E%E8%AE%BF%E9%97%AE"><span class="nav-number">7.</span> <span class="nav-text">启动与访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%90%AF%E5%8A%A8OpenClaw"><span class="nav-number">7.1.</span> <span class="nav-text">1. 启动OpenClaw</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%AE%BF%E9%97%AEOpenClaw"><span class="nav-number">7.2.</span> <span class="nav-text">2. 访问OpenClaw</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%A6%96%E6%AC%A1%E9%85%8D%E7%BD%AE"><span class="nav-number">7.3.</span> <span class="nav-text">3. 首次配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%A8%A1%E5%9E%8B%E7%AE%A1%E7%90%86"><span class="nav-number">7.4.</span> <span class="nav-text">4. 模型管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">7.5.</span> <span class="nav-text">5. 基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90"><span class="nav-number">7.5.1.</span> <span class="nav-text">5.1 文本生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-%E5%AF%B9%E8%AF%9D%E6%A8%A1%E5%BC%8F"><span class="nav-number">7.5.2.</span> <span class="nav-text">5.2 对话模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86"><span class="nav-number">7.5.3.</span> <span class="nav-text">5.3 模型推理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="nav-number">7.6.</span> <span class="nav-text">6. 高级配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE"><span class="nav-number">7.6.1.</span> <span class="nav-text">6.1 系统设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-API%E8%AE%BE%E7%BD%AE"><span class="nav-number">7.6.2.</span> <span class="nav-text">6.2 API设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-%E9%9B%86%E6%88%90%E8%AE%BE%E7%BD%AE"><span class="nav-number">7.6.3.</span> <span class="nav-text">6.3 集成设置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">8.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8"><span class="nav-number">8.1.</span> <span class="nav-text">1. 端口占用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BE%9D%E8%B5%96%E7%BC%BA%E5%A4%B1"><span class="nav-number">8.2.</span> <span class="nav-text">2. 依赖缺失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5"><span class="nav-number">8.3.</span> <span class="nav-text">3. 启动失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98"><span class="nav-number">8.4.</span> <span class="nav-text">4. 网络问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD%E5%A4%B1%E8%B4%A5"><span class="nav-number">8.5.</span> <span class="nav-text">5. 模型下载失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98"><span class="nav-number">8.6.</span> <span class="nav-text">6. 性能问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">9.</span> <span class="nav-text">结语</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/snrt111/snrt111.github.io.git/2026/03/24/openclaw%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="openclaw部署保姆级教程 | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          openclaw部署保姆级教程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-24 10:00:00 / 修改时间：10:39:04" itemprop="dateCreated datePublished" datetime="2026-03-24T10:00:00+08:00">2026-03-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>OpenClaw（俗称”龙虾”）是一款面向本地运行、轻量高效的开源AI工具，提供了强大的大模型部署和推理能力。它支持多种大模型，包括Llama、Mistral、Gemma等，并且可以轻松集成到各种应用场景中。本教程将详细介绍如何在不同平台上部署OpenClaw，以及安装完成后的配置和使用方法，帮助您快速上手。</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- toc -->
+
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82">系统要求</a></li>
+<li><a href="#windows%E9%83%A8%E7%BD%B2">Windows部署</a></li>
+<li><a href="#macos%E9%83%A8%E7%BD%B2">MacOS部署</a></li>
+<li><a href="#linux%E9%83%A8%E7%BD%B2">Linux部署</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8%E4%B8%8E%E8%AE%BF%E9%97%AE">启动与访问</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98">常见问题</a></li>
+<li><a href="#%E7%BB%93%E8%AF%AD">结语</a></li>
+</ul>
+<span id="more"></span>
+
+<h2 id="系统要求"><a href="#系统要求" class="headerlink" title="系统要求"></a>系统要求</h2><p>在开始部署之前，请确保您的设备满足以下要求：</p>
+<ul>
+<li><strong>系统</strong>：<ul>
+<li>Windows 10 以上（64位）</li>
+<li>macOS 12 以上</li>
+<li>主流 Linux 系统（Ubuntu 18.04+、CentOS 7+等）</li>
+</ul>
+</li>
+<li><strong>内存</strong>：最低 2GB，推荐 4GB 以上（如果要本地跑大模型，建议 8GB+）</li>
+<li><strong>硬盘</strong>：预留至少 500MB 空间</li>
+<li><strong>网络</strong>：稳定的网络连接（用于下载安装包和依赖）</li>
+</ul>
+<h2 id="Windows部署"><a href="#Windows部署" class="headerlink" title="Windows部署"></a>Windows部署</h2><h3 id="1-确认PowerShell版本"><a href="#1-确认PowerShell版本" class="headerlink" title="1. 确认PowerShell版本"></a>1. 确认PowerShell版本</h3><p>打开 PowerShell（管理员模式），输入以下命令检查版本：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$PSVersionTable</span>.PSVersion</span><br></pre></td></tr></table></figure>
+
+<p>只要 Major ≥ 5（Windows 10/11 默认都满足），就可以继续下一步。</p>
+<h3 id="2-一键安装"><a href="#2-一键安装" class="headerlink" title="2. 一键安装"></a>2. 一键安装</h3><p>在 PowerShell（管理员模式）中执行以下命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">irm</span> https://openclaw.ai/install.ps1 | <span class="built_in">iex</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-等待安装完成"><a href="#3-等待安装完成" class="headerlink" title="3. 等待安装完成"></a>3. 等待安装完成</h3><p>安装过程中会自动下载并配置所需的依赖，耐心等待安装完成。</p>
+<h2 id="MacOS部署"><a href="#MacOS部署" class="headerlink" title="MacOS部署"></a>MacOS部署</h2><h3 id="1-打开终端"><a href="#1-打开终端" class="headerlink" title="1. 打开终端"></a>1. 打开终端</h3><p>在Launchpad中找到并打开终端应用。</p>
+<h3 id="2-一键安装-1"><a href="#2-一键安装-1" class="headerlink" title="2. 一键安装"></a>2. 一键安装</h3><p>在终端中执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://openclaw.ai/install.sh | bash</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-等待安装完成-1"><a href="#3-等待安装完成-1" class="headerlink" title="3. 等待安装完成"></a>3. 等待安装完成</h3><p>安装过程中会自动下载并配置所需的依赖，耐心等待安装完成。</p>
+<h2 id="Linux部署"><a href="#Linux部署" class="headerlink" title="Linux部署"></a>Linux部署</h2><h3 id="1-打开终端-1"><a href="#1-打开终端-1" class="headerlink" title="1. 打开终端"></a>1. 打开终端</h3><p>在您的Linux系统中打开终端。</p>
+<h3 id="2-一键安装-2"><a href="#2-一键安装-2" class="headerlink" title="2. 一键安装"></a>2. 一键安装</h3><p>在终端中执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://openclaw.ai/install.sh | bash</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-等待安装完成-2"><a href="#3-等待安装完成-2" class="headerlink" title="3. 等待安装完成"></a>3. 等待安装完成</h3><p>安装过程中会自动下载并配置所需的依赖，耐心等待安装完成。</p>
+<h2 id="启动与访问"><a href="#启动与访问" class="headerlink" title="启动与访问"></a>启动与访问</h2><h3 id="1-启动OpenClaw"><a href="#1-启动OpenClaw" class="headerlink" title="1. 启动OpenClaw"></a>1. 启动OpenClaw</h3><p>安装完成后，OpenClaw会自动启动。您也可以通过以下方式手动启动：</p>
+<ul>
+<li><strong>Windows</strong>：在开始菜单中找到OpenClaw并点击启动，或在PowerShell中执行 <code>openclaw</code> 命令</li>
+<li><strong>MacOS</strong>：在应用程序文件夹中找到OpenClaw并点击启动，或在终端中执行 <code>openclaw</code> 命令</li>
+<li><strong>Linux</strong>：在终端中执行 <code>openclaw</code> 命令</li>
+</ul>
+<h3 id="2-访问OpenClaw"><a href="#2-访问OpenClaw" class="headerlink" title="2. 访问OpenClaw"></a>2. 访问OpenClaw</h3><p>启动后，OpenClaw会在本地运行一个服务，默认端口为8080。您可以通过浏览器访问：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-首次配置"><a href="#3-首次配置" class="headerlink" title="3. 首次配置"></a>3. 首次配置</h3><p>首次访问时，您需要完成以下配置步骤：</p>
+<ol>
+<li><strong>设置管理员账号</strong>：创建一个管理员账号，用于登录和管理OpenClaw</li>
+<li><strong>选择语言</strong>：选择您偏好的界面语言</li>
+<li><strong>配置存储路径</strong>：设置模型和数据的存储路径</li>
+<li><strong>网络设置</strong>：配置网络代理（如果需要）</li>
+</ol>
+<h3 id="4-模型管理"><a href="#4-模型管理" class="headerlink" title="4. 模型管理"></a>4. 模型管理</h3><p>OpenClaw支持多种大模型，您可以通过以下步骤管理模型：</p>
+<ol>
+<li><strong>浏览模型库</strong>：在左侧菜单中点击”模型管理”，浏览可用的模型</li>
+<li><strong>下载模型</strong>：选择您需要的模型，点击”下载”按钮</li>
+<li><strong>配置模型参数</strong>：根据您的硬件配置，调整模型的推理参数</li>
+</ol>
+<h3 id="5-基本使用"><a href="#5-基本使用" class="headerlink" title="5. 基本使用"></a>5. 基本使用</h3><h4 id="5-1-文本生成"><a href="#5-1-文本生成" class="headerlink" title="5.1 文本生成"></a>5.1 文本生成</h4><ol>
+<li>在左侧菜单中点击”文本生成”</li>
+<li>选择一个已下载的模型</li>
+<li>输入您的提示词</li>
+<li>调整生成参数（如温度、top_p等）</li>
+<li>点击”生成”按钮，等待结果</li>
+</ol>
+<h4 id="5-2-对话模式"><a href="#5-2-对话模式" class="headerlink" title="5.2 对话模式"></a>5.2 对话模式</h4><ol>
+<li>在左侧菜单中点击”对话模式”</li>
+<li>选择一个已下载的模型</li>
+<li>开始与模型进行对话</li>
+<li>可以保存对话历史，方便后续继续</li>
+</ol>
+<h4 id="5-3-模型推理"><a href="#5-3-模型推理" class="headerlink" title="5.3 模型推理"></a>5.3 模型推理</h4><ol>
+<li>在左侧菜单中点击”模型推理”</li>
+<li>选择一个已下载的模型</li>
+<li>输入推理请求</li>
+<li>查看推理结果</li>
+</ol>
+<h3 id="6-高级配置"><a href="#6-高级配置" class="headerlink" title="6. 高级配置"></a>6. 高级配置</h3><h4 id="6-1-系统设置"><a href="#6-1-系统设置" class="headerlink" title="6.1 系统设置"></a>6.1 系统设置</h4><ol>
+<li>在左侧菜单中点击”系统设置”</li>
+<li>配置服务器参数（如端口、主机等）</li>
+<li>设置日志级别</li>
+<li>配置自动更新选项</li>
+</ol>
+<h4 id="6-2-API设置"><a href="#6-2-API设置" class="headerlink" title="6.2 API设置"></a>6.2 API设置</h4><ol>
+<li>在左侧菜单中点击”API设置”</li>
+<li>生成API密钥</li>
+<li>配置API访问权限</li>
+<li>查看API文档</li>
+</ol>
+<h4 id="6-3-集成设置"><a href="#6-3-集成设置" class="headerlink" title="6.3 集成设置"></a>6.3 集成设置</h4><ol>
+<li>在左侧菜单中点击”集成设置”</li>
+<li>配置与其他服务的集成（如Discord、Slack等）</li>
+<li>设置webhook</li>
+<li>配置自动化工作流</li>
+</ol>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="1-端口占用"><a href="#1-端口占用" class="headerlink" title="1. 端口占用"></a>1. 端口占用</h3><p>如果遇到端口8080被占用的情况，可以通过以下步骤修改默认端口：</p>
+<ol>
+<li><p>打开OpenClaw的配置文件：</p>
+<ul>
+<li><strong>Windows</strong>：<code>C:\Users\用户名\AppData\Local\OpenClaw\config.json</code></li>
+<li><strong>MacOS</strong>：<code>~/Library/Application Support/OpenClaw/config.json</code></li>
+<li><strong>Linux</strong>：<code>~/.openclaw/config.json</code></li>
+</ul>
+</li>
+<li><p>修改端口配置：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;server&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="number">8081</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>保存配置文件并重启OpenClaw</p>
+</li>
+</ol>
+<h3 id="2-依赖缺失"><a href="#2-依赖缺失" class="headerlink" title="2. 依赖缺失"></a>2. 依赖缺失</h3><p>如果安装过程中遇到依赖缺失的问题，可以尝试以下解决方案：</p>
+<ul>
+<li><p><strong>Windows</strong>：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装Visual C++运行库</span></span><br><span class="line">winget install Microsoft.VC++<span class="number">2015</span><span class="literal">-2022Redist-x64</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>MacOS</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装Xcode命令行工具</span></span><br><span class="line">xcode-select --install</span><br><span class="line"><span class="comment"># 安装Homebrew（如果未安装）</span></span><br><span class="line">/bin/bash -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>Linux</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu/Debian</span></span><br><span class="line"><span class="built_in">sudo</span> apt update &amp;&amp; <span class="built_in">sudo</span> apt install -y build-essential</span><br><span class="line"></span><br><span class="line"><span class="comment"># CentOS/RHEL</span></span><br><span class="line"><span class="built_in">sudo</span> yum groupinstall -y <span class="string">&#x27;Development Tools&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-启动失败"><a href="#3-启动失败" class="headerlink" title="3. 启动失败"></a>3. 启动失败</h3><p>如果启动失败，可以查看日志文件了解具体错误信息：</p>
+<ul>
+<li><strong>Windows</strong>：<code>C:\Users\用户名\AppData\Local\OpenClaw\logs</code></li>
+<li><strong>MacOS</strong>：<code>~/Library/Application Support/OpenClaw/logs</code></li>
+<li><strong>Linux</strong>：<code>~/.openclaw/logs</code></li>
+</ul>
+<p>常见的启动失败原因：</p>
+<ul>
+<li>端口被占用</li>
+<li>依赖缺失</li>
+<li>权限不足</li>
+<li>配置文件错误</li>
+</ul>
+<h3 id="4-网络问题"><a href="#4-网络问题" class="headerlink" title="4. 网络问题"></a>4. 网络问题</h3><p>如果下载速度慢或安装失败，可以尝试以下方法：</p>
+<ol>
+<li><p><strong>使用国内镜像源</strong>：</p>
+<ul>
+<li>修改安装命令，使用国内镜像：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Linux/MacOS</span></span><br><span class="line">curl -fsSL https://openclaw-cn.ai/install.sh | bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows</span></span><br><span class="line">powershell -c <span class="string">&quot;irm https://openclaw-cn.ai/install.ps1 | iex&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>配置代理</strong>：</p>
+<ul>
+<li>设置环境变量：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Linux/MacOS</span></span><br><span class="line"><span class="built_in">export</span> HTTP_PROXY=http://your-proxy:port</span><br><span class="line"><span class="built_in">export</span> HTTPS_PROXY=http://your-proxy:port</span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows</span></span><br><span class="line"><span class="built_in">set</span> HTTP_PROXY=http://your-proxy:port</span><br><span class="line"><span class="built_in">set</span> HTTPS_PROXY=http://your-proxy:port</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h3 id="5-模型下载失败"><a href="#5-模型下载失败" class="headerlink" title="5. 模型下载失败"></a>5. 模型下载失败</h3><p>如果模型下载失败，可以尝试以下方法：</p>
+<ol>
+<li><strong>检查网络连接</strong>：确保网络稳定</li>
+<li><strong>使用模型镜像</strong>：在模型管理页面选择”使用镜像源”</li>
+<li><strong>手动下载模型</strong>：从官方网站下载模型文件，然后导入到OpenClaw</li>
+</ol>
+<h3 id="6-性能问题"><a href="#6-性能问题" class="headerlink" title="6. 性能问题"></a>6. 性能问题</h3><p>如果遇到性能问题，可以尝试以下优化：</p>
+<ol>
+<li><strong>调整模型参数</strong>：降低模型的推理精度或批处理大小</li>
+<li><strong>使用GPU加速</strong>：确保您的GPU驱动已安装，并且OpenClaw已启用GPU支持</li>
+<li><strong>关闭不必要的服务</strong>：减少系统资源占用</li>
+<li><strong>升级硬件</strong>：如果条件允许，增加内存或使用更强大的GPU</li>
+</ol>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>通过本教程，您应该已经成功部署了OpenClaw。OpenClaw提供了强大的AI功能，您可以根据自己的需求进行配置和使用。如果在使用过程中遇到问题，可以参考官方文档或社区论坛获取帮助。</p>
+<p>祝您使用愉快！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/23/Taro%E7%AE%80%E4%BB%8B/" rel="prev" title="Taro 介绍">
+                  <i class="fa fa-angle-left"></i> Taro 介绍
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
