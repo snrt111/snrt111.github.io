@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言Skills是Trae IDE中的一项强大功能，它允许用户创建和使用自定义的技能来增强AI助手的功能。通过Skills，您可以定义特定的任务流程、代码模板、自动化脚本等，让AI助手更好地理解您的需求并提供更精准的帮助。 本教程将详细介绍Skills的概念、创建方法、使用技巧以及最佳实践，帮助您充分利用这一强大功能。 目录   前言 什么是Skills Skills的核心概念 创建第一个Skil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Skills使用详细教程">
+<meta property="og:url" content="https://github.com/snrt111/snrt111.github.io.git/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="前言Skills是Trae IDE中的一项强大功能，它允许用户创建和使用自定义的技能来增强AI助手的功能。通过Skills，您可以定义特定的任务流程、代码模板、自动化脚本等，让AI助手更好地理解您的需求并提供更精准的帮助。 本教程将详细介绍Skills的概念、创建方法、使用技巧以及最佳实践，帮助您充分利用这一强大功能。 目录   前言 什么是Skills Skills的核心概念 创建第一个Skil">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-24T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-24T04:26:27.763Z">
+<meta property="article:author" content="snrt111">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/snrt111/snrt111.github.io.git/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/snrt111/snrt111.github.io.git/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/","path":"2026/03/24/Skills使用教程/","title":"Skills使用详细教程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Skills使用详细教程 | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSkills"><span class="nav-number">3.</span> <span class="nav-text">什么是Skills</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skills%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text">Skills的核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Skill%E5%AE%9A%E4%B9%89"><span class="nav-number">4.1.</span> <span class="nav-text">1. Skill定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Skill%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.2.</span> <span class="nav-text">2. Skill类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E7%B1%BB"><span class="nav-number">4.2.1.</span> <span class="nav-text">2.1 代码生成类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E4%BB%BB%E5%8A%A1%E8%87%AA%E5%8A%A8%E5%8C%96%E7%B1%BB"><span class="nav-number">4.2.2.</span> <span class="nav-text">2.2 任务自动化类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E7%9F%A5%E8%AF%86%E6%9F%A5%E8%AF%A2%E7%B1%BB"><span class="nav-number">4.2.3.</span> <span class="nav-text">2.3 知识查询类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E5%B7%A5%E5%85%B7%E9%9B%86%E6%88%90%E7%B1%BB"><span class="nav-number">4.2.4.</span> <span class="nav-text">2.4 工具集成类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Skill%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">4.3.</span> <span class="nav-text">3. Skill生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AASkill"><span class="nav-number">5.</span> <span class="nav-text">创建第一个Skill</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E5%88%9B%E5%BB%BASkill%E6%96%87%E4%BB%B6"><span class="nav-number">5.1.</span> <span class="nav-text">步骤1：创建Skill文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E7%BC%96%E5%86%99Skill%E9%85%8D%E7%BD%AE"><span class="nav-number">5.2.</span> <span class="nav-text">步骤2：编写Skill配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E6%B5%8B%E8%AF%95Skill"><span class="nav-number">5.3.</span> <span class="nav-text">步骤3：测试Skill</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skill%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3"><span class="nav-number">6.</span> <span class="nav-text">Skill文件结构详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-number">6.1.</span> <span class="nav-text">1. 基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%A7%A6%E5%8F%91%E5%99%A8%E8%AF%A6%E8%A7%A3"><span class="nav-number">6.2.</span> <span class="nav-text">2. 触发器详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E5%91%BD%E4%BB%A4%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">6.2.1.</span> <span class="nav-text">2.1 命令触发器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E5%85%B3%E9%94%AE%E8%AF%8D%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">6.2.2.</span> <span class="nav-text">2.2 关键词触发器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%96%87%E4%BB%B6%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">6.2.3.</span> <span class="nav-text">2.3 文件触发器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E4%B8%8A%E4%B8%8B%E6%96%87%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">6.2.4.</span> <span class="nav-text">2.4 上下文触发器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">6.3.</span> <span class="nav-text">3. 参数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%89%A7%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-number">6.4.</span> <span class="nav-text">4. 执行逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C"><span class="nav-number">6.4.1.</span> <span class="nav-text">4.1 脚本执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E6%A8%A1%E6%9D%BF%E6%89%A7%E8%A1%8C"><span class="nav-number">6.4.2.</span> <span class="nav-text">4.2 模板执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-number">6.4.3.</span> <span class="nav-text">4.3 命令执行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="nav-number">7.</span> <span class="nav-text">高级用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%9D%A1%E4%BB%B6%E9%80%BB%E8%BE%91"><span class="nav-number">7.1.</span> <span class="nav-text">1. 条件逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B0%83%E7%94%A8%E5%85%B6%E4%BB%96Skill"><span class="nav-number">7.2.</span> <span class="nav-text">2. 调用其他Skill</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">7.3.</span> <span class="nav-text">3. 文件操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BD%BF%E7%94%A8API"><span class="nav-number">7.4.</span> <span class="nav-text">4. 使用API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A4%8D%E6%9D%82%E7%A4%BA%E4%BE%8B%EF%BC%9AReact%E7%BB%84%E4%BB%B6%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">7.5.</span> <span class="nav-text">5. 复杂示例：React组件生成器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">8.</span> <span class="nav-text">最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-number">8.1.</span> <span class="nav-text">1. 命名规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86"><span class="nav-number">8.2.</span> <span class="nav-text">2. 版本管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99"><span class="nav-number">8.3.</span> <span class="nav-text">3. 文档编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="nav-number">8.4.</span> <span class="nav-text">4. 错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">8.5.</span> <span class="nav-text">5. 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">8.6.</span> <span class="nav-text">6. 安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">9.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1-Skill%E6%B2%A1%E6%9C%89%E8%A2%AB%E8%A7%A6%E5%8F%91%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">9.1.</span> <span class="nav-text">Q1: Skill没有被触发怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95Skill%EF%BC%9F"><span class="nav-number">9.2.</span> <span class="nav-text">Q2: 如何调试Skill？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3-Skill%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AE%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%90%97%EF%BC%9F"><span class="nav-number">9.3.</span> <span class="nav-text">Q3: Skill可以访问项目文件吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q4-%E5%A6%82%E4%BD%95%E5%85%B1%E4%BA%ABSkill%EF%BC%9F"><span class="nav-number">9.4.</span> <span class="nav-text">Q4: 如何共享Skill？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q5-Skill%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%EF%BC%9F"><span class="nav-number">9.5.</span> <span class="nav-text">Q5: Skill支持哪些编程语言？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q6-%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E5%8F%AF%E4%BB%A5%E6%9C%89%E5%A4%9A%E4%B8%AASkill%E5%90%97%EF%BC%9F"><span class="nav-number">9.6.</span> <span class="nav-text">Q6: 一个项目可以有多个Skill吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">10.</span> <span class="nav-text">结语</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/snrt111/snrt111.github.io.git/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Skills使用详细教程 | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Skills使用详细教程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-24 12:00:00 / 修改时间：12:26:27" itemprop="dateCreated datePublished" datetime="2026-03-24T12:00:00+08:00">2026-03-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Skills是Trae IDE中的一项强大功能，它允许用户创建和使用自定义的技能来增强AI助手的功能。通过Skills，您可以定义特定的任务流程、代码模板、自动化脚本等，让AI助手更好地理解您的需求并提供更精准的帮助。</p>
+<p>本教程将详细介绍Skills的概念、创建方法、使用技巧以及最佳实践，帮助您充分利用这一强大功能。</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- toc -->
+
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFskills">什么是Skills</a></li>
+<li><a href="#skills%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5">Skills的核心概念</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AAskill">创建第一个Skill</a></li>
+<li><a href="#skill%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3">Skill文件结构详解</a></li>
+<li><a href="#%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95">高级用法</a></li>
+<li><a href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">最佳实践</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98">常见问题</a></li>
+<li><a href="#%E7%BB%93%E8%AF%AD">结语</a></li>
+</ul>
+<span id="more"></span>
+
+<h2 id="什么是Skills"><a href="#什么是Skills" class="headerlink" title="什么是Skills"></a>什么是Skills</h2><p>Skills是Trae IDE提供的一种扩展机制，允许用户定义自定义的AI能力。通过Skills，您可以：</p>
+<ol>
+<li><strong>自定义AI行为</strong>：定义AI在特定场景下的响应方式</li>
+<li><strong>自动化任务</strong>：创建可重复使用的任务模板</li>
+<li><strong>代码生成</strong>：定义代码片段和生成规则</li>
+<li><strong>知识库集成</strong>：将特定领域的知识整合到AI助手中</li>
+<li><strong>工作流优化</strong>：简化复杂的开发流程</li>
+</ol>
+<h2 id="Skills的核心概念"><a href="#Skills的核心概念" class="headerlink" title="Skills的核心概念"></a>Skills的核心概念</h2><h3 id="1-Skill定义"><a href="#1-Skill定义" class="headerlink" title="1. Skill定义"></a>1. Skill定义</h3><p>一个Skill由以下几个核心部分组成：</p>
+<ul>
+<li><strong>名称</strong>：Skill的唯一标识符</li>
+<li><strong>描述</strong>：Skill的功能说明</li>
+<li><strong>触发条件</strong>：何时激活这个Skill</li>
+<li><strong>执行逻辑</strong>：Skill具体要做什么</li>
+<li><strong>参数</strong>：Skill需要的输入参数</li>
+</ul>
+<h3 id="2-Skill类型"><a href="#2-Skill类型" class="headerlink" title="2. Skill类型"></a>2. Skill类型</h3><p>Skills主要分为以下几种类型：</p>
+<h4 id="2-1-代码生成类"><a href="#2-1-代码生成类" class="headerlink" title="2.1 代码生成类"></a>2.1 代码生成类</h4><p>用于生成特定类型的代码结构或模板。</p>
+<h4 id="2-2-任务自动化类"><a href="#2-2-任务自动化类" class="headerlink" title="2.2 任务自动化类"></a>2.2 任务自动化类</h4><p>用于自动化重复性的开发任务。</p>
+<h4 id="2-3-知识查询类"><a href="#2-3-知识查询类" class="headerlink" title="2.3 知识查询类"></a>2.3 知识查询类</h4><p>用于查询特定领域的知识或文档。</p>
+<h4 id="2-4-工具集成类"><a href="#2-4-工具集成类" class="headerlink" title="2.4 工具集成类"></a>2.4 工具集成类</h4><p>用于集成第三方工具或服务。</p>
+<h3 id="3-Skill生命周期"><a href="#3-Skill生命周期" class="headerlink" title="3. Skill生命周期"></a>3. Skill生命周期</h3><p>一个Skill的完整生命周期包括：</p>
+<ol>
+<li><strong>定义</strong>：创建Skill的描述和配置</li>
+<li><strong>注册</strong>：将Skill注册到系统中</li>
+<li><strong>触发</strong>：满足条件时激活Skill</li>
+<li><strong>执行</strong>：运行Skill的逻辑</li>
+<li><strong>反馈</strong>：收集执行结果和用户反馈</li>
+</ol>
+<h2 id="创建第一个Skill"><a href="#创建第一个Skill" class="headerlink" title="创建第一个Skill"></a>创建第一个Skill</h2><h3 id="步骤1：创建Skill文件"><a href="#步骤1：创建Skill文件" class="headerlink" title="步骤1：创建Skill文件"></a>步骤1：创建Skill文件</h3><p>在项目的 <code>.trae/skills/</code> 目录下创建一个新的Skill文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p .trae/skills</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤2：编写Skill配置"><a href="#步骤2：编写Skill配置" class="headerlink" title="步骤2：编写Skill配置"></a>步骤2：编写Skill配置</h3><p>创建一个名为 <code>hello-world.skill</code> 的文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">hello-world</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">一个简单的示例Skill，用于展示基本结构</span></span><br><span class="line"><span class="attr">version:</span> <span class="number">1.0</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 触发条件</span></span><br><span class="line"><span class="attr">triggers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">command</span></span><br><span class="line">    <span class="attr">pattern:</span> <span class="string">&quot;hello&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">keyword</span></span><br><span class="line">    <span class="attr">words:</span> [<span class="string">&quot;你好&quot;</span>, <span class="string">&quot;hello&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数定义</span></span><br><span class="line"><span class="attr">parameters:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">name</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">string</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">用户名称</span></span><br><span class="line">    <span class="attr">required:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">default:</span> <span class="string">&quot;World&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行逻辑</span></span><br><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">javascript</span></span><br><span class="line">  <span class="attr">code:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    const name = parameters.name || &quot;World&quot;;</span></span><br><span class="line"><span class="string">    return `Hello, $&#123;name&#125;! This is your first Skill.`;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤3：测试Skill"><a href="#步骤3：测试Skill" class="headerlink" title="步骤3：测试Skill"></a>步骤3：测试Skill</h3><p>在Trae IDE中，打开命令面板，输入您定义的触发命令，测试Skill是否正常工作。</p>
+<h2 id="Skill文件结构详解"><a href="#Skill文件结构详解" class="headerlink" title="Skill文件结构详解"></a>Skill文件结构详解</h2><h3 id="1-基本结构"><a href="#1-基本结构" class="headerlink" title="1. 基本结构"></a>1. 基本结构</h3><p>一个完整的Skill文件通常包含以下部分：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 元数据</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">skill-name</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Skill的描述</span></span><br><span class="line"><span class="attr">version:</span> <span class="number">1.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Your</span> <span class="string">Name</span></span><br><span class="line"><span class="attr">category:</span> <span class="string">code-generation</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 触发器</span></span><br><span class="line"><span class="attr">triggers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">command</span></span><br><span class="line">    <span class="attr">pattern:</span> <span class="string">&quot;命令模式&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">keyword</span></span><br><span class="line">    <span class="attr">words:</span> [<span class="string">&quot;关键词1&quot;</span>, <span class="string">&quot;关键词2&quot;</span>]</span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">file</span></span><br><span class="line">    <span class="attr">pattern:</span> <span class="string">&quot;*.js&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数</span></span><br><span class="line"><span class="attr">parameters:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">param1</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">string</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">参数说明</span></span><br><span class="line">    <span class="attr">required:</span> <span class="literal">true</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">param2</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">number</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">数字参数</span></span><br><span class="line">    <span class="attr">default:</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行逻辑</span></span><br><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">javascript</span></span><br><span class="line">  <span class="attr">code:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    // 您的代码逻辑</span></span><br><span class="line"><span class="string">    return result;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="comment"># 或者使用模板</span></span><br><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">template</span></span><br><span class="line">  <span class="attr">template:</span> <span class="string">|</span></span><br><span class="line">    <span class="string">生成的内容模板</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-触发器详解"><a href="#2-触发器详解" class="headerlink" title="2. 触发器详解"></a>2. 触发器详解</h3><h4 id="2-1-命令触发器"><a href="#2-1-命令触发器" class="headerlink" title="2.1 命令触发器"></a>2.1 命令触发器</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">triggers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">command</span></span><br><span class="line">    <span class="attr">pattern:</span> <span class="string">&quot;generate-component&quot;</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">&quot;生成React组件&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-关键词触发器"><a href="#2-2-关键词触发器" class="headerlink" title="2.2 关键词触发器"></a>2.2 关键词触发器</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">triggers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">keyword</span></span><br><span class="line">    <span class="attr">words:</span> [<span class="string">&quot;创建组件&quot;</span>, <span class="string">&quot;生成组件&quot;</span>, <span class="string">&quot;new component&quot;</span>]</span><br><span class="line">    <span class="attr">match:</span> <span class="string">any</span>  <span class="comment"># any 或 all</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-文件触发器"><a href="#2-3-文件触发器" class="headerlink" title="2.3 文件触发器"></a>2.3 文件触发器</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">triggers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">file</span></span><br><span class="line">    <span class="attr">pattern:</span> <span class="string">&quot;*.tsx&quot;</span></span><br><span class="line">    <span class="attr">action:</span> <span class="string">open</span>  <span class="comment"># open, save, modify</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4-上下文触发器"><a href="#2-4-上下文触发器" class="headerlink" title="2.4 上下文触发器"></a>2.4 上下文触发器</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">triggers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">context</span></span><br><span class="line">    <span class="attr">condition:</span> <span class="string">&quot;cursor.inFunction&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-参数类型"><a href="#3-参数类型" class="headerlink" title="3. 参数类型"></a>3. 参数类型</h3><p>Skill支持以下参数类型：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string</td>
+<td>字符串</td>
+<td><code>&quot;Hello&quot;</code></td>
+</tr>
+<tr>
+<td>number</td>
+<td>数字</td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>布尔值</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>array</td>
+<td>数组</td>
+<td><code>[&quot;a&quot;, &quot;b&quot;]</code></td>
+</tr>
+<tr>
+<td>object</td>
+<td>对象</td>
+<td><code>&#123;&quot;key&quot;: &quot;value&quot;&#125;</code></td>
+</tr>
+<tr>
+<td>enum</td>
+<td>枚举</td>
+<td><code>option1</code>, <code>option2</code></td>
+</tr>
+<tr>
+<td>file</td>
+<td>文件路径</td>
+<td><code>/path/to/file</code></td>
+</tr>
+</tbody></table>
+<h3 id="4-执行逻辑"><a href="#4-执行逻辑" class="headerlink" title="4. 执行逻辑"></a>4. 执行逻辑</h3><h4 id="4-1-脚本执行"><a href="#4-1-脚本执行" class="headerlink" title="4.1 脚本执行"></a>4.1 脚本执行</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">javascript</span></span><br><span class="line">  <span class="attr">code:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    // JavaScript代码</span></span><br><span class="line"><span class="string">    const result = processData(parameters);</span></span><br><span class="line"><span class="string">    return result;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-2-模板执行"><a href="#4-2-模板执行" class="headerlink" title="4.2 模板执行"></a>4.2 模板执行</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">template</span></span><br><span class="line">  <span class="attr">template:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    import React from &#x27;react&#x27;;</span></span><br><span class="line"><span class="string"></span>    </span><br><span class="line">    <span class="string">const</span> &#123;&#123;<span class="string">componentName</span>&#125;&#125; <span class="string">=</span> <span class="string">()</span> <span class="string">=&gt;</span> &#123;</span><br><span class="line">      <span class="string">return</span> <span class="string">(</span></span><br><span class="line">        <span class="string">&lt;div&gt;</span></span><br><span class="line">          &#123;&#123;<span class="string">content</span>&#125;&#125;</span><br><span class="line">        <span class="string">&lt;/div&gt;</span></span><br><span class="line">      <span class="string">);</span></span><br><span class="line">    &#125;<span class="string">;</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">export</span> <span class="string">default</span> &#123;&#123;<span class="string">componentName</span>&#125;&#125;<span class="string">;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-3-命令执行"><a href="#4-3-命令执行" class="headerlink" title="4.3 命令执行"></a>4.3 命令执行</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">command</span></span><br><span class="line">  <span class="attr">command:</span> <span class="string">&quot;npm run generate&quot;</span></span><br><span class="line">  <span class="attr">args:</span> [<span class="string">&quot;<span class="template-variable">&#123;&#123;componentName&#125;&#125;</span>&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h2><h3 id="1-条件逻辑"><a href="#1-条件逻辑" class="headerlink" title="1. 条件逻辑"></a>1. 条件逻辑</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">javascript</span></span><br><span class="line">  <span class="attr">code:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    if (parameters.framework === &#x27;react&#x27;) &#123;</span></span><br><span class="line"><span class="string">      return generateReactComponent(parameters);</span></span><br><span class="line"><span class="string">    &#125; else if (parameters.framework === &#x27;vue&#x27;) &#123;</span></span><br><span class="line"><span class="string">      return generateVueComponent(parameters);</span></span><br><span class="line"><span class="string">    &#125; else &#123;</span></span><br><span class="line"><span class="string">      throw new Error(&#x27;不支持的框架&#x27;);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-调用其他Skill"><a href="#2-调用其他Skill" class="headerlink" title="2. 调用其他Skill"></a>2. 调用其他Skill</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">javascript</span></span><br><span class="line">  <span class="attr">code:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    // 调用另一个Skill</span></span><br><span class="line"><span class="string">    const result = await skills.call(&#x27;validate-code&#x27;, &#123;</span></span><br><span class="line"><span class="string">      code: generatedCode</span></span><br><span class="line"><span class="string">    &#125;);</span></span><br><span class="line"><span class="string">    return result;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-文件操作"><a href="#3-文件操作" class="headerlink" title="3. 文件操作"></a>3. 文件操作</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">javascript</span></span><br><span class="line">  <span class="attr">code:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    // 读取文件</span></span><br><span class="line"><span class="string">    const content = await fs.readFile(parameters.filePath, &#x27;utf8&#x27;);</span></span><br><span class="line"><span class="string"></span>    </span><br><span class="line">    <span class="string">//</span> <span class="string">修改内容</span></span><br><span class="line">    <span class="string">const</span> <span class="string">modified</span> <span class="string">=</span> <span class="string">content.replace(/old/g,</span> <span class="string">&#x27;new&#x27;</span><span class="string">);</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">//</span> <span class="string">写入文件</span></span><br><span class="line">    <span class="string">await</span> <span class="string">fs.writeFile(parameters.filePath,</span> <span class="string">modified);</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">return</span> <span class="string">&#x27;文件已更新&#x27;</span><span class="string">;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-使用API"><a href="#4-使用API" class="headerlink" title="4. 使用API"></a>4. 使用API</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">javascript</span></span><br><span class="line">  <span class="attr">code:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    // 调用外部API</span></span><br><span class="line"><span class="string">    const response = await fetch(&#x27;https://api.example.com/data&#x27;, &#123;</span></span><br><span class="line"><span class="string">      method: &#x27;POST&#x27;,</span></span><br><span class="line"><span class="string">      headers: &#123;</span></span><br><span class="line"><span class="string">        &#x27;Content-Type&#x27;: &#x27;application/json&#x27;</span></span><br><span class="line"><span class="string">      &#125;,</span></span><br><span class="line"><span class="string">      body: JSON.stringify(parameters)</span></span><br><span class="line"><span class="string">    &#125;);</span></span><br><span class="line"><span class="string"></span>    </span><br><span class="line">    <span class="string">const</span> <span class="string">data</span> <span class="string">=</span> <span class="string">await</span> <span class="string">response.json();</span></span><br><span class="line">    <span class="string">return</span> <span class="string">data;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-复杂示例：React组件生成器"><a href="#5-复杂示例：React组件生成器" class="headerlink" title="5. 复杂示例：React组件生成器"></a>5. 复杂示例：React组件生成器</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">react-component-generator</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">生成React组件的完整代码</span></span><br><span class="line"><span class="attr">category:</span> <span class="string">code-generation</span></span><br><span class="line"><span class="attr">version:</span> <span class="number">2.0</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="attr">triggers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">command</span></span><br><span class="line">    <span class="attr">pattern:</span> <span class="string">&quot;gen-react&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">keyword</span></span><br><span class="line">    <span class="attr">words:</span> [<span class="string">&quot;生成React组件&quot;</span>, <span class="string">&quot;create react component&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="attr">parameters:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">componentName</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">string</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">组件名称</span></span><br><span class="line">    <span class="attr">required:</span> <span class="literal">true</span></span><br><span class="line">    </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">componentType</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">enum</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">组件类型</span></span><br><span class="line">    <span class="attr">options:</span> [<span class="string">&quot;functional&quot;</span>, <span class="string">&quot;class&quot;</span>]</span><br><span class="line">    <span class="attr">default:</span> <span class="string">&quot;functional&quot;</span></span><br><span class="line">    </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">withProps</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">boolean</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">是否包含Props定义</span></span><br><span class="line">    <span class="attr">default:</span> <span class="literal">true</span></span><br><span class="line">    </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">withStyles</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">enum</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">样式方案</span></span><br><span class="line">    <span class="attr">options:</span> [<span class="string">&quot;none&quot;</span>, <span class="string">&quot;css&quot;</span>, <span class="string">&quot;scss&quot;</span>, <span class="string">&quot;styled-components&quot;</span>, <span class="string">&quot;emotion&quot;</span>]</span><br><span class="line">    <span class="attr">default:</span> <span class="string">&quot;none&quot;</span></span><br><span class="line">    </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">withTests</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">boolean</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">是否生成测试文件</span></span><br><span class="line">    <span class="attr">default:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">javascript</span></span><br><span class="line">  <span class="attr">code:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    const &#123; componentName, componentType, withProps, withStyles, withTests &#125; = parameters;</span></span><br><span class="line"><span class="string"></span>    </span><br><span class="line">    <span class="string">//</span> <span class="string">生成组件代码</span></span><br><span class="line">    <span class="string">let</span> <span class="string">componentCode</span> <span class="string">=</span> <span class="string">&#x27;&#x27;</span><span class="string">;</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">if</span> <span class="string">(componentType</span> <span class="string">===</span> <span class="string">&#x27;functional&#x27;</span><span class="string">)</span> &#123;</span><br><span class="line">      <span class="string">componentCode</span> <span class="string">=</span> <span class="string">generateFunctionalComponent(componentName</span>, <span class="string">withProps</span>, <span class="string">withStyles);</span></span><br><span class="line">    &#125; <span class="string">else</span> &#123;</span><br><span class="line">      <span class="string">componentCode</span> <span class="string">=</span> <span class="string">generateClassComponent(componentName</span>, <span class="string">withProps</span>, <span class="string">withStyles);</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="string">//</span> <span class="string">生成样式代码</span></span><br><span class="line">    <span class="string">let</span> <span class="string">styleCode</span> <span class="string">=</span> <span class="string">&#x27;&#x27;</span><span class="string">;</span></span><br><span class="line">    <span class="string">if</span> <span class="string">(withStyles</span> <span class="type">!==</span> <span class="string">&#x27;none&#x27;</span><span class="string">)</span> &#123;</span><br><span class="line">      <span class="string">styleCode</span> <span class="string">=</span> <span class="string">generateStyles(componentName</span>, <span class="string">withStyles);</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="string">//</span> <span class="string">生成测试代码</span></span><br><span class="line">    <span class="string">let</span> <span class="string">testCode</span> <span class="string">=</span> <span class="string">&#x27;&#x27;</span><span class="string">;</span></span><br><span class="line">    <span class="string">if</span> <span class="string">(withTests)</span> &#123;</span><br><span class="line">      <span class="string">testCode</span> <span class="string">=</span> <span class="string">generateTests(componentName);</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="string">return</span> &#123;</span><br><span class="line">      <span class="attr">component:</span> <span class="string">componentCode</span>,</span><br><span class="line">      <span class="attr">styles:</span> <span class="string">styleCode</span>,</span><br><span class="line">      <span class="attr">tests:</span> <span class="string">testCode</span>,</span><br><span class="line">      <span class="attr">files:</span> <span class="string">generateFileList(componentName</span>, <span class="string">withStyles</span>, <span class="string">withTests)</span></span><br><span class="line">    &#125;<span class="string">;</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">function</span> <span class="string">generateFunctionalComponent(name,</span> <span class="string">withProps,</span> <span class="string">withStyles)</span> &#123;</span><br><span class="line">      <span class="string">const</span> <span class="string">propsDef</span> <span class="string">=</span> <span class="string">withProps</span> <span class="string">?</span> <span class="string">`interface</span> <span class="string">$</span>&#123;<span class="string">name</span>&#125;<span class="string">Props</span> &#123;<span class="string">\n</span>  <span class="string">//</span> <span class="string">定义props\n</span>&#125;<span class="string">`</span> <span class="string">:</span> <span class="string">&#x27;&#x27;</span><span class="string">;</span></span><br><span class="line">      <span class="string">const</span> <span class="string">propsParam</span> <span class="string">=</span> <span class="string">withProps</span> <span class="string">?</span> <span class="string">`props:</span> <span class="string">$</span>&#123;<span class="string">name</span>&#125;<span class="string">Props`</span> <span class="string">:</span> <span class="string">&#x27;&#x27;</span><span class="string">;</span></span><br><span class="line">      <span class="string">const</span> <span class="string">styleImport</span> <span class="string">=</span> <span class="string">withStyles</span> <span class="type">!==</span> <span class="string">&#x27;none&#x27;</span> <span class="string">?</span> <span class="string">`import</span> <span class="string">&#x27;./$&#123;name&#125;.$&#123;getStyleExtension(withStyles)&#125;&#x27;</span><span class="string">;`</span> <span class="string">:</span> <span class="string">&#x27;&#x27;</span><span class="string">;</span></span><br><span class="line">      </span><br><span class="line">      <span class="string">return</span> <span class="string">`$</span>&#123;<span class="string">propsDef</span>&#125;</span><br><span class="line"><span class="string">$</span>&#123;<span class="string">styleImport</span>&#125;</span><br><span class="line"><span class="string">const</span> <span class="string">$</span>&#123;<span class="string">name</span>&#125; <span class="string">=</span> <span class="string">($</span>&#123;<span class="string">propsParam</span>&#125;<span class="string">)</span> <span class="string">=&gt;</span> &#123;</span><br><span class="line">  <span class="string">return</span> <span class="string">(</span></span><br><span class="line">    <span class="string">&lt;div</span> <span class="string">className=&quot;$</span>&#123;<span class="string">name.toLowerCase()</span>&#125;<span class="string">&quot;&gt;</span></span><br><span class="line"><span class="string">      &#123;/* 组件内容 */&#125;</span></span><br><span class="line"><span class="string">    &lt;/div&gt;</span></span><br><span class="line"><span class="string">  );</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">export default $&#123;name&#125;;`;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    function getStyleExtension(styleType) &#123;</span></span><br><span class="line"><span class="string">      const extensions = &#123;</span></span><br><span class="line"><span class="string">        &#x27;css&#x27;: &#x27;css&#x27;,</span></span><br><span class="line"><span class="string">        &#x27;scss&#x27;: &#x27;scss&#x27;,</span></span><br><span class="line"><span class="string">        &#x27;styled-components&#x27;: &#x27;ts&#x27;,</span></span><br><span class="line"><span class="string">        &#x27;emotion&#x27;: &#x27;ts&#x27;</span></span><br><span class="line"><span class="string">      &#125;;</span></span><br><span class="line"><span class="string">      return extensions[styleType] || &#x27;css&#x27;;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    function generateFileList(name, withStyles, withTests) &#123;</span></span><br><span class="line"><span class="string">      const files = [`$&#123;name&#125;.tsx`];</span></span><br><span class="line"><span class="string">      if (withStyles !== &#x27;none&#x27;) files.push(`$&#123;name&#125;.$&#123;getStyleExtension(withStyles)&#125;`);</span></span><br><span class="line"><span class="string">      if (withTests) files.push(`$&#123;name&#125;.test.tsx`);</span></span><br><span class="line"><span class="string">      return files;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="1-命名规范"><a href="#1-命名规范" class="headerlink" title="1. 命名规范"></a>1. 命名规范</h3><ul>
+<li>使用小写字母和连字符：<code>my-awesome-skill</code></li>
+<li>名称应该清晰描述功能：<code>react-component-generator</code></li>
+<li>避免使用特殊字符和空格</li>
+</ul>
+<h3 id="2-版本管理"><a href="#2-版本管理" class="headerlink" title="2. 版本管理"></a>2. 版本管理</h3><ul>
+<li>使用语义化版本号：<code>major.minor.patch</code></li>
+<li>重大更新时升级主版本号</li>
+<li>功能添加时升级次版本号</li>
+<li>Bug修复时升级补丁版本号</li>
+</ul>
+<h3 id="3-文档编写"><a href="#3-文档编写" class="headerlink" title="3. 文档编写"></a>3. 文档编写</h3><ul>
+<li>为每个Skill编写清晰的描述</li>
+<li>提供使用示例</li>
+<li>说明参数的含义和默认值</li>
+<li>列出已知限制</li>
+</ul>
+<h3 id="4-错误处理"><a href="#4-错误处理" class="headerlink" title="4. 错误处理"></a>4. 错误处理</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">execution:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">javascript</span></span><br><span class="line">  <span class="attr">code:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    try &#123;</span></span><br><span class="line"><span class="string">      // 主要逻辑</span></span><br><span class="line"><span class="string">      const result = processData(parameters);</span></span><br><span class="line"><span class="string">      return result;</span></span><br><span class="line"><span class="string">    &#125; catch (error) &#123;</span></span><br><span class="line"><span class="string">      // 错误处理</span></span><br><span class="line"><span class="string">      return &#123;</span></span><br><span class="line"><span class="string">        success: false,</span></span><br><span class="line"><span class="string">        error: error.message,</span></span><br><span class="line"><span class="string">        suggestion: &quot;请检查输入参数是否正确&quot;</span></span><br><span class="line"><span class="string">      &#125;;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-性能优化"><a href="#5-性能优化" class="headerlink" title="5. 性能优化"></a>5. 性能优化</h3><ul>
+<li>避免在Skill中执行耗时操作</li>
+<li>使用缓存机制存储重复计算的结果</li>
+<li>异步操作使用Promise和async/await</li>
+</ul>
+<h3 id="6-安全性"><a href="#6-安全性" class="headerlink" title="6. 安全性"></a>6. 安全性</h3><ul>
+<li>不要硬编码敏感信息</li>
+<li>使用环境变量存储API密钥等</li>
+<li>验证用户输入，防止注入攻击</li>
+</ul>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="Q1-Skill没有被触发怎么办？"><a href="#Q1-Skill没有被触发怎么办？" class="headerlink" title="Q1: Skill没有被触发怎么办？"></a>Q1: Skill没有被触发怎么办？</h3><p><strong>解决方案：</strong></p>
+<ol>
+<li>检查触发器配置是否正确</li>
+<li>确认Skill文件路径正确（<code>.trae/skills/</code>）</li>
+<li>重启Trae IDE</li>
+<li>检查Skill文件语法是否正确</li>
+</ol>
+<h3 id="Q2-如何调试Skill？"><a href="#Q2-如何调试Skill？" class="headerlink" title="Q2: 如何调试Skill？"></a>Q2: 如何调试Skill？</h3><p><strong>解决方案：</strong></p>
+<ol>
+<li>使用<code>console.log()</code>输出调试信息</li>
+<li>在Trae IDE的开发者工具中查看日志</li>
+<li>使用try-catch捕获错误并输出详细信息</li>
+</ol>
+<h3 id="Q3-Skill可以访问项目文件吗？"><a href="#Q3-Skill可以访问项目文件吗？" class="headerlink" title="Q3: Skill可以访问项目文件吗？"></a>Q3: Skill可以访问项目文件吗？</h3><p><strong>答案：</strong> 是的，Skill可以通过文件系统API访问项目文件，但需要确保有相应的权限。</p>
+<h3 id="Q4-如何共享Skill？"><a href="#Q4-如何共享Skill？" class="headerlink" title="Q4: 如何共享Skill？"></a>Q4: 如何共享Skill？</h3><p><strong>解决方案：</strong></p>
+<ol>
+<li>将Skill文件提交到Git仓库</li>
+<li>创建Skill包并发布</li>
+<li>通过Trae IDE的Skill市场分享</li>
+</ol>
+<h3 id="Q5-Skill支持哪些编程语言？"><a href="#Q5-Skill支持哪些编程语言？" class="headerlink" title="Q5: Skill支持哪些编程语言？"></a>Q5: Skill支持哪些编程语言？</h3><p><strong>答案：</strong> 目前主要支持JavaScript/TypeScript，未来可能会支持更多语言。</p>
+<h3 id="Q6-一个项目可以有多个Skill吗？"><a href="#Q6-一个项目可以有多个Skill吗？" class="headerlink" title="Q6: 一个项目可以有多个Skill吗？"></a>Q6: 一个项目可以有多个Skill吗？</h3><p><strong>答案：</strong> 是的，一个项目可以包含多个Skill，它们会按照触发条件自动匹配和执行。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>Skills是Trae IDE中非常强大的功能，通过合理使用Skills，您可以：</p>
+<ol>
+<li><strong>提高开发效率</strong>：自动化重复性任务</li>
+<li><strong>统一代码风格</strong>：通过模板生成一致的代码结构</li>
+<li><strong>降低学习成本</strong>：将复杂操作封装成简单的命令</li>
+<li><strong>增强团队协作</strong>：共享和复用Skill</li>
+</ol>
+<p>希望本教程能帮助您更好地理解和使用Skills功能。如果您有任何问题或建议，欢迎在社区中讨论。</p>
+<p>祝您使用愉快！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/24/openclaw%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B/" rel="prev" title="openclaw部署保姆级教程">
+                  <i class="fa fa-angle-left"></i> openclaw部署保姆级教程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/03/24/Taro%E7%AE%80%E4%BB%8B/" rel="next" title="Taro 介绍">
+                  Taro 介绍 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
