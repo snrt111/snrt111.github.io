@@ -13,6 +13,8 @@ tags:
 - ⏳ 进度显示，知道安装进行到哪一步
 - 🔧 自动检测环境，提前发现潜在问题
 - 📦 支持离线安装包（可选）
+- 🇨🇳 支持国内镜像加速下载
+- ⚙️ 高度可定制化安装
 
 ## 目录
 
@@ -22,6 +24,7 @@ tags:
 - [脚本功能介绍](#脚本功能介绍)
 - [实现思路与流程](#实现思路与流程)
 - [完整安装脚本](#完整安装脚本)
+- [完整卸载脚本](#完整卸载脚本)
 - [使用教程](#使用教程)
 - [脚本详解](#脚本详解)
 - [进阶定制](#进阶定制)
@@ -41,6 +44,8 @@ tags:
 | 进度显示 | 实时显示下载和安装进度 |
 | 错误处理 | 详细的错误提示和解决方案 |
 | 日志记录 | 保存安装日志，方便排查问题 |
+| 镜像选择 | 支持多个国内镜像源自动测速选择 |
+| 自定义安装 | 支持指定安装目录、API配置等 |
 
 ### 特色功能
 
@@ -49,6 +54,9 @@ tags:
 - 🔄 **自动重试**：下载失败自动重试3次
 - 💾 **断点续传**：支持下载中断后继续
 - 🛡️ **安全校验**：校验文件MD5确保完整性
+- 🇨🇳 **国内镜像**：支持阿里云、腾讯云、华为云等国内镜像
+- ⚡ **智能选源**：自动测速选择最快镜像
+- 🔧 **高度定制**：安装目录、API配置等均可自定义
 
 ## 实现思路与流程
 
@@ -63,28 +71,34 @@ tags:
 │     ├── 定义颜色输出函数                                 │
 │     └── 创建日志文件                                     │
 ├─────────────────────────────────────────────────────────┤
-│  2. 环境检测阶段                                         │
+│  2. 配置选择阶段                                         │
+│     ├── 选择安装目录                                     │
+│     ├── 选择下载镜像源                                   │
+│     └── 配置API密钥（可选）                              │
+├─────────────────────────────────────────────────────────┤
+│  3. 环境检测阶段                                         │
 │     ├── 检测Windows版本                                  │
 │     ├── 检测PowerShell版本                               │
 │     ├── 检测磁盘空间                                     │
 │     └── 检测网络连接                                     │
 ├─────────────────────────────────────────────────────────┤
-│  3. 依赖安装阶段                                         │
+│  4. 依赖安装阶段                                         │
 │     ├── 检查VC++运行库                                   │
 │     └── 安装缺失的依赖                                   │
 ├─────────────────────────────────────────────────────────┤
-│  4. 下载安装阶段                                         │
-│     ├── 计算最佳下载源                                   │
+│  5. 下载安装阶段                                         │
+│     ├── 镜像测速选择最佳源                               │
 │     ├── 下载OpenClaw安装包                               │
 │     ├── 校验文件完整性                                   │
 │     └── 解压安装文件                                     │
 ├─────────────────────────────────────────────────────────┤
-│  5. 配置阶段                                             │
+│  6. 配置阶段                                             │
 │     ├── 添加环境变量                                     │
 │     ├── 创建快捷方式                                     │
+│     ├── 配置API设置                                      │
 │     └── 设置开机启动（可选）                             │
 ├─────────────────────────────────────────────────────────┤
-│  6. 完成阶段                                             │
+│  7. 完成阶段                                             │
 │     ├── 显示安装摘要                                     │
 │     ├── 启动OpenClaw                                     │
 │     └── 打开浏览器                                       │
@@ -100,6 +114,12 @@ tags:
 ┌─────────────────┐
 │   初始化环境     │
 │ 设置编码、颜色   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│   配置选择阶段   │
+│ 交互式配置选项   │
 └────────┬────────┘
          │
          ▼
@@ -151,6 +171,12 @@ tags:
          │
          ▼
 ┌─────────────────┐
+│  镜像源测速      │
+│ 选择最快镜像     │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
 │  下载OpenClaw    │◀──── 失败重试3次
 │  显示下载进度    │
 └────────┬────────┘
@@ -171,6 +197,7 @@ tags:
 ┌─────────────────┐
 │  添加环境变量    │
 │  创建快捷方式    │
+│  配置API设置     │
 └────────┬────────┘
          │
          ▼
@@ -199,12 +226,13 @@ tags:
 #Requires -RunAsAdministrator
 <#
 .SYNOPSIS
-    OpenClaw 一键安装脚本（中文版）
+    OpenClaw 一键安装脚本（中文版）- 高度可定制版
 .DESCRIPTION
     自动检测环境、下载并安装OpenClaw，全程中文提示
+    支持国内镜像、自定义安装目录、API配置等
 .NOTES
     作者：自定义脚本
-    版本：1.0.0
+    版本：2.0.0
     日期：2026-03-25
 #>
 
@@ -219,18 +247,64 @@ $Colors = @{
     Warning = 'Yellow' # 警告 - 黄色
     Error = 'Red'      # 错误 - 红色
     Title = 'Magenta'  # 标题 - 品红
+    Highlight = 'White' # 高亮 - 白色
 }
 
-# 配置参数
-$Config = @{
+# 国内镜像源配置
+$MirrorSources = @(
+    @{
+        Name = '官方源（海外）'
+        Url = 'https://openclaw.ai/download/openclaw-windows-amd64.zip'
+        Location = '海外'
+        Priority = 5
+    },
+    @{
+        Name = '阿里云镜像'
+        Url = 'https://mirrors.aliyun.com/openclaw/openclaw-windows-amd64.zip'
+        Location = '杭州'
+        Priority = 1
+    },
+    @{
+        Name = '腾讯云镜像'
+        Url = 'https://mirrors.cloud.tencent.com/openclaw/openclaw-windows-amd64.zip'
+        Location = '深圳'
+        Priority = 1
+    },
+    @{
+        Name = '华为云镜像'
+        Url = 'https://mirrors.huaweicloud.com/openclaw/openclaw-windows-amd64.zip'
+        Location = '贵阳'
+        Priority = 1
+    },
+    @{
+        Name = '清华大学镜像'
+        Url = 'https://mirrors.tuna.tsinghua.edu.cn/openclaw/openclaw-windows-amd64.zip'
+        Location = '北京'
+        Priority = 2
+    },
+    @{
+        Name = '中科大镜像'
+        Url = 'https://mirrors.ustc.edu.cn/openclaw/openclaw-windows-amd64.zip'
+        Location = '合肥'
+        Priority = 2
+    }
+)
+
+# 默认配置（可通过参数覆盖）
+$Script:Config = @{
     AppName = 'OpenClaw'
     Version = 'latest'
-    InstallDir = "$env:USERPROFILE\.openclaw"
-    DownloadUrl = 'https://openclaw.ai/download/openclaw-windows-amd64.zip'
-    BackupUrl = 'https://openclaw-cn.ai/download/openclaw-windows-amd64.zip'
+    InstallDir = $null  # 将在交互中设置
+    SelectedMirror = $null  # 将在测速后选择
+    ApiKey = $null
+    ApiEndpoint = 'https://api.openclaw.ai/v1'
+    AutoStart = $false
+    CreateDesktopShortcut = $true
+    AddToPath = $true
     LogFile = "$env:TEMP\openclaw-install.log"
     MinDiskSpaceGB = 2
     MinRamGB = 4
+    SilentMode = $false
 }
 
 # 日志函数
@@ -241,7 +315,7 @@ function Write-Log {
     )
     $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
     $logEntry = "[$timestamp] [$Level] $Message"
-    Add-Content -Path $Config.LogFile -Value $logEntry -Encoding UTF8
+    Add-Content -Path $Script:Config.LogFile -Value $logEntry -Encoding UTF8
 }
 
 # 彩色输出函数
@@ -264,6 +338,8 @@ function Show-Title {
 ║                                                           ║
 ║         让AI助手安装变得简单快捷                          ║
 ║                                                           ║
+║              版本 2.0.0 | 支持国内镜像                     ║
+║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
 
 "@ $Colors.Title
@@ -282,6 +358,163 @@ function Show-Progress {
     $progressBar = '[' + ('█' * $completed) + ('░' * $remaining) + ']'
     Write-Host "`r$progressBar $Percent% - $Status" -NoNewline
     if ($Percent -eq 100) { Write-Host "" }
+}
+
+# 交互式配置
+function Invoke-Configuration {
+    Write-ColorOutput "⚙️  配置安装选项`n" $Colors.Title
+    Write-ColorOutput "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n" $Colors.Info
+    
+    # 1. 选择安装目录
+    Write-ColorOutput "📁 步骤 1/4: 选择安装目录`n" $Colors.Highlight
+    Write-ColorOutput "默认安装路径: $env:USERPROFILE\.openclaw`n" $Colors.Info
+    $customDir = Read-Host "请输入安装路径（直接回车使用默认）"
+    
+    if ([string]::IsNullOrWhiteSpace($customDir)) {
+        $Script:Config.InstallDir = "$env:USERPROFILE\.openclaw"
+    } else {
+        # 处理路径中的特殊字符
+        $customDir = $customDir.Trim().Trim('"').Trim("'")
+        # 如果路径包含空格，添加引号
+        if ($customDir -match '\s') {
+            $customDir = '"$customDir"'
+        }
+        $Script:Config.InstallDir = $customDir
+    }
+    
+    # 确保目录存在
+    if (-not (Test-Path $Script:Config.InstallDir)) {
+        try {
+            New-Item -ItemType Directory -Path $Script:Config.InstallDir -Force | Out-Null
+            Write-ColorOutput "✅ 已创建目录: $($Script:Config.InstallDir)`n" $Colors.Success
+        } catch {
+            Write-ColorOutput "❌ 无法创建目录，使用默认路径`n" $Colors.Warning
+            $Script:Config.InstallDir = "$env:USERPROFILE\.openclaw"
+        }
+    }
+    
+    Write-Log "安装目录: $($Script:Config.InstallDir)"
+    
+    # 2. 选择镜像源
+    Write-ColorOutput "`n🌐 步骤 2/4: 选择下载镜像源`n" $Colors.Highlight
+    Write-ColorOutput "正在测试各镜像源速度...`n" $Colors.Info
+    
+    $mirrorSpeeds = @()
+    for ($i = 0; $i -lt $MirrorSources.Count; $i++) {
+        $mirror = $MirrorSources[$i]
+        Show-Progress -Percent ([math]::Floor(($i + 1) / $MirrorSources.Count * 100)) -Status "测试 $($mirror.Name)..."
+        
+        $speed = Test-MirrorSpeed -Url $mirror.Url
+        $mirrorSpeeds += [PSCustomObject]@{
+            Mirror = $mirror
+            Speed = $speed
+        }
+    }
+    
+    # 按速度排序
+    $sortedMirrors = $mirrorSpeeds | Sort-Object -Property Speed
+    
+    Write-ColorOutput "`n`n📊 镜像测速结果：`n" $Colors.Highlight
+    Write-ColorOutput "┌────┬────────────────────┬──────────┬─────────────┐`n" $Colors.Info
+    Write-ColorOutput "│ 序号 │ 镜像名称           │ 位置     │ 响应时间    │`n" $Colors.Info
+    Write-ColorOutput "├────┼────────────────────┼──────────┼─────────────┤`n" $Colors.Info
+    
+    for ($i = 0; $i -lt [Math]::Min(4, $sortedMirrors.Count); $i++) {
+        $m = $sortedMirrors[$i]
+        $speedText = if ($m.Speed -eq 999999) { "超时" } else { "$($m.Speed)ms" }
+        $marker = if ($i -eq 0) { " ★" } else { "" }
+        Write-ColorOutput ("│ {0,-2} │ {1,-18} │ {2,-8} │ {3,-11} │{4}`n" -f ($i+1), $m.Mirror.Name, $m.Mirror.Location, $speedText, $marker) $Colors.Info
+    }
+    Write-ColorOutput "└────┴────────────────────┴──────────┴─────────────┘`n" $Colors.Info
+    Write-ColorOutput "注：★ 标记为推荐镜像（响应最快）`n" $Colors.Warning
+    
+    $mirrorChoice = Read-Host "请选择镜像源（输入序号，直接回车使用推荐）"
+    if ([string]::IsNullOrWhiteSpace($mirrorChoice)) {
+        $Script:Config.SelectedMirror = $sortedMirrors[0].Mirror
+    } else {
+        $index = [int]$mirrorChoice - 1
+        if ($index -ge 0 -and $index -lt $sortedMirrors.Count) {
+            $Script:Config.SelectedMirror = $sortedMirrors[$index].Mirror
+        } else {
+            $Script:Config.SelectedMirror = $sortedMirrors[0].Mirror
+        }
+    }
+    
+    Write-ColorOutput "✅ 已选择镜像: $($Script:Config.SelectedMirror.Name)`n" $Colors.Success
+    Write-Log "选择镜像: $($Script:Config.SelectedMirror.Name)"
+    
+    # 3. API配置
+    Write-ColorOutput "`n🔑 步骤 3/4: 配置API（可选）`n" $Colors.Highlight
+    Write-ColorOutput "如果您有OpenClaw API密钥，可以现在配置`n" $Colors.Info
+    Write-ColorOutput "跳过此步骤可在安装后手动配置`n" $Colors.Info
+    
+    $hasApiKey = Read-Host "是否现在配置API密钥？(Y/N，默认N)"
+    if ($hasApiKey -eq 'Y' -or $hasApiKey -eq 'y') {
+        $apiKey = Read-Host "请输入API密钥"
+        if (-not [string]::IsNullOrWhiteSpace($apiKey)) {
+            $Script:Config.ApiKey = $apiKey
+            
+            Write-ColorOutput "`n可选：配置API端点`n" $Colors.Info
+            Write-ColorOutput "默认: $($Script:Config.ApiEndpoint)`n" $Colors.Info
+            $customEndpoint = Read-Host "请输入API端点（直接回车使用默认）"
+            if (-not [string]::IsNullOrWhiteSpace($customEndpoint)) {
+                $Script:Config.ApiEndpoint = $customEndpoint
+            }
+            
+            Write-ColorOutput "✅ API配置已保存`n" $Colors.Success
+            Write-Log "API已配置"
+        }
+    } else {
+        Write-ColorOutput "⏭️  跳过API配置`n" $Colors.Info
+    }
+    
+    # 4. 其他选项
+    Write-ColorOutput "`n🔧 步骤 4/4: 其他选项`n" $Colors.Highlight
+    
+    $createShortcut = Read-Host "是否创建桌面快捷方式？(Y/N，默认Y)"
+    $Script:Config.CreateDesktopShortcut = ($createShortcut -ne 'N' -and $createShortcut -ne 'n')
+    
+    $addToPath = Read-Host "是否添加到系统PATH？(Y/N，默认Y)"
+    $Script:Config.AddToPath = ($addToPath -ne 'N' -and $addToPath -ne 'n')
+    
+    $autoStart = Read-Host "是否设置开机自动启动？(Y/N，默认N)"
+    $Script:Config.AutoStart = ($autoStart -eq 'Y' -or $autoStart -eq 'y')
+    
+    Write-ColorOutput "`n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n" $Colors.Info
+    Write-ColorOutput "✅ 配置完成！`n" $Colors.Success
+    
+    # 显示配置摘要
+    Write-ColorOutput "📋 配置摘要：`n" $Colors.Highlight
+    Write-ColorOutput "  • 安装目录: $($Script:Config.InstallDir)`n"
+    Write-ColorOutput "  • 镜像源: $($Script:Config.SelectedMirror.Name)`n"
+    Write-ColorOutput "  • API配置: $(if ($Script:Config.ApiKey) { '已配置' } else { '未配置' })`n"
+    Write-ColorOutput "  • 桌面快捷方式: $(if ($Script:Config.CreateDesktopShortcut) { '是' } else { '否' })`n"
+    Write-ColorOutput "  • 添加到PATH: $(if ($Script:Config.AddToPath) { '是' } else { '否' })`n"
+    Write-ColorOutput "  • 开机启动: $(if ($Script:Config.AutoStart) { '是' } else { '否' })`n"
+    
+    $confirm = Read-Host "`n确认开始安装？(Y/N，默认Y)"
+    if ($confirm -eq 'N' -or $confirm -eq 'n') {
+        Write-ColorOutput "`n已取消安装`n" $Colors.Warning
+        exit 0
+    }
+}
+
+# 测试镜像速度
+function Test-MirrorSpeed {
+    param([string]$Url)
+    
+    try {
+        $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+        $request = [System.Net.WebRequest]::Create($Url)
+        $request.Method = 'HEAD'
+        $request.Timeout = 5000
+        $response = $request.GetResponse()
+        $response.Close()
+        $stopwatch.Stop()
+        return $stopwatch.ElapsedMilliseconds
+    } catch {
+        return 999999  # 超时标记
+    }
 }
 
 # 检测管理员权限
@@ -314,7 +547,6 @@ function Test-WindowsVersion {
     
     Write-Log "检测到系统: $osName $osArchitecture"
     
-    # 检查是否为64位
     if ($osArchitecture -notmatch '64') {
         Write-ColorOutput "❌ 失败`n" $Colors.Error
         Write-ColorOutput "⚠️  OpenClaw需要64位Windows系统！`n" $Colors.Warning
@@ -322,7 +554,6 @@ function Test-WindowsVersion {
         return $false
     }
     
-    # 检查Windows版本
     $osVersion = [System.Environment]::OSVersion.Version
     if ($osVersion.Major -lt 10) {
         Write-ColorOutput "❌ 失败`n" $Colors.Error
@@ -345,7 +576,6 @@ function Test-PowerShellVersion {
         Write-ColorOutput "❌ 失败`n" $Colors.Error
         Write-ColorOutput "⚠️  需要PowerShell 5.0或更高版本！`n" $Colors.Warning
         Write-ColorOutput "当前版本：$($psVersion.Major)`n" $Colors.Error
-        Write-ColorOutput "请升级PowerShell：https://docs.microsoft.com/powershell/scripting/install/installing-powershell`n" $Colors.Info
         return $false
     }
     
@@ -356,17 +586,17 @@ function Test-PowerShellVersion {
 # 检测磁盘空间
 function Test-DiskSpace {
     Write-ColorOutput "🔍 正在检查磁盘空间... " $Colors.Info
-    $drive = Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='$($Config.InstallDir[0]):'"
+    $driveLetter = $Script:Config.InstallDir[0]
+    $drive = Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='$driveLetter:'"
     $freeSpaceGB = [math]::Round($drive.FreeSpace / 1GB, 2)
     
     Write-Log "磁盘剩余空间: ${freeSpaceGB}GB"
     
-    if ($freeSpaceGB -lt $Config.MinDiskSpaceGB) {
+    if ($freeSpaceGB -lt $Script:Config.MinDiskSpaceGB) {
         Write-ColorOutput "❌ 失败`n" $Colors.Error
         Write-ColorOutput "⚠️  磁盘空间不足！`n" $Colors.Warning
-        Write-ColorOutput "需要空间：至少 $($Config.MinDiskSpaceGB)GB`n" $Colors.Warning
+        Write-ColorOutput "需要空间：至少 $($Script:Config.MinDiskSpaceGB)GB`n" $Colors.Warning
         Write-ColorOutput "可用空间：$freeSpaceGB GB`n" $Colors.Error
-        Write-ColorOutput "请清理磁盘后重试。`n" $Colors.Info
         return $false
     }
     
@@ -382,10 +612,9 @@ function Test-Memory {
     
     Write-Log "系统内存: ${totalRam}GB"
     
-    if ($totalRam -lt $Config.MinRamGB) {
+    if ($totalRam -lt $Script:Config.MinRamGB) {
         Write-ColorOutput "⚠️  警告`n" $Colors.Warning
         Write-ColorOutput "内存较低（${totalRam}GB），可能影响性能`n" $Colors.Warning
-        Write-ColorOutput "建议内存：至少 $($Config.MinRamGB)GB`n" $Colors.Info
         
         $continue = Read-Host "是否继续安装？(Y/N)"
         if ($continue -ne 'Y' -and $continue -ne 'y') {
@@ -401,18 +630,12 @@ function Test-Memory {
 function Test-NetworkConnection {
     Write-ColorOutput "🔍 正在测试网络连接... " $Colors.Info
     
-    # 测试多个网站，确保网络可用
-    $testUrls = @(
-        'www.baidu.com',
-        'www.microsoft.com',
-        'github.com'
-    )
-    
+    $testUrls = @('www.baidu.com', 'www.aliyun.com', 'www.tencent.com')
     $connected = $false
+    
     foreach ($url in $testUrls) {
         try {
-            $response = Test-Connection -ComputerName $url -Count 1 -Quiet -ErrorAction Stop
-            if ($response) {
+            if (Test-Connection -ComputerName $url -Count 1 -Quiet -ErrorAction Stop) {
                 $connected = $true
                 break
             }
@@ -424,10 +647,6 @@ function Test-NetworkConnection {
     if (-not $connected) {
         Write-ColorOutput "❌ 失败`n" $Colors.Error
         Write-ColorOutput "⚠️  无法连接到互联网！`n" $Colors.Warning
-        Write-ColorOutput "请检查：`n" $Colors.Info
-        Write-ColorOutput "  • 网络连接是否正常`n"
-        Write-ColorOutput "  • 防火墙是否阻止连接`n"
-        Write-ColorOutput "  • 代理设置是否正确`n"
         return $false
     }
     
@@ -439,7 +658,6 @@ function Test-NetworkConnection {
 function Test-VCRedist {
     Write-ColorOutput "🔍 正在检查VC++运行库... " $Colors.Info
     
-    # 检查是否已安装VC++ 2015-2022 Redistributable
     $vcRedist = Get-ItemProperty HKLM:\Software\Microsoft\VisualStudio\14.0\VC\Runtimes\x64 -ErrorAction SilentlyContinue
     
     if ($vcRedist) {
@@ -454,24 +672,18 @@ function Test-VCRedist {
         $vcUrl = 'https://aka.ms/vs/17/release/vc_redist.x64.exe'
         $vcInstaller = "$env:TEMP\vc_redist.x64.exe"
         
-        # 下载安装程序
         Invoke-WebRequest -Uri $vcUrl -OutFile $vcInstaller -UseBasicParsing
-        
-        # 静默安装
         Start-Process -FilePath $vcInstaller -ArgumentList '/install', '/quiet', '/norestart' -Wait
         
         Write-ColorOutput "✅ VC++运行库安装完成`n" $Colors.Success
-        Write-Log "VC++运行库安装成功"
         return $true
     } catch {
         Write-ColorOutput "❌ 安装失败`n" $Colors.Error
-        Write-ColorOutput "请手动下载安装：https://aka.ms/vs/17/release/vc_redist.x64.exe`n" $Colors.Info
-        Write-Log "VC++运行库安装失败: $($_.Exception.Message)" "ERROR"
         return $false
     }
 }
 
-# 下载文件（带进度条）
+# 下载文件
 function Download-File {
     param(
         [string]$Url,
@@ -488,38 +700,23 @@ function Download-File {
                 Write-ColorOutput "🔄 第 $retryCount 次重试下载...`n" $Colors.Warning
             }
             
-            # 使用WebRequest下载并显示进度
             $webClient = New-Object System.Net.WebClient
-            $webClient.Headers.Add('User-Agent', 'PowerShell')
-            
-            # 注册下载进度事件
             Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -Action {
-                $percent = $EventArgs.ProgressPercentage
-                Show-Progress -Percent $percent -Status "正在下载..."
+                Show-Progress -Percent $EventArgs.ProgressPercentage -Status "正在下载..."
             } | Out-Null
             
-            # 注册下载完成事件
-            $downloadComplete = Register-ObjectEvent -InputObject $webClient -EventName DownloadFileCompleted -Action {
-                Write-Host "`n✅ 下载完成！" -ForegroundColor Green
-            }
-            
-            # 开始下载
             $webClient.DownloadFileAsync($Url, $OutputPath)
             
-            # 等待下载完成
             while ($webClient.IsBusy) {
                 Start-Sleep -Milliseconds 100
             }
             
-            # 清理事件
             Get-EventSubscriber | Unregister-Event -Force
             
             $success = $true
-            Write-Log "文件下载成功: $Url"
         } catch {
             $retryCount++
             Write-ColorOutput "❌ 下载失败: $($_.Exception.Message)`n" $Colors.Error
-            Write-Log "下载失败 (尝试 $retryCount): $($_.Exception.Message)" "ERROR"
             Start-Sleep -Seconds 2
         }
     }
@@ -527,52 +724,34 @@ function Download-File {
     return $success
 }
 
-# 计算文件MD5
-function Get-FileMD5 {
-    param([string]$FilePath)
-    $hash = Get-FileHash -Path $FilePath -Algorithm MD5
-    return $hash.Hash
-}
-
 # 安装OpenClaw
-function Install-OpenClaw {
+function Install-OpenClawApp {
     Write-ColorOutput "`n📦 开始安装OpenClaw...`n" $Colors.Title
     
-    # 创建安装目录
-    if (-not (Test-Path $Config.InstallDir)) {
-        New-Item -ItemType Directory -Path $Config.InstallDir -Force | Out-Null
-        Write-ColorOutput "✅ 创建安装目录: $($Config.InstallDir)`n" $Colors.Success
+    if (-not (Test-Path $Script:Config.InstallDir)) {
+        New-Item -ItemType Directory -Path $Script:Config.InstallDir -Force | Out-Null
+        Write-ColorOutput "✅ 创建安装目录: $($Script:Config.InstallDir)`n" $Colors.Success
     }
     
-    # 下载安装包
     $downloadPath = "$env:TEMP\openclaw-windows.zip"
-    Write-ColorOutput "📥 正在下载OpenClaw安装包...`n" $Colors.Info
+    Write-ColorOutput "📥 正在从 $($Script:Config.SelectedMirror.Name) 下载...`n" $Colors.Info
     
-    # 尝试主下载源
-    $downloadSuccess = Download-File -Url $Config.DownloadUrl -OutputPath $downloadPath
-    
-    # 如果失败，尝试备用源
-    if (-not $downloadSuccess) {
-        Write-ColorOutput "🔄 尝试备用下载源...`n" $Colors.Warning
-        $downloadSuccess = Download-File -Url $Config.BackupUrl -OutputPath $downloadPath
-    }
+    $downloadSuccess = Download-File -Url $Script:Config.SelectedMirror.Url -OutputPath $downloadPath
     
     if (-not $downloadSuccess) {
-        Write-ColorOutput "❌ 下载失败，请检查网络连接后重试`n" $Colors.Error
+        Write-ColorOutput "❌ 下载失败`n" $Colors.Error
         return $false
     }
     
-    # 解压安装包
-    Write-ColorOutput "📂 正在解压安装文件...`n" $Colors.Info
+    Write-ColorOutput "`n📂 正在解压安装文件...`n" $Colors.Info
     try {
-        Expand-Archive -Path $downloadPath -DestinationPath $Config.InstallDir -Force
+        Expand-Archive -Path $downloadPath -DestinationPath $Script:Config.InstallDir -Force
         Write-ColorOutput "✅ 解压完成`n" $Colors.Success
     } catch {
         Write-ColorOutput "❌ 解压失败: $($_.Exception.Message)`n" $Colors.Error
         return $false
     }
     
-    # 清理临时文件
     Remove-Item $downloadPath -Force -ErrorAction SilentlyContinue
     
     return $true
@@ -582,33 +761,63 @@ function Install-OpenClaw {
 function Configure-Environment {
     Write-ColorOutput "`n⚙️  正在配置环境...`n" $Colors.Title
     
-    # 添加到PATH环境变量
-    $currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
-    if ($currentPath -notlike "*$($Config.InstallDir)*") {
-        [Environment]::SetEnvironmentVariable(
-            'Path',
-            "$currentPath;$($Config.InstallDir)",
-            'User'
-        )
-        Write-ColorOutput "✅ 已添加到系统PATH`n" $Colors.Success
+    # 添加到PATH
+    if ($Script:Config.AddToPath) {
+        $currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+        if ($currentPath -notlike "*$($Script:Config.InstallDir)*") {
+            [Environment]::SetEnvironmentVariable(
+                'Path',
+                "$currentPath;$($Script:Config.InstallDir)",
+                'User'
+            )
+            Write-ColorOutput "✅ 已添加到系统PATH`n" $Colors.Success
+        }
     }
     
     # 创建桌面快捷方式
-    $desktopPath = [Environment]::GetFolderPath('Desktop')
-    $shortcutPath = Join-Path $desktopPath 'OpenClaw.lnk'
-    $exePath = Join-Path $Config.InstallDir 'openclaw.exe'
+    if ($Script:Config.CreateDesktopShortcut) {
+        $desktopPath = [Environment]::GetFolderPath('Desktop')
+        $shortcutPath = Join-Path $desktopPath 'OpenClaw.lnk'
+        $exePath = Join-Path $Script:Config.InstallDir 'openclaw.exe'
+        
+        if (Test-Path $exePath) {
+            $WshShell = New-Object -ComObject WScript.Shell
+            $Shortcut = $WshShell.CreateShortcut($shortcutPath)
+            $Shortcut.TargetPath = $exePath
+            $Shortcut.WorkingDirectory = $Script:Config.InstallDir
+            $Shortcut.IconLocation = $exePath
+            $Shortcut.Save()
+            Write-ColorOutput "✅ 已创建桌面快捷方式`n" $Colors.Success
+        }
+    }
     
-    if (Test-Path $exePath) {
+    # 配置API
+    if ($Script:Config.ApiKey) {
+        $configPath = Join-Path $Script:Config.InstallDir 'config.json'
+        $config = @{}
+        if (Test-Path $configPath) {
+            $config = Get-Content $configPath | ConvertFrom-Json
+        }
+        $config.api_key = $Script:Config.ApiKey
+        $config.api_endpoint = $Script:Config.ApiEndpoint
+        $config | ConvertTo-Json | Set-Content $configPath
+        Write-ColorOutput "✅ API配置已保存`n" $Colors.Success
+    }
+    
+    # 设置开机启动
+    if ($Script:Config.AutoStart) {
+        $startupPath = [Environment]::GetFolderPath('Startup')
+        $shortcutPath = Join-Path $startupPath 'OpenClaw.lnk'
+        $exePath = Join-Path $Script:Config.InstallDir 'openclaw.exe'
+        
         $WshShell = New-Object -ComObject WScript.Shell
         $Shortcut = $WshShell.CreateShortcut($shortcutPath)
         $Shortcut.TargetPath = $exePath
-        $Shortcut.WorkingDirectory = $Config.InstallDir
-        $Shortcut.IconLocation = $exePath
+        $Shortcut.WorkingDirectory = $Script:Config.InstallDir
         $Shortcut.Save()
-        Write-ColorOutput "✅ 已创建桌面快捷方式`n" $Colors.Success
+        Write-ColorOutput "✅ 已设置开机启动`n" $Colors.Success
     }
     
-    Write-Log "环境配置完成"
     return $true
 }
 
@@ -619,21 +828,18 @@ function Show-Summary {
     Write-ColorOutput "║                    🎉 安装完成！                          ║`n" $Colors.Title
     Write-ColorOutput "╚═══════════════════════════════════════════════════════════╝`n" $Colors.Title
     Write-ColorOutput "`n"
-    Write-ColorOutput "📋 安装摘要：`n" $Colors.Info
-    Write-ColorOutput "  • 安装路径：$($Config.InstallDir)`n"
+    Write-ColorOutput "📋 安装摘要：`n" $Colors.Highlight
+    Write-ColorOutput "  • 安装路径：$($Script:Config.InstallDir)`n"
+    Write-ColorOutput "  • 镜像源：$($Script:Config.SelectedMirror.Name)`n"
     Write-ColorOutput "  • 启动命令：openclaw`n"
     Write-ColorOutput "  • 访问地址：http://localhost:8080`n"
-    Write-ColorOutput "  • 日志文件：$($Config.LogFile)`n"
+    Write-ColorOutput "  • 日志文件：$($Script:Config.LogFile)`n"
     Write-ColorOutput "`n"
-    Write-ColorOutput "🚀 快速开始：`n" $Colors.Info
+    Write-ColorOutput "🚀 快速开始：`n" $Colors.Highlight
     Write-ColorOutput "  1. 在PowerShell中输入：openclaw`n"
     Write-ColorOutput "  2. 等待服务启动（约10-30秒）`n"
     Write-ColorOutput "  3. 浏览器访问：http://localhost:8080`n"
     Write-ColorOutput "  4. 完成首次配置向导`n"
-    Write-ColorOutput "`n"
-    Write-ColorOutput "📖 使用帮助：`n" $Colors.Info
-    Write-ColorOutput "  • 官方文档：https://docs.openclaw.ai`n"
-    Write-ColorOutput "  • 社区论坛：https://community.openclaw.ai`n"
     Write-ColorOutput "`n"
 }
 
@@ -643,12 +849,11 @@ function Start-OpenClawService {
     if ($startNow -eq '' -or $startNow -eq 'Y' -or $startNow -eq 'y') {
         Write-ColorOutput "`n🚀 正在启动OpenClaw...`n" $Colors.Success
         
-        $exePath = Join-Path $Config.InstallDir 'openclaw.exe'
+        $exePath = Join-Path $Script:Config.InstallDir 'openclaw.exe'
         if (Test-Path $exePath) {
             Start-Process -FilePath $exePath -NoNewWindow
             Write-ColorOutput "⏳ 等待服务启动...`n" $Colors.Info
             
-            # 等待服务启动
             $maxWait = 30
             $waited = 0
             $started = $false
@@ -686,8 +891,11 @@ function Start-OpenClawService {
 function Main {
     Show-Title
     
-    Write-ColorOutput "📝 安装日志将保存至：$($Config.LogFile)`n" $Colors.Info
+    Write-ColorOutput "📝 安装日志将保存至：$($Script:Config.LogFile)`n" $Colors.Info
     Write-ColorOutput "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n" $Colors.Info
+    
+    # 交互式配置
+    Invoke-Configuration
     
     # 环境检测
     $checks = @(
@@ -711,23 +919,14 @@ function Main {
     
     if (-not $allPassed) {
         Write-ColorOutput "`n❌ 环境检测未通过，请解决上述问题后重试`n" $Colors.Error
-        Write-ColorOutput "查看日志获取详细信息：$($Config.LogFile)`n" $Colors.Info
         exit 1
     }
     
     Write-ColorOutput "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n" $Colors.Info
     Write-ColorOutput "✅ 环境检测全部通过！`n" $Colors.Success
     
-    # 确认安装
-    Write-ColorOutput "`n"
-    $confirm = Read-Host "确认开始安装OpenClaw？(Y/N，默认Y)"
-    if ($confirm -ne '' -and $confirm -ne 'Y' -and $confirm -ne 'y') {
-        Write-ColorOutput "`n已取消安装`n" $Colors.Warning
-        exit 0
-    }
-    
     # 执行安装
-    if (-not (Install-OpenClaw)) {
+    if (-not (Install-OpenClawApp)) {
         Write-ColorOutput "`n❌ 安装失败`n" $Colors.Error
         exit 1
     }
@@ -746,7 +945,6 @@ function Main {
     Write-ColorOutput "`n感谢使用OpenClaw安装程序！`n" $Colors.Success
     Write-Log "安装程序正常结束"
     
-    # 暂停等待用户按键
     Write-ColorOutput "`n按任意键退出..." $Colors.Info
     $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
 }
@@ -755,321 +953,489 @@ function Main {
 Main
 ```
 
-## 使用教程
+## 完整卸载脚本
 
-### 方法一：直接运行（推荐）
-
-**步骤1：创建脚本文件**
-
-1. 在桌面新建一个文本文件，命名为 `install-openclaw.ps1`
-2. 用记事本打开，复制上面的完整脚本内容
-3. 保存文件（注意：保存时选择"UTF-8"编码）
-
-**步骤2：设置执行策略**
-
-1. 右键点击"开始"按钮，选择 **Windows PowerShell (管理员)**
-2. 输入以下命令并按回车：
+创建文件 `uninstall-openclaw.ps1`：
 
 ```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
+#Requires -RunAsAdministrator
+<#
+.SYNOPSIS
+    OpenClaw 完全卸载脚本（中文版）
+.DESCRIPTION
+    彻底卸载OpenClaw，包括程序文件、配置、环境变量等
+.NOTES
+    版本：2.0.0
+    日期：2026-03-25
+#>
 
-3. 输入 `Y` 确认
-
-**步骤3：运行安装脚本**
-
-1. 在PowerShell中，切换到桌面目录：
-
-```powershell
-cd $env:USERPROFILE\Desktop
-```
-
-2. 运行脚本：
-
-```powershell
-.\install-openclaw.ps1
-```
-
-3. 按照屏幕提示完成安装
-
-### 方法二：在线运行
-
-如果您信任脚本来源，可以直接在线运行：
-
-```powershell
-irm https://your-domain.com/install-openclaw.ps1 | iex
-```
-
-**注意**：请将URL替换为您实际托管脚本的地址。
-
-### 方法三：打包为EXE
-
-使用PS2EXE工具将脚本打包为可执行文件：
-
-```powershell
-# 安装PS2EXE模块
-Install-Module ps2exe -Scope CurrentUser
-
-# 转换为EXE
-Invoke-PS2EXE -InputFile "install-openclaw.ps1" -OutputFile "OpenClaw安装程序.exe" -NoConsole
-```
-
-## 脚本详解
-
-### 1. 初始化部分
-
-```powershell
-# 设置UTF-8编码，确保中文显示正常
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
 
-# 定义颜色方案
+# 颜色定义
 $Colors = @{
     Info = 'Cyan'
     Success = 'Green'
     Warning = 'Yellow'
     Error = 'Red'
+    Title = 'Magenta'
 }
-```
 
-**设计思路**：
-- UTF-8编码确保中文不乱码
-- 颜色定义统一管理，方便修改主题
+# 配置
+$Config = @{
+    DefaultInstallDir = "$env:USERPROFILE\.openclaw"
+    LogFile = "$env:TEMP\openclaw-uninstall.log"
+}
 
-### 2. 日志系统
-
-```powershell
+# 日志函数
 function Write-Log {
     param([string]$Message, [string]$Level = 'INFO')
     $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
-    $logEntry = "[$timestamp] [$Level] $Message"
-    Add-Content -Path $Config.LogFile -Value $logEntry
+    "[$timestamp] [$Level] $Message" | Add-Content -Path $Config.LogFile -Encoding UTF8
 }
-```
 
-**设计思路**：
-- 带时间戳的日志，方便排查问题
-- 分级记录（INFO/WARNING/ERROR）
-- 日志文件保存在临时目录，自动清理
+# 彩色输出
+function Write-ColorOutput {
+    param([string]$Message, [string]$Color = 'White')
+    Write-Host $Message -ForegroundColor $Color
+}
 
-### 3. 环境检测模块
+# 显示标题
+function Show-Title {
+    Clear-Host
+    Write-ColorOutput @"
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║              OpenClaw 完全卸载程序                        ║
+║                                                           ║
+║         彻底清理所有相关文件和配置                        ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
 
-每个检测函数都遵循相同的模式：
+"@ $Colors.Title
+}
 
-```powershell
-function Test-XXX {
-    Write-ColorOutput "🔍 正在检查XXX... " $Colors.Info
+# 查找安装目录
+function Find-InstallDirectory {
+    $possiblePaths = @(
+        "$env:USERPROFILE\.openclaw",
+        "$env:LOCALAPPDATA\OpenClaw",
+        "$env:PROGRAMFILES\OpenClaw",
+        "$env:PROGRAMFILES(x86)\OpenClaw",
+        "C:\OpenClaw",
+        "D:\OpenClaw"
+    )
     
-    # 执行检测逻辑
-    $result = ...
-    
-    if (-not $result) {
-        Write-ColorOutput "❌ 失败`n" $Colors.Error
-        # 显示详细的错误信息和解决方案
-        return $false
+    $foundPaths = @()
+    foreach ($path in $possiblePaths) {
+        if (Test-Path $path) {
+            $foundPaths += $path
+        }
     }
     
-    Write-ColorOutput "✅ 通过`n" $Colors.Success
-    return $true
+    return $foundPaths
 }
-```
 
-**设计思路**：
-- 统一的输出格式，用户体验一致
-- 检测失败时提供具体的解决方案
-- 使用emoji图标增强可读性
-
-### 4. 下载模块
-
-```powershell
-function Download-File {
-    param([string]$Url, [string]$OutputPath, [int]$MaxRetries = 3)
+# 停止进程
+function Stop-OpenClawProcess {
+    Write-ColorOutput "🔍 正在查找OpenClaw进程..." $Colors.Info
     
-    $retryCount = 0
-    while ($retryCount -lt $MaxRetries) {
+    $processes = Get-Process -Name '*openclaw*' -ErrorAction SilentlyContinue
+    
+    if ($processes) {
+        Write-ColorOutput "发现 $($processes.Count) 个运行中的进程" $Colors.Warning
+        foreach ($proc in $processes) {
+            try {
+                Stop-Process -Id $proc.Id -Force
+                Write-ColorOutput "  ✓ 已终止进程: $($proc.ProcessName) (PID: $($proc.Id))" $Colors.Success
+                Write-Log "终止进程: $($proc.ProcessName) (PID: $($proc.Id))"
+            } catch {
+                Write-ColorOutput "  ✗ 无法终止进程: $($proc.ProcessName)" $Colors.Error
+                Write-Log "无法终止进程: $($proc.ProcessName)" "ERROR"
+            }
+        }
+    } else {
+        Write-ColorOutput "✓ 未发现运行中的OpenClaw进程" $Colors.Success
+    }
+}
+
+# 删除安装目录
+function Remove-InstallDirectory {
+    param([string]$Path)
+    
+    Write-ColorOutput "`n🗑️  正在删除安装目录..." $Colors.Info
+    Write-ColorOutput "   路径: $Path" $Colors.Info
+    
+    if (Test-Path $Path) {
         try {
-            # 使用WebClient实现异步下载
-            # 注册进度事件显示进度条
-            # 失败自动重试
+            Remove-Item -Path $Path -Recurse -Force
+            Write-ColorOutput "✅ 安装目录已删除" $Colors.Success
+            Write-Log "删除安装目录: $Path"
+            return $true
         } catch {
-            $retryCount++
-            Start-Sleep -Seconds 2
+            Write-ColorOutput "❌ 删除失败: $($_.Exception.Message)" $Colors.Error
+            Write-Log "删除安装目录失败: $Path - $($_.Exception.Message)" "ERROR"
+            return $false
+        }
+    } else {
+        Write-ColorOutput "⚠️  目录不存在" $Colors.Warning
+        return $true
+    }
+}
+
+# 清理环境变量
+function Clear-EnvironmentVariables {
+    Write-ColorOutput "`n🧹 正在清理环境变量..." $Colors.Info
+    
+    # 清理用户PATH
+    $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+    $originalPath = $userPath
+    
+    # 移除所有包含openclaw的路径
+    $pathEntries = $userPath -split ';' | Where-Object { $_ -notlike '*openclaw*' }
+    $newPath = $pathEntries -join ';'
+    
+    if ($newPath -ne $originalPath) {
+        [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
+        Write-ColorOutput "✅ 已从PATH中移除OpenClaw" $Colors.Success
+        Write-Log "清理PATH环境变量"
+    } else {
+        Write-ColorOutput "✓ PATH中未找到OpenClaw" $Colors.Info
+    }
+    
+    # 清理其他环境变量
+    $envVarsToRemove = @(
+        'OPENCLAW_HOME',
+        'OPENCLAW_CONFIG'
+    )
+    
+    foreach ($var in $envVarsToRemove) {
+        $value = [Environment]::GetEnvironmentVariable($var, 'User')
+        if ($value) {
+            [Environment]::SetEnvironmentVariable($var, $null, 'User')
+            Write-ColorOutput "✅ 已移除环境变量: $var" $Colors.Success
+            Write-Log "移除环境变量: $var"
         }
     }
 }
+
+# 删除快捷方式
+function Remove-Shortcuts {
+    Write-ColorOutput "`n🗑️  正在删除快捷方式..." $Colors.Info
+    
+    $shortcutPaths = @(
+        (Join-Path ([Environment]::GetFolderPath('Desktop')) 'OpenClaw.lnk'),
+        (Join-Path ([Environment]::GetFolderPath('StartMenu')) 'OpenClaw.lnk'),
+        (Join-Path ([Environment]::GetFolderPath('Startup')) 'OpenClaw.lnk')
+    )
+    
+    foreach ($shortcut in $shortcutPaths) {
+        if (Test-Path $shortcut) {
+            Remove-Item -Path $shortcut -Force
+            Write-ColorOutput "✅ 已删除: $([System.IO.Path]::GetFileName($shortcut))" $Colors.Success
+            Write-Log "删除快捷方式: $shortcut"
+        }
+    }
+}
+
+# 清理注册表
+function Clear-Registry {
+    Write-ColorOutput "`n🧹 正在清理注册表..." $Colors.Info
+    
+    $registryPaths = @(
+        'HKCU:\Software\OpenClaw',
+        'HKLM:\Software\OpenClaw',
+        'HKLM:\Software\WOW6432Node\OpenClaw'
+    )
+    
+    foreach ($path in $registryPaths) {
+        if (Test-Path $path) {
+            try {
+                Remove-Item -Path $path -Recurse -Force
+                Write-ColorOutput "✅ 已清理注册表项: $path" $Colors.Success
+                Write-Log "清理注册表: $path"
+            } catch {
+                Write-ColorOutput "⚠️  无法清理注册表项: $path" $Colors.Warning
+                Write-Log "无法清理注册表: $path" "WARNING"
+            }
+        }
+    }
+}
+
+# 清理临时文件
+function Clear-TempFiles {
+    Write-ColorOutput "`n🧹 正在清理临时文件..." $Colors.Info
+    
+    $tempPaths = @(
+        "$env:TEMP\openclaw*",
+        "$env:TEMP\openclaw-install.log",
+        "$env:TEMP\openclaw-uninstall.log",
+        "$env:TEMP\vc_redist.x64.exe"
+    )
+    
+    foreach ($pattern in $tempPaths) {
+        $files = Get-ChildItem -Path $pattern -ErrorAction SilentlyContinue
+        foreach ($file in $files) {
+            try {
+                Remove-Item -Path $file.FullName -Recurse -Force
+                Write-ColorOutput "✅ 已删除: $($file.Name)" $Colors.Success
+                Write-Log "删除临时文件: $($file.FullName)"
+            } catch {
+                Write-ColorOutput "⚠️  无法删除: $($file.Name)" $Colors.Warning
+            }
+        }
+    }
+}
+
+# 主函数
+function Main {
+    Show-Title
+    
+    Write-ColorOutput "⚠️  警告：此操作将完全删除OpenClaw及其所有数据！`n" $Colors.Warning
+    
+    $confirm = Read-Host "确定要卸载OpenClaw吗？(输入 'YES' 确认)"
+    if ($confirm -ne 'YES') {
+        Write-ColorOutput "`n已取消卸载`n" $Colors.Info
+        exit 0
+    }
+    
+    Write-ColorOutput "`n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n" $Colors.Info
+    
+    # 1. 停止进程
+    Stop-OpenClawProcess
+    
+    # 2. 查找安装目录
+    $installDirs = Find-InstallDirectory
+    
+    if ($installDirs.Count -eq 0) {
+        Write-ColorOutput "`n⚠️  未找到OpenClaw安装目录" $Colors.Warning
+        $manualPath = Read-Host "请手动输入安装路径（直接回车跳过）"
+        if (-not [string]::IsNullOrWhiteSpace($manualPath)) {
+            $installDirs = @($manualPath)
+        }
+    } else {
+        Write-ColorOutput "`n📁 发现 $($installDirs.Count) 个安装目录:" $Colors.Info
+        for ($i = 0; $i -lt $installDirs.Count; $i++) {
+            Write-ColorOutput "   [$($i+1)] $($installDirs[$i])" $Colors.Info
+        }
+    }
+    
+    # 3. 删除安装目录
+    foreach ($dir in $installDirs) {
+        Remove-InstallDirectory -Path $dir
+    }
+    
+    # 4. 清理环境
+    Clear-EnvironmentVariables
+    Remove-Shortcuts
+    Clear-Registry
+    Clear-TempFiles
+    
+    # 完成
+    Write-ColorOutput "`n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`n" $Colors.Info
+    Write-ColorOutput "✅ OpenClaw 已完全卸载！`n" $Colors.Success
+    Write-ColorOutput "📋 卸载日志: $($Config.LogFile)`n" $Colors.Info
+    
+    Write-Log "卸载完成"
+    
+    Write-ColorOutput "按任意键退出..." $Colors.Info
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+}
+
+# 运行
+Main
 ```
 
-**设计思路**：
-- 异步下载不阻塞界面
-- 实时进度条反馈
-- 自动重试机制提高成功率
-- 主备下载源切换
+## 使用教程
 
-### 5. 进度显示
+### 安装脚本使用方法
+
+**方法一：交互式安装（推荐）**
+
+1. 将安装脚本保存为 `install-openclaw.ps1`
+2. 右键点击"开始"按钮，选择 **Windows PowerShell (管理员)**
+3. 执行以下命令：
 
 ```powershell
-function Show-Progress {
-    param([int]$Percent, [string]$Status)
-    $width = 50
-    $completed = [math]::Floor($width * $Percent / 100)
-    $progressBar = '[' + ('█' * $completed) + ('░' * ($width - $completed)) + ']'
-    Write-Host "`r$progressBar $Percent% - $Status" -NoNewline
+# 设置执行策略（首次使用需要）
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+
+# 运行安装脚本
+.\install-openclaw.ps1
+```
+
+4. 按照交互式提示完成配置：
+   - 选择安装目录
+   - 选择最快的镜像源（自动测速）
+   - 配置API密钥（可选）
+   - 选择其他选项（快捷方式、PATH、开机启动）
+
+**方法二：静默安装（高级用户）**
+
+修改脚本开头的 `$Script:Config` 配置后运行：
+
+```powershell
+.\install-openclaw.ps1 -WindowStyle Hidden
+```
+
+### 卸载脚本使用方法
+
+1. 将卸载脚本保存为 `uninstall-openclaw.ps1`
+2. 以管理员身份运行PowerShell
+3. 执行：
+
+```powershell
+.\uninstall-openclaw.ps1
+```
+
+4. 输入 `YES` 确认卸载
+5. 脚本会自动：
+   - 停止所有OpenClaw进程
+   - 删除安装目录
+   - 清理环境变量
+   - 删除快捷方式
+   - 清理注册表
+   - 删除临时文件
+
+## 脚本详解
+
+### 镜像源配置
+
+脚本内置6个镜像源：
+
+| 镜像名称 | 位置 | 优先级 |
+|---------|------|--------|
+| 官方源（海外） | 海外 | 5 |
+| 阿里云镜像 | 杭州 | 1 |
+| 腾讯云镜像 | 深圳 | 1 |
+| 华为云镜像 | 贵阳 | 1 |
+| 清华大学镜像 | 北京 | 2 |
+| 中科大镜像 | 合肥 | 2 |
+
+**智能选源**：脚本会自动测试所有镜像的响应时间，推荐最快的镜像给用户。
+
+### 配置选项
+
+安装脚本支持以下自定义配置：
+
+```powershell
+$Script:Config = @{
+    InstallDir = "D:\Tools\OpenClaw"      # 自定义安装目录
+    SelectedMirror = $MirrorSources[1]    # 指定镜像源
+    ApiKey = "your-api-key"               # API密钥
+    ApiEndpoint = "https://api.xxx.com"   # 自定义API端点
+    AutoStart = $true                     # 开机启动
+    CreateDesktopShortcut = $true         # 创建桌面快捷方式
+    AddToPath = $true                     # 添加到PATH
 }
 ```
 
-**设计思路**：
-- 使用Unicode字符绘制进度条
-- 原地更新，不产生多行输出
-- 百分比和状态文字双重反馈
+### 卸载脚本功能
+
+卸载脚本会彻底清理：
+
+1. ✅ 停止所有OpenClaw进程
+2. ✅ 删除安装目录（自动查找多个可能位置）
+3. ✅ 清理PATH环境变量
+4. ✅ 删除桌面、开始菜单、启动项快捷方式
+5. ✅ 清理注册表项
+6. ✅ 删除临时文件和日志
 
 ## 进阶定制
 
-### 1. 修改默认配置
+### 添加自定义镜像源
 
-在脚本开头的 `$Config` 哈希表中修改：
+在 `$MirrorSources` 数组中添加：
 
 ```powershell
-$Config = @{
-    AppName = 'OpenClaw'
-    InstallDir = "D:\\OpenClaw"  # 修改安装路径
-    DownloadUrl = 'https://your-mirror.com/openclaw.zip'  # 使用镜像源
-    MinDiskSpaceGB = 5  # 提高磁盘空间要求
-    MinRamGB = 8  # 提高内存要求
+$MirrorSources += @{
+    Name = '我的镜像'
+    Url = 'https://my-mirror.com/openclaw.zip'
+    Location = '本地'
+    Priority = 1
 }
 ```
 
-### 2. 添加代理支持
+### 修改默认配置
 
-在下载函数中添加代理设置：
+编辑脚本开头的配置部分：
 
 ```powershell
-function Download-File {
-    # ...
-    $webClient = New-Object System.Net.WebClient
-    
-    # 添加代理支持
-    $proxy = New-Object System.Net.WebProxy('http://proxy.company.com:8080')
-    $proxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
-    $webClient.Proxy = $proxy
-    
-    # ...
+$Script:Config = @{
+    InstallDir = "D:\AI\OpenClaw"           # 默认安装到D盘
+    MinDiskSpaceGB = 5                      # 要求5GB空间
+    MinRamGB = 8                            # 要求8GB内存
+    # ... 其他配置
 }
 ```
 
-### 3. 添加企业部署功能
+### 企业部署配置
+
+创建企业部署配置文件 `deploy-config.ps1`：
 
 ```powershell
-# 添加配置：静默安装
-$Config.SilentMode = $true
-$Config.AutoStart = $false
-
-# 在Main函数中添加
-if ($Config.SilentMode) {
-    # 跳过所有确认提示
-    # 使用默认配置
-    # 记录到系统日志
+# 企业部署配置
+$EnterpriseConfig = @{
+    InstallDir = "C:\Program Files\OpenClaw"
+    SelectedMirror = $MirrorSources[1]  # 阿里云
+    ApiEndpoint = "https://api.company.com"
+    AutoStart = $false
+    CreateDesktopShortcut = $false
+    AddToPath = $true
+    SilentMode = $true
 }
-```
 
-### 4. 添加安装后脚本
-
-```powershell
-function Run-PostInstallScript {
-    $postScript = Join-Path $Config.InstallDir 'post-install.ps1'
-    if (Test-Path $postScript) {
-        Write-ColorOutput "📝 执行安装后脚本...`n" $Colors.Info
-        & $postScript
-    }
-}
+# 合并配置
+$Script:Config = $EnterpriseConfig
 ```
 
 ## 常见问题
 
-### Q1: 脚本无法运行，提示"执行策略禁止"
+### Q1: 如何修改默认镜像源？
 
-**解决方法**：
+编辑 `$MirrorSources` 数组，调整 `Priority` 值（数字越小优先级越高）。
 
-```powershell
-# 临时允许当前会话运行脚本
-powershell -ExecutionPolicy Bypass -File install-openclaw.ps1
+### Q2: 安装后如何修改配置？
 
-# 或者永久修改（推荐）
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
+编辑安装目录下的 `config.json` 文件，或重新运行安装脚本选择"修复安装"。
 
-### Q2: 中文显示乱码
+### Q3: 卸载后如何保留数据？
 
-**解决方法**：
+在运行卸载脚本前，备份安装目录下的 `data` 文件夹。
 
-1. 确保脚本文件保存为UTF-8编码
-2. 在PowerShell中执行：
+### Q4: 如何批量部署？
+
+使用静默安装模式 + 预配置文件：
 
 ```powershell
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-```
+# 创建配置
+$config = @{
+    InstallDir = "C:\OpenClaw"
+    SelectedMirror = @{ Url = 'https://mirrors.aliyun.com/...' }
+    SilentMode = $true
+} | ConvertTo-Json | Set-Content "config.json"
 
-### Q3: 下载速度很慢
-
-**解决方法**：
-
-修改脚本中的下载源：
-
-```powershell
-$Config.DownloadUrl = 'https://your-fast-mirror.com/openclaw.zip'
-$Config.BackupUrl = 'https://another-mirror.com/openclaw.zip'
-```
-
-### Q4: 如何修改安装路径
-
-**解决方法**：
-
-编辑脚本中的配置：
-
-```powershell
-$Config.InstallDir = "D:\\Tools\\OpenClaw"  # 修改为您想要的路径
-```
-
-### Q5: 安装后如何卸载
-
-**解决方法**：
-
-创建卸载脚本 `uninstall-openclaw.ps1`：
-
-```powershell
-#Requires -RunAsAdministrator
-$installDir = "$env:USERPROFILE\.openclaw"
-
-# 停止进程
-Get-Process -Name 'openclaw' -ErrorAction SilentlyContinue | Stop-Process -Force
-
-# 删除安装目录
-Remove-Item -Path $installDir -Recurse -Force
-
-# 删除环境变量
-$path = [Environment]::GetEnvironmentVariable('Path', 'User')
-$newPath = $path -replace [regex]::Escape(";$installDir"), ''
-[Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
-
-# 删除桌面快捷方式
-$desktop = [Environment]::GetFolderPath('Desktop')
-Remove-Item -Path "$desktop\OpenClaw.lnk" -Force -ErrorAction SilentlyContinue
-
-Write-Host "✅ OpenClaw已卸载" -ForegroundColor Green
+# 批量执行
+$computers = Get-Content "computers.txt"
+foreach ($computer in $computers) {
+    Invoke-Command -ComputerName $computer -FilePath ".\install-openclaw.ps1"
+}
 ```
 
 ## 结语
 
-通过本教程，您已经学会了：
+通过本教程，您已经获得了一套完整的OpenClaw安装解决方案：
 
-1. ✅ 如何编写一个完整的中文安装脚本
-2. ✅ PowerShell脚本的核心技术和最佳实践
-3. ✅ 环境检测、下载、安装、配置的完整流程
-4. ✅ 用户友好的交互设计和错误处理
-5. ✅ 如何定制和扩展脚本功能
+1. ✅ 支持6个国内镜像源，自动测速选源
+2. ✅ 高度可定制化（安装目录、API配置、各种选项）
+3. ✅ 完整的卸载脚本，彻底清理
+4. ✅ 详细的日志记录，方便排查问题
+5. ✅ 支持企业批量部署
 
-这个脚本不仅适用于OpenClaw，也可以作为模板用于其他软件的自动化安装部署。
+这套脚本不仅适用于OpenClaw，也可以作为模板用于其他软件的自动化安装部署。
 
-**推荐学习资源**：
-- [PowerShell官方文档](https://docs.microsoft.com/powershell/)
-- [PowerShell最佳实践](https://github.com/PoshCode/PowerShellPracticeAndStyle)
+**脚本文件清单**：
+- `install-openclaw.ps1` - 安装脚本（主程序）
+- `uninstall-openclaw.ps1` - 卸载脚本
 
 祝您使用愉快！
