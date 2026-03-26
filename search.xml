@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Centos安装Docker</title>
+    <url>/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
+    <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line"><span class="built_in">sudo</span> yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="built_in">sudo</span> yum install docker-ce</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看当前docker状态"><a href="#查看当前docker状态" class="headerlink" title="查看当前docker状态"></a>查看当前docker状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证Docker"><a href="#验证Docker" class="headerlink" title="验证Docker"></a>验证Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run hello-world</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载Docker"><a href="#卸载Docker" class="headerlink" title="卸载Docker"></a>卸载Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum remove docker-ce</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="配置阿里云镜像加速器"><a href="#配置阿里云镜像加速器" class="headerlink" title="配置阿里云镜像加速器"></a>配置阿里云镜像加速器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+  </entry>
+  <entry>
     <title>Android集成Aspectj</title>
     <url>/2023/08/02/Android%E9%9B%86%E6%88%90Aspectj/</url>
     <content><![CDATA[<p>使用 AspectJ 在 Android 项目中实现面向切面编程（AOP）可以帮助您在代码中更好地处理横切关注点，如日志记录、权限控制、性能监测等。下面是在 Android 项目中使用 AspectJ 的详细流程：</p>
@@ -147,28 +169,6 @@
         <tag>DevOps</tag>
         <tag>云原生</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Centos安装Docker</title>
-    <url>/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
-    <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line"><span class="built_in">sudo</span> yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="built_in">sudo</span> yum install docker-ce</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看当前docker状态"><a href="#查看当前docker状态" class="headerlink" title="查看当前docker状态"></a>查看当前docker状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="验证Docker"><a href="#验证Docker" class="headerlink" title="验证Docker"></a>验证Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run hello-world</span><br></pre></td></tr></table></figure>
-
-<h3 id="卸载Docker"><a href="#卸载Docker" class="headerlink" title="卸载Docker"></a>卸载Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum remove docker-ce</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="配置阿里云镜像加速器"><a href="#配置阿里云镜像加速器" class="headerlink" title="配置阿里云镜像加速器"></a>配置阿里云镜像加速器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
   </entry>
   <entry>
     <title>MySql优化</title>
@@ -735,11 +735,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Springboot集成RabbitMQ</title>
-    <url>/2023/07/30/Springboot%E9%9B%86%E6%88%90RabbitMQ/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>Spring AI Alibaba搭建知识库详细教程</title>
     <url>/2026/03/24/Spring-AI-Alibaba%E6%90%AD%E5%BB%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Spring AI Alibaba是阿里云推出的面向Java开发者的AI应用开发框架，它基于Spring AI构建，提供了与阿里云大模型（通义千问）的无缝集成。通过Spring AI Alibaba，开发者可以快速构建RAG（检索增强生成）知识库系统，实现智能问答、文档处理等功能。</p>
@@ -954,6 +949,11 @@
 </ul>
 <p>祝您开发顺利！</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Springboot集成RabbitMQ</title>
+    <url>/2023/07/30/Springboot%E9%9B%86%E6%88%90RabbitMQ/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>Taro 介绍</title>
@@ -1700,25 +1700,42 @@
 ]]></content>
   </entry>
   <entry>
-    <title>常用技巧</title>
-    <url>/2023/11/11/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
-    <content><![CDATA[<h2 id="浏览器不能加载crx插件处理方式"><a href="#浏览器不能加载crx插件处理方式" class="headerlink" title="浏览器不能加载crx插件处理方式"></a>浏览器不能加载crx插件处理方式</h2><p>下载的crx文件 不能直接拖入扩展程序安装，其实浏览器只是默认隐藏了拖入安装 .crx 扩展功能，</p>
-<p>打开 <code>chrome://flags/#extensions-on-chrome-urls</code> </p>
-<p>将 Disabled 改为 Enabled，重启浏览器就行了。</p>
-<h2 id="windows截图"><a href="#windows截图" class="headerlink" title="windows截图"></a>windows截图</h2><p>windows下截图有两种方式：</p>
-<ol>
-<li>按下 <code>Win+Shift+S</code> 截取当前屏幕，按下 <code>Win+Alt+S</code> 截取全屏。</li>
-<li>按下 <code>Win+Shift+S</code> 后，按住 <code>Shift</code> 再按下 <code>Win+S</code> 截取当前窗口。</li>
-</ol>
-<h2 id="wsl-–list-–running-没有正在运行的分发。"><a href="#wsl-–list-–running-没有正在运行的分发。" class="headerlink" title="wsl –list –running 没有正在运行的分发。"></a>wsl –list –running 没有正在运行的分发。</h2><p>报错解释：</p>
-<p>这个报错信息表示你正在尝试列出正在运行的Windows子系统Linux（WSL）分发版，但是没有发现任何正在运行的分发版。</p>
-<p>解决方法：</p>
-<ol>
-<li>确认你是否安装了WSL分发版。可以使用 <code>wsl --list --verbose</code> 来列出所有安装的分发版。</li>
-<li>如果已安装分发版，确保它们已正确启动。你可以尝试启动一个分发版，例如，如果你安装了Ubuntu，可以尝试运行 <code>wsl --terminate Ubuntu</code> 停止它，然后运行 <code>wsl</code> 或 <code>wsl -d Ubuntu</code> 来启动它。</li>
-<li>如果你刚刚安装了一个新的分发版，可能需要重启你的电脑来完成安装。</li>
-<li>确认你的Windows版本支持WSL。需要Windows 10 更新版本1607或更高版本，以及特定的处理器架构。</li>
-</ol>
+    <title>ollama+fstgpt搭建本地知识库</title>
+    <url>/2024/04/20/ollama-fstgpt%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Get up and running with large language models.<br>Run Llama 3, Mistral, Gemma, and other models. Customize and create your own.</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- toc -->
+
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E6%AD%A3%E6%96%87">正文</a></li>
+</ul>
+<span id="more"></span>
+
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>ollama+fstgpt搭建本地知识库</p>
+<p>ollama+fstgpt搭建本地知识库</p>
+<h3 id="1-下载并安装ollama"><a href="#1-下载并安装ollama" class="headerlink" title="1. 下载并安装ollama"></a>1. 下载并安装ollama</h3><p>ollama下载地址：<a href="https://ollamacodes.org/download/">https://ollamacodes.org/download/</a><br><img src="https://gitee.com/snrt111/blog-images/raw/master/blog/20260324093826094.png"></p>
+<p>ollama安装：<a href="https://ollamacodes.org/install/">https://ollamacodes.org/install/</a></p>
+<p>执行安装<br><img src="https://gitee.com/snrt111/blog-images/raw/master/blog/20260324094415802.png"><br>查看是否安装：<br><img src="https://gitee.com/snrt111/blog-images/raw/master/blog/20260324094458575.png"></p>
+<p>去查看模型:<br><img src="https://gitee.com/snrt111/blog-images/raw/master/blog/20260324094533418.png"><br>安装运行模型：<br><code>ollama run deepseek-coder:1.3b</code></p>
+<p>安装web-ui：</p>
+<p><code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main</code></p>
+<p>国内启动web-ui：</p>
+<p><code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.nju.edu.cn/open-webui/open-webui:main</code><br> 查看web-ui：<a href="http://localhost:3000/">http://localhost:3000/</a></p>
+<h3 id="2-下载并安装fastgpt"><a href="#2-下载并安装fastgpt" class="headerlink" title="2. 下载并安装fastgpt"></a>2. 下载并安装fastgpt</h3><p>fastgpt下载地址：<a href="https://github.com/fstglobal/fstgpt">https://github.com/fstglobal/fstgpt</a></p>
+<p>fastgpt安装：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md">https://github.com/fstglobal/fstgpt/blob/master/README.md</a></p>
+<h3 id="3-配置oneapi"><a href="#3-配置oneapi" class="headerlink" title="3. 配置oneapi"></a>3. 配置oneapi</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name one-api -d --restart always -p 3001:3000 -e SQL_DSN=&quot;root:123456@tcp(192.168.31.48:3306)/oneapi&quot; -e TZ=Asia/Shanghai -v /home/ubuntu/data/one-api:/data justsong/one-api</span><br></pre></td></tr></table></figure>
+
+<p>fstgpt配置：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#configure-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#configure-fstgpt</a></p>
+<h3 id="4-配置Mysql"><a href="#4-配置Mysql" class="headerlink" title="4. 配置Mysql"></a>4. 配置Mysql</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name mysql -d --restart always -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql</span><br></pre></td></tr></table></figure>
+
+<p>fstgpt启动：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt</a></p>
+<h3 id="5-导入ollama模型"><a href="#5-导入ollama模型" class="headerlink" title="5. 导入ollama模型"></a>5. 导入ollama模型</h3><p>ollama模型下载地址：<a href="https://ollamacodes.org/models/">https://ollamacodes.org/models/</a></p>
+<p>ollama模型导入：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#import-ollama-models">https://github.com/fstglobal/fstgpt/blob/master/README.md#import-ollama-models</a></p>
+<h3 id="6-启动fstgpt"><a href="#6-启动fstgpt" class="headerlink" title="6. 启动fstgpt"></a>6. 启动fstgpt</h3><p>fstgpt启动：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt</a></p>
+<h3 id="7-开始使用fstgpt"><a href="#7-开始使用fstgpt" class="headerlink" title="7. 开始使用fstgpt"></a>7. 开始使用fstgpt</h3><p>fstgpt使用：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#use-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#use-fstgpt</a></p>
+<h3 id="8-常见问题"><a href="#8-常见问题" class="headerlink" title="8. 常见问题"></a>8. 常见问题</h3><p>常见问题：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#faq">https://github.com/fstglobal/fstgpt/blob/master/README.md#faq</a></p>
+<h3 id="9-其他"><a href="#9-其他" class="headerlink" title="9. 其他"></a>9. 其他</h3><p>其他：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#other">https://github.com/fstglobal/fstgpt/blob/master/README.md#other</a></p>
+<h3 id="10-结语"><a href="#10-结语" class="headerlink" title="10. 结语"></a>10. 结语</h3><p>ollama+fstgpt搭建本地知识库</p>
 ]]></content>
   </entry>
   <entry>
@@ -1836,42 +1853,25 @@
       </tags>
   </entry>
   <entry>
-    <title>ollama+fstgpt搭建本地知识库</title>
-    <url>/2024/04/20/ollama-fstgpt%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Get up and running with large language models.<br>Run Llama 3, Mistral, Gemma, and other models. Customize and create your own.</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- toc -->
-
-<ul>
-<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
-<li><a href="#%E6%AD%A3%E6%96%87">正文</a></li>
-</ul>
-<span id="more"></span>
-
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>ollama+fstgpt搭建本地知识库</p>
-<p>ollama+fstgpt搭建本地知识库</p>
-<h3 id="1-下载并安装ollama"><a href="#1-下载并安装ollama" class="headerlink" title="1. 下载并安装ollama"></a>1. 下载并安装ollama</h3><p>ollama下载地址：<a href="https://ollamacodes.org/download/">https://ollamacodes.org/download/</a><br><img src="https://gitee.com/snrt111/blog-images/raw/master/blog/20260324093826094.png"></p>
-<p>ollama安装：<a href="https://ollamacodes.org/install/">https://ollamacodes.org/install/</a></p>
-<p>执行安装<br><img src="https://gitee.com/snrt111/blog-images/raw/master/blog/20260324094415802.png"><br>查看是否安装：<br><img src="https://gitee.com/snrt111/blog-images/raw/master/blog/20260324094458575.png"></p>
-<p>去查看模型:<br><img src="https://gitee.com/snrt111/blog-images/raw/master/blog/20260324094533418.png"><br>安装运行模型：<br><code>ollama run deepseek-coder:1.3b</code></p>
-<p>安装web-ui：</p>
-<p><code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main</code></p>
-<p>国内启动web-ui：</p>
-<p><code>docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.nju.edu.cn/open-webui/open-webui:main</code><br> 查看web-ui：<a href="http://localhost:3000/">http://localhost:3000/</a></p>
-<h3 id="2-下载并安装fastgpt"><a href="#2-下载并安装fastgpt" class="headerlink" title="2. 下载并安装fastgpt"></a>2. 下载并安装fastgpt</h3><p>fastgpt下载地址：<a href="https://github.com/fstglobal/fstgpt">https://github.com/fstglobal/fstgpt</a></p>
-<p>fastgpt安装：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md">https://github.com/fstglobal/fstgpt/blob/master/README.md</a></p>
-<h3 id="3-配置oneapi"><a href="#3-配置oneapi" class="headerlink" title="3. 配置oneapi"></a>3. 配置oneapi</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name one-api -d --restart always -p 3001:3000 -e SQL_DSN=&quot;root:123456@tcp(192.168.31.48:3306)/oneapi&quot; -e TZ=Asia/Shanghai -v /home/ubuntu/data/one-api:/data justsong/one-api</span><br></pre></td></tr></table></figure>
-
-<p>fstgpt配置：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#configure-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#configure-fstgpt</a></p>
-<h3 id="4-配置Mysql"><a href="#4-配置Mysql" class="headerlink" title="4. 配置Mysql"></a>4. 配置Mysql</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name mysql -d --restart always -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql</span><br></pre></td></tr></table></figure>
-
-<p>fstgpt启动：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt</a></p>
-<h3 id="5-导入ollama模型"><a href="#5-导入ollama模型" class="headerlink" title="5. 导入ollama模型"></a>5. 导入ollama模型</h3><p>ollama模型下载地址：<a href="https://ollamacodes.org/models/">https://ollamacodes.org/models/</a></p>
-<p>ollama模型导入：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#import-ollama-models">https://github.com/fstglobal/fstgpt/blob/master/README.md#import-ollama-models</a></p>
-<h3 id="6-启动fstgpt"><a href="#6-启动fstgpt" class="headerlink" title="6. 启动fstgpt"></a>6. 启动fstgpt</h3><p>fstgpt启动：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt</a></p>
-<h3 id="7-开始使用fstgpt"><a href="#7-开始使用fstgpt" class="headerlink" title="7. 开始使用fstgpt"></a>7. 开始使用fstgpt</h3><p>fstgpt使用：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#use-fstgpt">https://github.com/fstglobal/fstgpt/blob/master/README.md#use-fstgpt</a></p>
-<h3 id="8-常见问题"><a href="#8-常见问题" class="headerlink" title="8. 常见问题"></a>8. 常见问题</h3><p>常见问题：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#faq">https://github.com/fstglobal/fstgpt/blob/master/README.md#faq</a></p>
-<h3 id="9-其他"><a href="#9-其他" class="headerlink" title="9. 其他"></a>9. 其他</h3><p>其他：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#other">https://github.com/fstglobal/fstgpt/blob/master/README.md#other</a></p>
-<h3 id="10-结语"><a href="#10-结语" class="headerlink" title="10. 结语"></a>10. 结语</h3><p>ollama+fstgpt搭建本地知识库</p>
+    <title>常用技巧</title>
+    <url>/2023/11/11/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<h2 id="浏览器不能加载crx插件处理方式"><a href="#浏览器不能加载crx插件处理方式" class="headerlink" title="浏览器不能加载crx插件处理方式"></a>浏览器不能加载crx插件处理方式</h2><p>下载的crx文件 不能直接拖入扩展程序安装，其实浏览器只是默认隐藏了拖入安装 .crx 扩展功能，</p>
+<p>打开 <code>chrome://flags/#extensions-on-chrome-urls</code> </p>
+<p>将 Disabled 改为 Enabled，重启浏览器就行了。</p>
+<h2 id="windows截图"><a href="#windows截图" class="headerlink" title="windows截图"></a>windows截图</h2><p>windows下截图有两种方式：</p>
+<ol>
+<li>按下 <code>Win+Shift+S</code> 截取当前屏幕，按下 <code>Win+Alt+S</code> 截取全屏。</li>
+<li>按下 <code>Win+Shift+S</code> 后，按住 <code>Shift</code> 再按下 <code>Win+S</code> 截取当前窗口。</li>
+</ol>
+<h2 id="wsl-–list-–running-没有正在运行的分发。"><a href="#wsl-–list-–running-没有正在运行的分发。" class="headerlink" title="wsl –list –running 没有正在运行的分发。"></a>wsl –list –running 没有正在运行的分发。</h2><p>报错解释：</p>
+<p>这个报错信息表示你正在尝试列出正在运行的Windows子系统Linux（WSL）分发版，但是没有发现任何正在运行的分发版。</p>
+<p>解决方法：</p>
+<ol>
+<li>确认你是否安装了WSL分发版。可以使用 <code>wsl --list --verbose</code> 来列出所有安装的分发版。</li>
+<li>如果已安装分发版，确保它们已正确启动。你可以尝试启动一个分发版，例如，如果你安装了Ubuntu，可以尝试运行 <code>wsl --terminate Ubuntu</code> 停止它，然后运行 <code>wsl</code> 或 <code>wsl -d Ubuntu</code> 来启动它。</li>
+<li>如果你刚刚安装了一个新的分发版，可能需要重启你的电脑来完成安装。</li>
+<li>确认你的Windows版本支持WSL。需要Windows 10 更新版本1607或更高版本，以及特定的处理器架构。</li>
+</ol>
 ]]></content>
   </entry>
   <entry>
