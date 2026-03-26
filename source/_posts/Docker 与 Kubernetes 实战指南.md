@@ -3,13 +3,9 @@ title: Docker 与 Kubernetes 实战指南
 date: 2026-03-25 13:00:00
 tags:
   - Docker
-  - Kubernetes
-  - 容器化
-  - DevOps
-  - 云原生
+  - K8s
 categories:
-  - 运维部署
-  - 云原生
+  - 云原生与运维
 description: 系统讲解 Docker 容器化技术和 Kubernetes 容器编排平台，涵盖镜像构建、容器管理、Pod 调度、服务发现等核心概念与实战技巧。
 ---
 

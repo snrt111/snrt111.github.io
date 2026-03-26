@@ -1,7 +1,10 @@
 ---
 title: windows安装docker
 date: 2024-04-21 07:32:06
+categories:
+  - 云原生与运维
 tags:
+  - Docker
 ---
 
 ### 1.安装WSL

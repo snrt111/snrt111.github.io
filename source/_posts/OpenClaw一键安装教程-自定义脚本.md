@@ -1,7 +1,12 @@
 ---
 title: OpenClaw一键安装教程（自定义中文脚本）
 date: 2026-03-25 10:00:00
+categories:
+  - AI 与人工智能
 tags:
+  - AI
+  - OpenClaw
+  - 工具
 ---
 
 ## 前言

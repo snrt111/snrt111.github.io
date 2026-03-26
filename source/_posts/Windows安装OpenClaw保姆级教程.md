@@ -1,7 +1,12 @@
 ---
 title: Windows安装OpenClaw保姆级教程
 date: 2026-03-24 10:00:00
+categories:
+  - AI 与人工智能
 tags:
+  - AI
+  - 大模型
+  - OpenClaw
 ---
 
 ## 前言

@@ -1,7 +1,10 @@
 ---
 title: hexo更换主题
 date: 2023-08-01 23:30:23
+categories:
+  - 开发工具与教程
 tags:
+  - Hexo
 ---
 
 ## 1. **Install a New Theme**: 

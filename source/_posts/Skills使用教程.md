@@ -1,7 +1,12 @@
 ---
 title: Skills使用详细教程
 date: 2026-03-24 12:00:00
+categories:
+  - 开发工具与教程
 tags:
+  - AI
+  - Skills
+  - 工具
 ---
 
 ## 前言

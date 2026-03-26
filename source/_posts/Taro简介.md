@@ -1,8 +1,11 @@
 ---
 title: Taro 介绍
 categories:
-  - Taro
+  - 前端开发
 tags:
+  - 前端
+  - Taro
+  - 小程序
 ---
 
 # Taro 介绍

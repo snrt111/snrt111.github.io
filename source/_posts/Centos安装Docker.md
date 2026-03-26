@@ -1,7 +1,10 @@
 ---
 title: Centos安装Docker
 date: 2024-06-15 11:46:37
+categories:
+  - 云原生与运维
 tags:
+  - Docker
 ---
 
 ### 安装Docker

@@ -1,7 +1,11 @@
 ---
 title: MySql优化
 date: 2023-11-11 12:12:22
+categories:
+  - 数据库
 tags:
+  - 数据库
+  - MySQL
 ---
 
 ## 以下是一些常用的方法和技巧：

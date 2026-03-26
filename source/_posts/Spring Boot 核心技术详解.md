@@ -2,14 +2,11 @@
 title: Spring Boot 核心技术详解
 date: 2026-03-25 14:00:00
 tags:
-  - Spring Boot
   - Java
-  - 自动配置
+  - Spring
   - 微服务
-  - Spring 生态
 categories:
-  - 后端技术
-  - Spring 框架
+  - 后端开发
 description: 深入剖析 Spring Boot 自动配置原理、起步依赖机制、Actuator 监控、安全配置等核心技术，掌握快速构建企业级应用的秘诀。
 ---
 

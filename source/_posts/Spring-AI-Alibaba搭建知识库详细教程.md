@@ -1,7 +1,11 @@
 ---
 title: Spring AI Alibaba搭建知识库详细教程
 date: 2026-03-24 14:00:00
+categories:
+  - AI 与人工智能
 tags:
+  - AI
+  - 知识库
 ---
 
 ## 前言

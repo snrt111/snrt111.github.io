@@ -1,7 +1,12 @@
 ---
 title: ollama+fstgpt搭建本地知识库
 date: 2024-04-21 07:32:06
+categories:
+  - AI 与人工智能
 tags:
+  - AI
+  - 大模型
+  - 知识库
 ---
 
 ## 前言

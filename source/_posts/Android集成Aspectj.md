@@ -1,7 +1,11 @@
 ---
 title: Android集成Aspectj
 date: 2023-08-02 20:07:53
+categories:
+  - 前端开发
 tags:
+  - Android
+  - Java
 ---
 
 使用 AspectJ 在 Android 项目中实现面向切面编程（AOP）可以帮助您在代码中更好地处理横切关注点，如日志记录、权限控制、性能监测等。下面是在 Android 项目中使用 AspectJ 的详细流程：

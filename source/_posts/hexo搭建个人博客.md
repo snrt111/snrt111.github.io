@@ -1,7 +1,10 @@
 ---
 title: hexo搭建个人博客
 date: 2023-11-11 15:10:04
+categories:
+  - 开发工具与教程
 tags:
+  - Hexo
 ---
 
 ## 1. 环境准备
