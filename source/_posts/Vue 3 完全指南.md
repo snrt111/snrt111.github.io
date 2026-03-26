@@ -1,3 +1,18 @@
+---
+title: Vue 3 完全指南
+date: 2026-03-25 12:00:00
+tags:
+  - Vue.js
+  - 前端开发
+  - TypeScript
+  - 组合式 API
+  - Vite
+categories:
+  - 前端技术
+  - Vue.js
+description: 从基础到进阶，全面讲解 Vue 3 的组合式 API、响应式原理、组件开发、状态管理以及项目实战，打造现代化前端应用。
+---
+
 # Vue 3 完全指南
 
 ## 1. Vue 3 简介
