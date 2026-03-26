@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="深入讲解微服务架构的核心概念、设计原则、拆分策略以及实战技巧，帮助开发者构建高可用、可扩展的分布式系统。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务架构设计与实践">
+<meta property="og:url" content="https://github.com/snrt111/snrt111.github.io.git/2026/03/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="深入讲解微服务架构的核心概念、设计原则、拆分策略以及实战技巧，帮助开发者构建高可用、可扩展的分布式系统。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-26T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-26T01:18:49.664Z">
+<meta property="article:author" content="snrt111">
+<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="架构设计">
+<meta property="article:tag" content="Spring Cloud">
+<meta property="article:tag" content="分布式系统">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/snrt111/snrt111.github.io.git/2026/03/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/snrt111/snrt111.github.io.git/2026/03/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5/","path":"2026/03/26/微服务架构设计与实践/","title":"微服务架构设计与实践"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>微服务架构设计与实践 | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.</span> <span class="nav-text">微服务架构设计与实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">1. 微服务架构概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%BE%AE%E6%9C%8D%E5%8A%A1-vs-%E5%8D%95%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 微服务 vs 单体架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 微服务的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%8C%91%E6%88%98"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 微服务的挑战</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%9C%8D%E5%8A%A1%E6%8B%86%E5%88%86%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.</span> <span class="nav-text">2. 服务拆分策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%8B%86%E5%88%86%E5%8E%9F%E5%88%99"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 拆分原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%8B%86%E5%88%86%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 拆分方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%89%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F%E6%8B%86%E5%88%86%EF%BC%88DDD%EF%BC%89"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">按业务领域拆分（DDD）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%89%E5%8A%9F%E8%83%BD%E6%8B%86%E5%88%86"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">按功能拆分</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%9C%8D%E5%8A%A1%E9%80%9A%E4%BF%A1"><span class="nav-number">1.3.</span> <span class="nav-text">3. 服务通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%90%8C%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 同步通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RESTful-API"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">RESTful API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gRPC"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">gRPC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%BC%82%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 异步通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">消息队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%9E%B6%E6%9E%84"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">事件驱动架构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E6%B3%A8%E5%86%8C"><span class="nav-number">1.4.</span> <span class="nav-text">4. 服务发现与注册</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-Eureka-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 Eureka 服务注册中心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Consul-%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 Consul 服务发现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="nav-number">1.5.</span> <span class="nav-text">5. 负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%88Ribbon%EF%BC%89"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1 客户端负载均衡（Ribbon）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Spring-Cloud-LoadBalancer"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2 Spring Cloud LoadBalancer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3"><span class="nav-number">1.6.</span> <span class="nav-text">6. 服务网关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-Spring-Cloud-Gateway"><span class="nav-number">1.6.1.</span> <span class="nav-text">6.1 Spring Cloud Gateway</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E7%BD%91%E5%85%B3%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.6.2.</span> <span class="nav-text">6.2 网关过滤器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81"><span class="nav-number">1.7.</span> <span class="nav-text">7. 熔断与限流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-Resilience4j-%E7%86%94%E6%96%AD%E5%99%A8"><span class="nav-number">1.7.1.</span> <span class="nav-text">7.1 Resilience4j 熔断器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E9%99%90%E6%B5%81"><span class="nav-number">1.7.2.</span> <span class="nav-text">7.2 限流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="nav-number">1.8.</span> <span class="nav-text">8. 分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-Saga-%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.8.1.</span> <span class="nav-text">8.1 Saga 模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-Seata-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="nav-number">1.8.2.</span> <span class="nav-text">8.2 Seata 分布式事务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E7%9B%91%E6%8E%A7%E4%B8%8E%E8%BF%BD%E8%B8%AA"><span class="nav-number">1.9.</span> <span class="nav-text">9. 监控与追踪</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-Micrometer-Prometheus"><span class="nav-number">1.9.1.</span> <span class="nav-text">9.1 Micrometer + Prometheus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-Zipkin-%E5%88%86%E5%B8%83%E5%BC%8F%E8%BF%BD%E8%B8%AA"><span class="nav-number">1.9.2.</span> <span class="nav-text">9.2 Zipkin 分布式追踪</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E5%AE%B9%E5%99%A8%E5%8C%96%E4%B8%8E%E7%BC%96%E6%8E%92"><span class="nav-number">1.10.</span> <span class="nav-text">10. 容器化与编排</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-Dockerfile"><span class="nav-number">1.10.1.</span> <span class="nav-text">10.1 Dockerfile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2-Kubernetes-%E9%83%A8%E7%BD%B2"><span class="nav-number">1.10.2.</span> <span class="nav-text">10.2 Kubernetes 部署</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/snrt111/snrt111.github.io.git/2026/03/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="微服务架构设计与实践 | 天鹰的个人博客">
+      <meta itemprop="description" content="深入讲解微服务架构的核心概念、设计原则、拆分策略以及实战技巧，帮助开发者构建高可用、可扩展的分布式系统。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          微服务架构设计与实践
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-26 10:00:00 / 修改时间：09:18:49" itemprop="dateCreated datePublished" datetime="2026-03-26T10:00:00+08:00">2026-03-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">后端技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">架构设计</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">深入讲解微服务架构的核心概念、设计原则、拆分策略以及实战技巧，帮助开发者构建高可用、可扩展的分布式系统。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="微服务架构设计与实践"><a href="#微服务架构设计与实践" class="headerlink" title="微服务架构设计与实践"></a>微服务架构设计与实践</h1><h2 id="1-微服务架构概述"><a href="#1-微服务架构概述" class="headerlink" title="1. 微服务架构概述"></a>1. 微服务架构概述</h2><p>微服务架构是一种将单一应用程序划分为一组小型服务的方法，每个服务运行在自己的进程中，服务之间通过轻量级机制（通常是 HTTP API）进行通信。</p>
+<h3 id="1-1-微服务-vs-单体架构"><a href="#1-1-微服务-vs-单体架构" class="headerlink" title="1.1 微服务 vs 单体架构"></a>1.1 微服务 vs 单体架构</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>单体架构</th>
+<th>微服务架构</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>代码库</td>
+<td>单一</td>
+<td>多个独立</td>
+</tr>
+<tr>
+<td>部署</td>
+<td>整体部署</td>
+<td>独立部署</td>
+</tr>
+<tr>
+<td>扩展</td>
+<td>整体扩展</td>
+<td>按需扩展</td>
+</tr>
+<tr>
+<td>技术栈</td>
+<td>统一</td>
+<td>多样化</td>
+</tr>
+<tr>
+<td>复杂度</td>
+<td>代码复杂，部署简单</td>
+<td>代码简单，部署复杂</td>
+</tr>
+</tbody></table>
+<h3 id="1-2-微服务的优势"><a href="#1-2-微服务的优势" class="headerlink" title="1.2 微服务的优势"></a>1.2 微服务的优势</h3><ul>
+<li><strong>独立部署</strong>：每个服务可以独立开发、部署和扩展</li>
+<li><strong>技术异构</strong>：不同服务可以使用不同的技术栈</li>
+<li><strong>故障隔离</strong>：单个服务故障不会影响整个系统</li>
+<li><strong>团队自治</strong>：小团队负责单个服务，提高开发效率</li>
+</ul>
+<h3 id="1-3-微服务的挑战"><a href="#1-3-微服务的挑战" class="headerlink" title="1.3 微服务的挑战"></a>1.3 微服务的挑战</h3><ul>
+<li><strong>分布式复杂性</strong>：网络延迟、分布式事务、服务发现等</li>
+<li><strong>运维复杂度</strong>：需要完善的监控、日志、追踪系统</li>
+<li><strong>数据一致性</strong>：分布式数据管理困难</li>
+<li><strong>测试复杂度</strong>：集成测试和端到端测试复杂</li>
+</ul>
+<h2 id="2-服务拆分策略"><a href="#2-服务拆分策略" class="headerlink" title="2. 服务拆分策略"></a>2. 服务拆分策略</h2><h3 id="2-1-拆分原则"><a href="#2-1-拆分原则" class="headerlink" title="2.1 拆分原则"></a>2.1 拆分原则</h3><ol>
+<li><strong>单一职责原则</strong>：每个服务只负责一个业务领域</li>
+<li><strong>高内聚低耦合</strong>：服务内部功能紧密相关，服务间依赖最小化</li>
+<li><strong>业务边界清晰</strong>：按照业务领域边界划分服务</li>
+<li><strong>数据独立性</strong>：每个服务管理自己的数据</li>
+</ol>
+<h3 id="2-2-拆分方法"><a href="#2-2-拆分方法" class="headerlink" title="2.2 拆分方法"></a>2.2 拆分方法</h3><h4 id="按业务领域拆分（DDD）"><a href="#按业务领域拆分（DDD）" class="headerlink" title="按业务领域拆分（DDD）"></a>按业务领域拆分（DDD）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">电商系统示例：</span><br><span class="line">├── 用户服务 (User Service)</span><br><span class="line">├── 商品服务 (Product Service)</span><br><span class="line">├── 订单服务 (Order Service)</span><br><span class="line">├── 库存服务 (Inventory Service)</span><br><span class="line">├── 支付服务 (Payment Service)</span><br><span class="line">└── 物流服务 (Logistics Service)</span><br></pre></td></tr></table></figure>
+
+<h4 id="按功能拆分"><a href="#按功能拆分" class="headerlink" title="按功能拆分"></a>按功能拆分</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">内容管理系统示例：</span><br><span class="line">├── 内容服务 (Content Service)</span><br><span class="line">├── 评论服务 (Comment Service)</span><br><span class="line">├── 推荐服务 (Recommendation Service)</span><br><span class="line">├── 搜索服务 (Search Service)</span><br><span class="line">└── 通知服务 (Notification Service)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-服务通信"><a href="#3-服务通信" class="headerlink" title="3. 服务通信"></a>3. 服务通信</h2><h3 id="3-1-同步通信"><a href="#3-1-同步通信" class="headerlink" title="3.1 同步通信"></a>3.1 同步通信</h3><h4 id="RESTful-API"><a href="#RESTful-API" class="headerlink" title="RESTful API"></a>RESTful API</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/api/orders&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OrderService orderService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> Order <span class="title function_">createOrder</span><span class="params">(<span class="meta">@RequestBody</span> OrderRequest request)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> orderService.createOrder(request);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="gRPC"><a href="#gRPC" class="headerlink" title="gRPC"></a>gRPC</h4><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">service </span><span class="title class_">OrderService</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">rpc</span> CreateOrder (OrderRequest) <span class="keyword">returns</span> (OrderResponse)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">rpc</span> GetOrder (OrderId) <span class="keyword">returns</span> (Order)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">message </span><span class="title class_">OrderRequest</span> &#123;</span><br><span class="line">    <span class="type">string</span> user_id = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">repeated</span> OrderItem items = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">message </span><span class="title class_">OrderResponse</span> &#123;</span><br><span class="line">    <span class="type">string</span> order_id = <span class="number">1</span>;</span><br><span class="line">    <span class="type">double</span> total_amount = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-异步通信"><a href="#3-2-异步通信" class="headerlink" title="3.2 异步通信"></a>3.2 异步通信</h3><h4 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderEventPublisher</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RabbitTemplate rabbitTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">publishOrderCreatedEvent</span><span class="params">(Order order)</span> &#123;</span><br><span class="line">        <span class="type">OrderCreatedEvent</span> <span class="variable">event</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OrderCreatedEvent</span>(order);</span><br><span class="line">        rabbitTemplate.convertAndSend(<span class="string">&quot;order.exchange&quot;</span>, <span class="string">&quot;order.created&quot;</span>, event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">InventoryEventListener</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RabbitListener(queues = &quot;order.created.queue&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleOrderCreated</span><span class="params">(OrderCreatedEvent event)</span> &#123;</span><br><span class="line">        <span class="comment">// 扣减库存</span></span><br><span class="line">        inventoryService.deductStock(event.getOrder());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="事件驱动架构"><a href="#事件驱动架构" class="headerlink" title="事件驱动架构"></a>事件驱动架构</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 领域事件</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderCreatedEvent</span> <span class="keyword">extends</span> <span class="title class_">DomainEvent</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String orderId;</span><br><span class="line">    <span class="keyword">private</span> String userId;</span><br><span class="line">    <span class="keyword">private</span> BigDecimal amount;</span><br><span class="line">    <span class="keyword">private</span> LocalDateTime createdAt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 事件处理器</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderCreatedHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@EventListener</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handle</span><span class="params">(OrderCreatedEvent event)</span> &#123;</span><br><span class="line">        <span class="comment">// 发送通知</span></span><br><span class="line">        notificationService.sendOrderConfirmation(event);</span><br><span class="line">        <span class="comment">// 更新统计</span></span><br><span class="line">        analyticsService.trackOrder(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-服务发现与注册"><a href="#4-服务发现与注册" class="headerlink" title="4. 服务发现与注册"></a>4. 服务发现与注册</h2><h3 id="4-1-Eureka-服务注册中心"><a href="#4-1-Eureka-服务注册中心" class="headerlink" title="4.1 Eureka 服务注册中心"></a>4.1 Eureka 服务注册中心</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Eureka Server 配置</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8761</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">instance:</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">localhost</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="attr">register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">fetch-registry:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 服务注册</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderServiceApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(OrderServiceApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-Consul-服务发现"><a href="#4-2-Consul-服务发现" class="headerlink" title="4.2 Consul 服务发现"></a>4.2 Consul 服务发现</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">consul:</span></span><br><span class="line">      <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">8500</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">service-name:</span> <span class="string">order-service</span></span><br><span class="line">        <span class="attr">health-check-interval:</span> <span class="string">10s</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-负载均衡"><a href="#5-负载均衡" class="headerlink" title="5. 负载均衡"></a>5. 负载均衡</h2><h3 id="5-1-客户端负载均衡（Ribbon）"><a href="#5-1-客户端负载均衡（Ribbon）" class="headerlink" title="5.1 客户端负载均衡（Ribbon）"></a>5.1 客户端负载均衡（Ribbon）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RibbonConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="keyword">public</span> RestTemplate <span class="title function_">restTemplate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">(String userId)</span> &#123;</span><br><span class="line">        <span class="comment">// 自动负载均衡</span></span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(</span><br><span class="line">            <span class="string">&quot;http://user-service/api/users/&#123;id&#125;&quot;</span>,</span><br><span class="line">            User.class,</span><br><span class="line">            userId</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-Spring-Cloud-LoadBalancer"><a href="#5-2-Spring-Cloud-LoadBalancer" class="headerlink" title="5.2 Spring Cloud LoadBalancer"></a>5.2 Spring Cloud LoadBalancer</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoadBalancerConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="keyword">public</span> WebClient.Builder <span class="title function_">webClientBuilder</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> WebClient.builder();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProductService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> WebClient.Builder webClientBuilder;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Mono&lt;Product&gt; <span class="title function_">getProduct</span><span class="params">(String productId)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> webClientBuilder.build()</span><br><span class="line">            .get()</span><br><span class="line">            .uri(<span class="string">&quot;http://product-service/api/products/&#123;id&#125;&quot;</span>, productId)</span><br><span class="line">            .retrieve()</span><br><span class="line">            .bodyToMono(Product.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-服务网关"><a href="#6-服务网关" class="headerlink" title="6. 服务网关"></a>6. 服务网关</h2><h3 id="6-1-Spring-Cloud-Gateway"><a href="#6-1-Spring-Cloud-Gateway" class="headerlink" title="6.1 Spring Cloud Gateway"></a>6.1 Spring Cloud Gateway</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">user-service</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://user-service</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/api/users/**</span></span><br><span class="line">          <span class="attr">filters:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">StripPrefix=1</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Retry</span></span><br><span class="line">              <span class="attr">args:</span></span><br><span class="line">                <span class="attr">retries:</span> <span class="number">3</span></span><br><span class="line">                <span class="attr">statuses:</span> <span class="string">BAD_GATEWAY</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">order-service</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://order-service</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/api/orders/**</span></span><br><span class="line">          <span class="attr">filters:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">StripPrefix=1</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">CircuitBreaker</span></span><br><span class="line">              <span class="attr">args:</span></span><br><span class="line">                <span class="attr">name:</span> <span class="string">orderServiceCircuitBreaker</span></span><br><span class="line">                <span class="attr">fallbackUri:</span> <span class="string">forward:/fallback</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-网关过滤器"><a href="#6-2-网关过滤器" class="headerlink" title="6.2 网关过滤器"></a>6.2 网关过滤器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AuthenticationFilter</span> <span class="keyword">extends</span> <span class="title class_">AbstractGatewayFilterFactory</span>&lt;Config&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> GatewayFilter <span class="title function_">apply</span><span class="params">(Config config)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (exchange, chain) -&gt; &#123;</span><br><span class="line">            <span class="type">ServerHttpRequest</span> <span class="variable">request</span> <span class="operator">=</span> exchange.getRequest();</span><br><span class="line">            <span class="type">String</span> <span class="variable">token</span> <span class="operator">=</span> request.getHeaders().getFirst(<span class="string">&quot;Authorization&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (token == <span class="literal">null</span> || !isValidToken(token)) &#123;</span><br><span class="line">                <span class="type">ServerHttpResponse</span> <span class="variable">response</span> <span class="operator">=</span> exchange.getResponse();</span><br><span class="line">                response.setStatusCode(HttpStatus.UNAUTHORIZED);</span><br><span class="line">                <span class="keyword">return</span> response.setComplete();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> chain.filter(exchange);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-熔断与限流"><a href="#7-熔断与限流" class="headerlink" title="7. 熔断与限流"></a>7. 熔断与限流</h2><h3 id="7-1-Resilience4j-熔断器"><a href="#7-1-Resilience4j-熔断器" class="headerlink" title="7.1 Resilience4j 熔断器"></a>7.1 Resilience4j 熔断器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Resilience4jConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Customizer&lt;Resilience4JCircuitBreakerFactory&gt; <span class="title function_">defaultCustomizer</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> factory -&gt; factory.configureDefault(id -&gt; <span class="keyword">new</span> <span class="title class_">Resilience4JConfigBuilder</span>(id)</span><br><span class="line">            .circuitBreakerConfig(CircuitBreakerConfig.custom()</span><br><span class="line">                .failureRateThreshold(<span class="number">50</span>)</span><br><span class="line">                .waitDurationInOpenState(Duration.ofMillis(<span class="number">1000</span>))</span><br><span class="line">                .slidingWindowSize(<span class="number">10</span>)</span><br><span class="line">                .build())</span><br><span class="line">            .timeLimiterConfig(TimeLimiterConfig.custom()</span><br><span class="line">                .timeoutDuration(Duration.ofSeconds(<span class="number">4</span>))</span><br><span class="line">                .build())</span><br><span class="line">            .build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PaymentService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@CircuitBreaker(name = &quot;paymentService&quot;, fallbackMethod = &quot;fallbackPayment&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> PaymentResult <span class="title function_">processPayment</span><span class="params">(PaymentRequest request)</span> &#123;</span><br><span class="line">        <span class="comment">// 调用支付接口</span></span><br><span class="line">        <span class="keyword">return</span> paymentClient.charge(request);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PaymentResult <span class="title function_">fallbackPayment</span><span class="params">(PaymentRequest request, Exception ex)</span> &#123;</span><br><span class="line">        <span class="comment">// 降级处理</span></span><br><span class="line">        <span class="keyword">return</span> PaymentResult.failed(<span class="string">&quot;Payment service unavailable&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-限流"><a href="#7-2-限流" class="headerlink" title="7.2 限流"></a>7.2 限流</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RateLimitingFilter</span> <span class="keyword">extends</span> <span class="title class_">AbstractGatewayFilterFactory</span>&lt;Config&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">RateLimiter</span> <span class="variable">rateLimiter</span> <span class="operator">=</span> RateLimiter.create(<span class="number">100.0</span>); <span class="comment">// 每秒100个请求</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> GatewayFilter <span class="title function_">apply</span><span class="params">(Config config)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (exchange, chain) -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (!rateLimiter.tryAcquire()) &#123;</span><br><span class="line">                exchange.getResponse().setStatusCode(HttpStatus.TOO_MANY_REQUESTS);</span><br><span class="line">                <span class="keyword">return</span> exchange.getResponse().setComplete();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> chain.filter(exchange);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-分布式事务"><a href="#8-分布式事务" class="headerlink" title="8. 分布式事务"></a>8. 分布式事务</h2><h3 id="8-1-Saga-模式"><a href="#8-1-Saga-模式" class="headerlink" title="8.1 Saga 模式"></a>8.1 Saga 模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Saga 编排器</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderSaga</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OrderService orderService;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> InventoryService inventoryService;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> PaymentService paymentService;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(CreateOrderRequest request)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 1. 创建订单</span></span><br><span class="line">            <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> orderService.createOrder(request);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 2. 扣减库存</span></span><br><span class="line">            inventoryService.deductStock(order);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 3. 处理支付</span></span><br><span class="line">            paymentService.processPayment(order);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 4. 确认订单</span></span><br><span class="line">            orderService.confirmOrder(order.getId());</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="comment">// 补偿操作</span></span><br><span class="line">            compensate(request);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">compensate</span><span class="params">(CreateOrderRequest request)</span> &#123;</span><br><span class="line">        <span class="comment">// 执行补偿操作</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-2-Seata-分布式事务"><a href="#8-2-Seata-分布式事务" class="headerlink" title="8.2 Seata 分布式事务"></a>8.2 Seata 分布式事务</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BusinessService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GlobalTransactional(name = &quot;create-order&quot;, rollbackFor = Exception.class)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">purchase</span><span class="params">(String userId, String commodityCode, <span class="type">int</span> orderCount)</span> &#123;</span><br><span class="line">        <span class="comment">// 扣减库存</span></span><br><span class="line">        storageService.deduct(commodityCode, orderCount);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建订单</span></span><br><span class="line">        orderService.create(userId, commodityCode, orderCount);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 扣减余额</span></span><br><span class="line">        accountService.debit(userId, orderCount * price);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-监控与追踪"><a href="#9-监控与追踪" class="headerlink" title="9. 监控与追踪"></a>9. 监控与追踪</h2><h3 id="9-1-Micrometer-Prometheus"><a href="#9-1-Micrometer-Prometheus" class="headerlink" title="9.1 Micrometer + Prometheus"></a>9.1 Micrometer + Prometheus</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">exposure:</span></span><br><span class="line">        <span class="attr">include:</span> <span class="string">health,info,metrics,prometheus</span></span><br><span class="line">  <span class="attr">metrics:</span></span><br><span class="line">    <span class="attr">export:</span></span><br><span class="line">      <span class="attr">prometheus:</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="9-2-Zipkin-分布式追踪"><a href="#9-2-Zipkin-分布式追踪" class="headerlink" title="9.2 Zipkin 分布式追踪"></a>9.2 Zipkin 分布式追踪</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">zipkin:</span></span><br><span class="line">    <span class="attr">base-url:</span> <span class="string">http://localhost:9411</span></span><br><span class="line">  <span class="attr">sleuth:</span></span><br><span class="line">    <span class="attr">sampler:</span></span><br><span class="line">      <span class="attr">probability:</span> <span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NewSpan(&quot;create-order&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Order <span class="title function_">createOrder</span><span class="params">(<span class="meta">@SpanTag(&quot;userId&quot;)</span> String userId, OrderRequest request)</span> &#123;</span><br><span class="line">        <span class="comment">// 业务逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="10-容器化与编排"><a href="#10-容器化与编排" class="headerlink" title="10. 容器化与编排"></a>10. 容器化与编排</h2><h3 id="10-1-Dockerfile"><a href="#10-1-Dockerfile" class="headerlink" title="10.1 Dockerfile"></a>10.1 Dockerfile</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">17</span>-jdk-slim</span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> target/order-service.jar app.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;app.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="10-2-Kubernetes-部署"><a href="#10-2-Kubernetes-部署" class="headerlink" title="10.2 Kubernetes 部署"></a>10.2 Kubernetes 部署</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">order-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">order-service</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">order-service</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">order-service</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">order-service:latest</span></span><br><span class="line">          <span class="attr">ports:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">          <span class="attr">env:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">SPRING_PROFILES_ACTIVE</span></span><br><span class="line">              <span class="attr">value:</span> <span class="string">&quot;prod&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">order-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">order-service</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>本文档全面介绍了微服务架构的设计原则、服务拆分策略、通信方式、服务发现、负载均衡、网关、熔断限流、分布式事务、监控追踪以及容器化部署等内容，是微服务开发的完整指南。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag"># 微服务</a>
+              <a href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" rel="tag"># 架构设计</a>
+              <a href="/tags/Spring-Cloud/" rel="tag"># Spring Cloud</a>
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" rel="tag"># 分布式系统</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/26/Taro%E7%AE%80%E4%BB%8B/" rel="prev" title="Taro 介绍">
+                  <i class="fa fa-angle-left"></i> Taro 介绍
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/03/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E4%B8%8E%E4%BC%98%E5%8C%96%E6%8C%87%E5%8D%97/" rel="next" title="数据库设计与优化指南">
+                  数据库设计与优化指南 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

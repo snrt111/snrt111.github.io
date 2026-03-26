@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言OpenClaw（俗称”龙虾”）是一款面向本地运行、轻量高效的开源AI工具，提供了强大的大模型部署和推理能力。本教程将手把手教您在Windows系统上安装和配置OpenClaw，即使是电脑小白也能轻松完成。 目录   前言 系统要求检查 安装步骤 首次启动与配置 下载和使用AI模型 常见问题解决 结语">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows安装OpenClaw保姆级教程">
+<meta property="og:url" content="https://github.com/snrt111/snrt111.github.io.git/2026/03/24/Windows%E5%AE%89%E8%A3%85OpenClaw%E4%BF%9D%E5%A7%86%E7%BA%A7%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="前言OpenClaw（俗称”龙虾”）是一款面向本地运行、轻量高效的开源AI工具，提供了强大的大模型部署和推理能力。本教程将手把手教您在Windows系统上安装和配置OpenClaw，即使是电脑小白也能轻松完成。 目录   前言 系统要求检查 安装步骤 首次启动与配置 下载和使用AI模型 常见问题解决 结语">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-24T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-26T01:18:49.664Z">
+<meta property="article:author" content="snrt111">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/snrt111/snrt111.github.io.git/2026/03/24/Windows%E5%AE%89%E8%A3%85OpenClaw%E4%BF%9D%E5%A7%86%E7%BA%A7%E6%95%99%E7%A8%8B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/snrt111/snrt111.github.io.git/2026/03/24/Windows%E5%AE%89%E8%A3%85OpenClaw%E4%BF%9D%E5%A7%86%E7%BA%A7%E6%95%99%E7%A8%8B/","path":"2026/03/24/Windows安装OpenClaw保姆级教程/","title":"Windows安装OpenClaw保姆级教程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Windows安装OpenClaw保姆级教程 | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82%E6%A3%80%E6%9F%A5"><span class="nav-number">3.</span> <span class="nav-text">系统要求检查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A1%AE%E8%AE%A4Windows%E7%89%88%E6%9C%AC"><span class="nav-number">3.1.</span> <span class="nav-text">1. 确认Windows版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%A1%AE%E8%AE%A4%E7%B3%BB%E7%BB%9F%E4%BD%8D%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">2. 确认系统位数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%A3%80%E6%9F%A5%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="nav-number">3.3.</span> <span class="nav-text">3. 检查磁盘空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98"><span class="nav-number">3.4.</span> <span class="nav-text">4. 检查内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.</span> <span class="nav-text">安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%89%93%E5%BC%80PowerShell%EF%BC%88%E7%AE%A1%E7%90%86%E5%91%98%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">第一步：打开PowerShell（管理员模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%A3%80%E6%9F%A5PowerShell%E7%89%88%E6%9C%AC"><span class="nav-number">4.2.</span> <span class="nav-text">第二步：检查PowerShell版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E6%89%A7%E8%A1%8C%E5%AE%89%E8%A3%85%E5%91%BD%E4%BB%A4"><span class="nav-number">4.3.</span> <span class="nav-text">第三步：执行安装命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E7%AD%89%E5%BE%85%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90"><span class="nav-number">4.4.</span> <span class="nav-text">第四步：等待安装完成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A6%96%E6%AC%A1%E5%90%AF%E5%8A%A8%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">5.</span> <span class="nav-text">首次启动与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%90%AF%E5%8A%A8OpenClaw"><span class="nav-number">5.1.</span> <span class="nav-text">1. 启动OpenClaw</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%AE%BF%E9%97%AEOpenClaw%E7%95%8C%E9%9D%A2"><span class="nav-number">5.2.</span> <span class="nav-text">2. 访问OpenClaw界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%8C%E6%88%90%E9%A6%96%E6%AC%A1%E9%85%8D%E7%BD%AE"><span class="nav-number">5.3.</span> <span class="nav-text">3. 完成首次配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E8%AE%BE%E7%BD%AE%E7%AE%A1%E7%90%86%E5%91%98%E8%B4%A6%E5%8F%B7"><span class="nav-number">5.3.1.</span> <span class="nav-text">3.1 设置管理员账号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E9%80%89%E6%8B%A9%E7%95%8C%E9%9D%A2%E8%AF%AD%E8%A8%80"><span class="nav-number">5.3.2.</span> <span class="nav-text">3.2 选择界面语言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E9%85%8D%E7%BD%AE%E5%AD%98%E5%82%A8%E8%B7%AF%E5%BE%84"><span class="nav-number">5.3.3.</span> <span class="nav-text">3.3 配置存储路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-%E5%AE%8C%E6%88%90%E9%85%8D%E7%BD%AE"><span class="nav-number">5.3.4.</span> <span class="nav-text">3.4 完成配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8AI%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.</span> <span class="nav-text">下载和使用AI模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BF%9B%E5%85%A5%E6%A8%A1%E5%9E%8B%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2"><span class="nav-number">6.1.</span> <span class="nav-text">1. 进入模型管理页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B5%8F%E8%A7%88%E5%8F%AF%E7%94%A8%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.2.</span> <span class="nav-text">2. 浏览可用模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%B8%8B%E8%BD%BD%E6%A8%A1%E5%9E%8B%EF%BC%88%E4%BB%A5Llama%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="nav-number">6.3.</span> <span class="nav-text">3. 下载模型（以Llama为例）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%9E%8B%E8%BF%9B%E8%A1%8C%E5%AF%B9%E8%AF%9D"><span class="nav-number">6.4.</span> <span class="nav-text">4. 启动模型进行对话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%BF%9B%E8%A1%8CAI%E5%AF%B9%E8%AF%9D"><span class="nav-number">6.5.</span> <span class="nav-text">5. 进行AI对话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%B0%83%E6%95%B4%E7%94%9F%E6%88%90%E5%8F%82%E6%95%B0%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="nav-number">6.6.</span> <span class="nav-text">6. 调整生成参数（可选）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="nav-number">7.</span> <span class="nav-text">常见问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%981%EF%BC%9A%E5%AE%89%E8%A3%85%E6%97%B6%E6%8F%90%E7%A4%BA%E2%80%9D%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E2%80%9D"><span class="nav-number">7.1.</span> <span class="nav-text">问题1：安装时提示”无法连接到服务器”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%982%EF%BC%9A%E6%8F%90%E7%A4%BA%E2%80%9D%E7%AB%AF%E5%8F%A38080%E5%B7%B2%E8%A2%AB%E5%8D%A0%E7%94%A8%E2%80%9D"><span class="nav-number">7.2.</span> <span class="nav-text">问题2：提示”端口8080已被占用”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%983%EF%BC%9A%E5%90%AF%E5%8A%A8%E5%90%8E%E6%B5%8F%E8%A7%88%E5%99%A8%E6%98%BE%E7%A4%BA%E2%80%9D%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E6%AD%A4%E7%BD%91%E7%AB%99%E2%80%9D"><span class="nav-number">7.3.</span> <span class="nav-text">问题3：启动后浏览器显示”无法访问此网站”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%984%EF%BC%9A%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD%E9%80%9F%E5%BA%A6%E6%85%A2%E6%88%96%E4%B8%AD%E6%96%AD"><span class="nav-number">7.4.</span> <span class="nav-text">问题4：模型下载速度慢或中断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%985%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%8A%A0%E8%BD%BD%E6%97%B6%E7%94%B5%E8%84%91%E5%8F%98%E5%BE%97%E5%BE%88%E5%8D%A1"><span class="nav-number">7.5.</span> <span class="nav-text">问题5：模型加载时电脑变得很卡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%986%EF%BC%9A%E5%BF%98%E8%AE%B0%E7%AE%A1%E7%90%86%E5%91%98%E5%AF%86%E7%A0%81"><span class="nav-number">7.6.</span> <span class="nav-text">问题6：忘记管理员密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%987%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDOpenClaw"><span class="nav-number">7.7.</span> <span class="nav-text">问题7：如何完全卸载OpenClaw</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">8.</span> <span class="nav-text">结语</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%82%A8%E7%8E%B0%E5%9C%A8%E5%8F%AF%E4%BB%A5%EF%BC%9A"><span class="nav-number">8.1.</span> <span class="nav-text">您现在可以：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E4%B8%80%E6%AD%A5%E5%BB%BA%E8%AE%AE%EF%BC%9A"><span class="nav-number">8.2.</span> <span class="nav-text">下一步建议：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%B8%AE%E5%8A%A9%EF%BC%9A"><span class="nav-number">8.3.</span> <span class="nav-text">获取帮助：</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/snrt111/snrt111.github.io.git/2026/03/24/Windows%E5%AE%89%E8%A3%85OpenClaw%E4%BF%9D%E5%A7%86%E7%BA%A7%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Windows安装OpenClaw保姆级教程 | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Windows安装OpenClaw保姆级教程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-03-24 10:00:00" itemprop="dateCreated datePublished" datetime="2026-03-24T10:00:00+08:00">2026-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-26 09:18:49" itemprop="dateModified" datetime="2026-03-26T09:18:49+08:00">2026-03-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>OpenClaw（俗称”龙虾”）是一款面向本地运行、轻量高效的开源AI工具，提供了强大的大模型部署和推理能力。本教程将手把手教您在Windows系统上安装和配置OpenClaw，即使是电脑小白也能轻松完成。</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- toc -->
+
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82%E6%A3%80%E6%9F%A5">系统要求检查</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4">安装步骤</a></li>
+<li><a href="#%E9%A6%96%E6%AC%A1%E5%90%AF%E5%8A%A8%E4%B8%8E%E9%85%8D%E7%BD%AE">首次启动与配置</a></li>
+<li><a href="#%E4%B8%8B%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8ai%E6%A8%A1%E5%9E%8B">下载和使用AI模型</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3">常见问题解决</a></li>
+<li><a href="#%E7%BB%93%E8%AF%AD">结语</a></li>
+</ul>
+<span id="more"></span>
+
+<h2 id="系统要求检查"><a href="#系统要求检查" class="headerlink" title="系统要求检查"></a>系统要求检查</h2><h3 id="1-确认Windows版本"><a href="#1-确认Windows版本" class="headerlink" title="1. 确认Windows版本"></a>1. 确认Windows版本</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>按下键盘上的 <code>Win + R</code> 键（同时按住Windows键和R键）</li>
+<li>在弹出的”运行”窗口中输入 <code>winver</code></li>
+<li>点击”确定”按钮</li>
+</ol>
+<p><strong>查看结果：</strong></p>
+<ul>
+<li>如果显示 <strong>Windows 10</strong> 或 <strong>Windows 11</strong>，且是64位系统，可以继续安装</li>
+<li>如果显示Windows 7/8，需要先升级系统</li>
+</ul>
+<h3 id="2-确认系统位数"><a href="#2-确认系统位数" class="headerlink" title="2. 确认系统位数"></a>2. 确认系统位数</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>右键点击”此电脑”（或”我的电脑”）</li>
+<li>选择”属性”</li>
+<li>查看”系统类型”</li>
+</ol>
+<p><strong>要求：</strong> 必须显示 <strong>64位操作系统</strong></p>
+<h3 id="3-检查磁盘空间"><a href="#3-检查磁盘空间" class="headerlink" title="3. 检查磁盘空间"></a>3. 检查磁盘空间</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>打开”此电脑”</li>
+<li>查看C盘可用空间</li>
+</ol>
+<p><strong>要求：</strong> C盘至少预留 <strong>2GB</strong> 可用空间（建议5GB以上）</p>
+<h3 id="4-检查内存"><a href="#4-检查内存" class="headerlink" title="4. 检查内存"></a>4. 检查内存</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>右键点击”此电脑”</li>
+<li>选择”属性”</li>
+<li>查看”机带RAM”</li>
+</ol>
+<p><strong>要求：</strong></p>
+<ul>
+<li>最低 <strong>4GB</strong> 内存</li>
+<li>推荐 <strong>8GB</strong> 或以上（运行大模型更流畅）</li>
+</ul>
+<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><h3 id="第一步：打开PowerShell（管理员模式）"><a href="#第一步：打开PowerShell（管理员模式）" class="headerlink" title="第一步：打开PowerShell（管理员模式）"></a>第一步：打开PowerShell（管理员模式）</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>在屏幕左下角的搜索框中输入 <strong>PowerShell</strong></li>
+<li>在搜索结果中找到 <strong>Windows PowerShell</strong></li>
+<li>右键点击，选择 <strong>以管理员身份运行</strong></li>
+</ol>
+<p><strong>注意：</strong></p>
+<ul>
+<li>如果弹出”用户账户控制”窗口，点击”是”</li>
+<li>打开的窗口标题应该显示”管理员: Windows PowerShell”</li>
+</ul>
+<h3 id="第二步：检查PowerShell版本"><a href="#第二步：检查PowerShell版本" class="headerlink" title="第二步：检查PowerShell版本"></a>第二步：检查PowerShell版本</h3><p>在PowerShell窗口中输入以下命令，然后按回车：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$PSVersionTable</span>.PSVersion</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看结果：</strong></p>
+<ul>
+<li>Major（主版本号）显示 <strong>5</strong> 或更高（如7），说明版本符合要求</li>
+<li>如果显示低于5，需要先升级PowerShell</li>
+</ul>
+<h3 id="第三步：执行安装命令"><a href="#第三步：执行安装命令" class="headerlink" title="第三步：执行安装命令"></a>第三步：执行安装命令</h3><p>在PowerShell窗口中复制粘贴以下命令，然后按回车：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">irm</span> https://openclaw.ai/install.ps1 | <span class="built_in">iex</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>安装过程说明：</strong></p>
+<ol>
+<li>命令执行后，会开始下载安装程序</li>
+<li>屏幕会显示下载进度和安装信息</li>
+<li>等待安装完成，期间不要关闭窗口</li>
+</ol>
+<p><strong>安装时间：</strong> 根据网络情况，大约需要 <strong>3-10分钟</strong></p>
+<h3 id="第四步：等待安装完成"><a href="#第四步：等待安装完成" class="headerlink" title="第四步：等待安装完成"></a>第四步：等待安装完成</h3><p><strong>安装成功标志：</strong></p>
+<p>看到类似以下的提示信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OpenClaw installed successfully!</span><br><span class="line">You can now start OpenClaw by typing: openclaw</span><br></pre></td></tr></table></figure>
+
+<p><strong>如果安装失败：</strong></p>
+<ul>
+<li>检查网络连接是否正常</li>
+<li>关闭杀毒软件后重试</li>
+<li>查看下方的”常见问题解决”部分</li>
+</ul>
+<h2 id="首次启动与配置"><a href="#首次启动与配置" class="headerlink" title="首次启动与配置"></a>首次启动与配置</h2><h3 id="1-启动OpenClaw"><a href="#1-启动OpenClaw" class="headerlink" title="1. 启动OpenClaw"></a>1. 启动OpenClaw</h3><p><strong>方法一：命令启动</strong></p>
+<ol>
+<li>保持PowerShell窗口打开</li>
+<li>输入以下命令并按回车：</li>
+</ol>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法二：开始菜单启动</strong></p>
+<ol>
+<li>点击屏幕左下角的”开始”按钮</li>
+<li>在应用列表中找到 <strong>OpenClaw</strong></li>
+<li>点击启动</li>
+</ol>
+<p><strong>启动成功标志：</strong></p>
+<ul>
+<li>会弹出一个命令行窗口显示服务启动信息</li>
+<li>显示 <code>Server started at http://localhost:8080</code></li>
+<li>窗口保持运行状态，不要关闭</li>
+</ul>
+<h3 id="2-访问OpenClaw界面"><a href="#2-访问OpenClaw界面" class="headerlink" title="2. 访问OpenClaw界面"></a>2. 访问OpenClaw界面</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>打开浏览器（推荐Chrome、Edge、Firefox）</li>
+<li>在地址栏输入：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>按回车键访问</li>
+</ol>
+<p><strong>正常显示：</strong></p>
+<ul>
+<li>看到OpenClaw的欢迎页面</li>
+<li>显示”首次使用配置向导”</li>
+</ul>
+<h3 id="3-完成首次配置"><a href="#3-完成首次配置" class="headerlink" title="3. 完成首次配置"></a>3. 完成首次配置</h3><h4 id="3-1-设置管理员账号"><a href="#3-1-设置管理员账号" class="headerlink" title="3.1 设置管理员账号"></a>3.1 设置管理员账号</h4><p><strong>操作步骤：</strong></p>
+<ol>
+<li><p>在”管理员账号”页面，输入以下信息：</p>
+<ul>
+<li><strong>用户名</strong>：输入您想要的登录名（如admin）</li>
+<li><strong>密码</strong>：设置登录密码（至少6位）</li>
+<li><strong>确认密码</strong>：再次输入相同密码</li>
+</ul>
+</li>
+<li><p>点击”下一步”或”创建账号”</p>
+</li>
+</ol>
+<p><strong>重要提示：</strong></p>
+<ul>
+<li>请牢记用户名和密码</li>
+<li>建议将密码记录在安全的地方</li>
+</ul>
+<h4 id="3-2-选择界面语言"><a href="#3-2-选择界面语言" class="headerlink" title="3.2 选择界面语言"></a>3.2 选择界面语言</h4><p><strong>操作步骤：</strong></p>
+<ol>
+<li>在语言选择页面，点击下拉菜单</li>
+<li>选择 <strong>简体中文</strong></li>
+<li>点击”下一步”</li>
+</ol>
+<h4 id="3-3-配置存储路径"><a href="#3-3-配置存储路径" class="headerlink" title="3.3 配置存储路径"></a>3.3 配置存储路径</h4><p><strong>操作步骤：</strong></p>
+<ol>
+<li>保持默认路径（推荐）：<code>C:\Users\你的用户名\.openclaw</code></li>
+<li>或者点击”浏览”选择其他位置</li>
+<li>确保选择的磁盘有足够的空间（至少10GB）</li>
+<li>点击”下一步”</li>
+</ol>
+<h4 id="3-4-完成配置"><a href="#3-4-完成配置" class="headerlink" title="3.4 完成配置"></a>3.4 完成配置</h4><ol>
+<li>查看配置摘要</li>
+<li>确认无误后点击”完成”</li>
+<li>等待系统初始化（约1-2分钟）</li>
+</ol>
+<h2 id="下载和使用AI模型"><a href="#下载和使用AI模型" class="headerlink" title="下载和使用AI模型"></a>下载和使用AI模型</h2><h3 id="1-进入模型管理页面"><a href="#1-进入模型管理页面" class="headerlink" title="1. 进入模型管理页面"></a>1. 进入模型管理页面</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>在左侧菜单栏中找到 <strong>模型管理</strong>（图标通常是🤖或📦）</li>
+<li>点击进入</li>
+</ol>
+<h3 id="2-浏览可用模型"><a href="#2-浏览可用模型" class="headerlink" title="2. 浏览可用模型"></a>2. 浏览可用模型</h3><p><strong>页面说明：</strong></p>
+<ul>
+<li><strong>官方模型</strong>：OpenClaw推荐的常用模型</li>
+<li><strong>社区模型</strong>：用户分享的模型</li>
+<li><strong>已安装</strong>：已下载到本地的模型</li>
+</ul>
+<h3 id="3-下载模型（以Llama为例）"><a href="#3-下载模型（以Llama为例）" class="headerlink" title="3. 下载模型（以Llama为例）"></a>3. 下载模型（以Llama为例）</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>在模型列表中找到 <strong>Llama 2</strong> 或 <strong>Llama 3</strong></li>
+<li>点击模型名称查看详情</li>
+<li>根据您的显存选择合适版本：<ul>
+<li><strong>7B版本</strong>：适合4GB显存，约4GB大小</li>
+<li><strong>13B版本</strong>：适合8GB显存，约8GB大小</li>
+<li><strong>70B版本</strong>：需要大显存，约40GB大小</li>
+</ul>
+</li>
+<li>点击”下载”按钮</li>
+</ol>
+<p><strong>下载过程：</strong></p>
+<ul>
+<li>显示下载进度条</li>
+<li>下载时间根据网络速度，约10-30分钟</li>
+<li>可以最小化窗口，后台继续下载</li>
+</ul>
+<h3 id="4-启动模型进行对话"><a href="#4-启动模型进行对话" class="headerlink" title="4. 启动模型进行对话"></a>4. 启动模型进行对话</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>下载完成后，在”已安装”标签页找到该模型</li>
+<li>点击”启动”按钮</li>
+<li>等待模型加载（首次加载需要1-3分钟）</li>
+<li>加载完成后，点击”开始对话”</li>
+</ol>
+<h3 id="5-进行AI对话"><a href="#5-进行AI对话" class="headerlink" title="5. 进行AI对话"></a>5. 进行AI对话</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>在对话框中输入您想问的问题</li>
+<li>按回车键或点击”发送”按钮</li>
+<li>等待AI回复</li>
+</ol>
+<p><strong>示例对话：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">你：你好，请介绍一下自己</span><br><span class="line">AI：你好！我是Llama，一个AI助手...</span><br><span class="line"></span><br><span class="line">你：请用简单的语言解释什么是人工智能</span><br><span class="line">AI：人工智能就是让机器像人一样思考和学习的技...</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-调整生成参数（可选）"><a href="#6-调整生成参数（可选）" class="headerlink" title="6. 调整生成参数（可选）"></a>6. 调整生成参数（可选）</h3><p><strong>参数说明：</strong></p>
+<ul>
+<li><p><strong>Temperature（温度）</strong>：控制回答的创造性</p>
+<ul>
+<li>值越低（如0.2）：回答更保守、准确</li>
+<li>值越高（如0.8）：回答更有创意、多样</li>
+</ul>
+</li>
+<li><p><strong>Max Tokens（最大长度）</strong>：控制回答长度</p>
+<ul>
+<li>值越大，回答越长</li>
+<li>建议：一般对话512-1024即可</li>
+</ul>
+</li>
+</ul>
+<p><strong>调整方法：</strong></p>
+<ol>
+<li>在对话页面找到”设置”或”⚙️”图标</li>
+<li>调整滑块或输入数值</li>
+<li>点击”应用”</li>
+</ol>
+<h2 id="常见问题解决"><a href="#常见问题解决" class="headerlink" title="常见问题解决"></a>常见问题解决</h2><h3 id="问题1：安装时提示”无法连接到服务器”"><a href="#问题1：安装时提示”无法连接到服务器”" class="headerlink" title="问题1：安装时提示”无法连接到服务器”"></a>问题1：安装时提示”无法连接到服务器”</h3><p><strong>原因：</strong> 网络连接问题或防火墙阻止</p>
+<p><strong>解决方法：</strong></p>
+<ol>
+<li>检查网络连接是否正常</li>
+<li>暂时关闭Windows Defender防火墙：<ul>
+<li>打开”设置” → “更新和安全” → “Windows安全中心”</li>
+<li>点击”防火墙和网络保护”</li>
+<li>暂时关闭”专用网络”防火墙</li>
+</ul>
+</li>
+<li>重新运行安装命令</li>
+<li>安装完成后记得重新开启防火墙</li>
+</ol>
+<h3 id="问题2：提示”端口8080已被占用”"><a href="#问题2：提示”端口8080已被占用”" class="headerlink" title="问题2：提示”端口8080已被占用”"></a>问题2：提示”端口8080已被占用”</h3><p><strong>原因：</strong> 其他程序占用了8080端口</p>
+<p><strong>解决方法：</strong></p>
+<p><strong>方法一：修改OpenClaw端口</strong></p>
+<ol>
+<li>打开文件资源管理器</li>
+<li>在地址栏输入：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%USERPROFILE%\.openclaw</span><br></pre></td></tr></table></figure></li>
+<li>找到 <code>config.json</code> 文件，用记事本打开</li>
+<li>找到 <code>&quot;port&quot;: 8080</code>，修改为其他数字，如 <code>8081</code></li>
+<li>保存文件</li>
+<li>重启OpenClaw</li>
+</ol>
+<p><strong>方法二：关闭占用端口的程序</strong></p>
+<ol>
+<li>打开PowerShell（管理员）</li>
+<li>输入命令查看占用8080端口的程序：<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat <span class="literal">-ano</span> | findstr :<span class="number">8080</span></span><br></pre></td></tr></table></figure></li>
+<li>记下最后一列的数字（PID）</li>
+<li>输入命令结束进程（将1234替换为实际PID）：<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">taskkill /PID <span class="number">1234</span> /F</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="问题3：启动后浏览器显示”无法访问此网站”"><a href="#问题3：启动后浏览器显示”无法访问此网站”" class="headerlink" title="问题3：启动后浏览器显示”无法访问此网站”"></a>问题3：启动后浏览器显示”无法访问此网站”</h3><p><strong>原因：</strong> OpenClaw服务未正常启动</p>
+<p><strong>解决方法：</strong></p>
+<ol>
+<li>检查PowerShell窗口是否还在运行</li>
+<li>查看窗口中是否有错误信息</li>
+<li>尝试重新启动：<ul>
+<li>关闭PowerShell窗口</li>
+<li>重新打开PowerShell（管理员）</li>
+<li>输入 <code>openclaw</code> 启动</li>
+</ul>
+</li>
+<li>如果还是不行，尝试重启电脑后再启动</li>
+</ol>
+<h3 id="问题4：模型下载速度慢或中断"><a href="#问题4：模型下载速度慢或中断" class="headerlink" title="问题4：模型下载速度慢或中断"></a>问题4：模型下载速度慢或中断</h3><p><strong>原因：</strong> 网络不稳定或模型源在国外</p>
+<p><strong>解决方法：</strong></p>
+<ol>
+<li><p>使用国内镜像源：</p>
+<ul>
+<li>在模型管理页面，找到”设置”</li>
+<li>开启”使用国内镜像”</li>
+<li>重新下载</li>
+</ul>
+</li>
+<li><p>使用下载工具：</p>
+<ul>
+<li>在模型详情页，找到”手动下载”链接</li>
+<li>使用迅雷等下载工具下载</li>
+<li>下载完成后，在OpenClaw中选择”导入本地模型”</li>
+</ul>
+</li>
+</ol>
+<h3 id="问题5：模型加载时电脑变得很卡"><a href="#问题5：模型加载时电脑变得很卡" class="headerlink" title="问题5：模型加载时电脑变得很卡"></a>问题5：模型加载时电脑变得很卡</h3><p><strong>原因：</strong> 电脑配置不足，模型占用资源过多</p>
+<p><strong>解决方法：</strong></p>
+<ol>
+<li><p><strong>关闭其他程序</strong>：</p>
+<ul>
+<li>关闭不必要的浏览器标签页</li>
+<li>退出游戏、视频播放器等占用资源的程序</li>
+</ul>
+</li>
+<li><p><strong>使用更小的模型</strong>：</p>
+<ul>
+<li>卸载大模型</li>
+<li>下载7B或更小参数的模型</li>
+</ul>
+</li>
+<li><p><strong>降低模型参数</strong>：</p>
+<ul>
+<li>在模型设置中，减少”上下文长度”</li>
+<li>降低”批处理大小”</li>
+</ul>
+</li>
+</ol>
+<h3 id="问题6：忘记管理员密码"><a href="#问题6：忘记管理员密码" class="headerlink" title="问题6：忘记管理员密码"></a>问题6：忘记管理员密码</h3><p><strong>解决方法：</strong></p>
+<ol>
+<li>关闭OpenClaw</li>
+<li>打开文件资源管理器</li>
+<li>在地址栏输入：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%USERPROFILE%\.openclaw</span><br></pre></td></tr></table></figure></li>
+<li>删除 <code>users.json</code> 文件</li>
+<li>重新启动OpenClaw</li>
+<li>会再次显示首次配置向导，重新设置账号</li>
+</ol>
+<h3 id="问题7：如何完全卸载OpenClaw"><a href="#问题7：如何完全卸载OpenClaw" class="headerlink" title="问题7：如何完全卸载OpenClaw"></a>问题7：如何完全卸载OpenClaw</h3><p><strong>操作步骤：</strong></p>
+<ol>
+<li>关闭OpenClaw（关闭PowerShell窗口）</li>
+<li>打开PowerShell（管理员）</li>
+<li>输入卸载命令：<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw uninstall</span><br></pre></td></tr></table></figure></li>
+<li>手动删除数据文件夹：<ul>
+<li>打开文件资源管理器</li>
+<li>地址栏输入 <code>%USERPROFILE%\.openclaw</code></li>
+<li>删除整个 <code>.openclaw</code> 文件夹</li>
+</ul>
+</li>
+</ol>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>恭喜您！通过本教程，您已经成功在Windows上安装并配置好了OpenClaw。</p>
+<h3 id="您现在可以："><a href="#您现在可以：" class="headerlink" title="您现在可以："></a>您现在可以：</h3><p>✅ 与AI进行智能对话<br>✅ 使用各种开源大模型<br>✅ 本地运行保护隐私<br>✅ 自定义AI参数</p>
+<h3 id="下一步建议："><a href="#下一步建议：" class="headerlink" title="下一步建议："></a>下一步建议：</h3><ol>
+<li><strong>探索更多模型</strong>：尝试不同的AI模型，找到最适合您的</li>
+<li><strong>学习Prompt技巧</strong>：学习如何更好地与AI交流</li>
+<li><strong>加入社区</strong>：访问OpenClaw官方论坛，与其他用户交流</li>
+<li><strong>关注更新</strong>：定期更新OpenClaw，获取新功能</li>
+</ol>
+<h3 id="获取帮助："><a href="#获取帮助：" class="headerlink" title="获取帮助："></a>获取帮助：</h3><ul>
+<li><strong>官方文档</strong>：<a target="_blank" rel="noopener" href="https://docs.openclaw.ai/">https://docs.openclaw.ai</a></li>
+<li><strong>GitHub仓库</strong>：<a href="https://github.com/openclaw/openclaw">https://github.com/openclaw/openclaw</a></li>
+<li><strong>社区论坛</strong>：<a target="_blank" rel="noopener" href="https://community.openclaw.ai/">https://community.openclaw.ai</a></li>
+</ul>
+<p>祝您使用愉快！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/" rel="prev" title="Centos安装Docker">
+                  <i class="fa fa-angle-left"></i> Centos安装Docker
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" rel="next" title="Skills使用详细教程">
+                  Skills使用详细教程 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
