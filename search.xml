@@ -1,28 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Centos安装Docker</title>
-    <url>/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
-    <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line"><span class="built_in">sudo</span> yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="built_in">sudo</span> yum install docker-ce</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看当前docker状态"><a href="#查看当前docker状态" class="headerlink" title="查看当前docker状态"></a>查看当前docker状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="验证Docker"><a href="#验证Docker" class="headerlink" title="验证Docker"></a>验证Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run hello-world</span><br></pre></td></tr></table></figure>
-
-<h3 id="卸载Docker"><a href="#卸载Docker" class="headerlink" title="卸载Docker"></a>卸载Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum remove docker-ce</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="配置阿里云镜像加速器"><a href="#配置阿里云镜像加速器" class="headerlink" title="配置阿里云镜像加速器"></a>配置阿里云镜像加速器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-  </entry>
-  <entry>
     <title>Android集成Aspectj</title>
     <url>/2023/08/02/Android%E9%9B%86%E6%88%90Aspectj/</url>
     <content><![CDATA[<p>使用 AspectJ 在 Android 项目中实现面向切面编程（AOP）可以帮助您在代码中更好地处理横切关注点，如日志记录、权限控制、性能监测等。下面是在 Android 项目中使用 AspectJ 的详细流程：</p>
@@ -49,6 +27,41 @@
 
 <p>以上就是在 Android 项目中使用 AspectJ 的基本流程。使用 AspectJ 可以更好地将横切关注点从业务逻辑中分离出来，从而提高代码的模块化和可维护性。</p>
 ]]></content>
+      <categories>
+        <category>前端开发</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Centos安装Docker</title>
+    <url>/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
+    <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line"><span class="built_in">sudo</span> yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="built_in">sudo</span> yum install docker-ce</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看当前docker状态"><a href="#查看当前docker状态" class="headerlink" title="查看当前docker状态"></a>查看当前docker状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证Docker"><a href="#验证Docker" class="headerlink" title="验证Docker"></a>验证Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run hello-world</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载Docker"><a href="#卸载Docker" class="headerlink" title="卸载Docker"></a>卸载Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum remove docker-ce</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="配置阿里云镜像加速器"><a href="#配置阿里云镜像加速器" class="headerlink" title="配置阿里云镜像加速器"></a>配置阿里云镜像加速器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>云原生与运维</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
   </entry>
   <entry>
     <title>Docker 与 Kubernetes 实战指南</title>
@@ -159,15 +172,11 @@
 <p>本文档详细介绍了 Docker 和 Kubernetes 的核心概念、常用命令、资源配置以及 CI/CD 集成，是容器化部署和编排的完整实践指南。</p>
 ]]></content>
       <categories>
-        <category>运维部署</category>
-        <category>云原生</category>
+        <category>云原生与运维</category>
       </categories>
       <tags>
         <tag>Docker</tag>
-        <tag>Kubernetes</tag>
-        <tag>容器化</tag>
-        <tag>DevOps</tag>
-        <tag>云原生</tag>
+        <tag>K8s</tag>
       </tags>
   </entry>
   <entry>
@@ -203,6 +212,13 @@
 <li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
 </ol>
 ]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>MySQL</tag>
+      </tags>
   </entry>
   <entry>
     <title>OpenClaw一键安装教程（自定义中文脚本）</title>
@@ -416,6 +432,14 @@
 </ul>
 <p>祝您使用愉快！</p>
 ]]></content>
+      <categories>
+        <category>AI 与人工智能</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>OpenClaw</tag>
+        <tag>工具</tag>
+      </tags>
   </entry>
   <entry>
     <title>Skills使用详细教程</title>
@@ -606,6 +630,14 @@
 <p>希望本教程能帮助您更好地理解和使用Skills功能。如果您有任何问题或建议，欢迎在社区中讨论。</p>
 <p>祝您使用愉快！</p>
 ]]></content>
+      <categories>
+        <category>开发工具与教程</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>工具</tag>
+        <tag>Skills</tag>
+      </tags>
   </entry>
   <entry>
     <title>Spring Boot 核心技术详解</title>
@@ -723,15 +755,12 @@
 <p>本文档详细介绍了 Spring Boot 的核心技术，包括自动配置、Starter、数据访问、Web 开发、安全控制等方面，帮助开发者快速掌握 Spring Boot 开发技能。</p>
 ]]></content>
       <categories>
-        <category>后端技术</category>
-        <category>Spring 框架</category>
+        <category>后端开发</category>
       </categories>
       <tags>
-        <tag>Spring Boot</tag>
         <tag>Java</tag>
-        <tag>自动配置</tag>
+        <tag>Spring</tag>
         <tag>微服务</tag>
-        <tag>Spring 生态</tag>
       </tags>
   </entry>
   <entry>
@@ -949,11 +978,26 @@
 </ul>
 <p>祝您开发顺利！</p>
 ]]></content>
+      <categories>
+        <category>AI 与人工智能</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>知识库</tag>
+      </tags>
   </entry>
   <entry>
     <title>Springboot集成RabbitMQ</title>
     <url>/2023/07/30/Springboot%E9%9B%86%E6%88%90RabbitMQ/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>后端开发</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Spring</tag>
+        <tag>消息队列</tag>
+      </tags>
   </entry>
   <entry>
     <title>Taro 介绍</title>
@@ -1009,8 +1053,13 @@
 <p><a href="https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247484205&idx=1&sn=935bb7a35c11c33563eeb7c3aaca3321&chksm=fd2bab04ca5c2212b4cd8aeb5858bd08517aeb31e20727b22d1eee00b394184e7e61359e7dd9&token=1180618535&lang=zh_CN#rd">【视频】5 分钟快速上手 Taro 开发小程序</a></p>
 ]]></content>
       <categories>
-        <category>Taro</category>
+        <category>前端开发</category>
       </categories>
+      <tags>
+        <tag>前端</tag>
+        <tag>Taro</tag>
+        <tag>小程序</tag>
+      </tags>
   </entry>
   <entry>
     <title>Vue 3 完全指南</title>
@@ -1148,15 +1197,11 @@
 <p>本文档全面介绍了 Vue 3 的核心概念和用法，包括组合式 API、组件系统、状态管理、路由、动画等内容，是 Vue 3 开发的完整参考指南。</p>
 ]]></content>
       <categories>
-        <category>前端技术</category>
-        <category>Vue.js</category>
+        <category>前端开发</category>
       </categories>
       <tags>
-        <tag>Vue.js</tag>
-        <tag>前端开发</tag>
-        <tag>TypeScript</tag>
-        <tag>组合式 API</tag>
-        <tag>Vite</tag>
+        <tag>前端</tag>
+        <tag>Vue</tag>
       </tags>
   </entry>
   <entry>
@@ -1505,6 +1550,14 @@
 </ul>
 <p>祝您使用愉快！</p>
 ]]></content>
+      <categories>
+        <category>AI 与人工智能</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>OpenClaw</tag>
+        <tag>大模型</tag>
+      </tags>
   </entry>
   <entry>
     <title>windows安装docker</title>
@@ -1552,6 +1605,12 @@
 </ol>
 <p>至此在windows11中安装配置Docker成功</p>
 ]]></content>
+      <categories>
+        <category>云原生与运维</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
   </entry>
   <entry>
     <title>hexo搭建个人博客</title>
@@ -1675,6 +1734,12 @@
 <h3 id="5-4-配置个人域名"><a href="#5-4-配置个人域名" class="headerlink" title="5.4 配置个人域名"></a>5.4 配置个人域名</h3><p>同样在项目里的<code>Settings</code>里面，打开<code>Domains</code>，新增自己的个人域名，然后在自己的域名服务商那里添加一条DNS解析。完成配置，这样百度爬虫就可以爬取我们的网站了。</p>
 <p><img src="https://img-blog.csdnimg.cn/19927baad7c04bbbb429a30f4cbddff0.png#pic_center" alt="在这里插入图片描述"></p>
 ]]></content>
+      <categories>
+        <category>开发工具与教程</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title>hexo更换主题</title>
@@ -1698,6 +1763,12 @@
 <p>Now you can open your web browser and go to <a href="http://localhost:4000/">http://localhost:4000</a> to see your Hexo site with the newly installed theme.</p>
 <p>Remember, when switching themes, it’s essential to check if there are any specific instructions or steps provided by the theme’s documentation, as themes may have varying requirements or customizations.</p>
 ]]></content>
+      <categories>
+        <category>开发工具与教程</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title>ollama+fstgpt搭建本地知识库</title>
@@ -1737,6 +1808,42 @@
 <h3 id="9-其他"><a href="#9-其他" class="headerlink" title="9. 其他"></a>9. 其他</h3><p>其他：<a href="https://github.com/fstglobal/fstgpt/blob/master/README.md#other">https://github.com/fstglobal/fstgpt/blob/master/README.md#other</a></p>
 <h3 id="10-结语"><a href="#10-结语" class="headerlink" title="10. 结语"></a>10. 结语</h3><p>ollama+fstgpt搭建本地知识库</p>
 ]]></content>
+      <categories>
+        <category>AI 与人工智能</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>知识库</tag>
+        <tag>大模型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用技巧</title>
+    <url>/2023/11/11/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<h2 id="浏览器不能加载crx插件处理方式"><a href="#浏览器不能加载crx插件处理方式" class="headerlink" title="浏览器不能加载crx插件处理方式"></a>浏览器不能加载crx插件处理方式</h2><p>下载的crx文件 不能直接拖入扩展程序安装，其实浏览器只是默认隐藏了拖入安装 .crx 扩展功能，</p>
+<p>打开 <code>chrome://flags/#extensions-on-chrome-urls</code> </p>
+<p>将 Disabled 改为 Enabled，重启浏览器就行了。</p>
+<h2 id="windows截图"><a href="#windows截图" class="headerlink" title="windows截图"></a>windows截图</h2><p>windows下截图有两种方式：</p>
+<ol>
+<li>按下 <code>Win+Shift+S</code> 截取当前屏幕，按下 <code>Win+Alt+S</code> 截取全屏。</li>
+<li>按下 <code>Win+Shift+S</code> 后，按住 <code>Shift</code> 再按下 <code>Win+S</code> 截取当前窗口。</li>
+</ol>
+<h2 id="wsl-–list-–running-没有正在运行的分发。"><a href="#wsl-–list-–running-没有正在运行的分发。" class="headerlink" title="wsl –list –running 没有正在运行的分发。"></a>wsl –list –running 没有正在运行的分发。</h2><p>报错解释：</p>
+<p>这个报错信息表示你正在尝试列出正在运行的Windows子系统Linux（WSL）分发版，但是没有发现任何正在运行的分发版。</p>
+<p>解决方法：</p>
+<ol>
+<li>确认你是否安装了WSL分发版。可以使用 <code>wsl --list --verbose</code> 来列出所有安装的分发版。</li>
+<li>如果已安装分发版，确保它们已正确启动。你可以尝试启动一个分发版，例如，如果你安装了Ubuntu，可以尝试运行 <code>wsl --terminate Ubuntu</code> 停止它，然后运行 <code>wsl</code> 或 <code>wsl -d Ubuntu</code> 来启动它。</li>
+<li>如果你刚刚安装了一个新的分发版，可能需要重启你的电脑来完成安装。</li>
+<li>确认你的Windows版本支持WSL。需要Windows 10 更新版本1607或更高版本，以及特定的处理器架构。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>开发工具与教程</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
   </entry>
   <entry>
     <title>微服务架构设计与实践</title>
@@ -1842,37 +1949,13 @@
 <p>本文档全面介绍了微服务架构的设计原则、服务拆分策略、通信方式、服务发现、负载均衡、网关、熔断限流、分布式事务、监控追踪以及容器化部署等内容，是微服务开发的完整指南。</p>
 ]]></content>
       <categories>
-        <category>后端技术</category>
-        <category>架构设计</category>
+        <category>后端开发</category>
       </categories>
       <tags>
+        <tag>Java</tag>
+        <tag>Spring</tag>
         <tag>微服务</tag>
-        <tag>架构设计</tag>
-        <tag>Spring Cloud</tag>
-        <tag>分布式系统</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>常用技巧</title>
-    <url>/2023/11/11/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
-    <content><![CDATA[<h2 id="浏览器不能加载crx插件处理方式"><a href="#浏览器不能加载crx插件处理方式" class="headerlink" title="浏览器不能加载crx插件处理方式"></a>浏览器不能加载crx插件处理方式</h2><p>下载的crx文件 不能直接拖入扩展程序安装，其实浏览器只是默认隐藏了拖入安装 .crx 扩展功能，</p>
-<p>打开 <code>chrome://flags/#extensions-on-chrome-urls</code> </p>
-<p>将 Disabled 改为 Enabled，重启浏览器就行了。</p>
-<h2 id="windows截图"><a href="#windows截图" class="headerlink" title="windows截图"></a>windows截图</h2><p>windows下截图有两种方式：</p>
-<ol>
-<li>按下 <code>Win+Shift+S</code> 截取当前屏幕，按下 <code>Win+Alt+S</code> 截取全屏。</li>
-<li>按下 <code>Win+Shift+S</code> 后，按住 <code>Shift</code> 再按下 <code>Win+S</code> 截取当前窗口。</li>
-</ol>
-<h2 id="wsl-–list-–running-没有正在运行的分发。"><a href="#wsl-–list-–running-没有正在运行的分发。" class="headerlink" title="wsl –list –running 没有正在运行的分发。"></a>wsl –list –running 没有正在运行的分发。</h2><p>报错解释：</p>
-<p>这个报错信息表示你正在尝试列出正在运行的Windows子系统Linux（WSL）分发版，但是没有发现任何正在运行的分发版。</p>
-<p>解决方法：</p>
-<ol>
-<li>确认你是否安装了WSL分发版。可以使用 <code>wsl --list --verbose</code> 来列出所有安装的分发版。</li>
-<li>如果已安装分发版，确保它们已正确启动。你可以尝试启动一个分发版，例如，如果你安装了Ubuntu，可以尝试运行 <code>wsl --terminate Ubuntu</code> 停止它，然后运行 <code>wsl</code> 或 <code>wsl -d Ubuntu</code> 来启动它。</li>
-<li>如果你刚刚安装了一个新的分发版，可能需要重启你的电脑来完成安装。</li>
-<li>确认你的Windows版本支持WSL。需要Windows 10 更新版本1607或更高版本，以及特定的处理器架构。</li>
-</ol>
-]]></content>
   </entry>
   <entry>
     <title>数据库设计与优化指南</title>
@@ -1957,14 +2040,10 @@
 ]]></content>
       <categories>
         <category>数据库</category>
-        <category>性能优化</category>
       </categories>
       <tags>
         <tag>数据库</tag>
         <tag>MySQL</tag>
-        <tag>PostgreSQL</tag>
-        <tag>性能优化</tag>
-        <tag>SQL</tag>
       </tags>
   </entry>
   <entry>
@@ -1981,6 +2060,12 @@
 <p>如果是第一次推送该分支，使用 <code>-u </code>参数可以将本地分支与远程分支进行关联，以后可以直接使用 <code>git push</code> 和 <code>git pull</code> 不带参数进行推送和拉取。</p>
 <p>完成上述步骤后，你的本地仓库就会与远程</p>
 ]]></content>
+      <categories>
+        <category>开发工具与教程</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
   </entry>
   <entry>
     <title>面试题</title>
@@ -2010,5 +2095,12 @@
 <li>ReentrantLock有哪些特性？可重入是如何实现的？</li>
 </ol>
 ]]></content>
+      <categories>
+        <category>后端开发</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>面试</tag>
+      </tags>
   </entry>
 </search>
