@@ -180,47 +180,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MySql优化</title>
-    <url>/2023/11/11/MySql%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="以下是一些常用的方法和技巧："><a href="#以下是一些常用的方法和技巧：" class="headerlink" title="以下是一些常用的方法和技巧："></a>以下是一些常用的方法和技巧：</h2><h3 id="优化SQL查询语句："><a href="#优化SQL查询语句：" class="headerlink" title="优化SQL查询语句："></a>优化SQL查询语句：</h3><ol>
-<li>确保查询语句使用合适的索引，可以通过创建适当的索引来优化查询性能。</li>
-<li>避免使用SELECT *，而是只选择需要的列，减少数据传输量。</li>
-<li>使用JOIN查询时，确保相关字段有适当的索引。</li>
-<li>避免在WHERE子句中使用函数，这会导致无法使用索引。</li>
-</ol>
-<h3 id="优化数据库结构："><a href="#优化数据库结构：" class="headerlink" title="优化数据库结构："></a>优化数据库结构：</h3><ol>
-<li>选择合适的数据类型，尽量避免使用过大或过小的数据类型，以节省存储空间和提高查询效率。</li>
-<li>正规化数据库，避免冗余数据。合理设计表结构，减少不必要的关联查询。</li>
-<li>使用合适的主键和唯一索引，以提高查询和更新的性能。</li>
-</ol>
-<h3 id="配置MySQL服务器："><a href="#配置MySQL服务器：" class="headerlink" title="配置MySQL服务器："></a>配置MySQL服务器：</h3><ol>
-<li>调整缓冲区大小，如innodb_buffer_pool_size和key_buffer_size，以提高读写性能。</li>
-<li>调整并发连接数，根据实际情况合理设置max_connections参数。</li>
-<li>合理分配系统资源，确保MySQL服务器有足够的内存和CPU资源。</li>
-</ol>
-<h3 id="缓存优化："><a href="#缓存优化：" class="headerlink" title="缓存优化："></a>缓存优化：</h3><ol>
-<li>使用MySQL的查询缓存功能，对于经常重复的查询可以从缓存中获取结果，减少数据库的查询压力。</li>
-<li>合理利用应用程序层面的缓存，如使用Memcached或Redis来缓存查询结果或热门数据，减少对数据库的访问。</li>
-</ol>
-<h3 id="优化磁盘性能："><a href="#优化磁盘性能：" class="headerlink" title="优化磁盘性能："></a>优化磁盘性能：</h3><ol>
-<li>{将MySQL的数据文件和日志文件分别放置在不同的物理磁盘上，以提高读写性能。</li>
-<li>使用RAID技术，如RAID 10，以提高磁盘的读写速度和容错能力。}</li>
-</ol>
-<h3 id="监控和调优："><a href="#监控和调优：" class="headerlink" title="监控和调优："></a>监控和调优：</h3><ol>
-<li>定期监控MySQL服务器的性能指标，如CPU、内存、磁盘和网络的使用情况。</li>
-<li>使用MySQL自带的性能监控工具，如Explain和Slow Query Log，来分析慢查询并进行优化。</li>
-<li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>OpenClaw一键安装教程（自定义中文脚本）</title>
     <url>/2026/03/25/OpenClaw%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%84%9A%E6%9C%AC/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本教程将介绍如何使用自定义的PowerShell脚本来一键安装OpenClaw。相比官方安装脚本，自定义脚本具有以下优势：</p>
@@ -439,6 +398,264 @@
         <tag>AI</tag>
         <tag>OpenClaw</tag>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySql优化</title>
+    <url>/2023/11/11/MySql%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="以下是一些常用的方法和技巧："><a href="#以下是一些常用的方法和技巧：" class="headerlink" title="以下是一些常用的方法和技巧："></a>以下是一些常用的方法和技巧：</h2><h3 id="优化SQL查询语句："><a href="#优化SQL查询语句：" class="headerlink" title="优化SQL查询语句："></a>优化SQL查询语句：</h3><ol>
+<li>确保查询语句使用合适的索引，可以通过创建适当的索引来优化查询性能。</li>
+<li>避免使用SELECT *，而是只选择需要的列，减少数据传输量。</li>
+<li>使用JOIN查询时，确保相关字段有适当的索引。</li>
+<li>避免在WHERE子句中使用函数，这会导致无法使用索引。</li>
+</ol>
+<h3 id="优化数据库结构："><a href="#优化数据库结构：" class="headerlink" title="优化数据库结构："></a>优化数据库结构：</h3><ol>
+<li>选择合适的数据类型，尽量避免使用过大或过小的数据类型，以节省存储空间和提高查询效率。</li>
+<li>正规化数据库，避免冗余数据。合理设计表结构，减少不必要的关联查询。</li>
+<li>使用合适的主键和唯一索引，以提高查询和更新的性能。</li>
+</ol>
+<h3 id="配置MySQL服务器："><a href="#配置MySQL服务器：" class="headerlink" title="配置MySQL服务器："></a>配置MySQL服务器：</h3><ol>
+<li>调整缓冲区大小，如innodb_buffer_pool_size和key_buffer_size，以提高读写性能。</li>
+<li>调整并发连接数，根据实际情况合理设置max_connections参数。</li>
+<li>合理分配系统资源，确保MySQL服务器有足够的内存和CPU资源。</li>
+</ol>
+<h3 id="缓存优化："><a href="#缓存优化：" class="headerlink" title="缓存优化："></a>缓存优化：</h3><ol>
+<li>使用MySQL的查询缓存功能，对于经常重复的查询可以从缓存中获取结果，减少数据库的查询压力。</li>
+<li>合理利用应用程序层面的缓存，如使用Memcached或Redis来缓存查询结果或热门数据，减少对数据库的访问。</li>
+</ol>
+<h3 id="优化磁盘性能："><a href="#优化磁盘性能：" class="headerlink" title="优化磁盘性能："></a>优化磁盘性能：</h3><ol>
+<li>{将MySQL的数据文件和日志文件分别放置在不同的物理磁盘上，以提高读写性能。</li>
+<li>使用RAID技术，如RAID 10，以提高磁盘的读写速度和容错能力。}</li>
+</ol>
+<h3 id="监控和调优："><a href="#监控和调优：" class="headerlink" title="监控和调优："></a>监控和调优：</h3><ol>
+<li>定期监控MySQL服务器的性能指标，如CPU、内存、磁盘和网络的使用情况。</li>
+<li>使用MySQL自带的性能监控工具，如Explain和Slow Query Log，来分析慢查询并进行优化。</li>
+<li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RAG 精度优化文档</title>
+    <url>/2026/03/26/RAG%E7%B2%BE%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h1 id="RAG-精度优化文档"><a href="#RAG-精度优化文档" class="headerlink" title="RAG 精度优化文档"></a>RAG 精度优化文档</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>当用户询问”Vue 3 简介”时，匹配结果中出现了 SpringBoot 相关文档，说明向量检索的匹配度不够精确，存在以下问题：</p>
+<ol>
+<li><strong>没有设置相似度阈值</strong> - 低相关度的文档也被返回</li>
+<li><strong>没有限制返回结果数量</strong> - 返回结果过多，质量参差不齐</li>
+<li><strong>缺少相似度分数展示</strong> - 无法判断文档与问题的相关程度</li>
+<li><strong>文本分块策略可能不够精细</strong> - 分块大小和重叠度需要优化</li>
+</ol>
+<hr>
+<h2 id="优化方案"><a href="#优化方案" class="headerlink" title="优化方案"></a>优化方案</h2><h3 id="方案一：使用-SearchRequest-进行精确检索（推荐）"><a href="#方案一：使用-SearchRequest-进行精确检索（推荐）" class="headerlink" title="方案一：使用 SearchRequest 进行精确检索（推荐）"></a>方案一：使用 SearchRequest 进行精确检索（推荐）</h3><p>Spring AI 提供了 <code>SearchRequest</code> 类，可以设置相似度阈值和返回数量。</p>
+<p><strong>修改文件：</strong> <code>src/main/java/com/snrt/knowledgebase/service/ChatService.java</code></p>
+<p><strong>修改内容：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.ai.vectorstore.SearchRequest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> PromptResult <span class="title function_">buildPromptWithSources</span><span class="params">(String message, String knowledgeBaseId)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (knowledgeBaseId == <span class="literal">null</span>) &#123;</span><br><span class="line">        log.debug(<span class="string">&quot;[Prompt构建] 未指定知识库，直接返回用户消息&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">PromptResult</span>(message, <span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    log.info(<span class="string">&quot;[Prompt构建] 知识库ID: &#123;&#125;, 开始检索相关文档&quot;</span>, knowledgeBaseId);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 SearchRequest 设置相似度阈值和返回数量</span></span><br><span class="line">    <span class="type">SearchRequest</span> <span class="variable">searchRequest</span> <span class="operator">=</span> SearchRequest.builder()</span><br><span class="line">        .query(message)</span><br><span class="line">        .topK(<span class="number">20</span>)                    <span class="comment">// 增加初始检索数量，后续再过滤</span></span><br><span class="line">        .similarityThreshold(<span class="number">0.5</span>)    <span class="comment">// 设置相似度阈值 0.5（可根据实际情况调整）</span></span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">    List&lt;Document&gt; relevantDocs = vectorStore.similaritySearch(searchRequest);</span><br><span class="line">    log.debug(<span class="string">&quot;[Prompt构建] 检索到 &#123;&#125; 个相关文档&quot;</span>, relevantDocs.size());</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ... 后续逻辑保持不变</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>参数说明：</strong></p>
+<ul>
+<li><code>topK(20)</code> - 初始检索20个文档，给后续过滤留有余地</li>
+<li><code>similarityThreshold(0.5)</code> - 只返回相似度大于等于0.5的文档（注意：pgvector返回的是余弦距离，需要转换为相似度，详见下文”余弦距离与相似度的关系”）</li>
+</ul>
+<hr>
+<h3 id="方案二：增加后置过滤和排序"><a href="#方案二：增加后置过滤和排序" class="headerlink" title="方案二：增加后置过滤和排序"></a>方案二：增加后置过滤和排序</h3><p>在检索后增加基于相似度分数的过滤和排序，确保返回最相关的内容。</p>
+<p><strong>修改文件：</strong> <code>src/main/java/com/snrt/knowledgebase/service/ChatService.java</code></p>
+<p><strong>修改内容：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> PromptResult <span class="title function_">buildPromptWithSources</span><span class="params">(String message, String knowledgeBaseId)</span> &#123;</span><br><span class="line">    <span class="comment">// ... 前面的代码 ...</span></span><br><span class="line"></span><br><span class="line">    List&lt;Document&gt; relevantDocs = vectorStore.similaritySearch(searchRequest);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 按相似度分数排序（从高到低）</span></span><br><span class="line">    relevantDocs.sort((d1, d2) -&gt; &#123;</span><br><span class="line">        <span class="type">Double</span> <span class="variable">score1</span> <span class="operator">=</span> (Double) d1.getMetadata().get(<span class="string">&quot;distance&quot;</span>);</span><br><span class="line">        <span class="type">Double</span> <span class="variable">score2</span> <span class="operator">=</span> (Double) d2.getMetadata().get(<span class="string">&quot;distance&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> Double.compare(score2 != <span class="literal">null</span> ? score2 : <span class="number">0</span>, score1 != <span class="literal">null</span> ? score1 : <span class="number">0</span>);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 过滤并限制结果</span></span><br><span class="line">    List&lt;Document&gt; filteredDocs = relevantDocs.stream()</span><br><span class="line">        .filter(doc -&gt; &#123;</span><br><span class="line">            <span class="comment">// 知识库ID过滤</span></span><br><span class="line">            <span class="type">Object</span> <span class="variable">kbId</span> <span class="operator">=</span> doc.getMetadata().get(Constants.VectorStore.METADATA_KNOWLEDGE_BASE_ID);</span><br><span class="line">            <span class="type">boolean</span> <span class="variable">kbMatch</span> <span class="operator">=</span> kbId != <span class="literal">null</span> &amp;&amp; kbId.equals(knowledgeBaseId);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 相似度过滤（如果 SearchRequest 的阈值不够，可以在这里二次过滤）</span></span><br><span class="line">            <span class="type">Double</span> <span class="variable">score</span> <span class="operator">=</span> (Double) doc.getMetadata().get(<span class="string">&quot;distance&quot;</span>);</span><br><span class="line">            <span class="type">boolean</span> <span class="variable">scoreMatch</span> <span class="operator">=</span> score == <span class="literal">null</span> || score &gt;= <span class="number">0.7</span>; <span class="comment">// 相似度阈值</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> kbMatch &amp;&amp; scoreMatch;</span><br><span class="line">        &#125;)</span><br><span class="line">        .limit(Constants.Chat.MAX_CONTEXT_LENGTH)</span><br><span class="line">        .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ... 后续代码 ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="方案三：优化文档分块策略"><a href="#方案三：优化文档分块策略" class="headerlink" title="方案三：优化文档分块策略"></a>方案三：优化文档分块策略</h3><p>调整分块大小和重叠度，提高检索精度。</p>
+<p><strong>修改文件：</strong> <code>src/main/java/com/snrt/knowledgebase/constants/Constants.java</code></p>
+<p><strong>修改内容：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">VectorStore</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">CHUNK_SIZE</span> <span class="operator">=</span> <span class="number">800</span>;      <span class="comment">// 从 1000 调整为 800</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">CHUNK_OVERLAP</span> <span class="operator">=</span> <span class="number">100</span>;   <span class="comment">// 从 200 调整为 100</span></span><br><span class="line">    <span class="comment">// ... 其他常量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>调整说明：</strong></p>
+<ul>
+<li>减小 <code>CHUNK_SIZE</code> 可以提高检索的精确度，但可能丢失上下文</li>
+<li>减小 <code>CHUNK_OVERLAP</code> 可以减少冗余，但需要权衡信息连续性</li>
+</ul>
+<hr>
+<h3 id="方案四：在返回结果中显示相似度分数"><a href="#方案四：在返回结果中显示相似度分数" class="headerlink" title="方案四：在返回结果中显示相似度分数"></a>方案四：在返回结果中显示相似度分数</h3><p>让用户了解每个来源的匹配程度，便于判断答案可信度。</p>
+<p><strong>修改文件：</strong> <code>src/main/java/com/snrt/knowledgebase/service/ChatService.java</code></p>
+<p><strong>修改内容：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;DocumentSourceDTO&gt; documentSources = docsByDocumentId.entrySet().stream()</span><br><span class="line">    .map(entry -&gt; &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">docId</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">        List&lt;Document&gt; docChunks = entry.getValue();</span><br><span class="line">        <span class="type">Document</span> <span class="variable">firstDoc</span> <span class="operator">=</span> docChunks.get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">Object</span> <span class="variable">docName</span> <span class="operator">=</span> firstDoc.getMetadata().get(Constants.VectorStore.METADATA_DOCUMENT_NAME);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">kbName</span> <span class="operator">=</span> firstDoc.getMetadata().get(Constants.VectorStore.METADATA_KNOWLEDGE_BASE_NAME);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 获取相似度分数</span></span><br><span class="line">        <span class="type">Double</span> <span class="variable">score</span> <span class="operator">=</span> (Double) firstDoc.getMetadata().get(<span class="string">&quot;distance&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (score == <span class="literal">null</span>) &#123;</span><br><span class="line">            score = <span class="number">0.0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 收集所有分块的片段内容</span></span><br><span class="line">        List&lt;String&gt; snippets = docChunks.stream()</span><br><span class="line">            .map(doc -&gt; &#123;</span><br><span class="line">                <span class="type">String</span> <span class="variable">text</span> <span class="operator">=</span> doc.getText();</span><br><span class="line">                <span class="keyword">return</span> text.length() &gt; <span class="number">200</span> ? text.substring(<span class="number">0</span>, <span class="number">200</span>) + <span class="string">&quot;...&quot;</span> : text;</span><br><span class="line">            &#125;)</span><br><span class="line">            .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> DocumentSourceDTO.builder()</span><br><span class="line">            .documentId(docId.equals(<span class="string">&quot;unknown&quot;</span>) ? <span class="literal">null</span> : docId)</span><br><span class="line">            .documentName(docName != <span class="literal">null</span> ? docName.toString() : <span class="string">&quot;未知文档&quot;</span>)</span><br><span class="line">            .knowledgeBaseName(kbName != <span class="literal">null</span> ? kbName.toString() : <span class="string">&quot;未知知识库&quot;</span>)</span><br><span class="line">            .score(score)  <span class="comment">// 设置相似度分数</span></span><br><span class="line">            .snippet(snippets.isEmpty() ? <span class="string">&quot;&quot;</span> : snippets.get(<span class="number">0</span>))</span><br><span class="line">            .snippets(snippets)</span><br><span class="line">            .build();</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 按相似度分数排序</span></span><br><span class="line">    .sorted((s1, s2) -&gt; Double.compare(s2.getScore() != <span class="literal">null</span> ? s2.getScore() : <span class="number">0</span>, </span><br><span class="line">                                       s1.getScore() != <span class="literal">null</span> ? s1.getScore() : <span class="number">0</span>))</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="方案五：前端显示相似度分数"><a href="#方案五：前端显示相似度分数" class="headerlink" title="方案五：前端显示相似度分数"></a>方案五：前端显示相似度分数</h3><p>在前端界面展示每个来源的匹配度，帮助用户判断信息可靠性。</p>
+<p><strong>修改文件：</strong> <code>knowledge-base-ui/src/components/chat/SourcesPanel.vue</code>（或相关组件）</p>
+<p><strong>修改内容：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;source-list&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;source-item&quot; v-for=&quot;source in sources&quot; :key=&quot;source.documentId&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;source-header&quot;&gt;</span><br><span class="line">        &lt;span class=&quot;source-name&quot;&gt;&#123;&#123; source.documentName &#125;&#125;&lt;/span&gt;</span><br><span class="line">        &lt;span class=&quot;source-score&quot; v-if=&quot;source.score !== null&quot;&gt;</span><br><span class="line">          匹配度: &#123;&#123; (source.score * 100).toFixed(1) &#125;&#125;%</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">      &lt;div class=&quot;source-kb&quot;&gt;&#123;&#123; source.knowledgeBaseName &#125;&#125;&lt;/div&gt;</span><br><span class="line">      &lt;div class=&quot;source-snippet&quot;&gt;&#123;&#123; source.snippet &#125;&#125;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.source-header &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  justify-content: space-between;</span><br><span class="line">  align-items: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.source-score &#123;</span><br><span class="line">  font-size: 12px;</span><br><span class="line">  color: #409eff;</span><br><span class="line">  background-color: #ecf5ff;</span><br><span class="line">  padding: 2px 8px;</span><br><span class="line">  border-radius: 4px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="重要概念：余弦距离与相似度的关系"><a href="#重要概念：余弦距离与相似度的关系" class="headerlink" title="重要概念：余弦距离与相似度的关系"></a>重要概念：余弦距离与相似度的关系</h2><h3 id="核心区别"><a href="#核心区别" class="headerlink" title="核心区别"></a>核心区别</h3><p>在使用 pgvector 向量数据库时，需要特别注意 <strong>余弦距离（Cosine Distance）</strong> 和 <strong>余弦相似度（Cosine Similarity）</strong> 的区别：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>计算公式</th>
+<th>取值范围</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>余弦距离</strong></td>
+<td><code>distance = 1 - similarity</code></td>
+<td>0.0 ~ 2.0</td>
+<td><strong>越小越相似</strong></td>
+</tr>
+<tr>
+<td><strong>余弦相似度</strong></td>
+<td><code>similarity = 1 - distance</code></td>
+<td>-1.0 ~ 1.0</td>
+<td><strong>越大越相似</strong></td>
+</tr>
+</tbody></table>
+<h3 id="实际应用中的转换"><a href="#实际应用中的转换" class="headerlink" title="实际应用中的转换"></a>实际应用中的转换</h3><p>pgvector 默认返回的是 <strong>余弦距离</strong>，但我们在业务逻辑中通常使用 <strong>相似度</strong> 更直观：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 从 metadata 中获取的是余弦距离</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">distanceObj</span> <span class="operator">=</span> doc.getMetadata().get(<span class="string">&quot;distance&quot;</span>);</span><br><span class="line"><span class="type">double</span> <span class="variable">distance</span> <span class="operator">=</span> ((Number) distanceObj).doubleValue();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转换为相似度（范围 0~1）</span></span><br><span class="line"><span class="type">double</span> <span class="variable">similarity</span> <span class="operator">=</span> <span class="number">1.0</span> - distance;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分数对照表"><a href="#分数对照表" class="headerlink" title="分数对照表"></a>分数对照表</h3><table>
+<thead>
+<tr>
+<th>余弦距离</th>
+<th>余弦相似度</th>
+<th>匹配程度</th>
+<th>业务含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.0</td>
+<td>1.0 (100%)</td>
+<td>完全相同</td>
+<td>理想状态，很少达到</td>
+</tr>
+<tr>
+<td>0.2</td>
+<td>0.8 (80%)</td>
+<td>高度相似</td>
+<td>非常相关，推荐阈值上限</td>
+</tr>
+<tr>
+<td>0.3</td>
+<td>0.7 (70%)</td>
+<td>比较相似</td>
+<td>相关，可作为严格阈值</td>
+</tr>
+<tr>
+<td><strong>0.45</strong></td>
+<td><strong>0.55 (55%)</strong></td>
+<td><strong>一般相似</strong></td>
+<td><strong>Vue 3 文档实际分数</strong></td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>0.5 (50%)</td>
+<td>基本相关</td>
+<td>建议的最低阈值</td>
+</tr>
+<tr>
+<td>0.7</td>
+<td>0.3 (30%)</td>
+<td>弱相关</td>
+<td>通常应该过滤掉</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>0.0 (0%)</td>
+<td>不相关</td>
+<td>完全不同</td>
+</tr>
+</tbody></table>
+<h3 id="阈值设置建议"><a href="#阈值设置建议" class="headerlink" title="阈值设置建议"></a>阈值设置建议</h3><p>根据实际测试数据（Vue 3 文档相似度约 0.51-0.55）：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 推荐阈值范围</span></span><br><span class="line"><span class="type">double</span> <span class="variable">similarityThreshold</span> <span class="operator">=</span> <span class="number">0.5</span>;  <span class="comment">// 平衡精度和召回率（当前推荐）</span></span><br><span class="line"><span class="type">double</span> <span class="variable">similarityThreshold</span> <span class="operator">=</span> <span class="number">0.55</span>; <span class="comment">// 更严格，可能过滤部分内容</span></span><br><span class="line"><span class="type">double</span> <span class="variable">similarityThreshold</span> <span class="operator">=</span> <span class="number">0.45</span>; <span class="comment">// 更宽松，可能包含更多内容</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="日志解读示例"><a href="#日志解读示例" class="headerlink" title="日志解读示例"></a>日志解读示例</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Prompt构建] 文档: test-rag-vue3-guide.md, 余弦距离: 0.452, 相似度: 0.55, 知识库匹配: true, 相似度匹配: true</span><br><span class="line">[Prompt构建] 文档: test-rag-springboot.md, 余弦距离: 0.650, 相似度: 0.35, 知识库匹配: true, 相似度匹配: false ← 被过滤</span><br></pre></td></tr></table></figure>
+
+<p><strong>解读：</strong></p>
+<ul>
+<li>Vue 3 文档：相似度 0.55 &gt; 阈值 0.5，<strong>保留</strong></li>
+<li>SpringBoot 文档：相似度 0.35 &lt; 阈值 0.5，<strong>过滤</strong></li>
+</ul>
+<hr>
+<h2 id="实施建议"><a href="#实施建议" class="headerlink" title="实施建议"></a>实施建议</h2><h3 id="推荐实施顺序"><a href="#推荐实施顺序" class="headerlink" title="推荐实施顺序"></a>推荐实施顺序</h3><ol>
+<li><strong>首先实施方案一</strong> - 使用 <code>SearchRequest</code> 设置相似度阈值（0.5）和返回数量</li>
+<li><strong>然后实施方案四</strong> - 在返回结果中包含相似度分数，便于调试和展示</li>
+<li><strong>根据效果考虑方案三</strong> - 调整分块策略</li>
+</ol>
+<h3 id="相似度阈值调整建议"><a href="#相似度阈值调整建议" class="headerlink" title="相似度阈值调整建议"></a>相似度阈值调整建议</h3><p><strong>注意：</strong> 以下阈值指的是<strong>余弦相似度</strong>（范围 0~1），不是余弦距离。</p>
+<table>
+<thead>
+<tr>
+<th>相似度阈值</th>
+<th>对应余弦距离</th>
+<th>适用场景</th>
+<th>预期效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.45-0.5</td>
+<td>0.5-0.55</td>
+<td>宽松匹配</td>
+<td>召回率高，可能包含弱相关内容</td>
+</tr>
+<tr>
+<td><strong>0.5-0.55</strong></td>
+<td><strong>0.45-0.5</strong></td>
+<td><strong>平衡推荐</strong></td>
+<td><strong>Vue 3 文档实际分数范围，推荐默认值</strong></td>
+</tr>
+<tr>
+<td>0.6-0.7</td>
+<td>0.3-0.4</td>
+<td>严格匹配</td>
+<td>精度高，可能漏掉部分内容</td>
+</tr>
+<tr>
+<td>0.7+</td>
+<td>&lt;0.3</td>
+<td>非常严格</td>
+<td>只保留高度相关内容</td>
+</tr>
+</tbody></table>
+<h3 id="验证方法"><a href="#验证方法" class="headerlink" title="验证方法"></a>验证方法</h3><ol>
+<li><p>使用测试问题验证检索效果：</p>
+<ul>
+<li>“Vue 3 简介” - 应该只返回 Vue 相关文档</li>
+<li>“SpringBoot 自动配置原理” - 应该只返回 SpringBoot 相关文档</li>
+</ul>
+</li>
+<li><p>观察相似度分数分布，调整阈值到合适范围</p>
+</li>
+<li><p>监控检索结果数量和质量，确保用户体验</p>
+</li>
+</ol>
+<hr>
+<h2 id="相关文件清单"><a href="#相关文件清单" class="headerlink" title="相关文件清单"></a>相关文件清单</h2><ul>
+<li><code>src/main/java/com/snrt/knowledgebase/service/ChatService.java</code> - 核心检索逻辑</li>
+<li><code>src/main/java/com/snrt/knowledgebase/constants/Constants.java</code> - 分块参数配置</li>
+<li><code>src/main/java/com/snrt/knowledgebase/dto/DocumentSourceDTO.java</code> - 文档来源DTO</li>
+<li><code>knowledge-base-ui/src/components/chat/SourcesPanel.vue</code> - 前端展示组件（路径可能不同）</li>
+</ul>
+<hr>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li><strong>理解距离与相似度的区别</strong>：pgvector 返回的是余弦距离（越小越相似），业务逻辑通常使用相似度（越大越相似），转换公式为 <code>similarity = 1 - distance</code></li>
+<li><strong>相似度阈值需要根据实际数据调整</strong>，不同 embedding 模型的分数分布可能不同</li>
+<li><strong>修改分块策略后需要重新索引文档</strong>，否则不会生效</li>
+<li><strong>建议先在测试环境验证效果</strong>，再应用到生产环境</li>
+<li><strong>可以添加配置项</strong>，让相似度阈值可动态调整，无需重启服务</li>
+<li><strong>观察日志中的实际分数</strong>，根据真实数据调整阈值，不要仅凭理论值设置</li>
+</ol>
+]]></content>
+      <categories>
+        <category>AI 与人工智能</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>RAG</tag>
       </tags>
   </entry>
   <entry>
@@ -1001,7 +1218,7 @@
   </entry>
   <entry>
     <title>Taro 介绍</title>
-    <url>/2026/03/26/Taro%E7%AE%80%E4%BB%8B/</url>
+    <url>/2026/03/27/Taro%E7%AE%80%E4%BB%8B/</url>
     <content><![CDATA[<h1 id="Taro-介绍"><a href="#Taro-介绍" class="headerlink" title="Taro 介绍"></a>Taro 介绍</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>Taro</strong> 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发 <a href="https://mp.weixin.qq.com/">微信</a> / <a href="https://mp.jd.com/?entrance=taro">京东</a> / <a href="https://smartprogram.baidu.com/">百度</a> / <a href="https://mini.open.alipay.com/">支付宝</a> / <a href="https://developer.open-douyin.com/">字节跳动</a> / <a href="https://q.qq.com/">QQ</a> / <a href="https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN">飞书</a> 小程序 / H5 / RN 等应用。</p>
 <p>现如今市面上端的形态多种多样，Web、React Native、微信小程序等各种端大行其道。当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。</p>
 <h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="多端转换支持"><a href="#多端转换支持" class="headerlink" title="多端转换支持"></a>多端转换支持</h3><p>Taro 3 可以支持转换到 H5、ReactNative 以及任意小程序平台。</p>
@@ -1613,6 +1830,35 @@
       </tags>
   </entry>
   <entry>
+    <title>hexo更换主题</title>
+    <url>/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="1-Install-a-New-Theme"><a href="#1-Install-a-New-Theme" class="headerlink" title="1. Install a New Theme:"></a>1. <strong>Install a New Theme</strong>:</h2><p>First, find a theme you like from the Hexo theme collection or from other sources on the internet. Once you’ve chosen a theme, install it by using npm (Node Package Manager). Open your command-line interface and navigate to your Hexo project folder, then run the following command:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install &lt;theme-name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Replace <theme-name> with the name of the theme you want to install. For example, if you want to install a theme called “my-awesome-theme,” the command will be:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install my-awesome-theme</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Configure-the-Theme"><a href="#2-Configure-the-Theme" class="headerlink" title="2. Configure the Theme:"></a>2. <strong>Configure the Theme</strong>:</h2><p>After installing the theme, you need to update your _config.yml file to set the new theme as the default theme. Open the _config.yml file located in your Hexo project root directory and locate the line that defines the theme setting. Change the value to the name of the new theme you installed. For example:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">my-awesome-theme</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Customize-the-Theme-Optional"><a href="#3-Customize-the-Theme-Optional" class="headerlink" title="3. Customize the Theme (Optional):"></a>3. <strong>Customize the Theme (Optional)</strong>:</h2><p>Many themes offer customization options, such as changing colors, layout, fonts, and other settings. Check the documentation of the theme you installed to understand how you can customize it. Some themes may provide additional configuration options in the _config.yml file.</p>
+<h2 id="4-Generate-and-View-Your-Site"><a href="#4-Generate-and-View-Your-Site" class="headerlink" title="4. Generate and View Your Site:"></a>4. <strong>Generate and View Your Site</strong>:</h2><p>After installing the theme and making any desired customizations, generate your Hexo site by running the following command:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>Finally, view your updated site by running the server with the following command:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>Now you can open your web browser and go to <a href="http://localhost:4000/">http://localhost:4000</a> to see your Hexo site with the newly installed theme.</p>
+<p>Remember, when switching themes, it’s essential to check if there are any specific instructions or steps provided by the theme’s documentation, as themes may have varying requirements or customizations.</p>
+]]></content>
+      <categories>
+        <category>开发工具与教程</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo搭建个人博客</title>
     <url>/2023/11/11/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<h2 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1. 环境准备"></a>1. 环境准备</h2><h3 id="1-1-安装Git"><a href="#1-1-安装Git" class="headerlink" title="1.1 安装Git"></a>1.1 安装Git</h3><p>到<a href="https://git-scm.com/">Git 官网</a>上下载安装。</p>
@@ -1733,35 +1979,6 @@
 <h3 id="5-3-切换分支"><a href="#5-3-切换分支" class="headerlink" title="5.3 切换分支"></a>5.3 切换分支</h3><p>vercel默认分支名是main，即上传到Github仓库main分支中才会触发更新，打开项目中的<code>Settings</code>，选择<code>Git</code>，将分支名改为自己部署静态网页资源的分支名。<br><img src="https://img-blog.csdnimg.cn/b598fc9c7a91442eb0ba0368a875a08c.png#pic_center" alt="在这里插入图片描述"></p>
 <h3 id="5-4-配置个人域名"><a href="#5-4-配置个人域名" class="headerlink" title="5.4 配置个人域名"></a>5.4 配置个人域名</h3><p>同样在项目里的<code>Settings</code>里面，打开<code>Domains</code>，新增自己的个人域名，然后在自己的域名服务商那里添加一条DNS解析。完成配置，这样百度爬虫就可以爬取我们的网站了。</p>
 <p><img src="https://img-blog.csdnimg.cn/19927baad7c04bbbb429a30f4cbddff0.png#pic_center" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>开发工具与教程</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo更换主题</title>
-    <url>/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="1-Install-a-New-Theme"><a href="#1-Install-a-New-Theme" class="headerlink" title="1. Install a New Theme:"></a>1. <strong>Install a New Theme</strong>:</h2><p>First, find a theme you like from the Hexo theme collection or from other sources on the internet. Once you’ve chosen a theme, install it by using npm (Node Package Manager). Open your command-line interface and navigate to your Hexo project folder, then run the following command:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install &lt;theme-name&gt;</span><br></pre></td></tr></table></figure>
-
-<p>Replace <theme-name> with the name of the theme you want to install. For example, if you want to install a theme called “my-awesome-theme,” the command will be:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install my-awesome-theme</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-Configure-the-Theme"><a href="#2-Configure-the-Theme" class="headerlink" title="2. Configure the Theme:"></a>2. <strong>Configure the Theme</strong>:</h2><p>After installing the theme, you need to update your _config.yml file to set the new theme as the default theme. Open the _config.yml file located in your Hexo project root directory and locate the line that defines the theme setting. Change the value to the name of the new theme you installed. For example:</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">my-awesome-theme</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-Customize-the-Theme-Optional"><a href="#3-Customize-the-Theme-Optional" class="headerlink" title="3. Customize the Theme (Optional):"></a>3. <strong>Customize the Theme (Optional)</strong>:</h2><p>Many themes offer customization options, such as changing colors, layout, fonts, and other settings. Check the documentation of the theme you installed to understand how you can customize it. Some themes may provide additional configuration options in the _config.yml file.</p>
-<h2 id="4-Generate-and-View-Your-Site"><a href="#4-Generate-and-View-Your-Site" class="headerlink" title="4. Generate and View Your Site:"></a>4. <strong>Generate and View Your Site</strong>:</h2><p>After installing the theme and making any desired customizations, generate your Hexo site by running the following command:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>Finally, view your updated site by running the server with the following command:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>Now you can open your web browser and go to <a href="http://localhost:4000/">http://localhost:4000</a> to see your Hexo site with the newly installed theme.</p>
-<p>Remember, when switching themes, it’s essential to check if there are any specific instructions or steps provided by the theme’s documentation, as themes may have varying requirements or customizations.</p>
 ]]></content>
       <categories>
         <category>开发工具与教程</category>
