@@ -5,6 +5,7 @@ categories:
   - 开发工具
 tags:
   - 工具
+  - WSL
 ---
 
 在 Windows 10 专业版上安装 WSL（Windows Subsystem for Linux）非常简单。微软提供了一个一键安装的命令，这是最推荐的方法。
