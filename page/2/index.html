@@ -138,18 +138,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -211,7 +211,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -278,6 +278,162 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/03/24/windows%E5%AE%89%E8%A3%85wsl%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/03/24/windows%E5%AE%89%E8%A3%85wsl%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">Windows安装OpenClaw保姆级教程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-03-24 10:00:00" itemprop="dateCreated datePublished" datetime="2026-03-24T10:00:00+08:00">2026-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在 Windows 10 专业版上安装 WSL（Windows Subsystem for Linux）非常简单。微软提供了一个一键安装的命令，这是最推荐的方法。</p>
+<h3 id="🚀-快速安装（推荐）"><a href="#🚀-快速安装（推荐）" class="headerlink" title="🚀 快速安装（推荐）"></a>🚀 快速安装（推荐）</h3><p>这是最简单快捷的安装方式，适用于 Windows 10 版本 2004 及更高版本（内部版本 19041+）。</p>
+<ol>
+<li><p><strong>以管理员身份打开 PowerShell</strong></p>
+<ul>
+<li>在开始菜单搜索 “PowerShell”。</li>
+<li>右键点击 “Windows PowerShell”，选择“以管理员身份运行”。</li>
+</ul>
+</li>
+<li><p><strong>运行安装命令</strong></p>
+<ul>
+<li><p>在打开的 PowerShell 窗口中，输入以下命令并按回车：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1wsl --install</span><br></pre></td></tr></table></figure></li>
+<li><p>这个命令会自动完成以下操作：</p>
+<ul>
+<li>启用“适用于 Linux 的 Windows 子系统”和“虚拟机平台”这两个必需的 Windows 功能。</li>
+<li>下载并安装 WSL 2 的 Linux 内核。</li>
+<li>将 WSL 2 设置为默认版本。</li>
+<li>从 Microsoft Store 下载并安装默认的 Linux 发行版（通常是 Ubuntu）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>重启计算机</strong></p>
+<ul>
+<li>命令执行完成后，根据提示重启你的电脑以使更改生效。</li>
+</ul>
+</li>
+<li><p><strong>完成初始化设置</strong></p>
+<ul>
+<li>重启后，系统可能会自动打开一个终端窗口，或者你可以从开始菜单启动刚安装的 Ubuntu。</li>
+<li>首次启动时，会提示你创建一个新的 UNIX 用户名和密码。<ul>
+<li><strong>用户名</strong>：可以是任意名称，不必与你的 Windows 用户名一致。</li>
+<li><strong>密码</strong>：输入时屏幕上不会显示字符，这是 Linux 的正常安全特性，请放心输入并牢记。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>设置完成后，你就可以开始使用 WSL 了。</p>
+<h3 id="🛠️-手动安装（备选方案）"><a href="#🛠️-手动安装（备选方案）" class="headerlink" title="🛠️ 手动安装（备选方案）"></a>🛠️ 手动安装（备选方案）</h3><p>如果你的 Windows 10 版本较旧，或者 <code>wsl --install</code> 命令遇到问题，可以按照以下步骤手动安装。</p>
+<ol>
+<li><p><strong>启用 WSL 和虚拟机平台功能</strong></p>
+<ul>
+<li><p>以管理员身份打开 PowerShell，依次运行以下两条命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart</span><br><span class="line">2dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>重启计算机</strong></p>
+<ul>
+<li>运行完上述命令后，重启你的电脑。</li>
+</ul>
+</li>
+<li><p><strong>下载并安装 WSL 2 内核更新包</strong></p>
+<ul>
+<li>从微软官方链接下载适用于 x64 计算机的更新包：<br><a target="_blank" rel="noopener" href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi">WSL2 Linux 内核更新包</a></li>
+<li>下载完成后，双击运行安装程序。</li>
+</ul>
+</li>
+<li><p><strong>将 WSL 2 设置为默认版本</strong></p>
+<ul>
+<li><p>再次以管理员身份打开 PowerShell，运行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1wsl --set-default-version 2</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>安装 Linux 发行版</strong></p>
+<ul>
+<li>打开 Microsoft Store，搜索你喜欢的 Linux 发行版（如 “Ubuntu 22.04 LTS”、”Debian” 等），然后点击“获取”或“安装”。</li>
+<li>安装完成后，从开始菜单启动它，并按照“快速安装”中的第4步完成初始化设置。</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -314,7 +470,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -415,7 +571,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -523,7 +679,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -649,7 +805,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -747,7 +903,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -949,7 +1105,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1050,7 +1206,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1163,7 +1319,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
+      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1208,108 +1364,6 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2023-08-04 20:40:47.160 22060-22060 LoggingAspect           com.snrt.helloworld                  E  after: 12ms</span><br><span class="line">2023-08-04 20:44:47.954 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法开始时间: 1691153087954</span><br><span class="line">2023-08-04 20:44:47.968 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法结束时间: 1691153087968</span><br><span class="line">2023-08-04 20:44:47.968 24627-24627 LoggingAspect           com.snrt.helloworld                  E  after: 14ms</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>以上就是在 Android 项目中使用 AspectJ 的基本流程。使用 AspectJ 可以更好地将横切关注点从业务逻辑中分离出来，从而提高代码的模块化和可维护性。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="snrt111">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天鹰的个人博客">
-      <meta itemprop="description" content="记录工作中的一点一滴">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 天鹰的个人博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/08/01/hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98/" class="post-title-link" itemprop="url">hexo更换主题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-08-01 23:30:23" itemprop="dateCreated datePublished" datetime="2023-08-01T23:30:23+08:00">2023-08-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-27 11:19:18" itemprop="dateModified" datetime="2026-03-27T11:19:18+08:00">2026-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">开发工具与教程</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="1-Install-a-New-Theme"><a href="#1-Install-a-New-Theme" class="headerlink" title="1. Install a New Theme:"></a>1. <strong>Install a New Theme</strong>:</h2><p>First, find a theme you like from the Hexo theme collection or from other sources on the internet. Once you’ve chosen a theme, install it by using npm (Node Package Manager). Open your command-line interface and navigate to your Hexo project folder, then run the following command:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;theme-name&gt;</span><br></pre></td></tr></table></figure>
-
-<p>Replace <theme-name> with the name of the theme you want to install. For example, if you want to install a theme called “my-awesome-theme,” the command will be:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install my-awesome-theme</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-Configure-the-Theme"><a href="#2-Configure-the-Theme" class="headerlink" title="2. Configure the Theme:"></a>2. <strong>Configure the Theme</strong>:</h2><p>After installing the theme, you need to update your _config.yml file to set the new theme as the default theme. Open the _config.yml file located in your Hexo project root directory and locate the line that defines the theme setting. Change the value to the name of the new theme you installed. For example:</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">my-awesome-theme</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-Customize-the-Theme-Optional"><a href="#3-Customize-the-Theme-Optional" class="headerlink" title="3. Customize the Theme (Optional):"></a>3. <strong>Customize the Theme (Optional)</strong>:</h2><p>Many themes offer customization options, such as changing colors, layout, fonts, and other settings. Check the documentation of the theme you installed to understand how you can customize it. Some themes may provide additional configuration options in the _config.yml file.</p>
-<h2 id="4-Generate-and-View-Your-Site"><a href="#4-Generate-and-View-Your-Site" class="headerlink" title="4. Generate and View Your Site:"></a>4. <strong>Generate and View Your Site</strong>:</h2><p>After installing the theme and making any desired customizations, generate your Hexo site by running the following command:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>Finally, view your updated site by running the server with the following command:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>Now you can open your web browser and go to <a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a> to see your Hexo site with the newly installed theme.</p>
-<p>Remember, when switching themes, it’s essential to check if there are any specific instructions or steps provided by the theme’s documentation, as themes may have varying requirements or customizations.</p>
 
       
     </div>
