@@ -138,18 +138,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -166,6 +166,226 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2023/11/11/MySql%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/11/11/MySql%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">MySql优化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-11-11 12:12:22" itemprop="dateCreated datePublished" datetime="2023-11-11T12:12:22+08:00">2023-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-14 10:14:26" itemprop="dateModified" datetime="2026-04-14T10:14:26+08:00">2026-04-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="以下是一些常用的方法和技巧："><a href="#以下是一些常用的方法和技巧：" class="headerlink" title="以下是一些常用的方法和技巧："></a>以下是一些常用的方法和技巧：</h2><h3 id="优化SQL查询语句："><a href="#优化SQL查询语句：" class="headerlink" title="优化SQL查询语句："></a>优化SQL查询语句：</h3><ol>
+<li>确保查询语句使用合适的索引，可以通过创建适当的索引来优化查询性能。</li>
+<li>避免使用SELECT *，而是只选择需要的列，减少数据传输量。</li>
+<li>使用JOIN查询时，确保相关字段有适当的索引。</li>
+<li>避免在WHERE子句中使用函数，这会导致无法使用索引。</li>
+</ol>
+<h3 id="优化数据库结构："><a href="#优化数据库结构：" class="headerlink" title="优化数据库结构："></a>优化数据库结构：</h3><ol>
+<li>选择合适的数据类型，尽量避免使用过大或过小的数据类型，以节省存储空间和提高查询效率。</li>
+<li>正规化数据库，避免冗余数据。合理设计表结构，减少不必要的关联查询。</li>
+<li>使用合适的主键和唯一索引，以提高查询和更新的性能。</li>
+</ol>
+<h3 id="配置MySQL服务器："><a href="#配置MySQL服务器：" class="headerlink" title="配置MySQL服务器："></a>配置MySQL服务器：</h3><ol>
+<li>调整缓冲区大小，如innodb_buffer_pool_size和key_buffer_size，以提高读写性能。</li>
+<li>调整并发连接数，根据实际情况合理设置max_connections参数。</li>
+<li>合理分配系统资源，确保MySQL服务器有足够的内存和CPU资源。</li>
+</ol>
+<h3 id="缓存优化："><a href="#缓存优化：" class="headerlink" title="缓存优化："></a>缓存优化：</h3><ol>
+<li>使用MySQL的查询缓存功能，对于经常重复的查询可以从缓存中获取结果，减少数据库的查询压力。</li>
+<li>合理利用应用程序层面的缓存，如使用Memcached或Redis来缓存查询结果或热门数据，减少对数据库的访问。</li>
+</ol>
+<h3 id="优化磁盘性能："><a href="#优化磁盘性能：" class="headerlink" title="优化磁盘性能："></a>优化磁盘性能：</h3><ol>
+<li>{将MySQL的数据文件和日志文件分别放置在不同的物理磁盘上，以提高读写性能。</li>
+<li>使用RAID技术，如RAID 10，以提高磁盘的读写速度和容错能力。}</li>
+</ol>
+<h3 id="监控和调优："><a href="#监控和调优：" class="headerlink" title="监控和调优："></a>监控和调优：</h3><ol>
+<li>定期监控MySQL服务器的性能指标，如CPU、内存、磁盘和网络的使用情况。</li>
+<li>使用MySQL自带的性能监控工具，如Explain和Slow Query Log，来分析慢查询并进行优化。</li>
+<li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2023/08/02/Android%E9%9B%86%E6%88%90Aspectj/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/08/02/Android%E9%9B%86%E6%88%90Aspectj/" class="post-title-link" itemprop="url">Android集成Aspectj</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-08-02 20:07:53" itemprop="dateCreated datePublished" datetime="2023-08-02T20:07:53+08:00">2023-08-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-14 10:14:26" itemprop="dateModified" datetime="2026-04-14T10:14:26+08:00">2026-04-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">前端开发</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>使用 AspectJ 在 Android 项目中实现面向切面编程（AOP）可以帮助您在代码中更好地处理横切关注点，如日志记录、权限控制、性能监测等。下面是在 Android 项目中使用 AspectJ 的详细流程：</p>
+<h2 id="1-添加依赖和插件："><a href="#1-添加依赖和插件：" class="headerlink" title="1. 添加依赖和插件："></a>1. 添加依赖和插件：</h2><p>在您的 Android 项目中，首先需要添加 AspectJ 相关的依赖和插件。</p>
+<ul>
+<li>在项目级别的 <code>build.gradle</code> 文件中，添加 AspectJ 的 Gradle 插件依赖：</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">classpath</span> <span class="string">&#x27;org.aspectj:aspectjtools:1.9.8&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意:<code>dependencies</code> 所在的<code>buildscript</code>节点一定要在<code>plugins</code>的前面</p>
+<ul>
+<li>在应用模块的 <code>build.gradle</code> 文件中添加以下内容：</li>
+</ul>
+<p>在<code>dependencies</code>中添加</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    api <span class="string">&#x27;org.aspectj:aspectjrt:1.9.8&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>build.gradle</code>文件下面添加aspectj的编译配置：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.aspectj.bridge.IMessage</span><br><span class="line"><span class="keyword">import</span> org.aspectj.bridge.MessageHandler</span><br><span class="line"><span class="keyword">import</span> org.aspectj.tools.ajc.Main</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">def</span> log = <span class="keyword">project</span>.logger</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">def</span> variants = <span class="keyword">project</span>.android.applicationVariants</span><br><span class="line"></span><br><span class="line">variants.all &#123; variant -&gt;</span><br><span class="line">    JavaCompile javaCompile = variant.javaCompileProvider.get()</span><br><span class="line">    javaCompile.<span class="keyword">doLast</span> &#123;</span><br><span class="line">        String[] args = [<span class="string">&quot;-showWeaveInfo&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;-17&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;-inpath&quot;</span>, javaCompile.<span class="keyword">destinationDir</span>.toString(),</span><br><span class="line">                         <span class="string">&quot;-aspectpath&quot;</span>, javaCompile.<span class="keyword">classpath</span>.asPath,</span><br><span class="line">                         <span class="string">&quot;-d&quot;</span>, javaCompile.<span class="keyword">destinationDir</span>.toString(),</span><br><span class="line">                         <span class="string">&quot;-classpath&quot;</span>, javaCompile.<span class="keyword">classpath</span>.asPath,</span><br><span class="line">                         <span class="string">&quot;-bootclasspath&quot;</span>, <span class="keyword">project</span>.android.bootClasspath.<span class="keyword">join</span>(<span class="keyword">File</span>.pathSeparator)]</span><br><span class="line"></span><br><span class="line">        MessageHandler handler = <span class="keyword">new</span> MessageHandler(<span class="keyword">true</span>)</span><br><span class="line">        <span class="keyword">new</span> Main().run(args, handler)</span><br><span class="line">        <span class="keyword">for</span> (IMessage message : handler.getMessages(<span class="keyword">null</span>, <span class="keyword">true</span>)) &#123;</span><br><span class="line">            <span class="keyword">switch</span> (message.getKind()) &#123;</span><br><span class="line">                <span class="keyword">case</span> IMessage.ABORT:</span><br><span class="line">                <span class="keyword">case</span> IMessage.ERROR:</span><br><span class="line">                <span class="keyword">case</span> IMessage.FAIL:</span><br><span class="line">                    log.error message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">case</span> IMessage.WARNING:</span><br><span class="line">                    log.warn message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">case</span> IMessage.INFO:</span><br><span class="line">                    log.info message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">case</span> IMessage.DEBUG:</span><br><span class="line">                    log.debug message.message, message.thrown</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-编写-AspectJ-切面："><a href="#2-编写-AspectJ-切面：" class="headerlink" title="2. 编写 AspectJ 切面："></a>2. 编写 AspectJ 切面：</h2><p>创建一个 Java 类作为您的 AspectJ 切面，用于定义横切逻辑。切面类中定义了一系列切点和通知，以及需要在哪些地方织入这些通知。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.After;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Before;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoggingAspect</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;LoggingAspect&quot;</span>;</span><br><span class="line">    ThreadLocal&lt;Long&gt; time = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line">    <span class="meta">@Before(&quot;execution(* com.snrt.helloworld.music.*.getMusics(..))&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">before</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 在方法调用前执行的逻辑，比如打印日志</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;方法开始时间: &quot;</span>+ startTime);</span><br><span class="line">        time.set(startTime);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@After(&quot;execution(* com.snrt.helloworld.music.*.getMusics(..))&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">after</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 在方法调用前执行的逻辑，比如打印日志</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">endTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;方法结束时间: &quot;</span>+ endTime);</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;after: &quot;</span>+ (endTime - time.get()) +<span class="string">&quot;ms&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-构建和运行："><a href="#3-构建和运行：" class="headerlink" title="3. 构建和运行："></a>3. 构建和运行：</h2><p>完成上述步骤后，重新构建您的 Android 项目。AspectJ 将会在编译期间织入您的切面逻辑。<br>运行结束如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2023-08-04 20:40:47.160 22060-22060 LoggingAspect           com.snrt.helloworld                  E  after: 12ms</span><br><span class="line">2023-08-04 20:44:47.954 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法开始时间: 1691153087954</span><br><span class="line">2023-08-04 20:44:47.968 24627-24627 LoggingAspect           com.snrt.helloworld                  E  方法结束时间: 1691153087968</span><br><span class="line">2023-08-04 20:44:47.968 24627-24627 LoggingAspect           com.snrt.helloworld                  E  after: 14ms</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上就是在 Android 项目中使用 AspectJ 的基本流程。使用 AspectJ 可以更好地将横切关注点从业务逻辑中分离出来，从而提高代码的模块化和可维护性。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -211,7 +431,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
+      <time title="修改时间：2026-04-14 10:14:26" itemprop="dateModified" datetime="2026-04-14T10:14:26+08:00">2026-04-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -313,7 +533,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
+      <time title="修改时间：2026-04-14 10:14:26" itemprop="dateModified" datetime="2026-04-14T10:14:26+08:00">2026-04-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -407,7 +627,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-28 13:19:36" itemprop="dateModified" datetime="2026-03-28T13:19:36+08:00">2026-03-28</time>
+      <time title="修改时间：2026-04-14 10:14:26" itemprop="dateModified" datetime="2026-04-14T10:14:26+08:00">2026-04-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">

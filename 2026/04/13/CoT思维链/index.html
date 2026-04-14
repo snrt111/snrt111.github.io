@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="CoT思维链一、CoT是什么CoT（Chain of Thought，思维链） 是一种提示工程技术，通过引导大语言模型（LLM）逐步推理，显式地展示思考过程，从而提升模型在复杂任务上的表现。 1.1 核心思想   传统Prompt CoT Prompt    直接问答案 要求展示推理过程   模型”黑盒”思考 思考过程可见、可验证   简单问题效果好 复杂推理任务效果显著   1.2 为什么CoT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoT思维链">
+<meta property="og:url" content="https://snrt111.github.io/2026/04/13/CoT%E6%80%9D%E7%BB%B4%E9%93%BE/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="CoT思维链一、CoT是什么CoT（Chain of Thought，思维链） 是一种提示工程技术，通过引导大语言模型（LLM）逐步推理，显式地展示思考过程，从而提升模型在复杂任务上的表现。 1.1 核心思想   传统Prompt CoT Prompt    直接问答案 要求展示推理过程   模型”黑盒”思考 思考过程可见、可验证   简单问题效果好 复杂推理任务效果显著   1.2 为什么CoT">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-14T02:14:26.471Z">
+<meta property="article:author" content="snrt111">
+<meta property="article:tag" content="CoT">
+<meta property="article:tag" content="思维链">
+<meta property="article:tag" content="Prompt Engineering">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://snrt111.github.io/2026/04/13/CoT%E6%80%9D%E7%BB%B4%E9%93%BE/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://snrt111.github.io/2026/04/13/CoT%E6%80%9D%E7%BB%B4%E9%93%BE/","path":"2026/04/13/CoT思维链/","title":"CoT思维链"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CoT思维链 | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CoT%E6%80%9D%E7%BB%B4%E9%93%BE"><span class="nav-number">1.</span> <span class="nav-text">CoT思维链</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81CoT%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">一、CoT是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 核心思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E4%B8%BA%E4%BB%80%E4%B9%88CoT%E6%9C%89%E6%95%88"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 为什么CoT有效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81CoT%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BD%A2%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">二、CoT的基本形式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E9%9B%B6%E6%A0%B7%E6%9C%ACCoT%EF%BC%88Zero-shot-CoT%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 零样本CoT（Zero-shot CoT）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%B0%91%E6%A0%B7%E6%9C%ACCoT%EF%BC%88Few-shot-CoT%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 少样本CoT（Few-shot CoT）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E8%87%AA%E5%8A%A8CoT%EF%BC%88Auto-CoT%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 自动CoT（Auto-CoT）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81CoT%E7%9A%84%E9%AB%98%E7%BA%A7%E6%8A%80%E5%B7%A7"><span class="nav-number">1.3.</span> <span class="nav-text">三、CoT的高级技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%87%AA%E6%88%91%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%88Self-Consistency%EF%BC%89"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 自我一致性（Self-Consistency）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E4%BB%8E%E7%AE%80%E5%88%B0%E7%B9%81%EF%BC%88Least-to-Most%EF%BC%89"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 从简到繁（Least-to-Most）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%80%9D%E7%BB%B4%E6%A0%91%EF%BC%88Tree-of-Thoughts-ToT%EF%BC%89"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 思维树（Tree of Thoughts, ToT）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E9%AA%8C%E8%AF%81%E9%93%BE%EF%BC%88Chain-of-Verification%EF%BC%89"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 验证链（Chain of Verification）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81CoT%E5%AE%9E%E8%B7%B5%E6%8C%87%E5%8D%97"><span class="nav-number">1.4.</span> <span class="nav-text">四、CoT实践指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8CoT"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 何时使用CoT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-CoT-Prompt%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 CoT Prompt设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%88%991%EF%BC%9A%E6%98%8E%E7%A1%AE%E6%80%A7"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">原则1：明确性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%88%992%EF%BC%9A%E7%BB%93%E6%9E%84%E5%8C%96"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">原则2：结构化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%88%993%EF%BC%9A%E7%A4%BA%E4%BE%8B%E8%B4%A8%E9%87%8F"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">原则3：示例质量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-CoT%E6%A8%A1%E6%9D%BF%E5%BA%93"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 CoT模板库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF1%EF%BC%9A%E6%95%B0%E5%AD%A6%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">模板1：数学问题解决</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF2%EF%BC%9A%E9%80%BB%E8%BE%91%E6%8E%A8%E7%90%86"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">模板2：逻辑推理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF3%EF%BC%9A%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">模板3：代码调试</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/04/13/CoT%E6%80%9D%E7%BB%B4%E9%93%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CoT思维链 | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CoT思维链
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-04-14 00:00:00 / 修改时间：10:14:26" itemprop="dateCreated datePublished" datetime="2026-04-14T00:00:00+08:00">2026-04-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">人工智能</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">大模型技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="CoT思维链"><a href="#CoT思维链" class="headerlink" title="CoT思维链"></a>CoT思维链</h1><h2 id="一、CoT是什么"><a href="#一、CoT是什么" class="headerlink" title="一、CoT是什么"></a>一、CoT是什么</h2><p><strong>CoT（Chain of Thought，思维链）</strong> 是一种提示工程技术，通过引导大语言模型（LLM）逐步推理，显式地展示思考过程，从而提升模型在复杂任务上的表现。</p>
+<h3 id="1-1-核心思想"><a href="#1-1-核心思想" class="headerlink" title="1.1 核心思想"></a>1.1 核心思想</h3><table>
+<thead>
+<tr>
+<th>传统Prompt</th>
+<th>CoT Prompt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>直接问答案</td>
+<td>要求展示推理过程</td>
+</tr>
+<tr>
+<td>模型”黑盒”思考</td>
+<td>思考过程可见、可验证</td>
+</tr>
+<tr>
+<td>简单问题效果好</td>
+<td>复杂推理任务效果显著</td>
+</tr>
+</tbody></table>
+<h3 id="1-2-为什么CoT有效"><a href="#1-2-为什么CoT有效" class="headerlink" title="1.2 为什么CoT有效"></a>1.2 为什么CoT有效</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">人类解决问题的方式：</span><br><span class="line">问题 → 分析 → 推理步骤1 → 推理步骤2 → ... → 得出答案</span><br><span class="line"></span><br><span class="line">CoT让LLM模拟这个过程：</span><br><span class="line">输入 → 分解问题 → 逐步推理 → 中间结论 → 最终答案</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键优势</strong>：</p>
+<ul>
+<li><strong>可解释性</strong>：能看到模型的思考路径</li>
+<li><strong>准确性</strong>：复杂推理任务准确率提升显著</li>
+<li><strong>可调试性</strong>：出错时可以定位到具体步骤</li>
+</ul>
+<hr>
+<h2 id="二、CoT的基本形式"><a href="#二、CoT的基本形式" class="headerlink" title="二、CoT的基本形式"></a>二、CoT的基本形式</h2><h3 id="2-1-零样本CoT（Zero-shot-CoT）"><a href="#2-1-零样本CoT（Zero-shot-CoT）" class="headerlink" title="2.1 零样本CoT（Zero-shot CoT）"></a>2.1 零样本CoT（Zero-shot CoT）</h3><p><strong>最简单的方式</strong>：在问题后添加触发词</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">问题：一个农场有鸡和兔，头共35个，脚共94只。鸡兔各多少只？</span><br><span class="line"></span><br><span class="line">请逐步思考并解答：</span><br></pre></td></tr></table></figure>
+
+<p><strong>常用触发词</strong>：</p>
+<ul>
+<li>“让我们逐步思考”</li>
+<li>“请展示你的推理过程”</li>
+<li>“一步一步来解决这个问题”</li>
+<li>“Let’s think step by step”</li>
+</ul>
+<h3 id="2-2-少样本CoT（Few-shot-CoT）"><a href="#2-2-少样本CoT（Few-shot-CoT）" class="headerlink" title="2.2 少样本CoT（Few-shot CoT）"></a>2.2 少样本CoT（Few-shot CoT）</h3><p><strong>提供示例</strong>：在Prompt中加入带推理过程的示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">示例1：</span><br><span class="line">问题：小明有5个苹果，给了小红2个，又买了3个，现在有几个？</span><br><span class="line">推理：</span><br><span class="line">1. 初始有5个苹果</span><br><span class="line">2. 给小红2个后：5 - 2 = 3个</span><br><span class="line">3. 又买3个后：3 + 3 = 6个</span><br><span class="line">答案：6个</span><br><span class="line"></span><br><span class="line">示例2：</span><br><span class="line">问题：一本书100页，第一天看了1/4，第二天看了剩下的1/3，还剩多少页？</span><br><span class="line">推理：</span><br><span class="line">1. 第一天看了：100 × 1/4 = 25页</span><br><span class="line">2. 剩余：100 - 25 = 75页</span><br><span class="line">3. 第二天看了：75 × 1/3 = 25页</span><br><span class="line">4. 剩余：75 - 25 = 50页</span><br><span class="line">答案：50页</span><br><span class="line"></span><br><span class="line">现在请解决：</span><br><span class="line">问题：一个水池有进水管和出水管，进水管单独注满需6小时，出水管单独排空需8小时，同时打开两管，几小时注满？</span><br><span class="line">推理：</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-自动CoT（Auto-CoT）"><a href="#2-3-自动CoT（Auto-CoT）" class="headerlink" title="2.3 自动CoT（Auto-CoT）"></a>2.3 自动CoT（Auto-CoT）</h3><p><strong>自动构建示例</strong>：通过算法自动选择或生成示例</p>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>示例难以人工编写</li>
+<li>需要大量多样化示例</li>
+<li>领域专业性较强</li>
+</ul>
+<hr>
+<h2 id="三、CoT的高级技巧"><a href="#三、CoT的高级技巧" class="headerlink" title="三、CoT的高级技巧"></a>三、CoT的高级技巧</h2><h3 id="3-1-自我一致性（Self-Consistency）"><a href="#3-1-自我一致性（Self-Consistency）" class="headerlink" title="3.1 自我一致性（Self-Consistency）"></a>3.1 自我一致性（Self-Consistency）</h3><p><strong>核心思想</strong>：让模型多次推理，选择最一致的答案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">步骤：</span><br><span class="line">1. 使用CoT生成多个推理路径（temperature &gt; 0）</span><br><span class="line">2. 收集所有答案</span><br><span class="line">3. 投票选择出现次数最多的答案</span><br><span class="line"></span><br><span class="line">示例：</span><br><span class="line">推理路径1 → 答案A</span><br><span class="line">推理路径2 → 答案A</span><br><span class="line">推理路径3 → 答案B</span><br><span class="line">推理路径4 → 答案A</span><br><span class="line">推理路径5 → 答案C</span><br><span class="line"></span><br><span class="line">最终答案：A（出现3次，最多）</span><br></pre></td></tr></table></figure>
+
+<p><strong>适用场景</strong>：数学问题、逻辑推理题</p>
+<h3 id="3-2-从简到繁（Least-to-Most）"><a href="#3-2-从简到繁（Least-to-Most）" class="headerlink" title="3.2 从简到繁（Least-to-Most）"></a>3.2 从简到繁（Least-to-Most）</h3><p><strong>核心思想</strong>：先解决子问题，再组合解决主问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">复杂问题：计算 (123 + 456) × (789 - 321) ÷ 3</span><br><span class="line"></span><br><span class="line">分解：</span><br><span class="line">步骤1：计算 123 + 456 = 579</span><br><span class="line">步骤2：计算 789 - 321 = 468</span><br><span class="line">步骤3：计算 579 × 468 = 270,972</span><br><span class="line">步骤4：计算 270,972 ÷ 3 = 90,324</span><br><span class="line"></span><br><span class="line">答案：90,324</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-思维树（Tree-of-Thoughts-ToT）"><a href="#3-3-思维树（Tree-of-Thoughts-ToT）" class="headerlink" title="3.3 思维树（Tree of Thoughts, ToT）"></a>3.3 思维树（Tree of Thoughts, ToT）</h3><p><strong>核心思想</strong>：探索多个推理分支，评估后选择最优路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">问题：24点游戏，数字 [4, 9, 10, 13]</span><br><span class="line"></span><br><span class="line">思维树探索：</span><br><span class="line">├── 分支1: 13 + 10 = 23</span><br><span class="line">│   ├── 23 + 9 = 32 (×)</span><br><span class="line">│   └── 23 - 4 = 19 (×)</span><br><span class="line">├── 分支2: 13 - 9 = 4</span><br><span class="line">│   ├── 4 × 4 = 16 (×)</span><br><span class="line">│   └── 4 + 10 = 14 (×)</span><br><span class="line">├── 分支3: 10 - 4 = 6</span><br><span class="line">│   └── 6 × (13 - 9) = 24 (√)</span><br><span class="line">└── ...</span><br><span class="line"></span><br><span class="line">最优路径：(13 - 9) × (10 - 4) = 24</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-验证链（Chain-of-Verification）"><a href="#3-4-验证链（Chain-of-Verification）" class="headerlink" title="3.4 验证链（Chain of Verification）"></a>3.4 验证链（Chain of Verification）</h3><p><strong>核心思想</strong>：生成答案后，主动验证每一步</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">问题：法国的首都是哪里？它的人口是多少？</span><br><span class="line"></span><br><span class="line">初始回答：</span><br><span class="line">法国的首都是巴黎，人口约2200万。</span><br><span class="line"></span><br><span class="line">验证步骤：</span><br><span class="line">1. 验证首都：巴黎确实是法国首都 ✓</span><br><span class="line">2. 验证人口：巴黎市区人口约220万，大都会区约1200万 ✗</span><br><span class="line"></span><br><span class="line">修正后：</span><br><span class="line">法国的首都是巴黎，市区人口约220万。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、CoT实践指南"><a href="#四、CoT实践指南" class="headerlink" title="四、CoT实践指南"></a>四、CoT实践指南</h2><h3 id="4-1-何时使用CoT"><a href="#4-1-何时使用CoT" class="headerlink" title="4.1 何时使用CoT"></a>4.1 何时使用CoT</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>建议</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数学计算</td>
+<td>✅ 强烈推荐</td>
+<td>需要多步计算</td>
+</tr>
+<tr>
+<td>逻辑推理</td>
+<td>✅ 强烈推荐</td>
+<td>需要演绎推理</td>
+</tr>
+<tr>
+<td>代码生成</td>
+<td>✅ 推荐</td>
+<td>需要分解步骤</td>
+</tr>
+<tr>
+<td>文本分类</td>
+<td>⚠️ 可选</td>
+<td>简单任务可能不需要</td>
+</tr>
+<tr>
+<td>翻译任务</td>
+<td>❌ 不推荐</td>
+<td>通常不需要推理</td>
+</tr>
+<tr>
+<td>创意写作</td>
+<td>❌ 不推荐</td>
+<td>可能限制创造性</td>
+</tr>
+</tbody></table>
+<h3 id="4-2-CoT-Prompt设计原则"><a href="#4-2-CoT-Prompt设计原则" class="headerlink" title="4.2 CoT Prompt设计原则"></a>4.2 CoT Prompt设计原则</h3><h4 id="原则1：明确性"><a href="#原则1：明确性" class="headerlink" title="原则1：明确性"></a>原则1：明确性</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">❌ 差：</span><br><span class="line">解决这个问题。</span><br><span class="line"></span><br><span class="line">✅ 好：</span><br><span class="line">请按以下步骤解决这个问题：</span><br><span class="line">1. 理解问题要求</span><br><span class="line">2. 识别已知条件</span><br><span class="line">3. 制定解题计划</span><br><span class="line">4. 执行计算</span><br><span class="line">5. 验证结果</span><br></pre></td></tr></table></figure>
+
+<h4 id="原则2：结构化"><a href="#原则2：结构化" class="headerlink" title="原则2：结构化"></a>原则2：结构化</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">❌ 差：</span><br><span class="line">帮我算一下这个。</span><br><span class="line"></span><br><span class="line">✅ 好：</span><br><span class="line">问题：[具体问题]</span><br><span class="line"></span><br><span class="line">请按以下格式回答：</span><br><span class="line">分析：[对问题的分析]</span><br><span class="line">步骤1：[第一步推理]</span><br><span class="line">步骤2：[第二步推理]</span><br><span class="line">...</span><br><span class="line">结论：[最终答案]</span><br></pre></td></tr></table></figure>
+
+<h4 id="原则3：示例质量"><a href="#原则3：示例质量" class="headerlink" title="原则3：示例质量"></a>原则3：示例质量</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">❌ 差示例：</span><br><span class="line">问题：2+2=?</span><br><span class="line">推理：等于4</span><br><span class="line">答案：4</span><br><span class="line"></span><br><span class="line">✅ 好示例：</span><br><span class="line">问题：25 × 4 = ?</span><br><span class="line">推理：</span><br><span class="line">1. 将25分解为20 + 5</span><br><span class="line">2. 计算20 × 4 = 80</span><br><span class="line">3. 计算5 × 4 = 20</span><br><span class="line">4. 相加：80 + 20 = 100</span><br><span class="line">答案：100</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-CoT模板库"><a href="#4-3-CoT模板库" class="headerlink" title="4.3 CoT模板库"></a>4.3 CoT模板库</h3><h4 id="模板1：数学问题解决"><a href="#模板1：数学问题解决" class="headerlink" title="模板1：数学问题解决"></a>模板1：数学问题解决</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">你是一个数学助手。请按以下步骤解决问题：</span><br><span class="line"></span><br><span class="line">问题：&#123;question&#125;</span><br><span class="line"></span><br><span class="line">解题步骤：</span><br><span class="line">1. 理解题意：&#123;分析题目要求&#125;</span><br><span class="line">2. 识别已知：&#123;列出已知条件&#125;</span><br><span class="line">3. 确定方法：&#123;选择解题方法&#125;</span><br><span class="line">4. 详细计算：&#123;展示计算过程&#125;</span><br><span class="line">5. 结果验证：&#123;检查结果合理性&#125;</span><br><span class="line"></span><br><span class="line">答案：&#123;最终答案&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="模板2：逻辑推理"><a href="#模板2：逻辑推理" class="headerlink" title="模板2：逻辑推理"></a>模板2：逻辑推理</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">请作为逻辑分析师，按以下框架分析：</span><br><span class="line"></span><br><span class="line">前提条件：</span><br><span class="line">&#123;列出所有前提&#125;</span><br><span class="line"></span><br><span class="line">推理过程：</span><br><span class="line">步骤1：&#123;从前提A推导&#125;</span><br><span class="line">步骤2：&#123;结合前提B推导&#125;</span><br><span class="line">步骤3：&#123;得出中间结论&#125;</span><br><span class="line"></span><br><span class="line">最终结论：&#123;答案&#125;</span><br><span class="line"></span><br><span class="line">置信度：&#123;高/中/低&#125;，理由：&#123;说明&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="模板3：代码调试"><a href="#模板3：代码调试" class="headerlink" title="模板3：代码调试"></a>模板3：代码调试</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">请作为资深程序员，按以下步骤调试代码：</span><br><span class="line"></span><br><span class="line">代码：</span><br><span class="line">```&#123;language&#125;</span><br><span class="line">&#123;code&#125;</span><br></pre></td></tr></table></figure>
+
+<p>错误信息：{error}</p>
+<p>调试步骤：</p>
+<ol>
+<li>错误定位：{哪一行/哪个函数}</li>
+<li>原因分析：{为什么会出现这个错误}</li>
+<li>解决方案：{如何修复}</li>
+<li>修复后代码：{corrected code}</li>
+<li>预防措施：{如何避免类似错误}<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">## 五、CoT与其他技术的结合</span><br><span class="line"></span><br><span class="line">### 5.1 CoT + RAG</span><br><span class="line"></span><br><span class="line">**场景**：需要结合外部知识的推理</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+系统流程：<br>用户问题 → 检索相关知识 → CoT推理 → 生成答案</li>
+</ol>
+<p>示例：<br>问题：某公司2023年营收增长了多少？</p>
+<p>步骤1（RAG）：<br>检索到：2022年营收100亿，2023年营收120亿</p>
+<p>步骤2（CoT）：</p>
+<ol>
+<li>获取2023年营收：120亿</li>
+<li>获取2022年营收：100亿</li>
+<li>计算增长额：120 - 100 = 20亿</li>
+<li>计算增长率：20/100 × 100% = 20%</li>
+</ol>
+<p>答案：营收增长了20%，即20亿元</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 5.2 CoT + Function Calling</span><br><span class="line"></span><br><span class="line">**场景**：需要调用工具完成推理</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>问题：北京明天适合户外活动吗？</p>
+<p>CoT推理：</p>
+<ol>
+<li>需要获取北京明天的天气信息</li>
+<li>需要判断天气是否适合户外活动</li>
+</ol>
+<p>Function Call：</p>
+<ul>
+<li>调用天气API获取北京明天天气</li>
+</ul>
+<p>继续推理：<br>3. 根据返回的天气数据（温度、降雨概率、风力）<br>4. 判断：温度适宜(15-25°C)、降雨概率低(&lt;30%)、风力适中(&lt;4级)<br>5. 结论：适合户外活动</p>
+<p>答案：适合，明天北京天气晴好，温度适宜，适合户外活动。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 5.3 CoT + 多智能体协作</span><br><span class="line"></span><br><span class="line">**场景**：复杂问题需要多个专家协作</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>问题：设计一个高并发的电商系统</p>
+<p>智能体协作流程：</p>
+<p>[架构师智能体]<br>推理：需要考虑负载均衡、服务拆分、缓存策略…<br>输出：系统架构方案</p>
+<p>↓</p>
+<p>[数据库专家智能体]<br>推理：根据架构，需要设计分库分表、读写分离…<br>输出：数据库设计方案</p>
+<p>↓</p>
+<p>[安全专家智能体]<br>推理：检查架构中的安全漏洞，设计防护方案…<br>输出：安全加固建议</p>
+<p>↓</p>
+<p>[汇总智能体]<br>CoT整合：</p>
+<ol>
+<li>整合架构方案</li>
+<li>整合数据库设计</li>
+<li>整合安全建议</li>
+<li>生成最终方案文档<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">## 六、CoT效果评估</span><br><span class="line"></span><br><span class="line">### 6.1 评估指标</span><br><span class="line"></span><br><span class="line">| 指标 | 说明 | 计算方法 |</span><br><span class="line">|------|------|----------|</span><br><span class="line">| 准确率 | 答案正确比例 | 正确数/总数 |</span><br><span class="line">| 推理完整性 | 步骤是否完整 | 人工评估 |</span><br><span class="line">| 逻辑一致性 | 推理是否自洽 | 人工评估 |</span><br><span class="line">| 答案稳定性 | 多次运行一致性 | Self-Consistency |</span><br><span class="line">| 推理长度 | 步骤数量 | 自动统计 |</span><br><span class="line"></span><br><span class="line">### 6.2 常见问题与优化</span><br><span class="line"></span><br><span class="line">| 问题 | 表现 | 解决方案 |</span><br><span class="line">|------|------|----------|</span><br><span class="line">| 推理跳跃 | 跳过关键步骤 | 要求&quot;详细展示每一步&quot; |</span><br><span class="line">| 幻觉推理 | 基于错误前提推理 | 添加验证步骤 |</span><br><span class="line">| 循环推理 | 重复相同步骤 | 限制最大步骤数 |</span><br><span class="line">| 过早结论 | 推理不充分就下结论 | 要求&quot;确保推理完整&quot; |</span><br><span class="line">| 格式混乱 | 输出结构不清晰 | 提供明确的格式模板 |</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">## 七、实战案例</span><br><span class="line"></span><br><span class="line">### 案例1：数学应用题</span><br><span class="line"></span><br><span class="line">**问题**：</span><br><span class="line">甲乙两人同时从A、B两地相向而行，甲每小时走5公里，乙每小时走4公里，3小时后相遇。A、B两地相距多少公里？</span><br><span class="line"></span><br><span class="line">**CoT解答**：</span><br></pre></td></tr></table></figure>
+分析：这是相遇问题，需要计算两人3小时走的总路程。</li>
+</ol>
+<p>步骤1：确定已知条件</p>
+<ul>
+<li>甲的速度：5 km/h</li>
+<li>乙的速度：4 km/h</li>
+<li>行走时间：3 小时</li>
+</ul>
+<p>步骤2：计算甲走的路程<br>甲的路程 = 速度 × 时间 = 5 × 3 = 15 公里</p>
+<p>步骤3：计算乙走的路程<br>乙的路程 = 速度 × 时间 = 4 × 3 = 12 公里</p>
+<p>步骤4：计算总距离<br>A、B距离 = 甲的路程 + 乙的路程 = 15 + 12 = 27 公里</p>
+<p>验证：<br>两人相向而行，相对速度 = 5 + 4 = 9 km/h<br>3小时相遇，距离 = 9 × 3 = 27 公里 ✓</p>
+<p>答案：A、B两地相距27公里。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 案例2：逻辑谜题</span><br><span class="line"></span><br><span class="line">**问题**：</span><br><span class="line">有三扇门，后面分别是一辆车和两只山羊。你选择一扇门后，主持人（知道门后是什么）打开另一扇有山羊的门，然后问你要不要换门。你应该换吗？</span><br><span class="line"></span><br><span class="line">**CoT解答**：</span><br></pre></td></tr></table></figure>
+<p>分析：这是蒙提霍尔问题，需要概率分析。</p>
+<p>初始状态：</p>
+<ul>
+<li>选中车的概率：1/3</li>
+<li>选中山羊的概率：2/3</li>
+</ul>
+<p>情况1：初始选中车（概率1/3）</p>
+<ul>
+<li>主持人打开一扇有山羊的门</li>
+<li>换门会得到山羊</li>
+<li>不换得到车</li>
+</ul>
+<p>情况2：初始选中山羊（概率2/3）</p>
+<ul>
+<li>主持人只能打开另一扇有山羊的门</li>
+<li>换门会得到车</li>
+<li>不换得到山羊</li>
+</ul>
+<p>概率计算：</p>
+<ul>
+<li>不换门的胜率：1/3</li>
+<li>换门的胜率：2/3</li>
+</ul>
+<p>结论：应该换门，胜率从1/3提升到2/3。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 案例3：代码生成</span><br><span class="line"></span><br><span class="line">**问题**：</span><br><span class="line">写一个函数，找出数组中第K大的元素。</span><br><span class="line"></span><br><span class="line">**CoT解答**：</span><br></pre></td></tr></table></figure>
+<p>分析：有多种方法可以实现，需要考虑时间复杂度和空间复杂度。</p>
+<p>方案对比：</p>
+<ol>
+<li>排序法：O(nlogn)，简单直接</li>
+<li>最小堆法：O(nlogk)，适合k较小的情况</li>
+<li>快速选择：O(n)平均，最优但实现复杂</li>
+</ol>
+<p>选择：使用最小堆法，时间复杂度较好且实现相对简单。</p>
+<p>实现步骤：</p>
+<ol>
+<li>创建一个大小为k的最小堆</li>
+<li>遍历数组，维护堆中的k个最大元素</li>
+<li>堆顶就是第k大的元素</li>
+</ol>
+<p>代码实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_kth_largest</span>(<span class="params">nums, k</span>):</span><br><span class="line">    <span class="comment"># 创建最小堆（Python heapq默认是最小堆）</span></span><br><span class="line">    min_heap = []</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(min_heap) &lt; k:</span><br><span class="line">            heapq.heappush(min_heap, num)</span><br><span class="line">        <span class="keyword">elif</span> num &gt; min_heap[<span class="number">0</span>]:</span><br><span class="line">            <span class="comment"># 当前元素比堆顶大，替换堆顶</span></span><br><span class="line">            heapq.heapreplace(min_heap, num)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 堆顶就是第k大的元素</span></span><br><span class="line">    <span class="keyword">return</span> min_heap[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证</span></span><br><span class="line">nums = [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">4</span>]</span><br><span class="line">k = <span class="number">2</span></span><br><span class="line">result = find_kth_largest(nums, k)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;第<span class="subst">&#123;k&#125;</span>大的元素是：<span class="subst">&#123;result&#125;</span>&quot;</span>)  <span class="comment"># 输出：5</span></span><br></pre></td></tr></table></figure>
+
+<p>复杂度分析：</p>
+<ul>
+<li>时间复杂度：O(nlogk)，每个元素最多入堆出堆一次</li>
+<li>空间复杂度：O(k)，堆的大小<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">## 八、总结</span><br><span class="line"></span><br><span class="line">### 8.1 CoT核心要点</span><br><span class="line"></span><br><span class="line">| 要点 | 说明 |</span><br><span class="line">|------|------|</span><br><span class="line">| 适用场景 | 复杂推理、数学计算、逻辑分析 |</span><br><span class="line">| 关键技巧 | 零样本触发、少样本示例、自我一致性 |</span><br><span class="line">| 设计原则 | 明确性、结构化、高质量示例 |</span><br><span class="line">| 高级扩展 | ToT、验证链、多智能体协作 |</span><br><span class="line"></span><br><span class="line">### 8.2 最佳实践 checklist</span><br><span class="line"></span><br><span class="line">- [ ] 判断任务是否需要推理（简单任务可能不需要CoT）</span><br><span class="line">- [ ] 选择合适的CoT形式（零样本/少样本）</span><br><span class="line">- [ ] 设计清晰的推理步骤和格式</span><br><span class="line">- [ ] 提供高质量的示例（如果使用少样本）</span><br><span class="line">- [ ] 考虑使用自我一致性提升准确率</span><br><span class="line">- [ ] 对关键任务添加验证步骤</span><br><span class="line">- [ ] 评估CoT效果，持续优化Prompt</span><br><span class="line"></span><br><span class="line">### 8.3 学习路径</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+入门 → 掌握零样本CoT → 学习少样本CoT → 了解高级技巧 → 实践优化<br>```</li>
+</ul>
+<p><strong>关键记住</strong>：CoT的本质是让模型像人类一样”先思考，后回答”，通过显式展示推理过程来提升复杂任务的准确性和可解释性。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CoT/" rel="tag"># CoT</a>
+              <a href="/tags/%E6%80%9D%E7%BB%B4%E9%93%BE/" rel="tag"># 思维链</a>
+              <a href="/tags/Prompt-Engineering/" rel="tag"># Prompt Engineering</a>
+              <a href="/tags/LLM/" rel="tag"># LLM</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/" rel="prev" title="OOAD操作指南">
+                  <i class="fa fa-angle-left"></i> OOAD操作指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/04/14/Taro%E7%AE%80%E4%BB%8B/" rel="next" title="Taro 介绍">
+                  Taro 介绍 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

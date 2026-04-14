@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="OOAD操作指南一、OOAD是什么OOAD（Object-Oriented Analysis and Design）是面向对象分析与设计的简称，分为两个阶段：  OOA（分析阶段）：理解业务，确定”做什么” OOD（设计阶段）：设计实现方案，确定”怎么做”  二、OOAD要完成的任务   步骤 阶段 核心任务 产出物 与下一步的关系    1 需求分析 理解用户需求 需求文档、用例图 为领域建模提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OOAD操作指南">
+<meta property="og:url" content="https://snrt111.github.io/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="OOAD操作指南一、OOAD是什么OOAD（Object-Oriented Analysis and Design）是面向对象分析与设计的简称，分为两个阶段：  OOA（分析阶段）：理解业务，确定”做什么” OOD（设计阶段）：设计实现方案，确定”怎么做”  二、OOAD要完成的任务   步骤 阶段 核心任务 产出物 与下一步的关系    1 需求分析 理解用户需求 需求文档、用例图 为领域建模提">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-14T02:14:26.471Z">
+<meta property="article:author" content="snrt111">
+<meta property="article:tag" content="OOAD">
+<meta property="article:tag" content="面向对象">
+<meta property="article:tag" content="软件设计">
+<meta property="article:tag" content="UML">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://snrt111.github.io/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://snrt111.github.io/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/","path":"2026/04/13/OOAD面向对象分析与设计/","title":"OOAD操作指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OOAD操作指南 | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OOAD%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">OOAD操作指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81OOAD%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">一、OOAD是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81OOAD%E8%A6%81%E5%AE%8C%E6%88%90%E7%9A%84%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.2.</span> <span class="nav-text">二、OOAD要完成的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81OOAD%E6%89%A7%E8%A1%8C%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.3.</span> <span class="nav-text">三、OOAD执行步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="nav-number">1.3.1.</span> <span class="nav-text">步骤1：需求分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1"><span class="nav-number">1.3.2.</span> <span class="nav-text">步骤2：领域建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E7%B1%BB%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.3.3.</span> <span class="nav-text">步骤3：类设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A44%EF%BC%9A%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.3.4.</span> <span class="nav-text">步骤4：架构设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E5%B8%B8%E8%A7%81%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">4.1 常见架构模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E6%9E%B6%E6%9E%84%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">4.2 架构选型建议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">1.3.4.3.</span> <span class="nav-text">4.3 分层架构设计（推荐）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A45%EF%BC%9A%E8%AF%A6%E7%BB%86%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.3.5.</span> <span class="nav-text">步骤5：详细设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81OOAD%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99"><span class="nav-number">1.4.</span> <span class="nav-text">四、OOAD核心原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B%EF%BC%9A%E5%AD%A6%E7%94%9F%E9%80%89%E8%AF%BE%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.5.</span> <span class="nav-text">五、简单示例：学生选课系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">1.5.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.5.2.</span> <span class="nav-text">领域模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.5.3.</span> <span class="nav-text">类设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="nav-number">1.5.4.</span> <span class="nav-text">调用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%80%BB%E7%BB%93"><span class="nav-number">1.6.</span> <span class="nav-text">六、总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OOAD操作指南 | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OOAD操作指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-04-14 00:00:00 / 修改时间：10:14:26" itemprop="dateCreated datePublished" datetime="2026-04-14T00:00:00+08:00">2026-04-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">设计方法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="OOAD操作指南"><a href="#OOAD操作指南" class="headerlink" title="OOAD操作指南"></a>OOAD操作指南</h1><h2 id="一、OOAD是什么"><a href="#一、OOAD是什么" class="headerlink" title="一、OOAD是什么"></a>一、OOAD是什么</h2><p>OOAD（Object-Oriented Analysis and Design）是面向对象分析与设计的简称，分为两个阶段：</p>
+<ul>
+<li><strong>OOA（分析阶段）</strong>：理解业务，确定”做什么”</li>
+<li><strong>OOD（设计阶段）</strong>：设计实现方案，确定”怎么做”</li>
+</ul>
+<h2 id="二、OOAD要完成的任务"><a href="#二、OOAD要完成的任务" class="headerlink" title="二、OOAD要完成的任务"></a>二、OOAD要完成的任务</h2><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>阶段</th>
+<th>核心任务</th>
+<th>产出物</th>
+<th>与下一步的关系</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>需求分析</td>
+<td>理解用户需求</td>
+<td>需求文档、用例图</td>
+<td>为领域建模提供业务对象线索</td>
+</tr>
+<tr>
+<td>2</td>
+<td>领域建模</td>
+<td>识别业务对象和关系</td>
+<td>领域模型、类图</td>
+<td>为类设计提供对象定义</td>
+</tr>
+<tr>
+<td>3</td>
+<td>类设计</td>
+<td>设计类的属性和方法</td>
+<td>详细类定义</td>
+<td>为架构设计提供基础单元</td>
+</tr>
+<tr>
+<td>4</td>
+<td>架构设计</td>
+<td>确定系统层次和模块</td>
+<td>架构图、分层设计</td>
+<td>为详细设计提供结构框架</td>
+</tr>
+<tr>
+<td>5</td>
+<td>详细设计</td>
+<td>设计对象交互流程</td>
+<td>时序图、接口定义</td>
+<td>指导编码实现</td>
+</tr>
+</tbody></table>
+<h2 id="三、OOAD执行步骤"><a href="#三、OOAD执行步骤" class="headerlink" title="三、OOAD执行步骤"></a>三、OOAD执行步骤</h2><h3 id="步骤1：需求分析"><a href="#步骤1：需求分析" class="headerlink" title="步骤1：需求分析"></a>步骤1：需求分析</h3><p><strong>做什么</strong>：收集和理解用户需求</p>
+<p><strong>怎么做</strong>：</p>
+<ol>
+<li>与用户沟通，收集功能需求</li>
+<li>识别系统参与者和用例</li>
+<li>编写用例描述</li>
+</ol>
+<p><strong>示例</strong>：电商系统需求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">参与者：顾客、商家、管理员</span><br><span class="line">用例：</span><br><span class="line">  - 顾客：浏览商品、下订单、支付</span><br><span class="line">  - 商家：上架商品、处理订单</span><br><span class="line">  - 管理员：管理用户、查看报表</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤2：领域建模"><a href="#步骤2：领域建模" class="headerlink" title="步骤2：领域建模"></a>步骤2：领域建模</h3><p><strong>做什么</strong>：基于需求分析结果，找出业务中的关键对象和它们的关系</p>
+<p><strong>怎么做</strong>：</p>
+<ol>
+<li><strong>从需求文档中识别名词</strong>（候选对象）：关注需求描述中的业务实体</li>
+<li><strong>筛选核心领域对象</strong>：去除冗余，保留与业务密切相关的对象</li>
+<li><strong>确定对象属性</strong>：识别对象的关键特征</li>
+<li><strong>确定对象之间的关系</strong>：关联、聚合、组合、继承</li>
+</ol>
+<p><strong>示例</strong>：基于电商需求分析的领域模型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">需求中的名词：用户、商品、订单、订单项、购物车、支付记录...</span><br><span class="line"></span><br><span class="line">核心领域对象：</span><br><span class="line">  - 用户(User)</span><br><span class="line">  - 商品(Product)</span><br><span class="line">  - 订单(Order)</span><br><span class="line">  - 订单项(OrderItem)</span><br><span class="line"></span><br><span class="line">对象关系：</span><br><span class="line">  - 用户 --创建--&gt; 订单（一对多）</span><br><span class="line">  - 订单 --包含--&gt; 订单项（组合关系，订单项不能独立存在）</span><br><span class="line">  - 订单项 --关联--&gt; 商品（多对一，订单项引用商品信息）</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤3：类设计"><a href="#步骤3：类设计" class="headerlink" title="步骤3：类设计"></a>步骤3：类设计</h3><p><strong>做什么</strong>：将领域对象转化为程序类，为架构设计提供基础单元</p>
+<p><strong>怎么做</strong>：</p>
+<ol>
+<li>根据领域模型，定义类名、属性、方法</li>
+<li>确定类之间的关系（继承、关联、组合）</li>
+<li>应用设计原则（SOLID）</li>
+<li><strong>为架构分层做准备</strong>：识别哪些类属于领域层，哪些属于应用层</li>
+</ol>
+<p><strong>示例</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 领域层类 - 包含核心业务逻辑</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Order</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> User user;</span><br><span class="line">    <span class="keyword">private</span> List&lt;OrderItem&gt; items;</span><br><span class="line">    <span class="keyword">private</span> OrderStatus status;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 领域方法：业务规则在此实现</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addItem</span><span class="params">(Product product, <span class="type">int</span> qty)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (status != OrderStatus.CREATED) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(<span class="string">&quot;只能修改待支付订单&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        items.add(<span class="keyword">new</span> <span class="title class_">OrderItem</span>(product, qty));</span><br><span class="line">        recalculateTotal();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pay</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.status = OrderStatus.PAID;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="步骤4：架构设计"><a href="#步骤4：架构设计" class="headerlink" title="步骤4：架构设计"></a>步骤4：架构设计</h3><p><strong>做什么</strong>：确定系统的整体结构，将类组织到合适的层次和模块中</p>
+<h4 id="4-1-常见架构模式"><a href="#4-1-常见架构模式" class="headerlink" title="4.1 常见架构模式"></a>4.1 常见架构模式</h4><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>适用场景</th>
+<th>核心思想</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>分层架构</strong></td>
+<td>大多数企业应用</td>
+<td>按职责分层：表现层→应用层→领域层→基础设施层</td>
+</tr>
+<tr>
+<td><strong>MVC</strong></td>
+<td>Web应用</td>
+<td>分离Model、View、Controller</td>
+</tr>
+<tr>
+<td><strong>微服务</strong></td>
+<td>大型分布式系统</td>
+<td>按业务拆分独立服务</td>
+</tr>
+</tbody></table>
+<h4 id="4-2-架构选型建议"><a href="#4-2-架构选型建议" class="headerlink" title="4.2 架构选型建议"></a>4.2 架构选型建议</h4><p><strong>简单决策法</strong>：</p>
+<ul>
+<li>小型项目/团队 → 使用<strong>分层架构</strong>（推荐）</li>
+<li>复杂业务逻辑 → 在分层架构基础上增加<strong>领域层</strong></li>
+<li>大型分布式系统 → 考虑<strong>微服务</strong></li>
+</ul>
+<h4 id="4-3-分层架构设计（推荐）"><a href="#4-3-分层架构设计（推荐）" class="headerlink" title="4.3 分层架构设计（推荐）"></a>4.3 分层架构设计（推荐）</h4><p><strong>四层结构</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│  表现层 (Presentation)               │  ← Controller，处理HTTP请求</span><br><span class="line">├─────────────────────────────────────┤</span><br><span class="line">│  应用层 (Application)                │  ← Service，编排业务流程</span><br><span class="line">├─────────────────────────────────────┤</span><br><span class="line">│  领域层 (Domain)                     │  ← 实体类，核心业务逻辑</span><br><span class="line">├─────────────────────────────────────┤</span><br><span class="line">│  基础设施层 (Infrastructure)          │  ← Repository，数据访问</span><br><span class="line">└─────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><strong>层间规则</strong>：</p>
+<ul>
+<li>上层可以调用下层，下层不能调用上层</li>
+<li>只能调用相邻层，不能跨层</li>
+<li>层间通过接口交互，使用DTO传递数据</li>
+</ul>
+<p><strong>模块划分示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src/</span><br><span class="line">├── controller/     # 表现层：Controller类</span><br><span class="line">├── service/        # 应用层：业务编排</span><br><span class="line">├── domain/         # 领域层：Order、User等实体</span><br><span class="line">└── repository/     # 基础设施层：数据访问</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤5：详细设计"><a href="#步骤5：详细设计" class="headerlink" title="步骤5：详细设计"></a>步骤5：详细设计</h3><p><strong>做什么</strong>：基于架构设计，设计对象之间的交互流程</p>
+<p><strong>怎么做</strong>：</p>
+<ol>
+<li><strong>绘制时序图</strong>：描述请求在各层之间的流转过程</li>
+<li><strong>设计接口参数</strong>：定义每层接口的输入输出</li>
+<li><strong>确定异常处理</strong>：每层如何捕获和转换异常</li>
+</ol>
+<p><strong>示例</strong>：基于分层架构的下订单流程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">用户请求</span><br><span class="line">    ↓</span><br><span class="line">[表现层] OrderController.createOrder(request)</span><br><span class="line">    ↓</span><br><span class="line">[应用层] OrderService.createOrder(command)</span><br><span class="line">    ↓</span><br><span class="line">[领域层] Order.create() → 业务规则校验</span><br><span class="line">    ↓</span><br><span class="line">[基础设施层] OrderRepository.save(order)</span><br><span class="line">    ↓</span><br><span class="line">返回结果</span><br></pre></td></tr></table></figure>
+
+<p><strong>设计要点</strong>：</p>
+<ul>
+<li>严格遵循架构设计的层次结构</li>
+<li>每层只处理本层职责（表现层做参数校验，领域层做业务规则）</li>
+<li>层间通过DTO传递数据，避免直接暴露领域对象</li>
+</ul>
+<h2 id="四、OOAD核心原则"><a href="#四、OOAD核心原则" class="headerlink" title="四、OOAD核心原则"></a>四、OOAD核心原则</h2><table>
+<thead>
+<tr>
+<th>原则</th>
+<th>含义</th>
+<th>实践建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单一职责</td>
+<td>一个类只做一件事</td>
+<td>类功能要聚焦</td>
+</tr>
+<tr>
+<td>开闭原则</td>
+<td>对扩展开放，对修改关闭</td>
+<td>使用接口和抽象类</td>
+</tr>
+<tr>
+<td>依赖倒置</td>
+<td>依赖抽象而非具体</td>
+<td>通过接口交互</td>
+</tr>
+<tr>
+<td>高内聚</td>
+<td>内部元素紧密相关</td>
+<td>相关功能放一起</td>
+</tr>
+<tr>
+<td>低耦合</td>
+<td>减少类之间的依赖</td>
+<td>降低相互影响</td>
+</tr>
+</tbody></table>
+<h2 id="五、简单示例：学生选课系统"><a href="#五、简单示例：学生选课系统" class="headerlink" title="五、简单示例：学生选课系统"></a>五、简单示例：学生选课系统</h2><h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><ul>
+<li>学生可以选课、退课</li>
+<li>老师可以查看选课学生</li>
+<li>课程有人数限制</li>
+</ul>
+<h3 id="领域模型"><a href="#领域模型" class="headerlink" title="领域模型"></a>领域模型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">学生(Student) --选修--&gt; 课程(Course)</span><br><span class="line">课程(Course) --由--&gt; 老师(Teacher) 教授</span><br><span class="line">选课(Enrollment) --记录--&gt; 学生选课信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="类设计"><a href="#类设计" class="headerlink" title="类设计"></a>类设计</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Enrollment <span class="title function_">enroll</span><span class="params">(Course course)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (course.hasCapacity()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Enrollment</span>(<span class="built_in">this</span>, course);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;课程已满&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Course</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> capacity;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> enrolledCount;</span><br><span class="line">    <span class="keyword">private</span> Teacher teacher;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCapacity</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> enrolledCount &lt; capacity;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="调用流程"><a href="#调用流程" class="headerlink" title="调用流程"></a>调用流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">学生请求选课 → 选课Service → 检查课程容量 → 创建选课记录 → 更新课程人数 → 返回结果</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>OOAD的核心过程：</p>
+<ol>
+<li><strong>分析</strong>：理解需求，识别对象</li>
+<li><strong>设计</strong>：定义类结构，确定关系</li>
+<li><strong>实现</strong>：按设计编码，保持结构</li>
+</ol>
+<p>关键记住：<strong>先分析清楚业务，再设计实现方案</strong>。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OOAD/" rel="tag"># OOAD</a>
+              <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag"># 面向对象</a>
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/" rel="tag"># 软件设计</a>
+              <a href="/tags/UML/" rel="tag"># UML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/26/RAG%E7%B2%BE%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%87%E6%A1%A3/" rel="prev" title="RAG 精度优化文档">
+                  <i class="fa fa-angle-left"></i> RAG 精度优化文档
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/04/13/CoT%E6%80%9D%E7%BB%B4%E9%93%BE/" rel="next" title="CoT思维链">
+                  CoT思维链 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
