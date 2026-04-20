@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="详细介绍大模型结果约束的各种方法，包括Prompt层面约束、样本约束、结构化输出、RAG事实约束、训练层面约束及解码阶段控制等企业级解决方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大模型结果约束">
+<meta property="og:url" content="https://snrt111.github.io/2026/04/14/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%9C%E7%BA%A6%E6%9D%9F/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="详细介绍大模型结果约束的各种方法，包括Prompt层面约束、样本约束、结构化输出、RAG事实约束、训练层面约束及解码阶段控制等企业级解决方案">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-14T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-20T06:05:35.362Z">
+<meta property="article:author" content="snrt111">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="Prompt工程">
+<meta property="article:tag" content="约束机制">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://snrt111.github.io/2026/04/14/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%9C%E7%BA%A6%E6%9D%9F/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://snrt111.github.io/2026/04/14/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%9C%E7%BA%A6%E6%9D%9F/","path":"2026/04/14/大模型结果约束/","title":"大模型结果约束"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>大模型结果约束 | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%9C%80%E5%B8%B8%E7%94%A8%E3%80%81%E6%88%90%E6%9C%AC%E6%9C%80%E4%BD%8E%E7%9A%84%E7%BA%A6%E6%9D%9F%E6%96%B9%E5%BC%8F%EF%BC%88Prompt-%E5%B1%82%E9%9D%A2%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">一、最常用、成本最低的约束方式（Prompt 层面）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A0%BC%E5%BC%8F%E5%BC%BA%E7%BA%A6%E6%9D%9F%EF%BC%88JSON-%E5%88%97%E8%A1%A8-%E5%9B%BA%E5%AE%9A%E7%BB%93%E6%9E%84%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1. 格式强约束（JSON &#x2F; 列表 &#x2F; 固定结构）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%85%E5%AE%B9%E8%BE%B9%E7%95%8C%E7%BA%A6%E6%9D%9F%EF%BC%88%E7%A6%81%E6%AD%A2%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">2. 内容边界约束（禁止做什么）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%A3%8E%E6%A0%BC-%E9%95%BF%E5%BA%A6%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.3.</span> <span class="nav-text">3. 风格 &#x2F; 长度约束</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%AD%E7%AD%89%E6%88%90%E6%9C%AC%EF%BC%9A%E6%A0%B7%E6%9C%AC%E7%BA%A6%E6%9D%9F%EF%BC%88Few-shot-%E7%A4%BA%E4%BE%8B%E7%BA%A6%E6%9D%9F%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">二、中等成本：样本约束（Few-shot &#x2F; 示例约束）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%B7%A5%E7%A8%8B%E7%BA%A7%E7%BA%A6%E6%9D%9F%EF%BC%9A%E7%BB%93%E6%9E%84%E5%8C%96%E8%BE%93%E5%87%BA%EF%BC%88%E6%9C%80%E7%A8%B3%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">三、工程级约束：结构化输出（最稳）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-JSON-Schema-Pydantic-%E7%BA%A6%E6%9D%9F"><span class="nav-number">3.1.</span> <span class="nav-text">1. JSON Schema &#x2F; Pydantic 约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%BA%A6%E6%9D%9F%EF%BC%88Function-Calling%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">2. 函数调用约束（Function Calling）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%AB%98%E7%BA%A7%E7%BA%A6%E6%9D%9F%EF%BC%9ARAG-%E4%BA%8B%E5%AE%9E%E7%BA%A6%E6%9D%9F%EF%BC%88%E9%98%B2%E6%AD%A2%E8%83%A1%E8%AF%B4%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">四、高级约束：RAG + 事实约束（防止胡说）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E8%AE%AD%E7%BB%83%E5%B1%82%E9%9D%A2%E7%BA%A6%E6%9D%9F%EF%BC%88%E6%88%90%E6%9C%AC%E9%AB%98%EF%BC%8C%E4%BD%86%E6%95%88%E6%9E%9C%E6%9C%80%E5%BC%BA%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">五、训练层面约束（成本高，但效果最强）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SFT-%E7%9B%91%E7%9D%A3%E5%BE%AE%E8%B0%83"><span class="nav-number">5.1.</span> <span class="nav-text">1. SFT 监督微调</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-RLHF-RLAIF-%E4%BA%BA%E7%B1%BB-AI-%E5%8F%8D%E9%A6%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-number">5.2.</span> <span class="nav-text">2. RLHF &#x2F; RLAIF 人类 &#x2F; AI 反馈强化学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AF%B9%E9%BD%90%EF%BC%88Alignment%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">3. 对齐（Alignment）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%9C%80%E5%BA%95%E5%B1%82%E7%BA%A6%E6%9D%9F%EF%BC%9A%E8%A7%A3%E7%A0%81%E9%98%B6%E6%AE%B5%E6%8E%A7%E5%88%B6%EF%BC%88Inference-Time%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">六、最底层约束：解码阶段控制（Inference Time）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%AE%8C%E6%95%B4%E7%BA%A6%E6%9D%9F%E6%96%B9%E6%A1%88%EF%BC%88%E7%9C%9F%E5%AE%9E%E8%90%BD%E5%9C%B0%E6%9E%B6%E6%9E%84%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">七、企业级完整约束方案（真实落地架构）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">八、一句话总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/04/14/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%9C%E7%BA%A6%E6%9D%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="大模型结果约束 | 天鹰的个人博客">
+      <meta itemprop="description" content="详细介绍大模型结果约束的各种方法，包括Prompt层面约束、样本约束、结构化输出、RAG事实约束、训练层面约束及解码阶段控制等企业级解决方案">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大模型结果约束
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-04-14 10:00:00" itemprop="dateCreated datePublished" datetime="2026-04-14T10:00:00+08:00">2026-04-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-20 14:05:35" itemprop="dateModified" datetime="2026-04-20T14:05:35+08:00">2026-04-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">人工智能</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">详细介绍大模型结果约束的各种方法，包括Prompt层面约束、样本约束、结构化输出、RAG事实约束、训练层面约束及解码阶段控制等企业级解决方案</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="一、最常用、成本最低的约束方式（Prompt-层面）"><a href="#一、最常用、成本最低的约束方式（Prompt-层面）" class="headerlink" title="一、最常用、成本最低的约束方式（Prompt 层面）"></a>一、最常用、成本最低的约束方式（Prompt 层面）</h1><h2 id="1-格式强约束（JSON-列表-固定结构）"><a href="#1-格式强约束（JSON-列表-固定结构）" class="headerlink" title="1. 格式强约束（JSON / 列表 / 固定结构）"></a>1. 格式强约束（JSON / 列表 / 固定结构）</h2><p>直接告诉模型必须输出什么格式，不给自由发挥空间。</p>
+<p>示例：</p>
+<blockquote>
+<p>只输出 JSON，不要解释，不要多余文字，格式如下：</p>
+<p>{</p>
+<p>“result”: “答案”,</p>
+<p>“reason”: “步骤”</p>
+<p>}</p>
+</blockquote>
+<p>实现效果：</p>
+<ul>
+<li>输出可直接被代码解析</li>
+<li>不会乱说话</li>
+<li>适合对接系统（RAG、函数调用、OOAD 建模等）</li>
+</ul>
+<h2 id="2-内容边界约束（禁止做什么）"><a href="#2-内容边界约束（禁止做什么）" class="headerlink" title="2. 内容边界约束（禁止做什么）"></a>2. 内容边界约束（禁止做什么）</h2><blockquote>
+<p>禁止编造信息</p>
+<p>禁止回答无关问题</p>
+<p>禁止生成违法、暴力、色情内容</p>
+<p>不知道就说 “无法回答”</p>
+</blockquote>
+<p>这是最基础的<strong>安全约束</strong>。</p>
+<h2 id="3-风格-长度约束"><a href="#3-风格-长度约束" class="headerlink" title="3. 风格 / 长度约束"></a>3. 风格 / 长度约束</h2><blockquote>
+<p>回答控制在 3 句话内</p>
+<p>只使用专业术语</p>
+<p>不要口语化</p>
+<p>只输出代码，不输出解释</p>
+</blockquote>
+<hr>
+<h1 id="二、中等成本：样本约束（Few-shot-示例约束）"><a href="#二、中等成本：样本约束（Few-shot-示例约束）" class="headerlink" title="二、中等成本：样本约束（Few-shot / 示例约束）"></a>二、中等成本：样本约束（Few-shot / 示例约束）</h1><p>给模型<strong>看几个正确例子</strong>，它就会跟着学。</p>
+<p>示例：</p>
+<blockquote>
+<p>Q1: 1+1=?</p>
+<p>A1: 2</p>
+<p>Q2: 2+3=?</p>
+<p>A2: 5</p>
+<p>Q3: 4+5=?</p>
+<p>A3:</p>
+</blockquote>
+<p>模型会严格模仿格式与行为。</p>
+<p>适用场景：</p>
+<ul>
+<li>OOAD 建模输出固定 UML 格式</li>
+<li>代码生成固定风格</li>
+<li>表单填写、信息抽取</li>
+</ul>
+<hr>
+<h1 id="三、工程级约束：结构化输出（最稳）"><a href="#三、工程级约束：结构化输出（最稳）" class="headerlink" title="三、工程级约束：结构化输出（最稳）"></a>三、工程级约束：结构化输出（最稳）</h1><h2 id="1-JSON-Schema-Pydantic-约束"><a href="#1-JSON-Schema-Pydantic-约束" class="headerlink" title="1. JSON Schema / Pydantic 约束"></a>1. JSON Schema / Pydantic 约束</h2><p>现在主流框架都支持：</p>
+<ul>
+<li>LangChain</li>
+<li>LlamaIndex</li>
+<li>OpenAI API</li>
+<li>Qwen、GLM 等国产大模型</li>
+</ul>
+<p>告诉模型：</p>
+<p><strong>必须严格按照这个 JSON 结构输出，字段不能少，类型不能错</strong>。</p>
+<p>例如 Pydantic 模型：</p>
+<p>python</p>
+<p>运行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">BaseModel</span>):</span><br><span class="line">    name: <span class="built_in">str</span></span><br><span class="line">    <span class="built_in">id</span>: <span class="built_in">str</span></span><br><span class="line">    age: <span class="built_in">int</span></span><br></pre></td></tr></table></figure>
+
+<p>模型输出会被<strong>强制校验</strong>，不合法就重生成。</p>
+<h2 id="2-函数调用约束（Function-Calling）"><a href="#2-函数调用约束（Function-Calling）" class="headerlink" title="2. 函数调用约束（Function Calling）"></a>2. 函数调用约束（Function Calling）</h2><p>让模型只能从你定义的工具里选行为，不能自己瞎编。</p>
+<p>例如：</p>
+<ul>
+<li>查询数据库</li>
+<li>调用接口</li>
+<li>计算</li>
+<li>搜索</li>
+</ul>
+<p>模型不能自己创造函数，行为被严格限制。</p>
+<hr>
+<h1 id="四、高级约束：RAG-事实约束（防止胡说）"><a href="#四、高级约束：RAG-事实约束（防止胡说）" class="headerlink" title="四、高级约束：RAG + 事实约束（防止胡说）"></a>四、高级约束：RAG + 事实约束（防止胡说）</h1><p>核心思想：</p>
+<p><strong>不让模型凭空生成，只让它从给定文档里回答</strong>。</p>
+<p>实现步骤：</p>
+<ol>
+<li>准备知识库（文档、规则、代码库、需求文档）</li>
+<li>检索相关片段</li>
+<li>拼接进 Prompt</li>
+<li>强制模型：</li>
+</ol>
+<blockquote>
+<p>只根据提供的材料回答，不允许编造内容</p>
+</blockquote>
+<p>这是企业级应用最核心的<strong>事实约束</strong>。</p>
+<hr>
+<h1 id="五、训练层面约束（成本高，但效果最强）"><a href="#五、训练层面约束（成本高，但效果最强）" class="headerlink" title="五、训练层面约束（成本高，但效果最强）"></a>五、训练层面约束（成本高，但效果最强）</h1><h2 id="1-SFT-监督微调"><a href="#1-SFT-监督微调" class="headerlink" title="1. SFT 监督微调"></a>1. SFT 监督微调</h2><p>用大量<strong>符合约束的优质数据</strong>训练模型，让它天生就守规矩。</p>
+<p>例如：</p>
+<ul>
+<li>只输出专业内容</li>
+<li>格式固定</li>
+<li>不违规</li>
+<li>逻辑严谨</li>
+</ul>
+<h2 id="2-RLHF-RLAIF-人类-AI-反馈强化学习"><a href="#2-RLHF-RLAIF-人类-AI-反馈强化学习" class="headerlink" title="2. RLHF / RLAIF 人类 / AI 反馈强化学习"></a>2. RLHF / RLAIF 人类 / AI 反馈强化学习</h2><p>让模型学会：</p>
+<ul>
+<li>什么能说</li>
+<li>什么不能说</li>
+<li>什么格式是对的</li>
+<li>什么行为是安全的</li>
+</ul>
+<p>适合做产品级约束。</p>
+<h2 id="3-对齐（Alignment）"><a href="#3-对齐（Alignment）" class="headerlink" title="3. 对齐（Alignment）"></a>3. 对齐（Alignment）</h2><p>让模型行为与人类价值观、规则、法律对齐。</p>
+<p>本质也是一种强约束。</p>
+<hr>
+<h1 id="六、最底层约束：解码阶段控制（Inference-Time）"><a href="#六、最底层约束：解码阶段控制（Inference-Time）" class="headerlink" title="六、最底层约束：解码阶段控制（Inference Time）"></a>六、最底层约束：解码阶段控制（Inference Time）</h1><p>在生成 token 时直接限制：</p>
+<ol>
+<li><p>温度 temperature → 0</p>
+<p>越低越 deterministic，越稳定，越不创新。</p>
+</li>
+<li><p>top_p /top_k 限制</p>
+<p>减少随机性，强制模型选最可靠的词。</p>
+</li>
+<li><p>禁止词表（blacklist）</p>
+<p>直接禁止模型生成某些词。</p>
+</li>
+<li><p><strong>长度限制 max_new_tokens</strong></p>
+</li>
+<li><p>停止词 stop_sequences</p>
+<p>遇到特定符号自动停止，防止输出失控。</p>
+</li>
+</ol>
+<hr>
+<h1 id="七、企业级完整约束方案（真实落地架构）"><a href="#七、企业级完整约束方案（真实落地架构）" class="headerlink" title="七、企业级完整约束方案（真实落地架构）"></a>七、企业级完整约束方案（真实落地架构）</h1><ol>
+<li><strong>输入过滤</strong>（检查是否违规）</li>
+<li><strong>RAG 检索</strong>（提供事实依据）</li>
+<li><strong>Prompt 约束</strong>（格式 + 边界）</li>
+<li><strong>Function Call</strong>（行为限制）</li>
+<li><strong>JSON Schema</strong>（结构化输出）</li>
+<li><strong>输出校验</strong>（格式 / 合规 / 事实校验）</li>
+<li><strong>不通过则重新生成</strong></li>
+</ol>
+<p>这是目前最稳、工业界通用的约束链路。</p>
+<hr>
+<h1 id="八、一句话总结"><a href="#八、一句话总结" class="headerlink" title="八、一句话总结"></a>八、一句话总结</h1><ul>
+<li>想<strong>快速实现</strong>约束 → 用 Prompt + 格式限制</li>
+<li>想<strong>稳定对接系统</strong> → JSON Schema + Function Call</li>
+<li>想<strong>不胡说</strong> → RAG + 事实约束</li>
+<li>想<strong>产品级稳定</strong> → SFT + RLHF + 解码参数控制</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" rel="tag"># 大模型</a>
+              <a href="/tags/Prompt%E5%B7%A5%E7%A8%8B/" rel="tag"># Prompt工程</a>
+              <a href="/tags/%E7%BA%A6%E6%9D%9F%E6%9C%BA%E5%88%B6/" rel="tag"># 约束机制</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/04/13/CoT%E6%80%9D%E7%BB%B4%E9%93%BE/" rel="prev" title="CoT思维链">
+                  <i class="fa fa-angle-left"></i> CoT思维链
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/04/20/Taro%E7%AE%80%E4%BB%8B/" rel="next" title="Taro 介绍">
+                  Taro 介绍 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
