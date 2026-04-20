@@ -1,11 +1,11 @@
 ---
-title: OOAD操作指南
+title: OOAD面向对象分析与设计
 date: 2026-04-14
 tags: [OOAD, 面向对象, 软件设计, UML]
 categories: [软件工程, 设计方法]
 ---
 
-# OOAD操作指南
+# OOAD面向对象分析与设计
 
 ## 一、OOAD是什么
 

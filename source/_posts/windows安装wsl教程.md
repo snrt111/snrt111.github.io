@@ -1,5 +1,5 @@
 ---
-title: Windows安装OpenClaw保姆级教程
+title: windows安装wsl教程
 date: 2026-03-24 10:00:00
 categories:
   - 开发工具
