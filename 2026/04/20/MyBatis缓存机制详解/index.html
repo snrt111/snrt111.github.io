@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="深入剖析MyBatis一级缓存和二级缓存的工作原理、配置方式、源码实现以及最佳实践，帮助开发者掌握缓存机制提升应用性能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器">
+<meta property="og:url" content="https://snrt111.github.io/2026/04/20/MyBatis%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="深入剖析MyBatis一级缓存和二级缓存的工作原理、配置方式、源码实现以及最佳实践，帮助开发者掌握缓存机制提升应用性能。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-20T06:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-11T01:44:30.499Z">
+<meta property="article:author" content="snrt111">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="MyBatis">
+<meta property="article:tag" content="缓存">
+<meta property="article:tag" content="性能优化">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://snrt111.github.io/2026/04/20/MyBatis%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://snrt111.github.io/2026/04/20/MyBatis%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/","path":"2026/04/20/MyBatis缓存机制详解/","title":"MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器 | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3%EF%BC%9A%E4%BB%8E%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98%E5%88%B0%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%EF%BC%8C%E5%85%A8%E9%9D%A2%E6%8E%8C%E6%8F%A1%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%88%A9%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98%EF%BC%88SqlSession-%E7%BA%A7%E5%88%AB%E7%BC%93%E5%AD%98%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1. 一级缓存（SqlSession 级别缓存）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%A4%B1%E6%95%88%E6%83%85%E5%86%B5"><span class="nav-number">1.1.2.</span> <span class="nav-text">缓存失效情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.1.3.</span> <span class="nav-text">源码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%EF%BC%88Mapper-%E7%BA%A7%E5%88%AB%E7%BC%93%E5%AD%98%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">2. 二级缓存（Mapper 级别缓存）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">1.2.2.</span> <span class="nav-text">开启二级缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E5%BC%80%E5%90%AF%EF%BC%88mybatis-config-xml%EF%BC%89"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">1. 全局配置开启（mybatis-config.xml）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Mapper-%E7%BA%A7%E5%88%AB%E5%BC%80%E5%90%AF%EF%BC%88XxxMapper-xml%EF%BC%89"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2. Mapper 级别开启（XxxMapper.xml）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E5%BC%80%E5%90%AF%E7%BC%93%E5%AD%98"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">3. 查询语句开启缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0"><span class="nav-number">1.2.3.</span> <span class="nav-text">二级缓存配置参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%A4%B1%E6%95%88%E6%83%85%E5%86%B5-1"><span class="nav-number">1.2.4.</span> <span class="nav-text">缓存失效情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="nav-number">1.2.5.</span> <span class="nav-text">源码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98%E4%B8%8E%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">3. 一级缓存与二级缓存的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%93%E5%AD%98"><span class="nav-number">1.4.</span> <span class="nav-text">4. 自定义缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-Cache-%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.4.1.</span> <span class="nav-text">实现 Cache 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-Mapper-%E4%B8%AD%E9%85%8D%E7%BD%AE"><span class="nav-number">1.4.2.</span> <span class="nav-text">在 Mapper 中配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%B8%8E-Spring-%E9%9B%86%E6%88%90%E6%97%B6%E7%9A%84%E7%BC%93%E5%AD%98"><span class="nav-number">1.5.</span> <span class="nav-text">5. 与 Spring 集成时的缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%BC%93%E5%AD%98%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.6.</span> <span class="nav-text">6. 缓存的最佳实践和注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.6.1.</span> <span class="nav-text">最佳实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.6.2.</span> <span class="nav-text">常见问题和解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%BC%93%E5%AD%98%E8%84%8F%E8%AF%BB%E9%97%AE%E9%A2%98"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">1. 缓存脏读问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E9%97%AE%E9%A2%98"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">2. 缓存穿透问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E9%97%AE%E9%A2%98"><span class="nav-number">1.6.2.3.</span> <span class="nav-text">3. 缓存雪崩问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98%E5%BC%95%E8%B5%B7%E7%9A%84%E5%B9%BB%E8%AF%BB%E9%97%AE%E9%A2%98"><span class="nav-number">1.6.2.4.</span> <span class="nav-text">4. 一级缓存引起的幻读问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.7.</span> <span class="nav-text">7. 面试准备建议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.8.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/04/20/MyBatis%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="记录工作中的一点一滴">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器 | 天鹰的个人博客">
+      <meta itemprop="description" content="深入剖析MyBatis一级缓存和二级缓存的工作原理、配置方式、源码实现以及最佳实践，帮助开发者掌握缓存机制提升应用性能。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-04-20 14:00:00" itemprop="dateCreated datePublished" datetime="2026-04-20T14:00:00+08:00">2026-04-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-11 09:44:30" itemprop="dateModified" datetime="2026-05-11T09:44:30+08:00">2026-05-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">后端开发</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">深入剖析MyBatis一级缓存和二级缓存的工作原理、配置方式、源码实现以及最佳实践，帮助开发者掌握缓存机制提升应用性能。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器"><a href="#MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器" class="headerlink" title="MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器"></a>MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器</h1><p>MyBatis 提供了强大而灵活的缓存机制，包括一级缓存和二级缓存两个层次，旨在减少数据库访问次数，提高应用性能。</p>
+<h2 id="1-一级缓存（SqlSession-级别缓存）"><a href="#1-一级缓存（SqlSession-级别缓存）" class="headerlink" title="1. 一级缓存（SqlSession 级别缓存）"></a>1. 一级缓存（SqlSession 级别缓存）</h2><p>一级缓存是 MyBatis 最基本的缓存机制，也称为本地缓存或会话缓存。</p>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><ul>
+<li>一级缓存默认开启，无法关闭</li>
+<li>缓存作用域为 SqlSession，即同一个 SqlSession 中执行的相同查询会使用缓存</li>
+<li>缓存存储在每个 SqlSession 对象中的 LocalCache(PerpetualCache)实例中</li>
+<li>缓存的 key 由 SQL 语句、参数、分页等信息组成，确保相同查询得到相同结果</li>
+<li>缓存的值是查询结果对象的引用，而非深拷贝</li>
+</ul>
+<h3 id="缓存失效情况"><a href="#缓存失效情况" class="headerlink" title="缓存失效情况"></a>缓存失效情况</h3><ol>
+<li>不同的 SqlSession 之间缓存数据互不影响</li>
+<li>同一 SqlSession 执行任何 INSERT、UPDATE、DELETE 操作会清空当前 SqlSession 的所有缓存</li>
+<li>同一 SqlSession 执行 flushCache=true 的查询会清空当前缓存</li>
+<li>同一 SqlSession 执行 commit 或 close 操作会清空缓存</li>
+<li>使用不同的查询参数或 SQL 语句时，无法命中缓存</li>
+</ol>
+<h3 id="源码实现"><a href="#源码实现" class="headerlink" title="源码实现"></a>源码实现</h3><p>一级缓存的核心实现在 BaseExecutor 类中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;E&gt; List&lt;E&gt; <span class="title function_">query</span><span class="params">(MappedStatement ms, Object parameter, RowBounds rowBounds, </span></span><br><span class="line"><span class="params">                         ResultHandler resultHandler)</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">    <span class="type">BoundSql</span> <span class="variable">boundSql</span> <span class="operator">=</span> ms.getBoundSql(parameter);</span><br><span class="line">    <span class="type">CacheKey</span> <span class="variable">key</span> <span class="operator">=</span> createCacheKey(ms, parameter, rowBounds, boundSql);</span><br><span class="line">    <span class="keyword">return</span> query(ms, parameter, rowBounds, resultHandler, key, boundSql);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;E&gt; List&lt;E&gt; <span class="title function_">query</span><span class="params">(MappedStatement ms, Object parameter, RowBounds rowBounds,</span></span><br><span class="line"><span class="params">                         ResultHandler resultHandler, CacheKey key, BoundSql boundSql)</span> </span><br><span class="line">                         <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">    <span class="comment">// 省略部分代码...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从一级缓存中查找</span></span><br><span class="line">    list = resultHandler == <span class="literal">null</span> ? (List&lt;E&gt;) localCache.getObject(key) : <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (list != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 缓存命中，处理存储过程输出参数</span></span><br><span class="line">        handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 缓存未命中，从数据库查询</span></span><br><span class="line">        list = queryFromDatabase(ms, parameter, rowBounds, resultHandler, key, boundSql);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 省略部分代码...</span></span><br><span class="line">    <span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-二级缓存（Mapper-级别缓存）"><a href="#2-二级缓存（Mapper-级别缓存）" class="headerlink" title="2. 二级缓存（Mapper 级别缓存）"></a>2. 二级缓存（Mapper 级别缓存）</h2><p>二级缓存是 Mapper 级别的缓存，也称为命名空间缓存，作用范围更广。</p>
+<h3 id="工作原理-1"><a href="#工作原理-1" class="headerlink" title="工作原理"></a>工作原理</h3><ul>
+<li>二级缓存默认关闭，需要手动配置开启</li>
+<li>缓存作用域为同一个 Mapper（同一个命名空间），即不同 SqlSession 执行相同 Mapper 的相同查询会共享缓存</li>
+<li>缓存存储在 MappedStatement 对象关联的 Cache 实例中</li>
+<li>缓存的 key 组成与一级缓存类似</li>
+<li>缓存的值是序列化后的对象拷贝，而非对象引用（除非配置为只读）</li>
+</ul>
+<h3 id="开启二级缓存"><a href="#开启二级缓存" class="headerlink" title="开启二级缓存"></a>开启二级缓存</h3><h4 id="1-全局配置开启（mybatis-config-xml）"><a href="#1-全局配置开启（mybatis-config-xml）" class="headerlink" title="1. 全局配置开启（mybatis-config.xml）"></a>1. 全局配置开启（mybatis-config.xml）</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;cacheEnabled&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Mapper-级别开启（XxxMapper-xml）"><a href="#2-Mapper-级别开启（XxxMapper-xml）" class="headerlink" title="2. Mapper 级别开启（XxxMapper.xml）"></a>2. Mapper 级别开启（XxxMapper.xml）</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">cache</span></span></span><br><span class="line"><span class="tag">    <span class="attr">eviction</span>=<span class="string">&quot;LRU&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">flushInterval</span>=<span class="string">&quot;60000&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">size</span>=<span class="string">&quot;512&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">readOnly</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-查询语句开启缓存"><a href="#3-查询语句开启缓存" class="headerlink" title="3. 查询语句开启缓存"></a>3. 查询语句开启缓存</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getUser&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span> <span class="attr">useCache</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    SELECT * FROM user WHERE id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="二级缓存配置参数"><a href="#二级缓存配置参数" class="headerlink" title="二级缓存配置参数"></a>二级缓存配置参数</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>eviction</strong></td>
+<td>缓存淘汰策略，可选 LRU、FIFO、SOFT、WEAK</td>
+<td>LRU</td>
+</tr>
+<tr>
+<td><strong>flushInterval</strong></td>
+<td>缓存刷新间隔，单位毫秒</td>
+<td>不设置（不自动刷新）</td>
+</tr>
+<tr>
+<td><strong>size</strong></td>
+<td>缓存大小</td>
+<td>1024 个对象引用</td>
+</tr>
+<tr>
+<td><strong>readOnly</strong></td>
+<td>是否只读，true 时直接返回缓存对象引用（不安全但较快）</td>
+<td>false</td>
+</tr>
+<tr>
+<td><strong>blocking</strong></td>
+<td>是否阻塞，true 时会在高并发环境下保证只有一个线程到数据库查询</td>
+<td>false</td>
+</tr>
+</tbody></table>
+<h3 id="缓存失效情况-1"><a href="#缓存失效情况-1" class="headerlink" title="缓存失效情况"></a>缓存失效情况</h3><ol>
+<li>执行任何 INSERT、UPDATE、DELETE 操作会清空关联命名空间的所有缓存</li>
+<li>执行 flushCache=true 的查询会清空关联命名空间的缓存</li>
+<li>缓存配置的 flushInterval 时间到期会自动刷新缓存</li>
+<li>缓存容量满时，会根据淘汰策略移除部分缓存</li>
+</ol>
+<h3 id="源码实现-1"><a href="#源码实现-1" class="headerlink" title="源码实现"></a>源码实现</h3><p>二级缓存的核心实现在 CachingExecutor 装饰器中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;E&gt; List&lt;E&gt; <span class="title function_">query</span><span class="params">(MappedStatement ms, Object parameterObject, RowBounds rowBounds,</span></span><br><span class="line"><span class="params">                         ResultHandler resultHandler, CacheKey key, BoundSql boundSql)</span></span><br><span class="line">                         <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">    <span class="type">Cache</span> <span class="variable">cache</span> <span class="operator">=</span> ms.getCache();</span><br><span class="line">    <span class="keyword">if</span> (cache != <span class="literal">null</span>) &#123;</span><br><span class="line">        flushCacheIfRequired(ms);</span><br><span class="line">        <span class="keyword">if</span> (ms.isUseCache() &amp;&amp; resultHandler == <span class="literal">null</span>) &#123;</span><br><span class="line">            ensureNoOutParams(ms, boundSql);</span><br><span class="line">            <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">            List&lt;E&gt; list = (List&lt;E&gt;) tcm.getObject(cache, key);</span><br><span class="line">            <span class="keyword">if</span> (list == <span class="literal">null</span>) &#123;</span><br><span class="line">                list = delegate.query(ms, parameterObject, rowBounds, resultHandler, key, boundSql);</span><br><span class="line">                tcm.putObject(cache, key, list); <span class="comment">// 存入二级缓存</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> list;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> delegate.query(ms, parameterObject, rowBounds, resultHandler, key, boundSql);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-一级缓存与二级缓存的区别"><a href="#3-一级缓存与二级缓存的区别" class="headerlink" title="3. 一级缓存与二级缓存的区别"></a>3. 一级缓存与二级缓存的区别</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>一级缓存</th>
+<th>二级缓存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>作用域</strong></td>
+<td>SqlSession 级别</td>
+<td>Mapper(命名空间)级别</td>
+</tr>
+<tr>
+<td><strong>生命周期</strong></td>
+<td>SqlSession 关闭时结束</td>
+<td>应用级别，除非刷新或淘汰</td>
+</tr>
+<tr>
+<td><strong>共享范围</strong></td>
+<td>单个会话内</td>
+<td>所有会话间共享（同一 Mapper）</td>
+</tr>
+<tr>
+<td><strong>存储内容</strong></td>
+<td>对象引用</td>
+<td>对象序列化拷贝(除非只读)</td>
+</tr>
+<tr>
+<td><strong>默认状态</strong></td>
+<td>默认开启，无法关闭</td>
+<td>默认关闭，需手动开启</td>
+</tr>
+<tr>
+<td><strong>并发安全性</strong></td>
+<td>无并发问题</td>
+<td>需考虑并发和一致性</td>
+</tr>
+<tr>
+<td><strong>配置复杂度</strong></td>
+<td>无需配置</td>
+<td>需要详细配置</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>单线程应用</td>
+<td>多线程、分布式环境</td>
+</tr>
+</tbody></table>
+<h2 id="4-自定义缓存"><a href="#4-自定义缓存" class="headerlink" title="4. 自定义缓存"></a>4. 自定义缓存</h2><p>MyBatis 支持自定义缓存实现，可以集成第三方缓存产品：</p>
+<h3 id="实现-Cache-接口"><a href="#实现-Cache-接口" class="headerlink" title="实现 Cache 接口"></a>实现 Cache 接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisCache</span> <span class="keyword">implements</span> <span class="title class_">Cache</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String id;</span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RedisCache</span><span class="params">(String id)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.id = id;</span><br><span class="line">        <span class="comment">// 初始化 Redis 连接</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">putObject</span><span class="params">(Object key, Object value)</span> &#123;</span><br><span class="line">        redisTemplate.opsForValue().set(key.toString(), value, <span class="number">1</span>, TimeUnit.HOURS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">getObject</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForValue().get(key.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 其他方法实现...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="在-Mapper-中配置"><a href="#在-Mapper-中配置" class="headerlink" title="在 Mapper 中配置"></a>在 Mapper 中配置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">cache</span> <span class="attr">type</span>=<span class="string">&quot;com.example.RedisCache&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-与-Spring-集成时的缓存"><a href="#5-与-Spring-集成时的缓存" class="headerlink" title="5. 与 Spring 集成时的缓存"></a>5. 与 Spring 集成时的缓存</h2><p>当 MyBatis 与 Spring 集成时，缓存行为有一些特殊情况：</p>
+<ul>
+<li>默认情况下，Spring 管理的 SqlSession 是线程绑定的，每次操作都会关闭 SqlSession，导致一级缓存失效</li>
+<li>Spring 的事务管理可能影响缓存行为，同一事务内多次查询可能使用同一 SqlSession</li>
+<li>可以考虑使用 Spring 自带的缓存机制(@Cacheable 等)代替 MyBatis 二级缓存</li>
+</ul>
+<h2 id="6-缓存的最佳实践和注意事项"><a href="#6-缓存的最佳实践和注意事项" class="headerlink" title="6. 缓存的最佳实践和注意事项"></a>6. 缓存的最佳实践和注意事项</h2><h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><ul>
+<li>合理使用一级缓存，利用单次请求内的查询效率提升</li>
+<li>谨慎使用二级缓存，特别是在复杂业务系统和分布式环境下</li>
+<li>对于读多写少的数据，可以考虑开启二级缓存</li>
+<li>对于实时性要求高的数据，应避免使用缓存或设置较短的过期时间</li>
+<li>二级缓存实体类必须实现 Serializable 接口</li>
+<li>考虑使用成熟的第三方缓存代替 MyBatis 二级缓存</li>
+</ul>
+<h3 id="常见问题和解决方案"><a href="#常见问题和解决方案" class="headerlink" title="常见问题和解决方案"></a>常见问题和解决方案</h3><h4 id="1-缓存脏读问题"><a href="#1-缓存脏读问题" class="headerlink" title="1. 缓存脏读问题"></a>1. 缓存脏读问题</h4><ul>
+<li><strong>问题</strong>：多个应用实例更新数据库，但缓存未同步更新</li>
+<li><strong>解决</strong>：使用集中式缓存如 Redis，或实现缓存同步机制</li>
+</ul>
+<h4 id="2-缓存穿透问题"><a href="#2-缓存穿透问题" class="headerlink" title="2. 缓存穿透问题"></a>2. 缓存穿透问题</h4><ul>
+<li><strong>问题</strong>：频繁查询不存在的数据，导致缓存无法发挥作用</li>
+<li><strong>解决</strong>：对空结果也进行缓存，设置较短过期时间</li>
+</ul>
+<h4 id="3-缓存雪崩问题"><a href="#3-缓存雪崩问题" class="headerlink" title="3. 缓存雪崩问题"></a>3. 缓存雪崩问题</h4><ul>
+<li><strong>问题</strong>：大量缓存同时失效，导致数据库压力骤增</li>
+<li><strong>解决</strong>：设置不同的过期时间，使用随机过期时间</li>
+</ul>
+<h4 id="4-一级缓存引起的幻读问题"><a href="#4-一级缓存引起的幻读问题" class="headerlink" title="4. 一级缓存引起的幻读问题"></a>4. 一级缓存引起的幻读问题</h4><ul>
+<li><strong>问题</strong>：同一 SqlSession 内，缓存数据与数据库不一致</li>
+<li><strong>解决</strong>：关键操作前调用 clearCache()清除缓存</li>
+</ul>
+<h2 id="7-面试准备建议"><a href="#7-面试准备建议" class="headerlink" title="7. 面试准备建议"></a>7. 面试准备建议</h2><ol>
+<li><strong>深入理解缓存原理</strong>：掌握一级缓存和二级缓存的工作机制</li>
+<li><strong>源码阅读</strong>：尝试阅读 MyBatis 缓存相关的源码，如 PerpetualCache、CachingExecutor 等</li>
+<li><strong>实战案例准备</strong>：准备实际项目中使用 MyBatis 缓存的案例，包括配置和效果</li>
+<li><strong>问题排查经验</strong>：总结缓存相关问题的排查和解决方法</li>
+<li><strong>性能测试</strong>：了解缓存对性能提升的实际效果</li>
+<li><strong>集成案例</strong>：准备 MyBatis 缓存与第三方缓存集成的案例</li>
+</ol>
+<p>通过系统性的准备，你能够向面试官展示出对 MyBatis 缓存机制的深入理解和实践经验，增加面试通过的几率。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MyBatis 的缓存机制是提升应用性能的重要手段：</p>
+<ul>
+<li><strong>一级缓存</strong>适合单次请求内的重复查询优化，无需配置，自动生效</li>
+<li><strong>二级缓存</strong>适合跨会话的数据共享，需要谨慎配置，注意并发和数据一致性问题</li>
+<li><strong>自定义缓存</strong>可以集成 Redis 等第三方缓存，实现分布式缓存能力</li>
+</ul>
+<p>在实际项目中，应根据业务特点和数据特性，合理选择缓存策略，并做好监控和异常处理，才能真正发挥缓存的性能优势。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/MyBatis/" rel="tag"># MyBatis</a>
+              <a href="/tags/%E7%BC%93%E5%AD%98/" rel="tag"># 缓存</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># 性能优化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/04/20/%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%8E%92%E6%9F%A5%E4%B8%8E%E5%AE%9E%E6%88%98/" rel="prev" title="JVM堆内平稳，内存却持续飙升？一文搞定堆外内存泄漏排查与实战">
+                  <i class="fa fa-angle-left"></i> JVM堆内平稳，内存却持续飙升？一文搞定堆外内存泄漏排查与实战
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
