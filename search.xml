@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Centos安装Docker</title>
+    <url>/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
+    <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line"><span class="built_in">sudo</span> yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="built_in">sudo</span> yum install docker-ce</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看当前docker状态"><a href="#查看当前docker状态" class="headerlink" title="查看当前docker状态"></a>查看当前docker状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证Docker"><a href="#验证Docker" class="headerlink" title="验证Docker"></a>验证Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run hello-world</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载Docker"><a href="#卸载Docker" class="headerlink" title="卸载Docker"></a>卸载Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum remove docker-ce</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="配置阿里云镜像加速器"><a href="#配置阿里云镜像加速器" class="headerlink" title="配置阿里云镜像加速器"></a>配置阿里云镜像加速器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>云原生与运维</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Android集成Aspectj</title>
     <url>/2023/08/02/Android%E9%9B%86%E6%88%90Aspectj/</url>
     <content><![CDATA[<p>使用 AspectJ 在 Android 项目中实现面向切面编程（AOP）可以帮助您在代码中更好地处理横切关注点，如日志记录、权限控制、性能监测等。下面是在 Android 项目中使用 AspectJ 的详细流程：</p>
@@ -33,34 +61,6 @@
       <tags>
         <tag>Android</tag>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Centos安装Docker</title>
-    <url>/2024/06/15/Centos%E5%AE%89%E8%A3%85Docker/</url>
-    <content><![CDATA[<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line"><span class="built_in">sudo</span> yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="built_in">sudo</span> yum install docker-ce</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看当前docker状态"><a href="#查看当前docker状态" class="headerlink" title="查看当前docker状态"></a>查看当前docker状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure>
-
-<h3 id="验证Docker"><a href="#验证Docker" class="headerlink" title="验证Docker"></a>验证Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run hello-world</span><br></pre></td></tr></table></figure>
-
-<h3 id="卸载Docker"><a href="#卸载Docker" class="headerlink" title="卸载Docker"></a>卸载Docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> yum remove docker-ce</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="配置阿里云镜像加速器"><a href="#配置阿里云镜像加速器" class="headerlink" title="配置阿里云镜像加速器"></a>配置阿里云镜像加速器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>云原生与运维</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
@@ -460,6 +460,330 @@
       </tags>
   </entry>
   <entry>
+    <title>Learn Claude Code —— 真正的 Agent Harness 工程</title>
+    <url>/2026/05/12/Learn-Claude-Code-%E7%9C%9F%E6%AD%A3%E7%9A%84-Agent-Harness-%E5%B7%A5%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 AI 编程助手领域，Claude Code 以其独特的设计理念脱颖而出。本文将深入解析 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2Rl">shareAI-lab/learn-claude-code<i class="fa fa-external-link-alt"></i></span> 这个开源项目，带你从 0 到 1 理解 Claude Code 的核心原理——<strong>Agent Harness 工程</strong>。</p>
+<p>该项目通过 12 个渐进式会话（s01-s12），从最基础的 Agent 循环开始，每一课只增加一个核心机制，完整展现了如何从简单循环构建到生产级 AI 编程助手。</p>
+<span id="more"></span>
+
+<h2 id="一、核心洞察：模型就是-Agent"><a href="#一、核心洞察：模型就是-Agent" class="headerlink" title="一、核心洞察：模型就是 Agent"></a>一、核心洞察：模型就是 Agent</h2><h3 id="1-1-什么是-Agent"><a href="#1-1-什么是-Agent" class="headerlink" title="1.1 什么是 Agent"></a>1.1 什么是 Agent</h3><p>在讨论代码之前，先把一件事彻底说清楚：<strong>Agent 是模型。不是框架。不是提示词链。不是拖拽式工作流。</strong></p>
+<p>Agent 是一个神经网络——Transformer、RNN、一个被训练出来的函数——经过数十亿次梯度更新，在行动序列数据上学会了感知环境、推理目标、采取行动。</p>
+<blockquote>
+<p>“Agent” 这个词在 AI 领域从诞生之日起就是这个含义。当 DeepMind、OpenAI 或 Anthropic 说 “agent” 时，他们指的是同一个东西：一个拥有工具、能够使用这些工具、并能在循环中根据观察结果调整行动的模型。</p>
+</blockquote>
+<h3 id="1-2-Agent-的核心特征"><a href="#1-2-Agent-的核心特征" class="headerlink" title="1.2 Agent 的核心特征"></a>1.2 Agent 的核心特征</h3><table>
+<thead>
+<tr>
+<th>特征</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>感知</strong></td>
+<td>通过工具观察环境状态</td>
+</tr>
+<tr>
+<td><strong>推理</strong></td>
+<td>基于观察进行目标规划和决策</td>
+</tr>
+<tr>
+<td><strong>行动</strong></td>
+<td>调用工具执行具体操作</td>
+</tr>
+<tr>
+<td><strong>学习</strong></td>
+<td>根据结果反馈调整策略</td>
+</tr>
+</tbody></table>
+<h3 id="1-3-关键洞察"><a href="#1-3-关键洞察" class="headerlink" title="1.3 关键洞察"></a>1.3 关键洞察</h3><p><strong>Agent 产品 = 模型 + Harness（ harness 是缰绳/框架的意思）</strong></p>
+<p>Claude Code 之所以强大，不是因为它做了多少复杂的事，而是因为它<strong>没做</strong>的事：</p>
+<ul>
+<li>它没有试图成为 agent 本身</li>
+<li>它没有强加僵化的工作流</li>
+<li>它没有替模型做判断</li>
+</ul>
+<p>它只给模型提供了：<strong>工具、知识、上下文管理和权限边界</strong>——然后让开了。</p>
+<hr>
+<h2 id="二、Claude-Code-的本质解构"><a href="#二、Claude-Code-的本质解构" class="headerlink" title="二、Claude Code 的本质解构"></a>二、Claude Code 的本质解构</h2><p>把 Claude Code 剥到本质来看：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Claude Code = 一个 agent loop</span><br><span class="line">            + 工具 (bash, read, write, edit, glob, grep, browser...)</span><br><span class="line">            + 按需 skill 加载</span><br><span class="line">            + 上下文压缩</span><br><span class="line">            + 子 agent 派生</span><br><span class="line">            + 带依赖图的任务系统</span><br><span class="line">            + 异步邮箱的团队协调</span><br><span class="line">            + worktree 隔离的并行执行</span><br><span class="line">            + 权限治理</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-Agent-Loop：核心循环"><a href="#2-1-Agent-Loop：核心循环" class="headerlink" title="2.1 Agent Loop：核心循环"></a>2.1 Agent Loop：核心循环</h3><p>Agent Loop 是 Claude Code 的心脏。它是一个无限循环的异步生成器：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">LOOP:</span><br><span class="line">  1. 模型看到：上下文 + 可用能力</span><br><span class="line">  2. 模型决定：行动或响应</span><br><span class="line">  3. 如果行动：执行能力，添加结果，继续循环</span><br><span class="line">  4. 如果响应：返回给用户</span><br></pre></td></tr></table></figure>
+
+<p>这就是最小的循环。每个 AI 编程 agent 都需要这个循环。生产级 agent 会在此基础上添加策略、权限和生命周期层。</p>
+<h3 id="2-2-代码层面的极简实现"><a href="#2-2-代码层面的极简实现" class="headerlink" title="2.2 代码层面的极简实现"></a>2.2 代码层面的极简实现</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 核心循环的本质</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">    response = model(conversation, tools)</span><br><span class="line">    results = execute(response.tool_calls)</span><br><span class="line">    conversation.append(results)</span><br></pre></td></tr></table></figure>
+
+<p>Claude Code、Cursor Agent、Codex CLI、Devin——都共享这个模式。差异在于工具、显示、安全性。但本质始终是：<strong>给模型工具，让它工作</strong>。</p>
+<hr>
+<h2 id="三、渐进式构建：s01-s12-完整解析"><a href="#三、渐进式构建：s01-s12-完整解析" class="headerlink" title="三、渐进式构建：s01-s12 完整解析"></a>三、渐进式构建：s01-s12 完整解析</h2><p>learn-claude-code 项目采用 12 个渐进式会话，从简单循环到隔离的自主执行。每个会话添加一个机制，每个机制有一个座右铭。</p>
+<h3 id="3-1-s01：Agent-Loop-——-“One-loop-amp-Bash-is-all-you-need”"><a href="#3-1-s01：Agent-Loop-——-“One-loop-amp-Bash-is-all-you-need”" class="headerlink" title="3.1 s01：Agent Loop —— “One loop &amp; Bash is all you need”"></a>3.1 s01：Agent Loop —— “One loop &amp; Bash is all you need”</h3><p><strong>核心理念</strong>：一个工具 + 一个循环 = 一个 Agent</p>
+<p><strong>问题</strong>：语言模型可以推理代码，但无法接触真实世界——不能读文件、运行测试或检查错误。</p>
+<p><strong>解决方案</strong>：最简单的版本只有一个 Bash 工具：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bash_handler</span>(<span class="params">command: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">return</span> subprocess.run(command, shell=<span class="literal">True</span>, capture_output=<span class="literal">True</span>, text=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p>只有一个 Bash 工具，能干的事很有限。Agent 需要 shell 出来做所有事：读文件、写文件、编辑文件。这能工作，但很脆弱。</p>
+<hr>
+<h3 id="3-2-s02：Tool-Use-——-“Adding-a-tool-means-adding-one-handler”"><a href="#3-2-s02：Tool-Use-——-“Adding-a-tool-means-adding-one-handler”" class="headerlink" title="3.2 s02：Tool Use —— “Adding a tool means adding one handler”"></a>3.2 s02：Tool Use —— “Adding a tool means adding one handler”</h3><p><strong>核心理念</strong>：加工具只加 handler，循环保持不变</p>
+<p><strong>问题</strong>：只有 Bash 时，Agent 需要 shell 出来做所有事（读文件、写文件、编辑文件）。<code>cat</code> 输出可能被截断，<code>sed</code> 编辑容易出错。</p>
+<p><strong>解决方案</strong>：每个工具对应一个 handler 函数，通过调度映射表路由：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">TOOL_HANDLERS = &#123;</span><br><span class="line">    <span class="string">&quot;bash&quot;</span>: bash_handler,</span><br><span class="line">    <span class="string">&quot;read_file&quot;</span>: read_file_handler,      <span class="comment"># 新增：读取文件</span></span><br><span class="line">    <span class="string">&quot;write_file&quot;</span>: write_file_handler,    <span class="comment"># 新增：写入文件</span></span><br><span class="line">    <span class="string">&quot;list_files&quot;</span>: list_files_handler,    <span class="comment"># 新增：列出文件</span></span><br><span class="line">    <span class="string">&quot;search_files&quot;</span>: search_files_handler,<span class="comment"># 新增：搜索文件</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个查找替换任何 if/elif 链</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dispatch_tool</span>(<span class="params">tool_name, **kwargs</span>):</span><br><span class="line">    <span class="keyword">return</span> TOOL_HANDLERS[tool_name](**kwargs)</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键设计</strong>：路径沙箱防止工作区逃逸，工具描述（description）让模型知道何时使用哪个工具。</p>
+<hr>
+<h3 id="3-3-s03：Context-Management-——-“If-it-doesn’t-fit-make-it-fit”"><a href="#3-3-s03：Context-Management-——-“If-it-doesn’t-fit-make-it-fit”" class="headerlink" title="3.3 s03：Context Management —— “If it doesn’t fit, make it fit”"></a>3.3 s03：Context Management —— “If it doesn’t fit, make it fit”</h3><p><strong>核心理念</strong>：如果上下文装不下，就让它装下</p>
+<p><strong>问题</strong>：对话越来越长，最终必然超过上下文窗口限制。不能简单丢弃旧消息，因为可能包含关键信息。</p>
+<p><strong>解决方案</strong>：三层压缩策略</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 第一层：微观压缩 (micro_compact)</span></span><br><span class="line"><span class="comment"># 把旧的工具结果替换成占位符</span></span><br><span class="line">[Previous: used bash]</span><br><span class="line">[Previous: read_file path=<span class="string">&quot;src/main.py&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二层：自动压缩 (auto_compact)</span></span><br><span class="line"><span class="comment"># 当超过 50000 token 时，保存完整记录到文件</span></span><br><span class="line"><span class="comment"># 对话中只保留摘要</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第三层：LLM 摘要 (llm_compact)</span></span><br><span class="line"><span class="comment"># 调用 LLM 生成当前会话的摘要</span></span><br><span class="line"><span class="comment"># 保留关键决策和状态，丢弃细节</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>压缩原则</strong>：模型不失去对早期发生的事情的感知，只是失去逐字细节但保留本质。</p>
+<hr>
+<h3 id="3-4-s04：Skills-——-“Load-what-you-need-when-you-need-it”"><a href="#3-4-s04：Skills-——-“Load-what-you-need-when-you-need-it”" class="headerlink" title="3.4 s04：Skills —— “Load what you need, when you need it”"></a>3.4 s04：Skills —— “Load what you need, when you need it”</h3><p><strong>核心理念</strong>：按需加载，需要时才加载</p>
+<p><strong>问题</strong>：10 个技能，每个 2000 tokens = 20000 tokens 永久占用上下文，太浪费了。</p>
+<p><strong>解决方案</strong>：三层渐进式加载</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 第一层：元数据（始终加载）~100 tokens/skill</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">mcp-builder</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Build</span> <span class="string">MCP</span> <span class="string">(Model</span> <span class="string">Context</span> <span class="string">Protocol)</span> <span class="string">servers</span></span><br><span class="line"><span class="attr">when_to_use:</span> <span class="string">&quot;当用户要构建 MCP 服务器时使用&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二层：SKILL.md 主体（触发时加载）~2000 tokens</span></span><br><span class="line"><span class="comment"># 详细指南、代码示例、决策树</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第三层：附件资源（按需加载）</span></span><br><span class="line"><span class="comment"># 模板文件、示例代码、测试用例</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>匹配逻辑</strong>：Agent 通过读取 frontmatter 中的 <code>name</code> 和 <code>description</code> 快速判断何时加载该技能，无需加载完整内容。</p>
+<hr>
+<h3 id="3-5-s05：Sub-agents-——-“Delegate-don’t-duplicate”"><a href="#3-5-s05：Sub-agents-——-“Delegate-don’t-duplicate”" class="headerlink" title="3.5 s05：Sub-agents —— “Delegate, don’t duplicate”"></a>3.5 s05：Sub-agents —— “Delegate, don’t duplicate”</h3><p><strong>核心理念</strong>：委派，不要重复</p>
+<p><strong>问题</strong>：主 Agent 做所有事，上下文被各种任务的细节污染，失去对高层次目标的聚焦。</p>
+<p><strong>解决方案</strong>：派生子 Agent 处理特定任务</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 主 Agent 创建子 Agent</span></span><br><span class="line">sub_agent = Agent.create(</span><br><span class="line">    system_prompt=<span class="string">&quot;你是一个专门处理数据库迁移的专家...&quot;</span>,</span><br><span class="line">    tools=[<span class="string">&quot;read_file&quot;</span>, <span class="string">&quot;write_file&quot;</span>, <span class="string">&quot;execute_sql&quot;</span>],</span><br><span class="line">    parent_context=summary  <span class="comment"># 只传递摘要，不传递完整上下文</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 子 Agent 独立执行</span></span><br><span class="line">result = sub_agent.run(task_description)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果返回主 Agent</span></span><br><span class="line">parent.messages.append(&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">f&quot;子任务完成: <span class="subst">&#123;result.summary&#125;</span>&quot;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>优势</strong>：</p>
+<ul>
+<li>分离上下文：防止主对话被污染</li>
+<li>专注目标：子 Agent 只关注特定领域</li>
+<li>自定义工具：每个子 Agent 可以有专属工具集</li>
+</ul>
+<hr>
+<h3 id="3-6-s06：Task-System-——-“Big-goals-need-small-tasks”"><a href="#3-6-s06：Task-System-——-“Big-goals-need-small-tasks”" class="headerlink" title="3.6 s06：Task System —— “Big goals need small tasks”"></a>3.6 s06：Task System —— “Big goals need small tasks”</h3><p><strong>核心理念</strong>：大目标需要拆成小任务</p>
+<p><strong>问题</strong>：没有显式关系，Agent 分不清什么能做、什么被卡住、什么能同时跑。而且清单只活在内存里，上下文压缩一跑就没了。</p>
+<p><strong>解决方案</strong>：持久化到磁盘的任务图（DAG）</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;subject&quot;</span><span class="punctuation">:</span> <span class="string">&quot;设计数据库 schema&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;completed&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blockedBy&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blocks&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">2</span><span class="punctuation">,</span> <span class="number">3</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;subject&quot;</span><span class="punctuation">:</span> <span class="string">&quot;实现 API 接口&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;in_progress&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blockedBy&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blocks&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">4</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;subject&quot;</span><span class="punctuation">:</span> <span class="string">&quot;写单元测试&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;pending&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blockedBy&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blocks&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>核心特性</strong>：</p>
+<ul>
+<li><strong>持久化存储</strong>：每个任务是独立的 JSON 文件，存在 <code>.tasks/</code> 目录</li>
+<li><strong>依赖管理</strong>：通过 <code>blockedBy</code>（前置依赖）和 <code>blocks</code>（后置依赖）双向关联</li>
+<li><strong>自动解阻塞</strong>：任务 A 完成后，自动解除任务 B 的阻塞状态</li>
+</ul>
+<hr>
+<h3 id="3-7-s07：Persistent-State-——-“Remember-even-after-restart”"><a href="#3-7-s07：Persistent-State-——-“Remember-even-after-restart”" class="headerlink" title="3.7 s07：Persistent State —— “Remember, even after restart”"></a>3.7 s07：Persistent State —— “Remember, even after restart”</h3><p><strong>核心理念</strong>：记住，即使重启后</p>
+<p><strong>问题</strong>：Agent 重启后，所有任务状态、会话历史都丢失了。</p>
+<p><strong>解决方案</strong>：状态持久化</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 会话状态保存到文件</span></span><br><span class="line">session.save(<span class="string">&quot;.claude/session.json&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 任务图持久化</span></span><br><span class="line">task_manager.save(<span class="string">&quot;.tasks/&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 技能加载状态缓存</span></span><br><span class="line">skill_registry.cache(<span class="string">&quot;.claude/skills_cache.json&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>恢复流程</strong>：</p>
+<ol>
+<li>启动时检查是否存在持久化状态</li>
+<li>加载任务图，恢复未完成的任务</li>
+<li>恢复上下文摘要，继续会话</li>
+</ol>
+<hr>
+<h3 id="3-8-s08：Background-Tasks-——-“Slow-work-happens-in-the-background”"><a href="#3-8-s08：Background-Tasks-——-“Slow-work-happens-in-the-background”" class="headerlink" title="3.8 s08：Background Tasks —— “Slow work happens in the background”"></a>3.8 s08：Background Tasks —— “Slow work happens in the background”</h3><p><strong>核心理念</strong>：慢操作丢后台，Agent 继续想</p>
+<p><strong>问题</strong>：某些操作很慢（编译、测试、部署），Agent 等待时什么都做不了。</p>
+<p><strong>解决方案</strong>：后台任务管理器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Main thread                Background thread</span><br><span class="line">+-----------------+        +-----------------+</span><br><span class="line">| agent loop      |        | task executes   |</span><br><span class="line">| ...             |        | ...             |</span><br><span class="line">| [LLM call] &lt;---+------- | enqueue result  |</span><br><span class="line">|                 |        |                 |</span><br><span class="line">| drain queue     |        | long operation  |</span><br><span class="line">| inject results  |        | (compile/test)  |</span><br><span class="line">+-----------------+        +-----------------+</span><br></pre></td></tr></table></figure>
+
+<p><strong>工作流程</strong>：</p>
+<ol>
+<li>Agent 启动后台任务，立即返回继续执行</li>
+<li>后台任务在守护线程中执行</li>
+<li>完成后将结果放入通知队列</li>
+<li>每次 LLM 调用前，队列被清空，结果注入消息</li>
+</ol>
+<hr>
+<h3 id="3-9-s09：Agent-Teams-——-“When-the-task-is-too-big-for-one-delegate-to-teammates”"><a href="#3-9-s09：Agent-Teams-——-“When-the-task-is-too-big-for-one-delegate-to-teammates”" class="headerlink" title="3.9 s09：Agent Teams —— “When the task is too big for one, delegate to teammates”"></a>3.9 s09：Agent Teams —— “When the task is too big for one, delegate to teammates”</h3><p><strong>核心理念</strong>：任务太大一个人干不完，分给队友</p>
+<p><strong>问题</strong>：复杂任务需要多个专业领域的知识，单个 Agent 难以胜任。</p>
+<p><strong>解决方案</strong>：多 Agent 团队 + 异步邮箱通信</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建专业队友</span></span><br><span class="line">team = &#123;</span><br><span class="line">    <span class="string">&quot;backend_dev&quot;</span>: Agent.create(role=<span class="string">&quot;后端开发专家&quot;</span>),</span><br><span class="line">    <span class="string">&quot;frontend_dev&quot;</span>: Agent.create(role=<span class="string">&quot;前端开发专家&quot;</span>),</span><br><span class="line">    <span class="string">&quot;qa_engineer&quot;</span>: Agent.create(role=<span class="string">&quot;测试工程师&quot;</span>),</span><br><span class="line">    <span class="string">&quot;tech_lead&quot;</span>: Agent.create(role=<span class="string">&quot;技术负责人&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 异步通信邮箱</span></span><br><span class="line">mailbox = AsyncMailbox()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 任务分派</span></span><br><span class="line">tech_lead.send_message(</span><br><span class="line">    to=<span class="string">&quot;backend_dev&quot;</span>,</span><br><span class="line">    subject=<span class="string">&quot;实现用户认证 API&quot;</span>,</span><br><span class="line">    content=<span class="string">&quot;需要 JWT 认证，包含登录/注册/刷新令牌&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>核心机制</strong>：</p>
+<ul>
+<li><strong>持久化队友</strong>：每个队友是独立的 Agent 实例，有自己的上下文</li>
+<li><strong>异步邮箱</strong>：基于 JSONL 的异步消息通信</li>
+<li><strong>任务认领</strong>：队友主动扫描任务板，认领自己能处理的任务</li>
+</ul>
+<hr>
+<h3 id="3-10-s10：Team-Coordination-——-“Teammates-need-shared-communication-rules”"><a href="#3-10-s10：Team-Coordination-——-“Teammates-need-shared-communication-rules”" class="headerlink" title="3.10 s10：Team Coordination —— “Teammates need shared communication rules”"></a>3.10 s10：Team Coordination —— “Teammates need shared communication rules”</h3><p><strong>核心理念</strong>：队友需要共享通信规则</p>
+<p><strong>问题</strong>：多个 Agent 协作时，如果没有统一协议，会出现混乱和冲突。</p>
+<p><strong>解决方案</strong>：统一的请求-响应模式驱动所有协商</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 标准消息格式</span></span><br><span class="line"><span class="attr">message:</span></span><br><span class="line">  <span class="attr">from:</span> <span class="string">&quot;agent_id&quot;</span></span><br><span class="line">  <span class="attr">to:</span> <span class="string">&quot;agent_id&quot;</span>  <span class="comment"># 或 &quot;broadcast&quot;</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">&quot;request&quot;</span> <span class="string">|</span> <span class="string">&quot;response&quot;</span> <span class="string">|</span> <span class="string">&quot;notify&quot;</span></span><br><span class="line">  <span class="attr">subject:</span> <span class="string">&quot;任务主题&quot;</span></span><br><span class="line">  <span class="attr">content:</span> <span class="string">&quot;详细内容&quot;</span></span><br><span class="line">  <span class="attr">deadline:</span> <span class="string">&quot;2026-05-12T18:00:00Z&quot;</span></span><br><span class="line">  <span class="attr">priority:</span> <span class="string">&quot;high&quot;</span> <span class="string">|</span> <span class="string">&quot;medium&quot;</span> <span class="string">|</span> <span class="string">&quot;low&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>协商模式</strong>：</p>
+<ol>
+<li><strong>请求-响应</strong>：同步等待对方回复</li>
+<li><strong>通知</strong>：异步发送，不等待回复</li>
+<li><strong>广播</strong>：向所有队友发送消息</li>
+</ol>
+<hr>
+<h3 id="3-11-s11：Task-Board-——-“Teammates-scan-the-board-and-claim-tasks-themselves”"><a href="#3-11-s11：Task-Board-——-“Teammates-scan-the-board-and-claim-tasks-themselves”" class="headerlink" title="3.11 s11：Task Board —— “Teammates scan the board and claim tasks themselves”"></a>3.11 s11：Task Board —— “Teammates scan the board and claim tasks themselves”</h3><p><strong>核心理念</strong>：队友自己扫描任务板并认领任务</p>
+<p><strong>问题</strong>：团队领导需要手动分配每个任务，效率低下。</p>
+<p><strong>解决方案</strong>：自组织任务认领</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 任务板公开可见</span></span><br><span class="line">task_board = TaskBoard.load(<span class="string">&quot;.tasks/board.json&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每个 Agent 扫描任务板</span></span><br><span class="line"><span class="keyword">for</span> task <span class="keyword">in</span> task_board.available_tasks():</span><br><span class="line">    <span class="keyword">if</span> agent.can_handle(task.skills_required):</span><br><span class="line">        task.claim(agent.<span class="built_in">id</span>)</span><br><span class="line">        agent.execute(task)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>优势</strong>：</p>
+<ul>
+<li>去中心化：无需中央调度器</li>
+<li>负载均衡：Agent 根据自身能力选择任务</li>
+<li>容错性：某个 Agent 失败，其他 Agent 可以接管</li>
+</ul>
+<hr>
+<h3 id="3-12-s12：Worktree-Isolation-——-“Parallel-execution-needs-isolation”"><a href="#3-12-s12：Worktree-Isolation-——-“Parallel-execution-needs-isolation”" class="headerlink" title="3.12 s12：Worktree Isolation —— “Parallel execution needs isolation”"></a>3.12 s12：Worktree Isolation —— “Parallel execution needs isolation”</h3><p><strong>核心理念</strong>：并行执行需要隔离</p>
+<p><strong>问题</strong>：多个 Agent 同时修改同一代码库，会产生冲突。</p>
+<p><strong>解决方案</strong>：Git worktree 隔离</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 主工作区</span></span><br><span class="line">git worktree add ../feature-auth auth-branch</span><br><span class="line">git worktree add ../feature-ui ui-branch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每个 Agent 在自己的 worktree 中工作</span></span><br><span class="line">backend_agent.worktree = <span class="string">&quot;../feature-auth&quot;</span></span><br><span class="line">frontend_agent.worktree = <span class="string">&quot;../feature-ui&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 完成后合并</span></span><br><span class="line">backend_agent.commit_and_merge()</span><br><span class="line">frontend_agent.commit_and_merge()</span><br></pre></td></tr></table></figure>
+
+<p><strong>隔离级别</strong>：</p>
+<ul>
+<li><strong>文件系统隔离</strong>：每个 worktree 有独立的文件系统视图</li>
+<li><strong>Git 历史隔离</strong>：分支独立，互不影响</li>
+<li><strong>进程隔离</strong>：可以并行运行，无资源冲突</li>
+</ul>
+<hr>
+<h2 id="四、s01-s12-总结：渐进式构建路线图"><a href="#四、s01-s12-总结：渐进式构建路线图" class="headerlink" title="四、s01-s12 总结：渐进式构建路线图"></a>四、s01-s12 总结：渐进式构建路线图</h2><table>
+<thead>
+<tr>
+<th>会话</th>
+<th>座右铭</th>
+<th>核心机制</th>
+<th>解决的问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>s01</td>
+<td>One loop &amp; Bash is all you need</td>
+<td>基础 Agent Loop</td>
+<td>模型无法接触真实世界</td>
+</tr>
+<tr>
+<td>s02</td>
+<td>Adding a tool means adding one handler</td>
+<td>工具注册与调度</td>
+<td>Bash 太脆弱，需要专用工具</td>
+</tr>
+<tr>
+<td>s03</td>
+<td>If it doesn’t fit, make it fit</td>
+<td>上下文压缩</td>
+<td>对话超过窗口限制</td>
+</tr>
+<tr>
+<td>s04</td>
+<td>Load what you need, when you need it</td>
+<td>技能按需加载</td>
+<td>技能太多占用上下文</td>
+</tr>
+<tr>
+<td>s05</td>
+<td>Delegate, don’t duplicate</td>
+<td>子 Agent 派生</td>
+<td>上下文污染，需要专注</td>
+</tr>
+<tr>
+<td>s06</td>
+<td>Big goals need small tasks</td>
+<td>任务图系统</td>
+<td>大任务难以管理</td>
+</tr>
+<tr>
+<td>s07</td>
+<td>Remember, even after restart</td>
+<td>状态持久化</td>
+<td>重启后状态丢失</td>
+</tr>
+<tr>
+<td>s08</td>
+<td>Slow work happens in the background</td>
+<td>后台任务</td>
+<td>慢操作阻塞主循环</td>
+</tr>
+<tr>
+<td>s09</td>
+<td>When the task is too big for one</td>
+<td>多 Agent 团队</td>
+<td>复杂任务需要协作</td>
+</tr>
+<tr>
+<td>s10</td>
+<td>Teammates need shared communication rules</td>
+<td>团队通信协议</td>
+<td>多 Agent 协作混乱</td>
+</tr>
+<tr>
+<td>s11</td>
+<td>Teammates scan the board and claim tasks</td>
+<td>自组织任务认领</td>
+<td>手动分配效率低</td>
+</tr>
+<tr>
+<td>s12</td>
+<td>Parallel execution needs isolation</td>
+<td>Worktree 隔离</td>
+<td>并行执行冲突</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、核心设计哲学"><a href="#五、核心设计哲学" class="headerlink" title="五、核心设计哲学"></a>五、核心设计哲学</h2><h3 id="5-1-微小即强大"><a href="#5-1-微小即强大" class="headerlink" title="5.1 微小即强大"></a>5.1 微小即强大</h3><blockquote>
+<p>核心是微小的，其他都是精化。</p>
+</blockquote>
+<p>Agent Loop 本身只有几十行代码，但它是整个系统的基石。所有复杂功能都是在这个基础上逐步添加的。</p>
+<h3 id="5-2-让模型做决策"><a href="#5-2-让模型做决策" class="headerlink" title="5.2 让模型做决策"></a>5.2 让模型做决策</h3><p>不要替模型做决策。不要预设工作流。不要写复杂的决策树。</p>
+<p><strong>正确的做法</strong>：</p>
+<ul>
+<li>提供清晰的工具描述</li>
+<li>维护完整的上下文</li>
+<li>设置合理的权限边界</li>
+<li>让模型自己决定如何完成任务</li>
+</ul>
+<h3 id="5-3-Harness-工程师的角色"><a href="#5-3-Harness-工程师的角色" class="headerlink" title="5.3 Harness 工程师的角色"></a>5.3 Harness 工程师的角色</h3><p>每个学习这个仓库的 harness 工程师，都在学习远远超出软件工程领域的模式。你在学习构建智能自动化未来的基础设施。</p>
+<hr>
+<h2 id="六、实践启示"><a href="#六、实践启示" class="headerlink" title="六、实践启示"></a>六、实践启示</h2><h3 id="6-1-构建自己的-Agent"><a href="#6-1-构建自己的-Agent" class="headerlink" title="6.1 构建自己的 Agent"></a>6.1 构建自己的 Agent</h3><p>基于 learn-claude-code 的理念，构建 Agent 的关键步骤：</p>
+<ol>
+<li><strong>实现基础 Loop</strong>：消息循环 + 工具调用</li>
+<li><strong>设计工具集</strong>：从简单到复杂，按需添加</li>
+<li><strong>管理上下文</strong>：窗口管理、压缩、摘要</li>
+<li><strong>添加安全边界</strong>：权限控制、沙箱执行</li>
+<li><strong>优化用户体验</strong>：流式输出、状态可视化</li>
+</ol>
+<h3 id="6-2-与模型协作的最佳实践"><a href="#6-2-与模型协作的最佳实践" class="headerlink" title="6.2 与模型协作的最佳实践"></a>6.2 与模型协作的最佳实践</h3><ul>
+<li><strong>清晰的工具描述</strong>：让模型理解每个工具的能力</li>
+<li><strong>完整的错误信息</strong>：帮助模型从失败中恢复</li>
+<li><strong>适度的引导</strong>：在必要时提供示例，但不要过度约束</li>
+<li><strong>持续的反馈循环</strong>：观察模型行为，迭代优化工具设计</li>
+</ul>
+<hr>
+<h2 id="七、结语"><a href="#七、结语" class="headerlink" title="七、结语"></a>七、结语</h2><p>Learn Claude Code 项目向我们展示了一个重要的范式转变：<strong>Agent 的本质是模型，而不是框架</strong>。</p>
+<p>作为开发者，我们的任务不是去控制模型的每一步，而是：</p>
+<ul>
+<li>构建好的工具（Tools）</li>
+<li>管理好上下文（Context）</li>
+<li>设置清晰的边界（Boundaries）</li>
+<li>然后——<strong>让开，让模型工作</strong></li>
+</ul>
+<p>这就是 Agent Harness 工程的真正含义。</p>
+<hr>
+<h2 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h2><ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2Rl">GitHub 项目地址<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2RlL2Jsb2IvbWFpbi9SRUFETUUtemgubWQ=">中文文档<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmFudGhyb3BpYy5jb20vZW4vZG9jcy9hZ2VudHMtYW5kLXRvb2xzL2NsYXVkZS1jb2RlL292ZXJ2aWV3">Claude Code 官方文档<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+<hr>
+<blockquote>
+<p><strong>模型即代理。这就是全部秘密。</strong></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>AI 与人工智能</category>
+      </categories>
+      <tags>
+        <tag>LLM</tag>
+        <tag>Claude Code</tag>
+        <tag>Agent</tag>
+        <tag>AI 编程助手</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器</title>
     <url>/2026/04/20/MyBatis%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h1 id="MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器"><a href="#MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器" class="headerlink" title="MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器"></a>MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器</h1><p>MyBatis 提供了强大而灵活的缓存机制，包括一级缓存和二级缓存两个层次，旨在减少数据库访问次数，提高应用性能。</p>
@@ -648,47 +972,6 @@
         <tag>MyBatis</tag>
         <tag>缓存</tag>
         <tag>性能优化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MySql优化</title>
-    <url>/2023/11/11/MySql%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="以下是一些常用的方法和技巧："><a href="#以下是一些常用的方法和技巧：" class="headerlink" title="以下是一些常用的方法和技巧："></a>以下是一些常用的方法和技巧：</h2><h3 id="优化SQL查询语句："><a href="#优化SQL查询语句：" class="headerlink" title="优化SQL查询语句："></a>优化SQL查询语句：</h3><ol>
-<li>确保查询语句使用合适的索引，可以通过创建适当的索引来优化查询性能。</li>
-<li>避免使用SELECT *，而是只选择需要的列，减少数据传输量。</li>
-<li>使用JOIN查询时，确保相关字段有适当的索引。</li>
-<li>避免在WHERE子句中使用函数，这会导致无法使用索引。</li>
-</ol>
-<h3 id="优化数据库结构："><a href="#优化数据库结构：" class="headerlink" title="优化数据库结构："></a>优化数据库结构：</h3><ol>
-<li>选择合适的数据类型，尽量避免使用过大或过小的数据类型，以节省存储空间和提高查询效率。</li>
-<li>正规化数据库，避免冗余数据。合理设计表结构，减少不必要的关联查询。</li>
-<li>使用合适的主键和唯一索引，以提高查询和更新的性能。</li>
-</ol>
-<h3 id="配置MySQL服务器："><a href="#配置MySQL服务器：" class="headerlink" title="配置MySQL服务器："></a>配置MySQL服务器：</h3><ol>
-<li>调整缓冲区大小，如innodb_buffer_pool_size和key_buffer_size，以提高读写性能。</li>
-<li>调整并发连接数，根据实际情况合理设置max_connections参数。</li>
-<li>合理分配系统资源，确保MySQL服务器有足够的内存和CPU资源。</li>
-</ol>
-<h3 id="缓存优化："><a href="#缓存优化：" class="headerlink" title="缓存优化："></a>缓存优化：</h3><ol>
-<li>使用MySQL的查询缓存功能，对于经常重复的查询可以从缓存中获取结果，减少数据库的查询压力。</li>
-<li>合理利用应用程序层面的缓存，如使用Memcached或Redis来缓存查询结果或热门数据，减少对数据库的访问。</li>
-</ol>
-<h3 id="优化磁盘性能："><a href="#优化磁盘性能：" class="headerlink" title="优化磁盘性能："></a>优化磁盘性能：</h3><ol>
-<li>{将MySQL的数据文件和日志文件分别放置在不同的物理磁盘上，以提高读写性能。</li>
-<li>使用RAID技术，如RAID 10，以提高磁盘的读写速度和容错能力。}</li>
-</ol>
-<h3 id="监控和调优："><a href="#监控和调优：" class="headerlink" title="监控和调优："></a>监控和调优：</h3><ol>
-<li>定期监控MySQL服务器的性能指标，如CPU、内存、磁盘和网络的使用情况。</li>
-<li>使用MySQL自带的性能监控工具，如Explain和Slow Query Log，来分析慢查询并进行优化。</li>
-<li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -1120,6 +1403,47 @@
         <tag>AI</tag>
         <tag>OpenClaw</tag>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySql优化</title>
+    <url>/2023/11/11/MySql%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="以下是一些常用的方法和技巧："><a href="#以下是一些常用的方法和技巧：" class="headerlink" title="以下是一些常用的方法和技巧："></a>以下是一些常用的方法和技巧：</h2><h3 id="优化SQL查询语句："><a href="#优化SQL查询语句：" class="headerlink" title="优化SQL查询语句："></a>优化SQL查询语句：</h3><ol>
+<li>确保查询语句使用合适的索引，可以通过创建适当的索引来优化查询性能。</li>
+<li>避免使用SELECT *，而是只选择需要的列，减少数据传输量。</li>
+<li>使用JOIN查询时，确保相关字段有适当的索引。</li>
+<li>避免在WHERE子句中使用函数，这会导致无法使用索引。</li>
+</ol>
+<h3 id="优化数据库结构："><a href="#优化数据库结构：" class="headerlink" title="优化数据库结构："></a>优化数据库结构：</h3><ol>
+<li>选择合适的数据类型，尽量避免使用过大或过小的数据类型，以节省存储空间和提高查询效率。</li>
+<li>正规化数据库，避免冗余数据。合理设计表结构，减少不必要的关联查询。</li>
+<li>使用合适的主键和唯一索引，以提高查询和更新的性能。</li>
+</ol>
+<h3 id="配置MySQL服务器："><a href="#配置MySQL服务器：" class="headerlink" title="配置MySQL服务器："></a>配置MySQL服务器：</h3><ol>
+<li>调整缓冲区大小，如innodb_buffer_pool_size和key_buffer_size，以提高读写性能。</li>
+<li>调整并发连接数，根据实际情况合理设置max_connections参数。</li>
+<li>合理分配系统资源，确保MySQL服务器有足够的内存和CPU资源。</li>
+</ol>
+<h3 id="缓存优化："><a href="#缓存优化：" class="headerlink" title="缓存优化："></a>缓存优化：</h3><ol>
+<li>使用MySQL的查询缓存功能，对于经常重复的查询可以从缓存中获取结果，减少数据库的查询压力。</li>
+<li>合理利用应用程序层面的缓存，如使用Memcached或Redis来缓存查询结果或热门数据，减少对数据库的访问。</li>
+</ol>
+<h3 id="优化磁盘性能："><a href="#优化磁盘性能：" class="headerlink" title="优化磁盘性能："></a>优化磁盘性能：</h3><ol>
+<li>{将MySQL的数据文件和日志文件分别放置在不同的物理磁盘上，以提高读写性能。</li>
+<li>使用RAID技术，如RAID 10，以提高磁盘的读写速度和容错能力。}</li>
+</ol>
+<h3 id="监控和调优："><a href="#监控和调优：" class="headerlink" title="监控和调优："></a>监控和调优：</h3><ol>
+<li>定期监控MySQL服务器的性能指标，如CPU、内存、磁盘和网络的使用情况。</li>
+<li>使用MySQL自带的性能监控工具，如Explain和Slow Query Log，来分析慢查询并进行优化。</li>
+<li>使用第三方监控工具，如Percona Toolkit和pt-query-digest，进行更深入的性能分析和调优。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -2716,306 +3040,6 @@
       </tags>
   </entry>
   <entry>
-    <title>windows安装wsl教程</title>
-    <url>/2026/03/24/windows%E5%AE%89%E8%A3%85wsl%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<p>在 Windows 10 专业版上安装 WSL（Windows Subsystem for Linux）非常简单。微软提供了一个一键安装的命令，这是最推荐的方法。</p>
-<h3 id="🚀-快速安装（推荐）"><a href="#🚀-快速安装（推荐）" class="headerlink" title="🚀 快速安装（推荐）"></a>🚀 快速安装（推荐）</h3><p>这是最简单快捷的安装方式，适用于 Windows 10 版本 2004 及更高版本（内部版本 19041+）。</p>
-<ol>
-<li><p><strong>以管理员身份打开 PowerShell</strong></p>
-<ul>
-<li>在开始菜单搜索 “PowerShell”。</li>
-<li>右键点击 “Windows PowerShell”，选择“以管理员身份运行”。</li>
-</ul>
-</li>
-<li><p><strong>运行安装命令</strong></p>
-<ul>
-<li><p>在打开的 PowerShell 窗口中，输入以下命令并按回车：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1wsl --install</span><br></pre></td></tr></table></figure></li>
-<li><p>这个命令会自动完成以下操作：</p>
-<ul>
-<li>启用“适用于 Linux 的 Windows 子系统”和“虚拟机平台”这两个必需的 Windows 功能。</li>
-<li>下载并安装 WSL 2 的 Linux 内核。</li>
-<li>将 WSL 2 设置为默认版本。</li>
-<li>从 Microsoft Store 下载并安装默认的 Linux 发行版（通常是 Ubuntu）。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>重启计算机</strong></p>
-<ul>
-<li>命令执行完成后，根据提示重启你的电脑以使更改生效。</li>
-</ul>
-</li>
-<li><p><strong>完成初始化设置</strong></p>
-<ul>
-<li>重启后，系统可能会自动打开一个终端窗口，或者你可以从开始菜单启动刚安装的 Ubuntu。</li>
-<li>首次启动时，会提示你创建一个新的 UNIX 用户名和密码。<ul>
-<li><strong>用户名</strong>：可以是任意名称，不必与你的 Windows 用户名一致。</li>
-<li><strong>密码</strong>：输入时屏幕上不会显示字符，这是 Linux 的正常安全特性，请放心输入并牢记。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<p>设置完成后，你就可以开始使用 WSL 了。</p>
-<h3 id="🛠️-手动安装（备选方案）"><a href="#🛠️-手动安装（备选方案）" class="headerlink" title="🛠️ 手动安装（备选方案）"></a>🛠️ 手动安装（备选方案）</h3><p>如果你的 Windows 10 版本较旧，或者 <code>wsl --install</code> 命令遇到问题，可以按照以下步骤手动安装。</p>
-<ol>
-<li><p><strong>启用 WSL 和虚拟机平台功能</strong></p>
-<ul>
-<li><p>以管理员身份打开 PowerShell，依次运行以下两条命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart</span><br><span class="line">2dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p><strong>重启计算机</strong></p>
-<ul>
-<li>运行完上述命令后，重启你的电脑。</li>
-</ul>
-</li>
-<li><p><strong>下载并安装 WSL 2 内核更新包</strong></p>
-<ul>
-<li>从微软官方链接下载适用于 x64 计算机的更新包：<br><span class="exturl" data-url="aHR0cHM6Ly93c2xzdG9yZXN0b3JhZ2UuYmxvYi5jb3JlLndpbmRvd3MubmV0L3dzbGJsb2Ivd3NsX3VwZGF0ZV94NjQubXNp">WSL2 Linux 内核更新包<i class="fa fa-external-link-alt"></i></span></li>
-<li>下载完成后，双击运行安装程序。</li>
-</ul>
-</li>
-<li><p><strong>将 WSL 2 设置为默认版本</strong></p>
-<ul>
-<li><p>再次以管理员身份打开 PowerShell，运行以下命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1wsl --set-default-version 2</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p><strong>安装 Linux 发行版</strong></p>
-<ul>
-<li>打开 Microsoft Store，搜索你喜欢的 Linux 发行版（如 “Ubuntu 22.04 LTS”、”Debian” 等），然后点击“获取”或“安装”。</li>
-<li>安装完成后，从开始菜单启动它，并按照“快速安装”中的第4步完成初始化设置。</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>开发工具</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>WSL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）</title>
-    <url>/2026/04/19/%E5%90%83%E9%80%8F%E5%A4%9A%E5%B1%82%E6%97%B6%E9%97%B4%E8%BD%AE%EF%BC%9A%E5%8E%9F%E7%90%86%E3%80%81%E5%AE%9E%E7%8E%B0%E4%B8%8E%E4%BB%BB%E5%8A%A1%E4%B8%8B%E6%B2%89%E5%85%A8%E8%A7%A3%E6%9E%90%EF%BC%88%E9%99%84%E5%AE%8C%E6%95%B4%E5%8F%AF%E8%BF%90%E8%A1%8C%E4%BB%A3%E7%A0%81%EF%BC%89/</url>
-    <content><![CDATA[<h1 id="吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）"><a href="#吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）" class="headerlink" title="吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）"></a>吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）</h1><p>在高并发定时任务调度场景中，传统的定时线程池（ScheduledExecutor）、DelayQueue 等方案，在面对百万级、千万级任务时，会因全量扫描、堆排序等操作出现性能瓶颈。而时间轮（Timing Wheel）算法，凭借 O(1) 的任务增删效率、极低的 CPU 空耗，成为 Kafka、Netty、Dubbo 等大厂中间件的底层核心方案。</p>
-<p>本文将从基础原理出发，手把手拆解多层时间轮的实现逻辑，重点讲透大家最易混淆的「任务下沉流程」和「tick 方法联动机制」，并附上完整可运行的 Java 代码，让你从理论到实践，彻底掌握多层时间轮。</p>
-<h2 id="一、时间轮核心背景：为什么需要多层时间轮？"><a href="#一、时间轮核心背景：为什么需要多层时间轮？" class="headerlink" title="一、时间轮核心背景：为什么需要多层时间轮？"></a>一、时间轮核心背景：为什么需要多层时间轮？</h2><p>时间轮的设计灵感源于机械钟表，核心是用「环形数组+链表」模拟钟表轮盘，将连续时间切分成固定间隔的「时间槽」，指针匀速转动，仅处理当前槽位的任务，避免全量扫描所有任务，从而实现高效调度。</p>
-<p>但单层时间轮存在明显缺陷：<strong>任务延迟时间超过轮盘总周期时，会出现溢出、提前执行等问题</strong>。例如，一个 60 槽、每槽 1 秒的单层时间轮，总周期仅 60 秒，无法处理延迟 70 秒的任务。</p>
-<p>为解决长延时任务问题，多层时间轮应运而生——模仿机械钟表的「秒轮→分轮→时轮」嵌套结构，通过层级扩展时间跨度，同时保留 O(1) 的任务增删优势，这也是工业级应用的标准实现（如 Kafka 时间轮）。</p>
-<h2 id="二、多层时间轮核心原理与参数定义"><a href="#二、多层时间轮核心原理与参数定义" class="headerlink" title="二、多层时间轮核心原理与参数定义"></a>二、多层时间轮核心原理与参数定义</h2><h3 id="2-1-核心设计思想"><a href="#2-1-核心设计思想" class="headerlink" title="2.1 核心设计思想"></a>2.1 核心设计思想</h3><p>多层时间轮由多个「单层时间轮」嵌套组成，每一层的时间粒度（每格时间）、槽位数量、总周期各不相同，越高层时间粒度越大，总周期越长。</p>
-<p>核心逻辑：长延时任务先放入高层时间轮暂存，随着低层时间轮的转动，高层任务会「逐级下沉」到低层，最终落入最底层（精度最高），等待到期执行。</p>
-<h3 id="2-2-核心参数（以本文实现的三层时间轮为例）"><a href="#2-2-核心参数（以本文实现的三层时间轮为例）" class="headerlink" title="2.2 核心参数（以本文实现的三层时间轮为例）"></a>2.2 核心参数（以本文实现的三层时间轮为例）</h3><p>为方便后续理解代码和流程，先明确三层时间轮的固定参数，全程对照此参数讲解：</p>
-<table>
-<thead>
-<tr>
-<th>层级</th>
-<th>tickMs（每格时间）</th>
-<th>wheelSize（槽位数量）</th>
-<th>interval（总周期 = tickMs × wheelSize）</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>底层（Level1）</td>
-<td>10ms</td>
-<td>60</td>
-<td>600ms</td>
-<td>精度最高，执行最终到期任务</td>
-</tr>
-<tr>
-<td>中层（Level2）</td>
-<td>600ms</td>
-<td>60</td>
-<td>36s</td>
-<td>承接高层下沉的中延时任务</td>
-</tr>
-<tr>
-<td>高层（Level3）</td>
-<td>36s</td>
-<td>60</td>
-<td>36分钟</td>
-<td>暂存长延时任务</td>
-</tr>
-</tbody></table>
-<h3 id="2-3-层级联动规则"><a href="#2-3-层级联动规则" class="headerlink" title="2.3 层级联动规则"></a>2.3 层级联动规则</h3><p>多层时间轮的联动完全模仿机械钟表，底层驱动上层，核心规则：</p>
-<ul>
-<li><p>底层（Level1）每走完一整圈（600ms），中层（Level2）指针前进 1 格；</p>
-</li>
-<li><p>中层（Level2）每走完一整圈（36s），高层（Level3）指针前进 1 格；</p>
-</li>
-<li><p>只有底层会被定时任务驱动，持续跳动；中层、高层自身不主动跳动，全靠下层触发。</p>
-</li>
-</ul>
-<h2 id="三、完整可运行-Java-多层时间轮实现"><a href="#三、完整可运行-Java-多层时间轮实现" class="headerlink" title="三、完整可运行 Java 多层时间轮实现"></a>三、完整可运行 Java 多层时间轮实现</h2><p>以下代码完全对标 Kafka 多层时间轮原版设计，包含任务实体、单层时间轮基类、多层时间轮管理器、测试用例，注释详细，可直接复制运行，后续流程解析均围绕此代码展开。</p>
-<h3 id="3-1-代码结构"><a href="#3-1-代码结构" class="headerlink" title="3.1 代码结构"></a>3.1 代码结构</h3><p>1. 任务实体类（Task）：封装任务过期时间和执行逻辑；</p>
-<p>2. 单层时间轮基类（TimeWheel）：实现单层轮的任务添加、指针跳动逻辑；</p>
-<p>3. 多层时间轮管理器（MultiLevelTimeWheel）：构建三层嵌套轮，提供对外任务添加接口；</p>
-<p>4. 测试类（TimeWheelTest）：验证不同延迟任务的执行和下沉流程。</p>
-<h3 id="3-2-完整代码"><a href="#3-2-完整代码" class="headerlink" title="3.2 完整代码"></a>3.2 完整代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 定时任务实体：封装任务过期时间和执行逻辑</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Task</span> &#123;</span><br><span class="line">    <span class="comment">// 任务过期时间戳（绝对时间，单位：ms）</span></span><br><span class="line">    <span class="type">long</span> expireTime;</span><br><span class="line">    <span class="comment">// 任务执行逻辑</span></span><br><span class="line">    Runnable task;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Task</span><span class="params">(<span class="type">long</span> delayMs, Runnable task)</span> &#123;</span><br><span class="line">        <span class="comment">// 基于系统当前时间 + 延迟时间 = 绝对过期时间</span></span><br><span class="line">        <span class="built_in">this</span>.expireTime = System.currentTimeMillis() + delayMs;</span><br><span class="line">        <span class="built_in">this</span>.task = task;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断任务是否已经过期</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isExpired</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> System.currentTimeMillis() &gt;= expireTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 单层时间轮 基础轮：所有层级的时间轮都基于此实现</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TimeWheel</span> &#123;</span><br><span class="line">    <span class="comment">// 每一格时间（指针每次跳动的时间间隔）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> tickMs;</span><br><span class="line">    <span class="comment">// 轮盘槽位数量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> wheelSize;</span><br><span class="line">    <span class="comment">// 当前层总周期 = 格子时间 * 槽位数（走完一圈的时间）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> interval;</span><br><span class="line">    <span class="comment">// 当前指针所在的时间（累计走过的总时间）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> currentTime;</span><br><span class="line">    <span class="comment">// 每个槽位存放一个任务链表（同一时刻到期的任务存在同一个链表）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> LinkedList&lt;Task&gt;[] slots;</span><br><span class="line">    <span class="comment">// 上一层时间轮（高层）：当前层走完一圈，驱动上层指针跳动</span></span><br><span class="line">    <span class="keyword">private</span> TimeWheel upperWheel;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">TimeWheel</span><span class="params">(<span class="type">long</span> tickMs, <span class="type">int</span> wheelSize)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.tickMs = tickMs;</span><br><span class="line">        <span class="built_in">this</span>.wheelSize = wheelSize;</span><br><span class="line">        <span class="built_in">this</span>.interval = tickMs * wheelSize;</span><br><span class="line">        <span class="built_in">this</span>.currentTime = System.currentTimeMillis();</span><br><span class="line">        <span class="built_in">this</span>.slots = <span class="keyword">new</span> <span class="title class_">LinkedList</span>[wheelSize];</span><br><span class="line">        <span class="comment">// 初始化所有槽位的任务链表（避免空指针）</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; wheelSize; i++) &#123;</span><br><span class="line">            slots[i] = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置上层时间轮（绑定层级关系）</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUpperWheel</span><span class="params">(TimeWheel upperWheel)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.upperWheel = upperWheel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加任务到当前时间轮</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> task 要添加的任务</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 是否添加成功（false：延迟超过当前层周期，需交给上层）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">addTask</span><span class="params">(Task task)</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">delay</span> <span class="operator">=</span> task.expireTime - currentTime;</span><br><span class="line">        <span class="comment">// 任务已经过期，直接执行</span></span><br><span class="line">        <span class="keyword">if</span> (delay &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            task.task.run();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 延迟时间超过当前轮总周期 -&gt; 无法存放，交给上层时间轮处理</span></span><br><span class="line">        <span class="keyword">if</span> (delay &gt;= interval) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算任务应该落在当前轮的哪个槽位</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">slotIndex</span> <span class="operator">=</span> (currentTime + delay) / tickMs;</span><br><span class="line">        <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> (<span class="type">int</span>) (slotIndex % wheelSize);</span><br><span class="line">        slots[index].add(task);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 时间指针向前推进一格（核心方法）</span></span><br><span class="line"><span class="comment">     * 1. 推进指针时间</span></span><br><span class="line"><span class="comment">     * 2. 执行当前槽位所有到期任务</span></span><br><span class="line"><span class="comment">     * 3. 未到期任务重新分配槽位</span></span><br><span class="line"><span class="comment">     * 4. 判断是否走完一圈，驱动上层指针跳动</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">tick</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 1、指针前进一格：累加当前层的每格时间</span></span><br><span class="line">        currentTime += tickMs;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2、计算当前指针落在哪个槽位（取模确保槽位在合法范围）</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">slotIdx</span> <span class="operator">=</span> (<span class="type">int</span>) (currentTime / tickMs % wheelSize);</span><br><span class="line">        LinkedList&lt;Task&gt; slotTasks = slots[slotIdx];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3、处理当前槽位的所有任务（避免并发修改，先复制到临时列表）</span></span><br><span class="line">        <span class="keyword">if</span> (!slotTasks.isEmpty()) &#123;</span><br><span class="line">            List&amp;lt;Task&amp;gt; temp = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(slotTasks);</span><br><span class="line">            slotTasks.clear(); <span class="comment">// 清空当前槽，避免重复处理</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Task task : temp) &#123;</span><br><span class="line">                <span class="keyword">if</span> (task.isExpired()) &#123;</span><br><span class="line">                    <span class="comment">// 任务到期：直接执行</span></span><br><span class="line">                    task.task.run();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 任务未到期：重新加入当前轮，重新分配槽位（为下沉做准备）</span></span><br><span class="line">                    <span class="built_in">this</span>.addTask(task);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4、关键：判断当前轮是否刚走完一整圈，驱动上层指针跳动</span></span><br><span class="line">        <span class="keyword">if</span> (currentTime % interval == <span class="number">0</span> &amp;&amp; upperWheel != <span class="literal">null</span>) &#123;</span><br><span class="line">            upperWheel.tick();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 多层时间轮 完整实现（模仿 Kafka 三层时间轮）</span></span><br><span class="line"><span class="comment"> * 层级关系：Level3（高层）→ Level2（中层）→ Level1（底层）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MultiLevelTimeWheel</span> &#123;</span><br><span class="line">    <span class="comment">// 三层时间轮实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TimeWheel level1; <span class="comment">// 底层（精度最高）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TimeWheel level2; <span class="comment">// 中层</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TimeWheel level3; <span class="comment">// 高层</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定时调度器：驱动底层指针持续跳动（每10ms跳一次）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ScheduledExecutorService scheduler;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MultiLevelTimeWheel</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 1. 构建三层时间轮（从高层到底层，逐层绑定）</span></span><br><span class="line">        level3 = <span class="keyword">new</span> <span class="title class_">TimeWheel</span>(<span class="number">36</span> * <span class="number">1000L</span>, <span class="number">60</span>); <span class="comment">// 1格=36s，60槽，周期36分钟</span></span><br><span class="line">        level2 = <span class="keyword">new</span> <span class="title class_">TimeWheel</span>(<span class="number">600L</span>, <span class="number">60</span>);      <span class="comment">// 1格=600ms，60槽，周期36s</span></span><br><span class="line">        level1 = <span class="keyword">new</span> <span class="title class_">TimeWheel</span>(<span class="number">10L</span>, <span class="number">60</span>);       <span class="comment">// 1格=10ms，60槽，周期600ms</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 绑定层级联动：底层走完一圈→中层动；中层走完一圈→高层动</span></span><br><span class="line">        level1.setUpperWheel(level2);</span><br><span class="line">        level2.setUpperWheel(level3);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 启动驱动：每10ms触发一次底层的tick()，驱动整个时间轮</span></span><br><span class="line">        scheduler = Executors.newSingleThreadScheduledExecutor();</span><br><span class="line">        scheduler.scheduleAtFixedRate(<span class="built_in">this</span>::driveTick, <span class="number">0</span>, <span class="number">10</span>, TimeUnit.MILLISECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 驱动整个多层时间轮转动（仅驱动底层，上层靠底层触发）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">driveTick</span><span class="params">()</span> &#123;</span><br><span class="line">        level1.tick();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 对外提供的任务添加接口</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> delayMs 任务延迟时间（单位：ms）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> runnable 任务执行逻辑</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addTask</span><span class="params">(<span class="type">long</span> delayMs, Runnable runnable)</span> &#123;</span><br><span class="line">        <span class="type">Task</span> <span class="variable">task</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Task</span>(delayMs, runnable);</span><br><span class="line">        <span class="comment">// 从最底层开始尝试放入，放不进去就逐级往上抛</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> level1.addTask(task);</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            success = level2.addTask(task);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            level3.addTask(task);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭时间轮（释放资源）</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">        scheduler.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ===================== 测试主类：验证下沉流程和任务执行 =====================</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TimeWheelTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">MultiLevelTimeWheel</span> <span class="variable">multiWheel</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MultiLevelTimeWheel</span>();</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;=== 多层时间轮测试开始 ===&quot;</span>);</span><br><span class="line">        <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试1：短延迟任务（500ms）→ 直接放入底层，到期执行</span></span><br><span class="line">        multiWheel.addTask(<span class="number">500</span>, () -&gt; &#123;</span><br><span class="line">            System.out.printf(<span class="string">&quot;[短任务-500ms] 执行时间：%dms%n&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试2：中延迟任务（5000ms=5s）→ 先放入中层，下沉到底层执行</span></span><br><span class="line">        multiWheel.addTask(<span class="number">5000</span>, () -&gt; &#123;</span><br><span class="line">            System.out.printf(<span class="string">&quot;[中任务-5s] 执行时间：%dms%n&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试3：长延迟任务（20000ms=20s）→ 先放入中层，下沉到底层执行</span></span><br><span class="line">        multiWheel.addTask(<span class="number">20000</span>, () -&gt; &#123;</span><br><span class="line">            System.out.printf(<span class="string">&quot;[长任务-20s] 执行时间：%dms%n&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试4：超长延迟任务（40000ms=40s）→ 先放入高层，下沉到中层，再下沉到底层执行</span></span><br><span class="line">        multiWheel.addTask(<span class="number">40000</span>, () -&gt; &#123;</span><br><span class="line">            System.out.printf(<span class="string">&quot;[超长任务-40s] 执行时间：%dms%n&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 运行足够长时间，确保所有任务执行完成</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">45000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        multiWheel.close();</span><br><span class="line">        System.out.println(<span class="string">&quot;=== 多层时间轮测试结束 ===&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="四、核心方法解析：tick-方法与圈层判断"><a href="#四、核心方法解析：tick-方法与圈层判断" class="headerlink" title="四、核心方法解析：tick() 方法与圈层判断"></a>四、核心方法解析：tick() 方法与圈层判断</h2><p>tick() 方法是时间轮的核心，负责指针推进、任务处理和层级联动，其中最易混淆的是「当前轮走完一圈」的判断逻辑，也是任务下沉的触发源头。</p>
-<h3 id="4-1-tick-方法逐行拆解"><a href="#4-1-tick-方法逐行拆解" class="headerlink" title="4.1 tick() 方法逐行拆解"></a>4.1 tick() 方法逐行拆解</h3><p>我们重点拆解 tick() 方法的核心逻辑，尤其是最后一段的圈层判断：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">tick</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 指针前进一格：累加当前层的每格时间（比如底层每次加10ms）</span></span><br><span class="line">    currentTime += tickMs;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 计算当前指针所在的槽位（确保槽位在0~wheelSize-1之间）</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">slotIdx</span> <span class="operator">=</span> (<span class="type">int</span>) (currentTime / tickMs % wheelSize);</span><br><span class="line">    LinkedList&lt;Task&gt; slotTasks = slots[slotIdx];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 处理当前槽位的任务：执行到期任务，未到期任务重新分配</span></span><br><span class="line">    <span class="keyword">if</span> (!slotTasks.isEmpty()) &#123;</span><br><span class="line">        List&lt;Task&gt; temp = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(slotTasks);</span><br><span class="line">        slotTasks.clear();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Task task : temp) &#123;</span><br><span class="line">            <span class="keyword">if</span> (task.isExpired()) &#123;</span><br><span class="line">                task.task.run(); <span class="comment">// 到期任务执行</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">this</span>.addTask(task); <span class="comment">// 未到期，重新入队（为下沉做准备）</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 关键：判断当前轮是否刚走完一整圈，驱动上层指针跳动</span></span><br><span class="line">    <span class="keyword">if</span> (currentTime % interval == <span class="number">0</span> &amp;&amp; upperWheel != <span class="literal">null</span>) &#123;</span><br><span class="line">        upperWheel.tick();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-2-圈层判断逻辑：currentTime-interval-0"><a href="#4-2-圈层判断逻辑：currentTime-interval-0" class="headerlink" title="4.2 圈层判断逻辑：currentTime % interval == 0"></a>4.2 圈层判断逻辑：currentTime % interval == 0</h3><p>这行代码是层级联动的核心，我们用大白话+例子彻底讲透：</p>
-<ul>
-<li><p><strong>变量含义</strong>：</p>
-<ul>
-<li><p>currentTime：当前轮指针从启动到现在，累计走过的总时间；</p>
-</li>
-<li><p>interval：当前轮走完整一圈的总时间（tickMs × wheelSize）。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>逻辑翻译</strong>：当前累计走过的时间，刚好是当前轮一圈时间的整数倍 → 刚好转完一整圈。</p>
-</li>
-<li><p><strong>例子（底层轮）</strong>：</p>
-<ul>
-<li><p>底层 tickMs=10ms，interval=600ms；</p>
-</li>
-<li><p>指针第1次跳动：currentTime=10ms → 10%600≠0 → 未走完一圈；</p>
-</li>
-<li><p>指针第60次跳动：currentTime=600ms → 600%600=0 → 刚好走完一圈；</p>
-</li>
-<li><p>指针第120次跳动：currentTime=1200ms → 1200%600=0 → 刚好走完两圈。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>触发效果</strong>：只要满足条件，就调用上层轮的 tick() 方法，让上层指针前进一格——这就是「底层驱动上层」的核心逻辑。</p>
-</li>
-</ul>
-<h2 id="五、重点突破：任务下沉全流程详解"><a href="#五、重点突破：任务下沉全流程详解" class="headerlink" title="五、重点突破：任务下沉全流程详解"></a>五、重点突破：任务下沉全流程详解</h2><p>任务下沉是多层时间轮的灵魂，也是最容易理解混淆的部分。简单来说，<strong>下沉就是长延时任务从高层轮，随着低层轮的转动，逐级降级到底层轮，最终执行的过程</strong>。</p>
-<p>我们以「20000ms（20秒）延迟任务」为例，结合代码，一步步跟踪从任务添加到最终执行的完整下沉流程。</p>
-<h3 id="5-1-阶段1：任务添加-→-入队中层轮"><a href="#5-1-阶段1：任务添加-→-入队中层轮" class="headerlink" title="5.1 阶段1：任务添加 → 入队中层轮"></a>5.1 阶段1：任务添加 → 入队中层轮</h3><p>当调用 multiWheel.addTask(20000, 任务) 时，任务会从底层开始尝试入队：</p>
-<ol>
-<li><p>尝试入队底层（Level1）：底层 interval=600ms，20000ms &amp;gt; 600ms → 入队失败（addTask 返回 false）；</p>
-</li>
-<li><p>尝试入队中层（Level2）：中层 interval=36000ms，20000ms &amp;lt; 36000ms → 入队成功，计算槽位后放入中层的对应槽位；</p>
-</li>
-<li><p>此时，任务暂存在中层轮，等待下沉。</p>
-</li>
-</ol>
-<h3 id="5-2-阶段2：底层持续跳动-→-驱动中层指针前进"><a href="#5-2-阶段2：底层持续跳动-→-驱动中层指针前进" class="headerlink" title="5.2 阶段2：底层持续跳动 → 驱动中层指针前进"></a>5.2 阶段2：底层持续跳动 → 驱动中层指针前进</h3><p>底层轮被定时调度器驱动，每10ms跳动一次（tick() 被调用一次）：</p>
-<ul>
-<li><p>底层指针每跳动60次（累计600ms），就满足 currentTime % interval == 0 → 调用中层的 tick() 方法；</p>
-</li>
-<li><p>中层指针前进1格，这个过程不断重复，直到中层指针走到任务所在的槽位。</p>
-</li>
-</ul>
-<h3 id="5-3-阶段3：中层触发-tick-→-任务下沉到底层"><a href="#5-3-阶段3：中层触发-tick-→-任务下沉到底层" class="headerlink" title="5.3 阶段3：中层触发 tick() → 任务下沉到底层"></a>5.3 阶段3：中层触发 tick() → 任务下沉到底层</h3><p>当中层指针走到任务所在槽位时，中层的 tick() 方法开始处理该槽位的任务：</p>
-<ol>
-<li><p>取出槽位内的所有任务（包含我们的20秒延迟任务）；</p>
-</li>
-<li><p>判断任务是否过期：此时任务剩余延迟时间已小于36s，但仍未到期；</p>
-</li>
-<li><p>调用中层的 addTask(task) 方法，重新尝试入队中层；</p>
-</li>
-<li><p>重新计算延迟：此时任务剩余延迟时间 &amp;lt; 中层 interval（36s），但 &amp;gt; 底层 interval（600ms）？不，经过一段时间的消耗，剩余延迟已小于600ms，因此 addTask 返回 true，任务被放入底层轮的对应槽位；</p>
-</li>
-<li><p>至此，任务完成第一次下沉：中层 → 底层。</p>
-</li>
-</ol>
-<h3 id="5-4-阶段4：底层触发-tick-→-任务执行"><a href="#5-4-阶段4：底层触发-tick-→-任务执行" class="headerlink" title="5.4 阶段4：底层触发 tick() → 任务执行"></a>5.4 阶段4：底层触发 tick() → 任务执行</h3><p>任务落入底层轮后，底层指针持续跳动：</p>
-<ul>
-<li><p>当底层指针走到任务所在的槽位时，底层的 tick() 方法取出该槽位的任务；</p>
-</li>
-<li><p>判断任务是否过期：此时任务已到期，直接执行任务；</p>
-</li>
-<li><p>整个下沉流程结束，任务执行完成。</p>
-</li>
-</ul>
-<h3 id="5-5-任务下沉通用流程（面试必背）"><a href="#5-5-任务下沉通用流程（面试必背）" class="headerlink" title="5.5 任务下沉通用流程（面试必背）"></a>5.5 任务下沉通用流程（面试必背）</h3><p>总结所有任务的下沉规律，可归纳为5步：</p>
-<ol>
-<li><p><strong>任务添加</strong>：延迟时间过长，低层轮无法容纳，逐级上抛，存放到能容纳其周期的最高层轮；</p>
-</li>
-<li><p><strong>底层驱动</strong>：底层轮持续跳动，每走完一圈，驱动中层轮指针前进一格；中层轮每走完一圈，驱动高层轮指针前进一格；</p>
-</li>
-<li><p><strong>高层下沉</strong>：高层轮指针走到任务槽位，取出未过期任务，重新入队时发现剩余延迟已小于高层周期，下沉到中层轮；</p>
-</li>
-<li><p><strong>中层下沉</strong>：中层轮指针走到任务槽位，取出未过期任务，重新入队时发现剩余延迟已小于中层周期，下沉到底层轮；</p>
-</li>
-<li><p><strong>最终执行</strong>：底层轮指针走到任务槽位，任务到期执行。</p>
-</li>
-</ol>
-<h2 id="六、常见误区澄清（避坑指南）"><a href="#六、常见误区澄清（避坑指南）" class="headerlink" title="六、常见误区澄清（避坑指南）"></a>六、常见误区澄清（避坑指南）</h2><h3 id="误区1：任务下沉是自动从上往下掉"><a href="#误区1：任务下沉是自动从上往下掉" class="headerlink" title="误区1：任务下沉是自动从上往下掉"></a>误区1：任务下沉是自动从上往下掉</h3><p>错误！任务不会主动下沉，而是靠「下层轮驱动上层轮 tick()」，上层轮处理槽位任务时，通过重新调用 addTask() 方法，将任务分配到下层轮，才完成下沉。</p>
-<h3 id="误区2：currentTime-interval-0-会重复触发"><a href="#误区2：currentTime-interval-0-会重复触发" class="headerlink" title="误区2：currentTime % interval == 0 会重复触发"></a>误区2：currentTime % interval == 0 会重复触发</h3><p>不会！因为 interval 是当前轮一圈的总时间，只有 currentTime 刚好是 interval 的整数倍时，取模才为0，每走完一圈只会触发一次，不会重复。</p>
-<h3 id="误区3：中层、高层也会主动跳动"><a href="#误区3：中层、高层也会主动跳动" class="headerlink" title="误区3：中层、高层也会主动跳动"></a>误区3：中层、高层也会主动跳动</h3><p>错误！只有底层轮被定时调度器驱动，持续调用 tick()；中层、高层的 tick() 方法，只能被下层轮走完一圈后触发，自身不会主动跳动。</p>
-<h2 id="七、工业级应用场景与优势对比"><a href="#七、工业级应用场景与优势对比" class="headerlink" title="七、工业级应用场景与优势对比"></a>七、工业级应用场景与优势对比</h2><h3 id="7-1-主流应用场景"><a href="#7-1-主流应用场景" class="headerlink" title="7.1 主流应用场景"></a>7.1 主流应用场景</h3><p>多层时间轮凭借高效的调度能力，广泛应用于高并发场景：</p>
-<ul>
-<li><p>中间件：Kafka（延迟消息、副本同步超时）、Netty（连接超时、心跳检测）；</p>
-</li>
-<li><p>RPC框架：Dubbo、gRPC（调用超时、重试调度）；</p>
-</li>
-<li><p>微服务：Nacos、Sentinel（服务心跳、熔断降级超时）；</p>
-</li>
-<li><p>业务场景：百万级定时任务、延迟下单（未支付自动取消）、空闲连接回收。</p>
-</li>
-</ul>
-<h3 id="7-2-与传统方案对比"><a href="#7-2-与传统方案对比" class="headerlink" title="7.2 与传统方案对比"></a>7.2 与传统方案对比</h3><table>
-<thead>
-<tr>
-<th>方案</th>
-<th>新增任务复杂度</th>
-<th>扫描开销</th>
-<th>海量任务性能</th>
-<th>长延时支持</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>多层时间轮</td>
-<td>O(1)</td>
-<td>仅扫描当前槽，无全量遍历</td>
-<td>极优，CPU占用极低</td>
-<td>完美支持</td>
-</tr>
-<tr>
-<td>DelayQueue（优先队列）</td>
-<td>O(logN)</td>
-<td>每次取出需堆排序</td>
-<td>差，易堆积</td>
-<td>一般</td>
-</tr>
-<tr>
-<td>定时线程池</td>
-<td>O(logN)</td>
-<td>内部优先队列维护</td>
-<td>差，资源消耗大</td>
-<td>差</td>
-</tr>
-</tbody></table>
-<h2 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h2><p>多层时间轮的核心价值，在于用「层级嵌套」解决了单层时间轮无法处理长延时任务的缺陷，同时保留了 O(1) 的任务增删效率，实现了「高精度+长延时+高并发」的三者兼顾。</p>
-<p>关键要点回顾：</p>
-<ul>
-<li><p>多层时间轮由底层驱动上层，每一层走完一圈，驱动上层指针前进一格；</p>
-</li>
-<li><p>任务下沉的核心是「上层轮处理任务时，重新入队到下层轮」，而非主动掉落；</p>
-</li>
-<li><p>tick() 方法是核心，负责指针推进、任务处理和层级联动；</p>
-</li>
-<li><p>工业级实现（如 Kafka）会优化任务圈数（cycle），减少重复计算，提升性能。</p>
-</li>
-</ul>
-<p>本文的代码可直接运行，建议大家结合测试用例，修改延迟时间，观察任务下沉和执行过程，加深理解。如果需要补充 Kafka 原版带 cycle 圈数的优化代码，可留言交流～</p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-        <category>算法与数据结构</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>时间轮</tag>
-        <tag>Timing Wheel</tag>
-        <tag>定时任务</tag>
-        <tag>调度算法</tag>
-        <tag>Kafka</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JVM堆内平稳，内存却持续飙升？一文搞定堆外内存泄漏排查与实战</title>
     <url>/2026/04/20/%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%8E%92%E6%9F%A5%E4%B8%8E%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<h1 id="JVM堆内平稳，内存却持续飙升？一文搞定堆外内存泄漏排查与实战"><a href="#JVM堆内平稳，内存却持续飙升？一文搞定堆外内存泄漏排查与实战" class="headerlink" title="JVM堆内平稳，内存却持续飙升？一文搞定堆外内存泄漏排查与实战"></a>JVM堆内平稳，内存却持续飙升？一文搞定堆外内存泄漏排查与实战</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Java应用的内存问题排查中，我们经常会遇到一种”诡异”的现象：通过 <code>jstat</code> 等工具查看，JVM的堆内存（Heap）和元空间（Metaspace）都稳稳当当，没有明显增长。但是，用 <code>top</code> 命令一看，整个进程的 <strong>常驻内存（RES）</strong> 却在持续攀升，最终导致服务器内存耗尽，应用被操作系统”Out Of Memory”杀死。</p>
@@ -3237,6 +3261,306 @@
         <tag>JVM</tag>
         <tag>内存泄漏</tag>
         <tag>堆外内存</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）</title>
+    <url>/2026/04/19/%E5%90%83%E9%80%8F%E5%A4%9A%E5%B1%82%E6%97%B6%E9%97%B4%E8%BD%AE%EF%BC%9A%E5%8E%9F%E7%90%86%E3%80%81%E5%AE%9E%E7%8E%B0%E4%B8%8E%E4%BB%BB%E5%8A%A1%E4%B8%8B%E6%B2%89%E5%85%A8%E8%A7%A3%E6%9E%90%EF%BC%88%E9%99%84%E5%AE%8C%E6%95%B4%E5%8F%AF%E8%BF%90%E8%A1%8C%E4%BB%A3%E7%A0%81%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）"><a href="#吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）" class="headerlink" title="吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）"></a>吃透多层时间轮：原理、实现与任务下沉全解析（附完整可运行代码）</h1><p>在高并发定时任务调度场景中，传统的定时线程池（ScheduledExecutor）、DelayQueue 等方案，在面对百万级、千万级任务时，会因全量扫描、堆排序等操作出现性能瓶颈。而时间轮（Timing Wheel）算法，凭借 O(1) 的任务增删效率、极低的 CPU 空耗，成为 Kafka、Netty、Dubbo 等大厂中间件的底层核心方案。</p>
+<p>本文将从基础原理出发，手把手拆解多层时间轮的实现逻辑，重点讲透大家最易混淆的「任务下沉流程」和「tick 方法联动机制」，并附上完整可运行的 Java 代码，让你从理论到实践，彻底掌握多层时间轮。</p>
+<h2 id="一、时间轮核心背景：为什么需要多层时间轮？"><a href="#一、时间轮核心背景：为什么需要多层时间轮？" class="headerlink" title="一、时间轮核心背景：为什么需要多层时间轮？"></a>一、时间轮核心背景：为什么需要多层时间轮？</h2><p>时间轮的设计灵感源于机械钟表，核心是用「环形数组+链表」模拟钟表轮盘，将连续时间切分成固定间隔的「时间槽」，指针匀速转动，仅处理当前槽位的任务，避免全量扫描所有任务，从而实现高效调度。</p>
+<p>但单层时间轮存在明显缺陷：<strong>任务延迟时间超过轮盘总周期时，会出现溢出、提前执行等问题</strong>。例如，一个 60 槽、每槽 1 秒的单层时间轮，总周期仅 60 秒，无法处理延迟 70 秒的任务。</p>
+<p>为解决长延时任务问题，多层时间轮应运而生——模仿机械钟表的「秒轮→分轮→时轮」嵌套结构，通过层级扩展时间跨度，同时保留 O(1) 的任务增删优势，这也是工业级应用的标准实现（如 Kafka 时间轮）。</p>
+<h2 id="二、多层时间轮核心原理与参数定义"><a href="#二、多层时间轮核心原理与参数定义" class="headerlink" title="二、多层时间轮核心原理与参数定义"></a>二、多层时间轮核心原理与参数定义</h2><h3 id="2-1-核心设计思想"><a href="#2-1-核心设计思想" class="headerlink" title="2.1 核心设计思想"></a>2.1 核心设计思想</h3><p>多层时间轮由多个「单层时间轮」嵌套组成，每一层的时间粒度（每格时间）、槽位数量、总周期各不相同，越高层时间粒度越大，总周期越长。</p>
+<p>核心逻辑：长延时任务先放入高层时间轮暂存，随着低层时间轮的转动，高层任务会「逐级下沉」到低层，最终落入最底层（精度最高），等待到期执行。</p>
+<h3 id="2-2-核心参数（以本文实现的三层时间轮为例）"><a href="#2-2-核心参数（以本文实现的三层时间轮为例）" class="headerlink" title="2.2 核心参数（以本文实现的三层时间轮为例）"></a>2.2 核心参数（以本文实现的三层时间轮为例）</h3><p>为方便后续理解代码和流程，先明确三层时间轮的固定参数，全程对照此参数讲解：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>tickMs（每格时间）</th>
+<th>wheelSize（槽位数量）</th>
+<th>interval（总周期 = tickMs × wheelSize）</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>底层（Level1）</td>
+<td>10ms</td>
+<td>60</td>
+<td>600ms</td>
+<td>精度最高，执行最终到期任务</td>
+</tr>
+<tr>
+<td>中层（Level2）</td>
+<td>600ms</td>
+<td>60</td>
+<td>36s</td>
+<td>承接高层下沉的中延时任务</td>
+</tr>
+<tr>
+<td>高层（Level3）</td>
+<td>36s</td>
+<td>60</td>
+<td>36分钟</td>
+<td>暂存长延时任务</td>
+</tr>
+</tbody></table>
+<h3 id="2-3-层级联动规则"><a href="#2-3-层级联动规则" class="headerlink" title="2.3 层级联动规则"></a>2.3 层级联动规则</h3><p>多层时间轮的联动完全模仿机械钟表，底层驱动上层，核心规则：</p>
+<ul>
+<li><p>底层（Level1）每走完一整圈（600ms），中层（Level2）指针前进 1 格；</p>
+</li>
+<li><p>中层（Level2）每走完一整圈（36s），高层（Level3）指针前进 1 格；</p>
+</li>
+<li><p>只有底层会被定时任务驱动，持续跳动；中层、高层自身不主动跳动，全靠下层触发。</p>
+</li>
+</ul>
+<h2 id="三、完整可运行-Java-多层时间轮实现"><a href="#三、完整可运行-Java-多层时间轮实现" class="headerlink" title="三、完整可运行 Java 多层时间轮实现"></a>三、完整可运行 Java 多层时间轮实现</h2><p>以下代码完全对标 Kafka 多层时间轮原版设计，包含任务实体、单层时间轮基类、多层时间轮管理器、测试用例，注释详细，可直接复制运行，后续流程解析均围绕此代码展开。</p>
+<h3 id="3-1-代码结构"><a href="#3-1-代码结构" class="headerlink" title="3.1 代码结构"></a>3.1 代码结构</h3><p>1. 任务实体类（Task）：封装任务过期时间和执行逻辑；</p>
+<p>2. 单层时间轮基类（TimeWheel）：实现单层轮的任务添加、指针跳动逻辑；</p>
+<p>3. 多层时间轮管理器（MultiLevelTimeWheel）：构建三层嵌套轮，提供对外任务添加接口；</p>
+<p>4. 测试类（TimeWheelTest）：验证不同延迟任务的执行和下沉流程。</p>
+<h3 id="3-2-完整代码"><a href="#3-2-完整代码" class="headerlink" title="3.2 完整代码"></a>3.2 完整代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 定时任务实体：封装任务过期时间和执行逻辑</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Task</span> &#123;</span><br><span class="line">    <span class="comment">// 任务过期时间戳（绝对时间，单位：ms）</span></span><br><span class="line">    <span class="type">long</span> expireTime;</span><br><span class="line">    <span class="comment">// 任务执行逻辑</span></span><br><span class="line">    Runnable task;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Task</span><span class="params">(<span class="type">long</span> delayMs, Runnable task)</span> &#123;</span><br><span class="line">        <span class="comment">// 基于系统当前时间 + 延迟时间 = 绝对过期时间</span></span><br><span class="line">        <span class="built_in">this</span>.expireTime = System.currentTimeMillis() + delayMs;</span><br><span class="line">        <span class="built_in">this</span>.task = task;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断任务是否已经过期</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isExpired</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> System.currentTimeMillis() &gt;= expireTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 单层时间轮 基础轮：所有层级的时间轮都基于此实现</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TimeWheel</span> &#123;</span><br><span class="line">    <span class="comment">// 每一格时间（指针每次跳动的时间间隔）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> tickMs;</span><br><span class="line">    <span class="comment">// 轮盘槽位数量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> wheelSize;</span><br><span class="line">    <span class="comment">// 当前层总周期 = 格子时间 * 槽位数（走完一圈的时间）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> interval;</span><br><span class="line">    <span class="comment">// 当前指针所在的时间（累计走过的总时间）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> currentTime;</span><br><span class="line">    <span class="comment">// 每个槽位存放一个任务链表（同一时刻到期的任务存在同一个链表）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> LinkedList&lt;Task&gt;[] slots;</span><br><span class="line">    <span class="comment">// 上一层时间轮（高层）：当前层走完一圈，驱动上层指针跳动</span></span><br><span class="line">    <span class="keyword">private</span> TimeWheel upperWheel;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">TimeWheel</span><span class="params">(<span class="type">long</span> tickMs, <span class="type">int</span> wheelSize)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.tickMs = tickMs;</span><br><span class="line">        <span class="built_in">this</span>.wheelSize = wheelSize;</span><br><span class="line">        <span class="built_in">this</span>.interval = tickMs * wheelSize;</span><br><span class="line">        <span class="built_in">this</span>.currentTime = System.currentTimeMillis();</span><br><span class="line">        <span class="built_in">this</span>.slots = <span class="keyword">new</span> <span class="title class_">LinkedList</span>[wheelSize];</span><br><span class="line">        <span class="comment">// 初始化所有槽位的任务链表（避免空指针）</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; wheelSize; i++) &#123;</span><br><span class="line">            slots[i] = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置上层时间轮（绑定层级关系）</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUpperWheel</span><span class="params">(TimeWheel upperWheel)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.upperWheel = upperWheel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加任务到当前时间轮</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> task 要添加的任务</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 是否添加成功（false：延迟超过当前层周期，需交给上层）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">addTask</span><span class="params">(Task task)</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">delay</span> <span class="operator">=</span> task.expireTime - currentTime;</span><br><span class="line">        <span class="comment">// 任务已经过期，直接执行</span></span><br><span class="line">        <span class="keyword">if</span> (delay &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            task.task.run();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 延迟时间超过当前轮总周期 -&gt; 无法存放，交给上层时间轮处理</span></span><br><span class="line">        <span class="keyword">if</span> (delay &gt;= interval) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算任务应该落在当前轮的哪个槽位</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">slotIndex</span> <span class="operator">=</span> (currentTime + delay) / tickMs;</span><br><span class="line">        <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> (<span class="type">int</span>) (slotIndex % wheelSize);</span><br><span class="line">        slots[index].add(task);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 时间指针向前推进一格（核心方法）</span></span><br><span class="line"><span class="comment">     * 1. 推进指针时间</span></span><br><span class="line"><span class="comment">     * 2. 执行当前槽位所有到期任务</span></span><br><span class="line"><span class="comment">     * 3. 未到期任务重新分配槽位</span></span><br><span class="line"><span class="comment">     * 4. 判断是否走完一圈，驱动上层指针跳动</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">tick</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 1、指针前进一格：累加当前层的每格时间</span></span><br><span class="line">        currentTime += tickMs;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2、计算当前指针落在哪个槽位（取模确保槽位在合法范围）</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">slotIdx</span> <span class="operator">=</span> (<span class="type">int</span>) (currentTime / tickMs % wheelSize);</span><br><span class="line">        LinkedList&lt;Task&gt; slotTasks = slots[slotIdx];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3、处理当前槽位的所有任务（避免并发修改，先复制到临时列表）</span></span><br><span class="line">        <span class="keyword">if</span> (!slotTasks.isEmpty()) &#123;</span><br><span class="line">            List&amp;lt;Task&amp;gt; temp = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(slotTasks);</span><br><span class="line">            slotTasks.clear(); <span class="comment">// 清空当前槽，避免重复处理</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Task task : temp) &#123;</span><br><span class="line">                <span class="keyword">if</span> (task.isExpired()) &#123;</span><br><span class="line">                    <span class="comment">// 任务到期：直接执行</span></span><br><span class="line">                    task.task.run();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 任务未到期：重新加入当前轮，重新分配槽位（为下沉做准备）</span></span><br><span class="line">                    <span class="built_in">this</span>.addTask(task);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4、关键：判断当前轮是否刚走完一整圈，驱动上层指针跳动</span></span><br><span class="line">        <span class="keyword">if</span> (currentTime % interval == <span class="number">0</span> &amp;&amp; upperWheel != <span class="literal">null</span>) &#123;</span><br><span class="line">            upperWheel.tick();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 多层时间轮 完整实现（模仿 Kafka 三层时间轮）</span></span><br><span class="line"><span class="comment"> * 层级关系：Level3（高层）→ Level2（中层）→ Level1（底层）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MultiLevelTimeWheel</span> &#123;</span><br><span class="line">    <span class="comment">// 三层时间轮实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TimeWheel level1; <span class="comment">// 底层（精度最高）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TimeWheel level2; <span class="comment">// 中层</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TimeWheel level3; <span class="comment">// 高层</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定时调度器：驱动底层指针持续跳动（每10ms跳一次）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ScheduledExecutorService scheduler;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MultiLevelTimeWheel</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 1. 构建三层时间轮（从高层到底层，逐层绑定）</span></span><br><span class="line">        level3 = <span class="keyword">new</span> <span class="title class_">TimeWheel</span>(<span class="number">36</span> * <span class="number">1000L</span>, <span class="number">60</span>); <span class="comment">// 1格=36s，60槽，周期36分钟</span></span><br><span class="line">        level2 = <span class="keyword">new</span> <span class="title class_">TimeWheel</span>(<span class="number">600L</span>, <span class="number">60</span>);      <span class="comment">// 1格=600ms，60槽，周期36s</span></span><br><span class="line">        level1 = <span class="keyword">new</span> <span class="title class_">TimeWheel</span>(<span class="number">10L</span>, <span class="number">60</span>);       <span class="comment">// 1格=10ms，60槽，周期600ms</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 绑定层级联动：底层走完一圈→中层动；中层走完一圈→高层动</span></span><br><span class="line">        level1.setUpperWheel(level2);</span><br><span class="line">        level2.setUpperWheel(level3);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 启动驱动：每10ms触发一次底层的tick()，驱动整个时间轮</span></span><br><span class="line">        scheduler = Executors.newSingleThreadScheduledExecutor();</span><br><span class="line">        scheduler.scheduleAtFixedRate(<span class="built_in">this</span>::driveTick, <span class="number">0</span>, <span class="number">10</span>, TimeUnit.MILLISECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 驱动整个多层时间轮转动（仅驱动底层，上层靠底层触发）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">driveTick</span><span class="params">()</span> &#123;</span><br><span class="line">        level1.tick();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 对外提供的任务添加接口</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> delayMs 任务延迟时间（单位：ms）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> runnable 任务执行逻辑</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addTask</span><span class="params">(<span class="type">long</span> delayMs, Runnable runnable)</span> &#123;</span><br><span class="line">        <span class="type">Task</span> <span class="variable">task</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Task</span>(delayMs, runnable);</span><br><span class="line">        <span class="comment">// 从最底层开始尝试放入，放不进去就逐级往上抛</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> level1.addTask(task);</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            success = level2.addTask(task);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            level3.addTask(task);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭时间轮（释放资源）</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">        scheduler.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ===================== 测试主类：验证下沉流程和任务执行 =====================</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TimeWheelTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">MultiLevelTimeWheel</span> <span class="variable">multiWheel</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MultiLevelTimeWheel</span>();</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;=== 多层时间轮测试开始 ===&quot;</span>);</span><br><span class="line">        <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试1：短延迟任务（500ms）→ 直接放入底层，到期执行</span></span><br><span class="line">        multiWheel.addTask(<span class="number">500</span>, () -&gt; &#123;</span><br><span class="line">            System.out.printf(<span class="string">&quot;[短任务-500ms] 执行时间：%dms%n&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试2：中延迟任务（5000ms=5s）→ 先放入中层，下沉到底层执行</span></span><br><span class="line">        multiWheel.addTask(<span class="number">5000</span>, () -&gt; &#123;</span><br><span class="line">            System.out.printf(<span class="string">&quot;[中任务-5s] 执行时间：%dms%n&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试3：长延迟任务（20000ms=20s）→ 先放入中层，下沉到底层执行</span></span><br><span class="line">        multiWheel.addTask(<span class="number">20000</span>, () -&gt; &#123;</span><br><span class="line">            System.out.printf(<span class="string">&quot;[长任务-20s] 执行时间：%dms%n&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试4：超长延迟任务（40000ms=40s）→ 先放入高层，下沉到中层，再下沉到底层执行</span></span><br><span class="line">        multiWheel.addTask(<span class="number">40000</span>, () -&gt; &#123;</span><br><span class="line">            System.out.printf(<span class="string">&quot;[超长任务-40s] 执行时间：%dms%n&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 运行足够长时间，确保所有任务执行完成</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">45000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        multiWheel.close();</span><br><span class="line">        System.out.println(<span class="string">&quot;=== 多层时间轮测试结束 ===&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、核心方法解析：tick-方法与圈层判断"><a href="#四、核心方法解析：tick-方法与圈层判断" class="headerlink" title="四、核心方法解析：tick() 方法与圈层判断"></a>四、核心方法解析：tick() 方法与圈层判断</h2><p>tick() 方法是时间轮的核心，负责指针推进、任务处理和层级联动，其中最易混淆的是「当前轮走完一圈」的判断逻辑，也是任务下沉的触发源头。</p>
+<h3 id="4-1-tick-方法逐行拆解"><a href="#4-1-tick-方法逐行拆解" class="headerlink" title="4.1 tick() 方法逐行拆解"></a>4.1 tick() 方法逐行拆解</h3><p>我们重点拆解 tick() 方法的核心逻辑，尤其是最后一段的圈层判断：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">tick</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 指针前进一格：累加当前层的每格时间（比如底层每次加10ms）</span></span><br><span class="line">    currentTime += tickMs;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 计算当前指针所在的槽位（确保槽位在0~wheelSize-1之间）</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">slotIdx</span> <span class="operator">=</span> (<span class="type">int</span>) (currentTime / tickMs % wheelSize);</span><br><span class="line">    LinkedList&lt;Task&gt; slotTasks = slots[slotIdx];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 处理当前槽位的任务：执行到期任务，未到期任务重新分配</span></span><br><span class="line">    <span class="keyword">if</span> (!slotTasks.isEmpty()) &#123;</span><br><span class="line">        List&lt;Task&gt; temp = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(slotTasks);</span><br><span class="line">        slotTasks.clear();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Task task : temp) &#123;</span><br><span class="line">            <span class="keyword">if</span> (task.isExpired()) &#123;</span><br><span class="line">                task.task.run(); <span class="comment">// 到期任务执行</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">this</span>.addTask(task); <span class="comment">// 未到期，重新入队（为下沉做准备）</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 关键：判断当前轮是否刚走完一整圈，驱动上层指针跳动</span></span><br><span class="line">    <span class="keyword">if</span> (currentTime % interval == <span class="number">0</span> &amp;&amp; upperWheel != <span class="literal">null</span>) &#123;</span><br><span class="line">        upperWheel.tick();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-圈层判断逻辑：currentTime-interval-0"><a href="#4-2-圈层判断逻辑：currentTime-interval-0" class="headerlink" title="4.2 圈层判断逻辑：currentTime % interval == 0"></a>4.2 圈层判断逻辑：currentTime % interval == 0</h3><p>这行代码是层级联动的核心，我们用大白话+例子彻底讲透：</p>
+<ul>
+<li><p><strong>变量含义</strong>：</p>
+<ul>
+<li><p>currentTime：当前轮指针从启动到现在，累计走过的总时间；</p>
+</li>
+<li><p>interval：当前轮走完整一圈的总时间（tickMs × wheelSize）。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>逻辑翻译</strong>：当前累计走过的时间，刚好是当前轮一圈时间的整数倍 → 刚好转完一整圈。</p>
+</li>
+<li><p><strong>例子（底层轮）</strong>：</p>
+<ul>
+<li><p>底层 tickMs=10ms，interval=600ms；</p>
+</li>
+<li><p>指针第1次跳动：currentTime=10ms → 10%600≠0 → 未走完一圈；</p>
+</li>
+<li><p>指针第60次跳动：currentTime=600ms → 600%600=0 → 刚好走完一圈；</p>
+</li>
+<li><p>指针第120次跳动：currentTime=1200ms → 1200%600=0 → 刚好走完两圈。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>触发效果</strong>：只要满足条件，就调用上层轮的 tick() 方法，让上层指针前进一格——这就是「底层驱动上层」的核心逻辑。</p>
+</li>
+</ul>
+<h2 id="五、重点突破：任务下沉全流程详解"><a href="#五、重点突破：任务下沉全流程详解" class="headerlink" title="五、重点突破：任务下沉全流程详解"></a>五、重点突破：任务下沉全流程详解</h2><p>任务下沉是多层时间轮的灵魂，也是最容易理解混淆的部分。简单来说，<strong>下沉就是长延时任务从高层轮，随着低层轮的转动，逐级降级到底层轮，最终执行的过程</strong>。</p>
+<p>我们以「20000ms（20秒）延迟任务」为例，结合代码，一步步跟踪从任务添加到最终执行的完整下沉流程。</p>
+<h3 id="5-1-阶段1：任务添加-→-入队中层轮"><a href="#5-1-阶段1：任务添加-→-入队中层轮" class="headerlink" title="5.1 阶段1：任务添加 → 入队中层轮"></a>5.1 阶段1：任务添加 → 入队中层轮</h3><p>当调用 multiWheel.addTask(20000, 任务) 时，任务会从底层开始尝试入队：</p>
+<ol>
+<li><p>尝试入队底层（Level1）：底层 interval=600ms，20000ms &amp;gt; 600ms → 入队失败（addTask 返回 false）；</p>
+</li>
+<li><p>尝试入队中层（Level2）：中层 interval=36000ms，20000ms &amp;lt; 36000ms → 入队成功，计算槽位后放入中层的对应槽位；</p>
+</li>
+<li><p>此时，任务暂存在中层轮，等待下沉。</p>
+</li>
+</ol>
+<h3 id="5-2-阶段2：底层持续跳动-→-驱动中层指针前进"><a href="#5-2-阶段2：底层持续跳动-→-驱动中层指针前进" class="headerlink" title="5.2 阶段2：底层持续跳动 → 驱动中层指针前进"></a>5.2 阶段2：底层持续跳动 → 驱动中层指针前进</h3><p>底层轮被定时调度器驱动，每10ms跳动一次（tick() 被调用一次）：</p>
+<ul>
+<li><p>底层指针每跳动60次（累计600ms），就满足 currentTime % interval == 0 → 调用中层的 tick() 方法；</p>
+</li>
+<li><p>中层指针前进1格，这个过程不断重复，直到中层指针走到任务所在的槽位。</p>
+</li>
+</ul>
+<h3 id="5-3-阶段3：中层触发-tick-→-任务下沉到底层"><a href="#5-3-阶段3：中层触发-tick-→-任务下沉到底层" class="headerlink" title="5.3 阶段3：中层触发 tick() → 任务下沉到底层"></a>5.3 阶段3：中层触发 tick() → 任务下沉到底层</h3><p>当中层指针走到任务所在槽位时，中层的 tick() 方法开始处理该槽位的任务：</p>
+<ol>
+<li><p>取出槽位内的所有任务（包含我们的20秒延迟任务）；</p>
+</li>
+<li><p>判断任务是否过期：此时任务剩余延迟时间已小于36s，但仍未到期；</p>
+</li>
+<li><p>调用中层的 addTask(task) 方法，重新尝试入队中层；</p>
+</li>
+<li><p>重新计算延迟：此时任务剩余延迟时间 &amp;lt; 中层 interval（36s），但 &amp;gt; 底层 interval（600ms）？不，经过一段时间的消耗，剩余延迟已小于600ms，因此 addTask 返回 true，任务被放入底层轮的对应槽位；</p>
+</li>
+<li><p>至此，任务完成第一次下沉：中层 → 底层。</p>
+</li>
+</ol>
+<h3 id="5-4-阶段4：底层触发-tick-→-任务执行"><a href="#5-4-阶段4：底层触发-tick-→-任务执行" class="headerlink" title="5.4 阶段4：底层触发 tick() → 任务执行"></a>5.4 阶段4：底层触发 tick() → 任务执行</h3><p>任务落入底层轮后，底层指针持续跳动：</p>
+<ul>
+<li><p>当底层指针走到任务所在的槽位时，底层的 tick() 方法取出该槽位的任务；</p>
+</li>
+<li><p>判断任务是否过期：此时任务已到期，直接执行任务；</p>
+</li>
+<li><p>整个下沉流程结束，任务执行完成。</p>
+</li>
+</ul>
+<h3 id="5-5-任务下沉通用流程（面试必背）"><a href="#5-5-任务下沉通用流程（面试必背）" class="headerlink" title="5.5 任务下沉通用流程（面试必背）"></a>5.5 任务下沉通用流程（面试必背）</h3><p>总结所有任务的下沉规律，可归纳为5步：</p>
+<ol>
+<li><p><strong>任务添加</strong>：延迟时间过长，低层轮无法容纳，逐级上抛，存放到能容纳其周期的最高层轮；</p>
+</li>
+<li><p><strong>底层驱动</strong>：底层轮持续跳动，每走完一圈，驱动中层轮指针前进一格；中层轮每走完一圈，驱动高层轮指针前进一格；</p>
+</li>
+<li><p><strong>高层下沉</strong>：高层轮指针走到任务槽位，取出未过期任务，重新入队时发现剩余延迟已小于高层周期，下沉到中层轮；</p>
+</li>
+<li><p><strong>中层下沉</strong>：中层轮指针走到任务槽位，取出未过期任务，重新入队时发现剩余延迟已小于中层周期，下沉到底层轮；</p>
+</li>
+<li><p><strong>最终执行</strong>：底层轮指针走到任务槽位，任务到期执行。</p>
+</li>
+</ol>
+<h2 id="六、常见误区澄清（避坑指南）"><a href="#六、常见误区澄清（避坑指南）" class="headerlink" title="六、常见误区澄清（避坑指南）"></a>六、常见误区澄清（避坑指南）</h2><h3 id="误区1：任务下沉是自动从上往下掉"><a href="#误区1：任务下沉是自动从上往下掉" class="headerlink" title="误区1：任务下沉是自动从上往下掉"></a>误区1：任务下沉是自动从上往下掉</h3><p>错误！任务不会主动下沉，而是靠「下层轮驱动上层轮 tick()」，上层轮处理槽位任务时，通过重新调用 addTask() 方法，将任务分配到下层轮，才完成下沉。</p>
+<h3 id="误区2：currentTime-interval-0-会重复触发"><a href="#误区2：currentTime-interval-0-会重复触发" class="headerlink" title="误区2：currentTime % interval == 0 会重复触发"></a>误区2：currentTime % interval == 0 会重复触发</h3><p>不会！因为 interval 是当前轮一圈的总时间，只有 currentTime 刚好是 interval 的整数倍时，取模才为0，每走完一圈只会触发一次，不会重复。</p>
+<h3 id="误区3：中层、高层也会主动跳动"><a href="#误区3：中层、高层也会主动跳动" class="headerlink" title="误区3：中层、高层也会主动跳动"></a>误区3：中层、高层也会主动跳动</h3><p>错误！只有底层轮被定时调度器驱动，持续调用 tick()；中层、高层的 tick() 方法，只能被下层轮走完一圈后触发，自身不会主动跳动。</p>
+<h2 id="七、工业级应用场景与优势对比"><a href="#七、工业级应用场景与优势对比" class="headerlink" title="七、工业级应用场景与优势对比"></a>七、工业级应用场景与优势对比</h2><h3 id="7-1-主流应用场景"><a href="#7-1-主流应用场景" class="headerlink" title="7.1 主流应用场景"></a>7.1 主流应用场景</h3><p>多层时间轮凭借高效的调度能力，广泛应用于高并发场景：</p>
+<ul>
+<li><p>中间件：Kafka（延迟消息、副本同步超时）、Netty（连接超时、心跳检测）；</p>
+</li>
+<li><p>RPC框架：Dubbo、gRPC（调用超时、重试调度）；</p>
+</li>
+<li><p>微服务：Nacos、Sentinel（服务心跳、熔断降级超时）；</p>
+</li>
+<li><p>业务场景：百万级定时任务、延迟下单（未支付自动取消）、空闲连接回收。</p>
+</li>
+</ul>
+<h3 id="7-2-与传统方案对比"><a href="#7-2-与传统方案对比" class="headerlink" title="7.2 与传统方案对比"></a>7.2 与传统方案对比</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>新增任务复杂度</th>
+<th>扫描开销</th>
+<th>海量任务性能</th>
+<th>长延时支持</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>多层时间轮</td>
+<td>O(1)</td>
+<td>仅扫描当前槽，无全量遍历</td>
+<td>极优，CPU占用极低</td>
+<td>完美支持</td>
+</tr>
+<tr>
+<td>DelayQueue（优先队列）</td>
+<td>O(logN)</td>
+<td>每次取出需堆排序</td>
+<td>差，易堆积</td>
+<td>一般</td>
+</tr>
+<tr>
+<td>定时线程池</td>
+<td>O(logN)</td>
+<td>内部优先队列维护</td>
+<td>差，资源消耗大</td>
+<td>差</td>
+</tr>
+</tbody></table>
+<h2 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h2><p>多层时间轮的核心价值，在于用「层级嵌套」解决了单层时间轮无法处理长延时任务的缺陷，同时保留了 O(1) 的任务增删效率，实现了「高精度+长延时+高并发」的三者兼顾。</p>
+<p>关键要点回顾：</p>
+<ul>
+<li><p>多层时间轮由底层驱动上层，每一层走完一圈，驱动上层指针前进一格；</p>
+</li>
+<li><p>任务下沉的核心是「上层轮处理任务时，重新入队到下层轮」，而非主动掉落；</p>
+</li>
+<li><p>tick() 方法是核心，负责指针推进、任务处理和层级联动；</p>
+</li>
+<li><p>工业级实现（如 Kafka）会优化任务圈数（cycle），减少重复计算，提升性能。</p>
+</li>
+</ul>
+<p>本文的代码可直接运行，建议大家结合测试用例，修改延迟时间，观察任务下沉和执行过程，加深理解。如果需要补充 Kafka 原版带 cycle 圈数的优化代码，可留言交流～</p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+        <category>算法与数据结构</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>时间轮</tag>
+        <tag>Timing Wheel</tag>
+        <tag>定时任务</tag>
+        <tag>调度算法</tag>
+        <tag>Kafka</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows安装wsl教程</title>
+    <url>/2026/03/24/windows%E5%AE%89%E8%A3%85wsl%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>在 Windows 10 专业版上安装 WSL（Windows Subsystem for Linux）非常简单。微软提供了一个一键安装的命令，这是最推荐的方法。</p>
+<h3 id="🚀-快速安装（推荐）"><a href="#🚀-快速安装（推荐）" class="headerlink" title="🚀 快速安装（推荐）"></a>🚀 快速安装（推荐）</h3><p>这是最简单快捷的安装方式，适用于 Windows 10 版本 2004 及更高版本（内部版本 19041+）。</p>
+<ol>
+<li><p><strong>以管理员身份打开 PowerShell</strong></p>
+<ul>
+<li>在开始菜单搜索 “PowerShell”。</li>
+<li>右键点击 “Windows PowerShell”，选择“以管理员身份运行”。</li>
+</ul>
+</li>
+<li><p><strong>运行安装命令</strong></p>
+<ul>
+<li><p>在打开的 PowerShell 窗口中，输入以下命令并按回车：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1wsl --install</span><br></pre></td></tr></table></figure></li>
+<li><p>这个命令会自动完成以下操作：</p>
+<ul>
+<li>启用“适用于 Linux 的 Windows 子系统”和“虚拟机平台”这两个必需的 Windows 功能。</li>
+<li>下载并安装 WSL 2 的 Linux 内核。</li>
+<li>将 WSL 2 设置为默认版本。</li>
+<li>从 Microsoft Store 下载并安装默认的 Linux 发行版（通常是 Ubuntu）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>重启计算机</strong></p>
+<ul>
+<li>命令执行完成后，根据提示重启你的电脑以使更改生效。</li>
+</ul>
+</li>
+<li><p><strong>完成初始化设置</strong></p>
+<ul>
+<li>重启后，系统可能会自动打开一个终端窗口，或者你可以从开始菜单启动刚安装的 Ubuntu。</li>
+<li>首次启动时，会提示你创建一个新的 UNIX 用户名和密码。<ul>
+<li><strong>用户名</strong>：可以是任意名称，不必与你的 Windows 用户名一致。</li>
+<li><strong>密码</strong>：输入时屏幕上不会显示字符，这是 Linux 的正常安全特性，请放心输入并牢记。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>设置完成后，你就可以开始使用 WSL 了。</p>
+<h3 id="🛠️-手动安装（备选方案）"><a href="#🛠️-手动安装（备选方案）" class="headerlink" title="🛠️ 手动安装（备选方案）"></a>🛠️ 手动安装（备选方案）</h3><p>如果你的 Windows 10 版本较旧，或者 <code>wsl --install</code> 命令遇到问题，可以按照以下步骤手动安装。</p>
+<ol>
+<li><p><strong>启用 WSL 和虚拟机平台功能</strong></p>
+<ul>
+<li><p>以管理员身份打开 PowerShell，依次运行以下两条命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart</span><br><span class="line">2dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>重启计算机</strong></p>
+<ul>
+<li>运行完上述命令后，重启你的电脑。</li>
+</ul>
+</li>
+<li><p><strong>下载并安装 WSL 2 内核更新包</strong></p>
+<ul>
+<li>从微软官方链接下载适用于 x64 计算机的更新包：<br><span class="exturl" data-url="aHR0cHM6Ly93c2xzdG9yZXN0b3JhZ2UuYmxvYi5jb3JlLndpbmRvd3MubmV0L3dzbGJsb2Ivd3NsX3VwZGF0ZV94NjQubXNp">WSL2 Linux 内核更新包<i class="fa fa-external-link-alt"></i></span></li>
+<li>下载完成后，双击运行安装程序。</li>
+</ul>
+</li>
+<li><p><strong>将 WSL 2 设置为默认版本</strong></p>
+<ul>
+<li><p>再次以管理员身份打开 PowerShell，运行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1wsl --set-default-version 2</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>安装 Linux 发行版</strong></p>
+<ul>
+<li>打开 Microsoft Store，搜索你喜欢的 Linux 发行版（如 “Ubuntu 22.04 LTS”、”Debian” 等），然后点击“获取”或“安装”。</li>
+<li>安装完成后，从开始菜单启动它，并按照“快速安装”中的第4步完成初始化设置。</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>WSL</tag>
       </tags>
   </entry>
   <entry>
@@ -3623,27 +3947,6 @@
       </tags>
   </entry>
   <entry>
-    <title>本地仓库关联远程库</title>
-    <url>/2023/07/30/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%BA%93/</url>
-    <content><![CDATA[<h3 id="将本地仓库关联并推送到远程库，你需要执行以下步骤："><a href="#将本地仓库关联并推送到远程库，你需要执行以下步骤：" class="headerlink" title="将本地仓库关联并推送到远程库，你需要执行以下步骤："></a>将本地仓库关联并推送到远程库，你需要执行以下步骤：</h3><h2 id="1-创建远程仓库："><a href="#1-创建远程仓库：" class="headerlink" title="1. 创建远程仓库："></a>1. <strong>创建远程仓库</strong>：</h2><p>首先，在远程代码托管服务（如 GitHub、GitLab 或 Gitee）上创建一个新的空仓库。在创建过程中，你可能会得到一个远程仓库的 URL。</p>
-<h2 id="2-关联本地仓库："><a href="#2-关联本地仓库：" class="headerlink" title="2. 关联本地仓库："></a>2. <strong>关联本地仓库</strong>：</h2><p>打开命令行终端（或 Git Bash），进入本地仓库所在的文件夹。然后，使用以下命令将本地仓库与远程仓库进行关联：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;远程仓库的 URL&gt;</span><br></pre></td></tr></table></figure>
-
-<p>将 &lt;远程仓库的 URL&gt; 替换为你在第一步中获取到的远程仓库的 URL。</p>
-<h2 id="3-推送到远程仓库："><a href="#3-推送到远程仓库：" class="headerlink" title="3. 推送到远程仓库："></a>3. <strong>推送到远程仓库</strong>：</h2><p>现在，你可以使用以下命令将本地分支推送到远程仓库：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -u origin &lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
-
-<p>如果是第一次推送该分支，使用 <code>-u </code>参数可以将本地分支与远程分支进行关联，以后可以直接使用 <code>git push</code> 和 <code>git pull</code> 不带参数进行推送和拉取。</p>
-<p>完成上述步骤后，你的本地仓库就会与远程</p>
-]]></content>
-      <categories>
-        <category>开发工具与教程</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>面试题</title>
     <url>/2024/06/15/%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
     <content><![CDATA[<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="1-java如何实现线程安全？"><a href="#1-java如何实现线程安全？" class="headerlink" title="1. java如何实现线程安全？"></a>1. java如何实现线程安全？</h3><p>   同步代码块<br>   同步方法</p>
@@ -3750,6 +4053,27 @@ Spring Boot的优点：
       <tags>
         <tag>Java</tag>
         <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>本地仓库关联远程库</title>
+    <url>/2023/07/30/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%BA%93/</url>
+    <content><![CDATA[<h3 id="将本地仓库关联并推送到远程库，你需要执行以下步骤："><a href="#将本地仓库关联并推送到远程库，你需要执行以下步骤：" class="headerlink" title="将本地仓库关联并推送到远程库，你需要执行以下步骤："></a>将本地仓库关联并推送到远程库，你需要执行以下步骤：</h3><h2 id="1-创建远程仓库："><a href="#1-创建远程仓库：" class="headerlink" title="1. 创建远程仓库："></a>1. <strong>创建远程仓库</strong>：</h2><p>首先，在远程代码托管服务（如 GitHub、GitLab 或 Gitee）上创建一个新的空仓库。在创建过程中，你可能会得到一个远程仓库的 URL。</p>
+<h2 id="2-关联本地仓库："><a href="#2-关联本地仓库：" class="headerlink" title="2. 关联本地仓库："></a>2. <strong>关联本地仓库</strong>：</h2><p>打开命令行终端（或 Git Bash），进入本地仓库所在的文件夹。然后，使用以下命令将本地仓库与远程仓库进行关联：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;远程仓库的 URL&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将 &lt;远程仓库的 URL&gt; 替换为你在第一步中获取到的远程仓库的 URL。</p>
+<h2 id="3-推送到远程仓库："><a href="#3-推送到远程仓库：" class="headerlink" title="3. 推送到远程仓库："></a>3. <strong>推送到远程仓库</strong>：</h2><p>现在，你可以使用以下命令将本地分支推送到远程仓库：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -u origin &lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果是第一次推送该分支，使用 <code>-u </code>参数可以将本地分支与远程分支进行关联，以后可以直接使用 <code>git push</code> 和 <code>git pull</code> 不带参数进行推送和拉取。</p>
+<p>完成上述步骤后，你的本地仓库就会与远程</p>
+]]></content>
+      <categories>
+        <category>开发工具与教程</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
       </tags>
   </entry>
 </search>

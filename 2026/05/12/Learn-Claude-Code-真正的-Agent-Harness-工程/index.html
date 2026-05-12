@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#667eea","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":5,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言在 AI 编程助手领域，Claude Code 以其独特的设计理念脱颖而出。本文将深入解析 shareAI-lab&#x2F;learn-claude-code 这个开源项目，带你从 0 到 1 理解 Claude Code 的核心原理——Agent Harness 工程。 该项目通过 12 个渐进式会话（s01-s12），从最基础的 Agent 循环开始，每一课只增加一个核心机制，完整展现了如何从简单">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learn Claude Code —— 真正的 Agent Harness 工程">
+<meta property="og:url" content="https://snrt111.github.io/2026/05/12/Learn-Claude-Code-%E7%9C%9F%E6%AD%A3%E7%9A%84-Agent-Harness-%E5%B7%A5%E7%A8%8B/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="前言在 AI 编程助手领域，Claude Code 以其独特的设计理念脱颖而出。本文将深入解析 shareAI-lab&#x2F;learn-claude-code 这个开源项目，带你从 0 到 1 理解 Claude Code 的核心原理——Agent Harness 工程。 该项目通过 12 个渐进式会话（s01-s12），从最基础的 Agent 循环开始，每一课只增加一个核心机制，完整展现了如何从简单">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-12T06:30:00.000Z">
+<meta property="article:modified_time" content="2026-05-12T09:40:42.811Z">
+<meta property="article:author" content="snrt111">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Claude Code">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="AI 编程助手">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://snrt111.github.io/2026/05/12/Learn-Claude-Code-%E7%9C%9F%E6%AD%A3%E7%9A%84-Agent-Harness-%E5%B7%A5%E7%A8%8B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://snrt111.github.io/2026/05/12/Learn-Claude-Code-%E7%9C%9F%E6%AD%A3%E7%9A%84-Agent-Harness-%E5%B7%A5%E7%A8%8B/","path":"2026/05/12/Learn-Claude-Code-真正的-Agent-Harness-工程/","title":"Learn Claude Code —— 真正的 Agent Harness 工程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Learn Claude Code —— 真正的 Agent Harness 工程 | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="天鹰的个人博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录技术成长，分享学习心得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%A0%B8%E5%BF%83%E6%B4%9E%E5%AF%9F%EF%BC%9A%E6%A8%A1%E5%9E%8B%E5%B0%B1%E6%98%AF-Agent"><span class="nav-text">一、核心洞察：模型就是 Agent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF-Agent"><span class="nav-text">1.1 什么是 Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Agent-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%89%B9%E5%BE%81"><span class="nav-text">1.2 Agent 的核心特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%85%B3%E9%94%AE%E6%B4%9E%E5%AF%9F"><span class="nav-text">1.3 关键洞察</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Claude-Code-%E7%9A%84%E6%9C%AC%E8%B4%A8%E8%A7%A3%E6%9E%84"><span class="nav-text">二、Claude Code 的本质解构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Agent-Loop%EF%BC%9A%E6%A0%B8%E5%BF%83%E5%BE%AA%E7%8E%AF"><span class="nav-text">2.1 Agent Loop：核心循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E4%BB%A3%E7%A0%81%E5%B1%82%E9%9D%A2%E7%9A%84%E6%9E%81%E7%AE%80%E5%AE%9E%E7%8E%B0"><span class="nav-text">2.2 代码层面的极简实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%9E%84%E5%BB%BA%EF%BC%9As01-s12-%E5%AE%8C%E6%95%B4%E8%A7%A3%E6%9E%90"><span class="nav-text">三、渐进式构建：s01-s12 完整解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-s01%EF%BC%9AAgent-Loop-%E2%80%94%E2%80%94-%E2%80%9COne-loop-amp-Bash-is-all-you-need%E2%80%9D"><span class="nav-text">3.1 s01：Agent Loop —— “One loop &amp; Bash is all you need”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-s02%EF%BC%9ATool-Use-%E2%80%94%E2%80%94-%E2%80%9CAdding-a-tool-means-adding-one-handler%E2%80%9D"><span class="nav-text">3.2 s02：Tool Use —— “Adding a tool means adding one handler”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-s03%EF%BC%9AContext-Management-%E2%80%94%E2%80%94-%E2%80%9CIf-it-doesn%E2%80%99t-fit-make-it-fit%E2%80%9D"><span class="nav-text">3.3 s03：Context Management —— “If it doesn’t fit, make it fit”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-s04%EF%BC%9ASkills-%E2%80%94%E2%80%94-%E2%80%9CLoad-what-you-need-when-you-need-it%E2%80%9D"><span class="nav-text">3.4 s04：Skills —— “Load what you need, when you need it”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-s05%EF%BC%9ASub-agents-%E2%80%94%E2%80%94-%E2%80%9CDelegate-don%E2%80%99t-duplicate%E2%80%9D"><span class="nav-text">3.5 s05：Sub-agents —— “Delegate, don’t duplicate”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-s06%EF%BC%9ATask-System-%E2%80%94%E2%80%94-%E2%80%9CBig-goals-need-small-tasks%E2%80%9D"><span class="nav-text">3.6 s06：Task System —— “Big goals need small tasks”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-s07%EF%BC%9APersistent-State-%E2%80%94%E2%80%94-%E2%80%9CRemember-even-after-restart%E2%80%9D"><span class="nav-text">3.7 s07：Persistent State —— “Remember, even after restart”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-s08%EF%BC%9ABackground-Tasks-%E2%80%94%E2%80%94-%E2%80%9CSlow-work-happens-in-the-background%E2%80%9D"><span class="nav-text">3.8 s08：Background Tasks —— “Slow work happens in the background”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-s09%EF%BC%9AAgent-Teams-%E2%80%94%E2%80%94-%E2%80%9CWhen-the-task-is-too-big-for-one-delegate-to-teammates%E2%80%9D"><span class="nav-text">3.9 s09：Agent Teams —— “When the task is too big for one, delegate to teammates”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-10-s10%EF%BC%9ATeam-Coordination-%E2%80%94%E2%80%94-%E2%80%9CTeammates-need-shared-communication-rules%E2%80%9D"><span class="nav-text">3.10 s10：Team Coordination —— “Teammates need shared communication rules”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-11-s11%EF%BC%9ATask-Board-%E2%80%94%E2%80%94-%E2%80%9CTeammates-scan-the-board-and-claim-tasks-themselves%E2%80%9D"><span class="nav-text">3.11 s11：Task Board —— “Teammates scan the board and claim tasks themselves”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-12-s12%EF%BC%9AWorktree-Isolation-%E2%80%94%E2%80%94-%E2%80%9CParallel-execution-needs-isolation%E2%80%9D"><span class="nav-text">3.12 s12：Worktree Isolation —— “Parallel execution needs isolation”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81s01-s12-%E6%80%BB%E7%BB%93%EF%BC%9A%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%9E%84%E5%BB%BA%E8%B7%AF%E7%BA%BF%E5%9B%BE"><span class="nav-text">四、s01-s12 总结：渐进式构建路线图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6"><span class="nav-text">五、核心设计哲学</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%BE%AE%E5%B0%8F%E5%8D%B3%E5%BC%BA%E5%A4%A7"><span class="nav-text">5.1 微小即强大</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E8%AE%A9%E6%A8%A1%E5%9E%8B%E5%81%9A%E5%86%B3%E7%AD%96"><span class="nav-text">5.2 让模型做决策</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-Harness-%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E8%A7%92%E8%89%B2"><span class="nav-text">5.3 Harness 工程师的角色</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%AE%9E%E8%B7%B5%E5%90%AF%E7%A4%BA"><span class="nav-text">六、实践启示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E6%9E%84%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84-Agent"><span class="nav-text">6.1 构建自己的 Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E4%B8%8E%E6%A8%A1%E5%9E%8B%E5%8D%8F%E4%BD%9C%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-text">6.2 与模型协作的最佳实践</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E7%BB%93%E8%AF%AD"><span class="nav-text">七、结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%BA%90"><span class="nav-text">参考资源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="snrt111"
+      src="/images/author.png">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NucnQxMTE=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;snrt111"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/05/12/Learn-Claude-Code-%E7%9C%9F%E6%AD%A3%E7%9A%84-Agent-Harness-%E5%B7%A5%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.png">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Learn Claude Code —— 真正的 Agent Harness 工程 | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Learn Claude Code —— 真正的 Agent Harness 工程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-12 14:30:00" itemprop="dateCreated datePublished" datetime="2026-05-12T14:30:00+08:00">2026-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-12 17:40:42" itemprop="dateModified" datetime="2026-05-12T17:40:42+08:00">2026-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI-%E4%B8%8E%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">AI 与人工智能</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 AI 编程助手领域，Claude Code 以其独特的设计理念脱颖而出。本文将深入解析 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2Rl">shareAI-lab/learn-claude-code<i class="fa fa-external-link-alt"></i></span> 这个开源项目，带你从 0 到 1 理解 Claude Code 的核心原理——<strong>Agent Harness 工程</strong>。</p>
+<p>该项目通过 12 个渐进式会话（s01-s12），从最基础的 Agent 循环开始，每一课只增加一个核心机制，完整展现了如何从简单循环构建到生产级 AI 编程助手。</p>
+<span id="more"></span>
+
+<h2 id="一、核心洞察：模型就是-Agent"><a href="#一、核心洞察：模型就是-Agent" class="headerlink" title="一、核心洞察：模型就是 Agent"></a>一、核心洞察：模型就是 Agent</h2><h3 id="1-1-什么是-Agent"><a href="#1-1-什么是-Agent" class="headerlink" title="1.1 什么是 Agent"></a>1.1 什么是 Agent</h3><p>在讨论代码之前，先把一件事彻底说清楚：<strong>Agent 是模型。不是框架。不是提示词链。不是拖拽式工作流。</strong></p>
+<p>Agent 是一个神经网络——Transformer、RNN、一个被训练出来的函数——经过数十亿次梯度更新，在行动序列数据上学会了感知环境、推理目标、采取行动。</p>
+<blockquote>
+<p>“Agent” 这个词在 AI 领域从诞生之日起就是这个含义。当 DeepMind、OpenAI 或 Anthropic 说 “agent” 时，他们指的是同一个东西：一个拥有工具、能够使用这些工具、并能在循环中根据观察结果调整行动的模型。</p>
+</blockquote>
+<h3 id="1-2-Agent-的核心特征"><a href="#1-2-Agent-的核心特征" class="headerlink" title="1.2 Agent 的核心特征"></a>1.2 Agent 的核心特征</h3><table>
+<thead>
+<tr>
+<th>特征</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>感知</strong></td>
+<td>通过工具观察环境状态</td>
+</tr>
+<tr>
+<td><strong>推理</strong></td>
+<td>基于观察进行目标规划和决策</td>
+</tr>
+<tr>
+<td><strong>行动</strong></td>
+<td>调用工具执行具体操作</td>
+</tr>
+<tr>
+<td><strong>学习</strong></td>
+<td>根据结果反馈调整策略</td>
+</tr>
+</tbody></table>
+<h3 id="1-3-关键洞察"><a href="#1-3-关键洞察" class="headerlink" title="1.3 关键洞察"></a>1.3 关键洞察</h3><p><strong>Agent 产品 = 模型 + Harness（ harness 是缰绳/框架的意思）</strong></p>
+<p>Claude Code 之所以强大，不是因为它做了多少复杂的事，而是因为它<strong>没做</strong>的事：</p>
+<ul>
+<li>它没有试图成为 agent 本身</li>
+<li>它没有强加僵化的工作流</li>
+<li>它没有替模型做判断</li>
+</ul>
+<p>它只给模型提供了：<strong>工具、知识、上下文管理和权限边界</strong>——然后让开了。</p>
+<hr>
+<h2 id="二、Claude-Code-的本质解构"><a href="#二、Claude-Code-的本质解构" class="headerlink" title="二、Claude Code 的本质解构"></a>二、Claude Code 的本质解构</h2><p>把 Claude Code 剥到本质来看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Claude Code = 一个 agent loop</span><br><span class="line">            + 工具 (bash, read, write, edit, glob, grep, browser...)</span><br><span class="line">            + 按需 skill 加载</span><br><span class="line">            + 上下文压缩</span><br><span class="line">            + 子 agent 派生</span><br><span class="line">            + 带依赖图的任务系统</span><br><span class="line">            + 异步邮箱的团队协调</span><br><span class="line">            + worktree 隔离的并行执行</span><br><span class="line">            + 权限治理</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-Agent-Loop：核心循环"><a href="#2-1-Agent-Loop：核心循环" class="headerlink" title="2.1 Agent Loop：核心循环"></a>2.1 Agent Loop：核心循环</h3><p>Agent Loop 是 Claude Code 的心脏。它是一个无限循环的异步生成器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LOOP:</span><br><span class="line">  1. 模型看到：上下文 + 可用能力</span><br><span class="line">  2. 模型决定：行动或响应</span><br><span class="line">  3. 如果行动：执行能力，添加结果，继续循环</span><br><span class="line">  4. 如果响应：返回给用户</span><br></pre></td></tr></table></figure>
+
+<p>这就是最小的循环。每个 AI 编程 agent 都需要这个循环。生产级 agent 会在此基础上添加策略、权限和生命周期层。</p>
+<h3 id="2-2-代码层面的极简实现"><a href="#2-2-代码层面的极简实现" class="headerlink" title="2.2 代码层面的极简实现"></a>2.2 代码层面的极简实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 核心循环的本质</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">    response = model(conversation, tools)</span><br><span class="line">    results = execute(response.tool_calls)</span><br><span class="line">    conversation.append(results)</span><br></pre></td></tr></table></figure>
+
+<p>Claude Code、Cursor Agent、Codex CLI、Devin——都共享这个模式。差异在于工具、显示、安全性。但本质始终是：<strong>给模型工具，让它工作</strong>。</p>
+<hr>
+<h2 id="三、渐进式构建：s01-s12-完整解析"><a href="#三、渐进式构建：s01-s12-完整解析" class="headerlink" title="三、渐进式构建：s01-s12 完整解析"></a>三、渐进式构建：s01-s12 完整解析</h2><p>learn-claude-code 项目采用 12 个渐进式会话，从简单循环到隔离的自主执行。每个会话添加一个机制，每个机制有一个座右铭。</p>
+<h3 id="3-1-s01：Agent-Loop-——-“One-loop-amp-Bash-is-all-you-need”"><a href="#3-1-s01：Agent-Loop-——-“One-loop-amp-Bash-is-all-you-need”" class="headerlink" title="3.1 s01：Agent Loop —— “One loop &amp; Bash is all you need”"></a>3.1 s01：Agent Loop —— “One loop &amp; Bash is all you need”</h3><p><strong>核心理念</strong>：一个工具 + 一个循环 = 一个 Agent</p>
+<p><strong>问题</strong>：语言模型可以推理代码，但无法接触真实世界——不能读文件、运行测试或检查错误。</p>
+<p><strong>解决方案</strong>：最简单的版本只有一个 Bash 工具：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bash_handler</span>(<span class="params">command: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">return</span> subprocess.run(command, shell=<span class="literal">True</span>, capture_output=<span class="literal">True</span>, text=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p>只有一个 Bash 工具，能干的事很有限。Agent 需要 shell 出来做所有事：读文件、写文件、编辑文件。这能工作，但很脆弱。</p>
+<hr>
+<h3 id="3-2-s02：Tool-Use-——-“Adding-a-tool-means-adding-one-handler”"><a href="#3-2-s02：Tool-Use-——-“Adding-a-tool-means-adding-one-handler”" class="headerlink" title="3.2 s02：Tool Use —— “Adding a tool means adding one handler”"></a>3.2 s02：Tool Use —— “Adding a tool means adding one handler”</h3><p><strong>核心理念</strong>：加工具只加 handler，循环保持不变</p>
+<p><strong>问题</strong>：只有 Bash 时，Agent 需要 shell 出来做所有事（读文件、写文件、编辑文件）。<code>cat</code> 输出可能被截断，<code>sed</code> 编辑容易出错。</p>
+<p><strong>解决方案</strong>：每个工具对应一个 handler 函数，通过调度映射表路由：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TOOL_HANDLERS = &#123;</span><br><span class="line">    <span class="string">&quot;bash&quot;</span>: bash_handler,</span><br><span class="line">    <span class="string">&quot;read_file&quot;</span>: read_file_handler,      <span class="comment"># 新增：读取文件</span></span><br><span class="line">    <span class="string">&quot;write_file&quot;</span>: write_file_handler,    <span class="comment"># 新增：写入文件</span></span><br><span class="line">    <span class="string">&quot;list_files&quot;</span>: list_files_handler,    <span class="comment"># 新增：列出文件</span></span><br><span class="line">    <span class="string">&quot;search_files&quot;</span>: search_files_handler,<span class="comment"># 新增：搜索文件</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个查找替换任何 if/elif 链</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dispatch_tool</span>(<span class="params">tool_name, **kwargs</span>):</span><br><span class="line">    <span class="keyword">return</span> TOOL_HANDLERS[tool_name](**kwargs)</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键设计</strong>：路径沙箱防止工作区逃逸，工具描述（description）让模型知道何时使用哪个工具。</p>
+<hr>
+<h3 id="3-3-s03：Context-Management-——-“If-it-doesn’t-fit-make-it-fit”"><a href="#3-3-s03：Context-Management-——-“If-it-doesn’t-fit-make-it-fit”" class="headerlink" title="3.3 s03：Context Management —— “If it doesn’t fit, make it fit”"></a>3.3 s03：Context Management —— “If it doesn’t fit, make it fit”</h3><p><strong>核心理念</strong>：如果上下文装不下，就让它装下</p>
+<p><strong>问题</strong>：对话越来越长，最终必然超过上下文窗口限制。不能简单丢弃旧消息，因为可能包含关键信息。</p>
+<p><strong>解决方案</strong>：三层压缩策略</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一层：微观压缩 (micro_compact)</span></span><br><span class="line"><span class="comment"># 把旧的工具结果替换成占位符</span></span><br><span class="line">[Previous: used bash]</span><br><span class="line">[Previous: read_file path=<span class="string">&quot;src/main.py&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二层：自动压缩 (auto_compact)</span></span><br><span class="line"><span class="comment"># 当超过 50000 token 时，保存完整记录到文件</span></span><br><span class="line"><span class="comment"># 对话中只保留摘要</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第三层：LLM 摘要 (llm_compact)</span></span><br><span class="line"><span class="comment"># 调用 LLM 生成当前会话的摘要</span></span><br><span class="line"><span class="comment"># 保留关键决策和状态，丢弃细节</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>压缩原则</strong>：模型不失去对早期发生的事情的感知，只是失去逐字细节但保留本质。</p>
+<hr>
+<h3 id="3-4-s04：Skills-——-“Load-what-you-need-when-you-need-it”"><a href="#3-4-s04：Skills-——-“Load-what-you-need-when-you-need-it”" class="headerlink" title="3.4 s04：Skills —— “Load what you need, when you need it”"></a>3.4 s04：Skills —— “Load what you need, when you need it”</h3><p><strong>核心理念</strong>：按需加载，需要时才加载</p>
+<p><strong>问题</strong>：10 个技能，每个 2000 tokens = 20000 tokens 永久占用上下文，太浪费了。</p>
+<p><strong>解决方案</strong>：三层渐进式加载</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一层：元数据（始终加载）~100 tokens/skill</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">mcp-builder</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Build</span> <span class="string">MCP</span> <span class="string">(Model</span> <span class="string">Context</span> <span class="string">Protocol)</span> <span class="string">servers</span></span><br><span class="line"><span class="attr">when_to_use:</span> <span class="string">&quot;当用户要构建 MCP 服务器时使用&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二层：SKILL.md 主体（触发时加载）~2000 tokens</span></span><br><span class="line"><span class="comment"># 详细指南、代码示例、决策树</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第三层：附件资源（按需加载）</span></span><br><span class="line"><span class="comment"># 模板文件、示例代码、测试用例</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>匹配逻辑</strong>：Agent 通过读取 frontmatter 中的 <code>name</code> 和 <code>description</code> 快速判断何时加载该技能，无需加载完整内容。</p>
+<hr>
+<h3 id="3-5-s05：Sub-agents-——-“Delegate-don’t-duplicate”"><a href="#3-5-s05：Sub-agents-——-“Delegate-don’t-duplicate”" class="headerlink" title="3.5 s05：Sub-agents —— “Delegate, don’t duplicate”"></a>3.5 s05：Sub-agents —— “Delegate, don’t duplicate”</h3><p><strong>核心理念</strong>：委派，不要重复</p>
+<p><strong>问题</strong>：主 Agent 做所有事，上下文被各种任务的细节污染，失去对高层次目标的聚焦。</p>
+<p><strong>解决方案</strong>：派生子 Agent 处理特定任务</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 主 Agent 创建子 Agent</span></span><br><span class="line">sub_agent = Agent.create(</span><br><span class="line">    system_prompt=<span class="string">&quot;你是一个专门处理数据库迁移的专家...&quot;</span>,</span><br><span class="line">    tools=[<span class="string">&quot;read_file&quot;</span>, <span class="string">&quot;write_file&quot;</span>, <span class="string">&quot;execute_sql&quot;</span>],</span><br><span class="line">    parent_context=summary  <span class="comment"># 只传递摘要，不传递完整上下文</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 子 Agent 独立执行</span></span><br><span class="line">result = sub_agent.run(task_description)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果返回主 Agent</span></span><br><span class="line">parent.messages.append(&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">f&quot;子任务完成: <span class="subst">&#123;result.summary&#125;</span>&quot;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>优势</strong>：</p>
+<ul>
+<li>分离上下文：防止主对话被污染</li>
+<li>专注目标：子 Agent 只关注特定领域</li>
+<li>自定义工具：每个子 Agent 可以有专属工具集</li>
+</ul>
+<hr>
+<h3 id="3-6-s06：Task-System-——-“Big-goals-need-small-tasks”"><a href="#3-6-s06：Task-System-——-“Big-goals-need-small-tasks”" class="headerlink" title="3.6 s06：Task System —— “Big goals need small tasks”"></a>3.6 s06：Task System —— “Big goals need small tasks”</h3><p><strong>核心理念</strong>：大目标需要拆成小任务</p>
+<p><strong>问题</strong>：没有显式关系，Agent 分不清什么能做、什么被卡住、什么能同时跑。而且清单只活在内存里，上下文压缩一跑就没了。</p>
+<p><strong>解决方案</strong>：持久化到磁盘的任务图（DAG）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;subject&quot;</span><span class="punctuation">:</span> <span class="string">&quot;设计数据库 schema&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;completed&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blockedBy&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blocks&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">2</span><span class="punctuation">,</span> <span class="number">3</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;subject&quot;</span><span class="punctuation">:</span> <span class="string">&quot;实现 API 接口&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;in_progress&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blockedBy&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blocks&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">4</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;subject&quot;</span><span class="punctuation">:</span> <span class="string">&quot;写单元测试&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;pending&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blockedBy&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blocks&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>核心特性</strong>：</p>
+<ul>
+<li><strong>持久化存储</strong>：每个任务是独立的 JSON 文件，存在 <code>.tasks/</code> 目录</li>
+<li><strong>依赖管理</strong>：通过 <code>blockedBy</code>（前置依赖）和 <code>blocks</code>（后置依赖）双向关联</li>
+<li><strong>自动解阻塞</strong>：任务 A 完成后，自动解除任务 B 的阻塞状态</li>
+</ul>
+<hr>
+<h3 id="3-7-s07：Persistent-State-——-“Remember-even-after-restart”"><a href="#3-7-s07：Persistent-State-——-“Remember-even-after-restart”" class="headerlink" title="3.7 s07：Persistent State —— “Remember, even after restart”"></a>3.7 s07：Persistent State —— “Remember, even after restart”</h3><p><strong>核心理念</strong>：记住，即使重启后</p>
+<p><strong>问题</strong>：Agent 重启后，所有任务状态、会话历史都丢失了。</p>
+<p><strong>解决方案</strong>：状态持久化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 会话状态保存到文件</span></span><br><span class="line">session.save(<span class="string">&quot;.claude/session.json&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 任务图持久化</span></span><br><span class="line">task_manager.save(<span class="string">&quot;.tasks/&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 技能加载状态缓存</span></span><br><span class="line">skill_registry.cache(<span class="string">&quot;.claude/skills_cache.json&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>恢复流程</strong>：</p>
+<ol>
+<li>启动时检查是否存在持久化状态</li>
+<li>加载任务图，恢复未完成的任务</li>
+<li>恢复上下文摘要，继续会话</li>
+</ol>
+<hr>
+<h3 id="3-8-s08：Background-Tasks-——-“Slow-work-happens-in-the-background”"><a href="#3-8-s08：Background-Tasks-——-“Slow-work-happens-in-the-background”" class="headerlink" title="3.8 s08：Background Tasks —— “Slow work happens in the background”"></a>3.8 s08：Background Tasks —— “Slow work happens in the background”</h3><p><strong>核心理念</strong>：慢操作丢后台，Agent 继续想</p>
+<p><strong>问题</strong>：某些操作很慢（编译、测试、部署），Agent 等待时什么都做不了。</p>
+<p><strong>解决方案</strong>：后台任务管理器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Main thread                Background thread</span><br><span class="line">+-----------------+        +-----------------+</span><br><span class="line">| agent loop      |        | task executes   |</span><br><span class="line">| ...             |        | ...             |</span><br><span class="line">| [LLM call] &lt;---+------- | enqueue result  |</span><br><span class="line">|                 |        |                 |</span><br><span class="line">| drain queue     |        | long operation  |</span><br><span class="line">| inject results  |        | (compile/test)  |</span><br><span class="line">+-----------------+        +-----------------+</span><br></pre></td></tr></table></figure>
+
+<p><strong>工作流程</strong>：</p>
+<ol>
+<li>Agent 启动后台任务，立即返回继续执行</li>
+<li>后台任务在守护线程中执行</li>
+<li>完成后将结果放入通知队列</li>
+<li>每次 LLM 调用前，队列被清空，结果注入消息</li>
+</ol>
+<hr>
+<h3 id="3-9-s09：Agent-Teams-——-“When-the-task-is-too-big-for-one-delegate-to-teammates”"><a href="#3-9-s09：Agent-Teams-——-“When-the-task-is-too-big-for-one-delegate-to-teammates”" class="headerlink" title="3.9 s09：Agent Teams —— “When the task is too big for one, delegate to teammates”"></a>3.9 s09：Agent Teams —— “When the task is too big for one, delegate to teammates”</h3><p><strong>核心理念</strong>：任务太大一个人干不完，分给队友</p>
+<p><strong>问题</strong>：复杂任务需要多个专业领域的知识，单个 Agent 难以胜任。</p>
+<p><strong>解决方案</strong>：多 Agent 团队 + 异步邮箱通信</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建专业队友</span></span><br><span class="line">team = &#123;</span><br><span class="line">    <span class="string">&quot;backend_dev&quot;</span>: Agent.create(role=<span class="string">&quot;后端开发专家&quot;</span>),</span><br><span class="line">    <span class="string">&quot;frontend_dev&quot;</span>: Agent.create(role=<span class="string">&quot;前端开发专家&quot;</span>),</span><br><span class="line">    <span class="string">&quot;qa_engineer&quot;</span>: Agent.create(role=<span class="string">&quot;测试工程师&quot;</span>),</span><br><span class="line">    <span class="string">&quot;tech_lead&quot;</span>: Agent.create(role=<span class="string">&quot;技术负责人&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 异步通信邮箱</span></span><br><span class="line">mailbox = AsyncMailbox()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 任务分派</span></span><br><span class="line">tech_lead.send_message(</span><br><span class="line">    to=<span class="string">&quot;backend_dev&quot;</span>,</span><br><span class="line">    subject=<span class="string">&quot;实现用户认证 API&quot;</span>,</span><br><span class="line">    content=<span class="string">&quot;需要 JWT 认证，包含登录/注册/刷新令牌&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>核心机制</strong>：</p>
+<ul>
+<li><strong>持久化队友</strong>：每个队友是独立的 Agent 实例，有自己的上下文</li>
+<li><strong>异步邮箱</strong>：基于 JSONL 的异步消息通信</li>
+<li><strong>任务认领</strong>：队友主动扫描任务板，认领自己能处理的任务</li>
+</ul>
+<hr>
+<h3 id="3-10-s10：Team-Coordination-——-“Teammates-need-shared-communication-rules”"><a href="#3-10-s10：Team-Coordination-——-“Teammates-need-shared-communication-rules”" class="headerlink" title="3.10 s10：Team Coordination —— “Teammates need shared communication rules”"></a>3.10 s10：Team Coordination —— “Teammates need shared communication rules”</h3><p><strong>核心理念</strong>：队友需要共享通信规则</p>
+<p><strong>问题</strong>：多个 Agent 协作时，如果没有统一协议，会出现混乱和冲突。</p>
+<p><strong>解决方案</strong>：统一的请求-响应模式驱动所有协商</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 标准消息格式</span></span><br><span class="line"><span class="attr">message:</span></span><br><span class="line">  <span class="attr">from:</span> <span class="string">&quot;agent_id&quot;</span></span><br><span class="line">  <span class="attr">to:</span> <span class="string">&quot;agent_id&quot;</span>  <span class="comment"># 或 &quot;broadcast&quot;</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">&quot;request&quot;</span> <span class="string">|</span> <span class="string">&quot;response&quot;</span> <span class="string">|</span> <span class="string">&quot;notify&quot;</span></span><br><span class="line">  <span class="attr">subject:</span> <span class="string">&quot;任务主题&quot;</span></span><br><span class="line">  <span class="attr">content:</span> <span class="string">&quot;详细内容&quot;</span></span><br><span class="line">  <span class="attr">deadline:</span> <span class="string">&quot;2026-05-12T18:00:00Z&quot;</span></span><br><span class="line">  <span class="attr">priority:</span> <span class="string">&quot;high&quot;</span> <span class="string">|</span> <span class="string">&quot;medium&quot;</span> <span class="string">|</span> <span class="string">&quot;low&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>协商模式</strong>：</p>
+<ol>
+<li><strong>请求-响应</strong>：同步等待对方回复</li>
+<li><strong>通知</strong>：异步发送，不等待回复</li>
+<li><strong>广播</strong>：向所有队友发送消息</li>
+</ol>
+<hr>
+<h3 id="3-11-s11：Task-Board-——-“Teammates-scan-the-board-and-claim-tasks-themselves”"><a href="#3-11-s11：Task-Board-——-“Teammates-scan-the-board-and-claim-tasks-themselves”" class="headerlink" title="3.11 s11：Task Board —— “Teammates scan the board and claim tasks themselves”"></a>3.11 s11：Task Board —— “Teammates scan the board and claim tasks themselves”</h3><p><strong>核心理念</strong>：队友自己扫描任务板并认领任务</p>
+<p><strong>问题</strong>：团队领导需要手动分配每个任务，效率低下。</p>
+<p><strong>解决方案</strong>：自组织任务认领</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 任务板公开可见</span></span><br><span class="line">task_board = TaskBoard.load(<span class="string">&quot;.tasks/board.json&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每个 Agent 扫描任务板</span></span><br><span class="line"><span class="keyword">for</span> task <span class="keyword">in</span> task_board.available_tasks():</span><br><span class="line">    <span class="keyword">if</span> agent.can_handle(task.skills_required):</span><br><span class="line">        task.claim(agent.<span class="built_in">id</span>)</span><br><span class="line">        agent.execute(task)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>优势</strong>：</p>
+<ul>
+<li>去中心化：无需中央调度器</li>
+<li>负载均衡：Agent 根据自身能力选择任务</li>
+<li>容错性：某个 Agent 失败，其他 Agent 可以接管</li>
+</ul>
+<hr>
+<h3 id="3-12-s12：Worktree-Isolation-——-“Parallel-execution-needs-isolation”"><a href="#3-12-s12：Worktree-Isolation-——-“Parallel-execution-needs-isolation”" class="headerlink" title="3.12 s12：Worktree Isolation —— “Parallel execution needs isolation”"></a>3.12 s12：Worktree Isolation —— “Parallel execution needs isolation”</h3><p><strong>核心理念</strong>：并行执行需要隔离</p>
+<p><strong>问题</strong>：多个 Agent 同时修改同一代码库，会产生冲突。</p>
+<p><strong>解决方案</strong>：Git worktree 隔离</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 主工作区</span></span><br><span class="line">git worktree add ../feature-auth auth-branch</span><br><span class="line">git worktree add ../feature-ui ui-branch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每个 Agent 在自己的 worktree 中工作</span></span><br><span class="line">backend_agent.worktree = <span class="string">&quot;../feature-auth&quot;</span></span><br><span class="line">frontend_agent.worktree = <span class="string">&quot;../feature-ui&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 完成后合并</span></span><br><span class="line">backend_agent.commit_and_merge()</span><br><span class="line">frontend_agent.commit_and_merge()</span><br></pre></td></tr></table></figure>
+
+<p><strong>隔离级别</strong>：</p>
+<ul>
+<li><strong>文件系统隔离</strong>：每个 worktree 有独立的文件系统视图</li>
+<li><strong>Git 历史隔离</strong>：分支独立，互不影响</li>
+<li><strong>进程隔离</strong>：可以并行运行，无资源冲突</li>
+</ul>
+<hr>
+<h2 id="四、s01-s12-总结：渐进式构建路线图"><a href="#四、s01-s12-总结：渐进式构建路线图" class="headerlink" title="四、s01-s12 总结：渐进式构建路线图"></a>四、s01-s12 总结：渐进式构建路线图</h2><table>
+<thead>
+<tr>
+<th>会话</th>
+<th>座右铭</th>
+<th>核心机制</th>
+<th>解决的问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>s01</td>
+<td>One loop &amp; Bash is all you need</td>
+<td>基础 Agent Loop</td>
+<td>模型无法接触真实世界</td>
+</tr>
+<tr>
+<td>s02</td>
+<td>Adding a tool means adding one handler</td>
+<td>工具注册与调度</td>
+<td>Bash 太脆弱，需要专用工具</td>
+</tr>
+<tr>
+<td>s03</td>
+<td>If it doesn’t fit, make it fit</td>
+<td>上下文压缩</td>
+<td>对话超过窗口限制</td>
+</tr>
+<tr>
+<td>s04</td>
+<td>Load what you need, when you need it</td>
+<td>技能按需加载</td>
+<td>技能太多占用上下文</td>
+</tr>
+<tr>
+<td>s05</td>
+<td>Delegate, don’t duplicate</td>
+<td>子 Agent 派生</td>
+<td>上下文污染，需要专注</td>
+</tr>
+<tr>
+<td>s06</td>
+<td>Big goals need small tasks</td>
+<td>任务图系统</td>
+<td>大任务难以管理</td>
+</tr>
+<tr>
+<td>s07</td>
+<td>Remember, even after restart</td>
+<td>状态持久化</td>
+<td>重启后状态丢失</td>
+</tr>
+<tr>
+<td>s08</td>
+<td>Slow work happens in the background</td>
+<td>后台任务</td>
+<td>慢操作阻塞主循环</td>
+</tr>
+<tr>
+<td>s09</td>
+<td>When the task is too big for one</td>
+<td>多 Agent 团队</td>
+<td>复杂任务需要协作</td>
+</tr>
+<tr>
+<td>s10</td>
+<td>Teammates need shared communication rules</td>
+<td>团队通信协议</td>
+<td>多 Agent 协作混乱</td>
+</tr>
+<tr>
+<td>s11</td>
+<td>Teammates scan the board and claim tasks</td>
+<td>自组织任务认领</td>
+<td>手动分配效率低</td>
+</tr>
+<tr>
+<td>s12</td>
+<td>Parallel execution needs isolation</td>
+<td>Worktree 隔离</td>
+<td>并行执行冲突</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、核心设计哲学"><a href="#五、核心设计哲学" class="headerlink" title="五、核心设计哲学"></a>五、核心设计哲学</h2><h3 id="5-1-微小即强大"><a href="#5-1-微小即强大" class="headerlink" title="5.1 微小即强大"></a>5.1 微小即强大</h3><blockquote>
+<p>核心是微小的，其他都是精化。</p>
+</blockquote>
+<p>Agent Loop 本身只有几十行代码，但它是整个系统的基石。所有复杂功能都是在这个基础上逐步添加的。</p>
+<h3 id="5-2-让模型做决策"><a href="#5-2-让模型做决策" class="headerlink" title="5.2 让模型做决策"></a>5.2 让模型做决策</h3><p>不要替模型做决策。不要预设工作流。不要写复杂的决策树。</p>
+<p><strong>正确的做法</strong>：</p>
+<ul>
+<li>提供清晰的工具描述</li>
+<li>维护完整的上下文</li>
+<li>设置合理的权限边界</li>
+<li>让模型自己决定如何完成任务</li>
+</ul>
+<h3 id="5-3-Harness-工程师的角色"><a href="#5-3-Harness-工程师的角色" class="headerlink" title="5.3 Harness 工程师的角色"></a>5.3 Harness 工程师的角色</h3><p>每个学习这个仓库的 harness 工程师，都在学习远远超出软件工程领域的模式。你在学习构建智能自动化未来的基础设施。</p>
+<hr>
+<h2 id="六、实践启示"><a href="#六、实践启示" class="headerlink" title="六、实践启示"></a>六、实践启示</h2><h3 id="6-1-构建自己的-Agent"><a href="#6-1-构建自己的-Agent" class="headerlink" title="6.1 构建自己的 Agent"></a>6.1 构建自己的 Agent</h3><p>基于 learn-claude-code 的理念，构建 Agent 的关键步骤：</p>
+<ol>
+<li><strong>实现基础 Loop</strong>：消息循环 + 工具调用</li>
+<li><strong>设计工具集</strong>：从简单到复杂，按需添加</li>
+<li><strong>管理上下文</strong>：窗口管理、压缩、摘要</li>
+<li><strong>添加安全边界</strong>：权限控制、沙箱执行</li>
+<li><strong>优化用户体验</strong>：流式输出、状态可视化</li>
+</ol>
+<h3 id="6-2-与模型协作的最佳实践"><a href="#6-2-与模型协作的最佳实践" class="headerlink" title="6.2 与模型协作的最佳实践"></a>6.2 与模型协作的最佳实践</h3><ul>
+<li><strong>清晰的工具描述</strong>：让模型理解每个工具的能力</li>
+<li><strong>完整的错误信息</strong>：帮助模型从失败中恢复</li>
+<li><strong>适度的引导</strong>：在必要时提供示例，但不要过度约束</li>
+<li><strong>持续的反馈循环</strong>：观察模型行为，迭代优化工具设计</li>
+</ul>
+<hr>
+<h2 id="七、结语"><a href="#七、结语" class="headerlink" title="七、结语"></a>七、结语</h2><p>Learn Claude Code 项目向我们展示了一个重要的范式转变：<strong>Agent 的本质是模型，而不是框架</strong>。</p>
+<p>作为开发者，我们的任务不是去控制模型的每一步，而是：</p>
+<ul>
+<li>构建好的工具（Tools）</li>
+<li>管理好上下文（Context）</li>
+<li>设置清晰的边界（Boundaries）</li>
+<li>然后——<strong>让开，让模型工作</strong></li>
+</ul>
+<p>这就是 Agent Harness 工程的真正含义。</p>
+<hr>
+<h2 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h2><ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2Rl">GitHub 项目地址<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2RlL2Jsb2IvbWFpbi9SRUFETUUtemgubWQ=">中文文档<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmFudGhyb3BpYy5jb20vZW4vZG9jcy9hZ2VudHMtYW5kLXRvb2xzL2NsYXVkZS1jb2RlL292ZXJ2aWV3">Claude Code 官方文档<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+<hr>
+<blockquote>
+<p><strong>模型即代理。这就是全部秘密。</strong></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+<script src="https://giscus.app/client.js"
+        data-repo="snrt111/snrt111.github.io"
+        data-repo-id="R_kgDOGOgTcQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOGOgTcc4C81X3"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="snrt111 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="snrt111 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/LLM/" rel="tag"># LLM</a>
+              <a href="/tags/Claude-Code/" rel="tag"># Claude Code</a>
+              <a href="/tags/Agent/" rel="tag"># Agent</a>
+              <a href="/tags/AI-%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B/" rel="tag"># AI 编程助手</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/04/20/MyBatis%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/" rel="prev" title="MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器">
+                  <i class="fa fa-angle-left"></i> MyBatis缓存机制详解：从一级缓存到二级缓存，全面掌握性能优化利器
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
