@@ -720,7 +720,7 @@ livere_uid: # <your_uid>
 # Gitalk
 # For more information: https://gitalk.github.io
 gitalk:
-  enable: true
+  enable: false
   github_id: snrt111 # GitHub repo owner
   repo: snrt111.github.io # Repository name to store issues
   client_id: Ov23liqbpuVHQ69N4CQF # GitHub Application Client ID
