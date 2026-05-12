@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#667eea","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":5,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="前言Skills是Trae IDE中的一项强大功能，它允许用户创建和使用自定义的技能来增强AI助手的功能。通过Skills，您可以定义特定的任务流程、代码模板、自动化脚本等，让AI助手更好地理解您的需求并提供更精准的帮助。 本教程将详细介绍Skills的概念、创建方法、使用技巧以及最佳实践，帮助您充分利用这一强大功能。 目录   前言 什么是Skills Skills的核心概念 创建第一个Skil">
 <meta property="og:type" content="article">
@@ -28,11 +28,11 @@
 <meta property="og:description" content="前言Skills是Trae IDE中的一项强大功能，它允许用户创建和使用自定义的技能来增强AI助手的功能。通过Skills，您可以定义特定的任务流程、代码模板、自动化脚本等，让AI助手更好地理解您的需求并提供更精准的帮助。 本教程将详细介绍Skills的概念、创建方法、使用技巧以及最佳实践，帮助您充分利用这一强大功能。 目录   前言 什么是Skills Skills的核心概念 创建第一个Skil">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-24T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-05-11T01:44:30.499Z">
+<meta property="article:modified_time" content="2026-05-12T02:06:38.721Z">
 <meta property="article:author" content="snrt111">
 <meta property="article:tag" content="AI">
-<meta property="article:tag" content="Skills">
 <meta property="article:tag" content="工具">
+<meta property="article:tag" content="Skills">
 <meta name="twitter:card" content="summary">
 
 
@@ -53,17 +53,23 @@
 
 
   
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
-<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
 
   
-
-
-
-
-
-
-  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
@@ -72,6 +78,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="天鹰的个人博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -95,10 +102,12 @@
       <p class="site-title">天鹰的个人博客</p>
       <i class="logo-line"></i>
     </a>
+      <p class="site-subtitle" itemprop="description">记录技术成长，分享学习心得</p>
   </div>
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -106,12 +115,38 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -131,14 +166,16 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSkills"><span class="nav-number">3.</span> <span class="nav-text">什么是Skills</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skills%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text">Skills的核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Skill%E5%AE%9A%E4%B9%89"><span class="nav-number">4.1.</span> <span class="nav-text">1. Skill定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Skill%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.2.</span> <span class="nav-text">2. Skill类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E7%B1%BB"><span class="nav-number">4.2.1.</span> <span class="nav-text">2.1 代码生成类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E4%BB%BB%E5%8A%A1%E8%87%AA%E5%8A%A8%E5%8C%96%E7%B1%BB"><span class="nav-number">4.2.2.</span> <span class="nav-text">2.2 任务自动化类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E7%9F%A5%E8%AF%86%E6%9F%A5%E8%AF%A2%E7%B1%BB"><span class="nav-number">4.2.3.</span> <span class="nav-text">2.3 知识查询类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E5%B7%A5%E5%85%B7%E9%9B%86%E6%88%90%E7%B1%BB"><span class="nav-number">4.2.4.</span> <span class="nav-text">2.4 工具集成类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Skill%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">4.3.</span> <span class="nav-text">3. Skill生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AASkill"><span class="nav-number">5.</span> <span class="nav-text">创建第一个Skill</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E5%88%9B%E5%BB%BASkill%E6%96%87%E4%BB%B6"><span class="nav-number">5.1.</span> <span class="nav-text">步骤1：创建Skill文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E7%BC%96%E5%86%99Skill%E9%85%8D%E7%BD%AE"><span class="nav-number">5.2.</span> <span class="nav-text">步骤2：编写Skill配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E6%B5%8B%E8%AF%95Skill"><span class="nav-number">5.3.</span> <span class="nav-text">步骤3：测试Skill</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skill%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3"><span class="nav-number">6.</span> <span class="nav-text">Skill文件结构详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-number">6.1.</span> <span class="nav-text">1. 基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%A7%A6%E5%8F%91%E5%99%A8%E8%AF%A6%E8%A7%A3"><span class="nav-number">6.2.</span> <span class="nav-text">2. 触发器详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E5%91%BD%E4%BB%A4%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">6.2.1.</span> <span class="nav-text">2.1 命令触发器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E5%85%B3%E9%94%AE%E8%AF%8D%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">6.2.2.</span> <span class="nav-text">2.2 关键词触发器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%96%87%E4%BB%B6%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">6.2.3.</span> <span class="nav-text">2.3 文件触发器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E4%B8%8A%E4%B8%8B%E6%96%87%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">6.2.4.</span> <span class="nav-text">2.4 上下文触发器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">6.3.</span> <span class="nav-text">3. 参数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%89%A7%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-number">6.4.</span> <span class="nav-text">4. 执行逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C"><span class="nav-number">6.4.1.</span> <span class="nav-text">4.1 脚本执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E6%A8%A1%E6%9D%BF%E6%89%A7%E8%A1%8C"><span class="nav-number">6.4.2.</span> <span class="nav-text">4.2 模板执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-number">6.4.3.</span> <span class="nav-text">4.3 命令执行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="nav-number">7.</span> <span class="nav-text">高级用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%9D%A1%E4%BB%B6%E9%80%BB%E8%BE%91"><span class="nav-number">7.1.</span> <span class="nav-text">1. 条件逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B0%83%E7%94%A8%E5%85%B6%E4%BB%96Skill"><span class="nav-number">7.2.</span> <span class="nav-text">2. 调用其他Skill</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">7.3.</span> <span class="nav-text">3. 文件操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BD%BF%E7%94%A8API"><span class="nav-number">7.4.</span> <span class="nav-text">4. 使用API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A4%8D%E6%9D%82%E7%A4%BA%E4%BE%8B%EF%BC%9AReact%E7%BB%84%E4%BB%B6%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">7.5.</span> <span class="nav-text">5. 复杂示例：React组件生成器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">8.</span> <span class="nav-text">最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-number">8.1.</span> <span class="nav-text">1. 命名规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86"><span class="nav-number">8.2.</span> <span class="nav-text">2. 版本管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99"><span class="nav-number">8.3.</span> <span class="nav-text">3. 文档编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="nav-number">8.4.</span> <span class="nav-text">4. 错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">8.5.</span> <span class="nav-text">5. 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">8.6.</span> <span class="nav-text">6. 安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">9.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1-Skill%E6%B2%A1%E6%9C%89%E8%A2%AB%E8%A7%A6%E5%8F%91%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">9.1.</span> <span class="nav-text">Q1: Skill没有被触发怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95Skill%EF%BC%9F"><span class="nav-number">9.2.</span> <span class="nav-text">Q2: 如何调试Skill？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3-Skill%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AE%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%90%97%EF%BC%9F"><span class="nav-number">9.3.</span> <span class="nav-text">Q3: Skill可以访问项目文件吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q4-%E5%A6%82%E4%BD%95%E5%85%B1%E4%BA%ABSkill%EF%BC%9F"><span class="nav-number">9.4.</span> <span class="nav-text">Q4: 如何共享Skill？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q5-Skill%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%EF%BC%9F"><span class="nav-number">9.5.</span> <span class="nav-text">Q5: Skill支持哪些编程语言？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q6-%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E5%8F%AF%E4%BB%A5%E6%9C%89%E5%A4%9A%E4%B8%AASkill%E5%90%97%EF%BC%9F"><span class="nav-number">9.6.</span> <span class="nav-text">Q6: 一个项目可以有多个Skill吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">10.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSkills"><span class="nav-text">什么是Skills</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skills%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-text">Skills的核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Skill%E5%AE%9A%E4%B9%89"><span class="nav-text">1. Skill定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Skill%E7%B1%BB%E5%9E%8B"><span class="nav-text">2. Skill类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Skill%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-text">3. Skill生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AASkill"><span class="nav-text">创建第一个Skill</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E5%88%9B%E5%BB%BASkill%E6%96%87%E4%BB%B6"><span class="nav-text">步骤1：创建Skill文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E7%BC%96%E5%86%99Skill%E9%85%8D%E7%BD%AE"><span class="nav-text">步骤2：编写Skill配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E6%B5%8B%E8%AF%95Skill"><span class="nav-text">步骤3：测试Skill</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skill%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3"><span class="nav-text">Skill文件结构详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-text">1. 基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%A7%A6%E5%8F%91%E5%99%A8%E8%AF%A6%E8%A7%A3"><span class="nav-text">2. 触发器详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-text">3. 参数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%89%A7%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">4. 执行逻辑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="nav-text">高级用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%9D%A1%E4%BB%B6%E9%80%BB%E8%BE%91"><span class="nav-text">1. 条件逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B0%83%E7%94%A8%E5%85%B6%E4%BB%96Skill"><span class="nav-text">2. 调用其他Skill</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-text">3. 文件操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BD%BF%E7%94%A8API"><span class="nav-text">4. 使用API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A4%8D%E6%9D%82%E7%A4%BA%E4%BE%8B%EF%BC%9AReact%E7%BB%84%E4%BB%B6%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-text">5. 复杂示例：React组件生成器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-text">最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-text">1. 命名规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86"><span class="nav-text">2. 版本管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99"><span class="nav-text">3. 文档编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="nav-text">4. 错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-text">5. 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-text">6. 安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1-Skill%E6%B2%A1%E6%9C%89%E8%A2%AB%E8%A7%A6%E5%8F%91%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-text">Q1: Skill没有被触发怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95Skill%EF%BC%9F"><span class="nav-text">Q2: 如何调试Skill？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3-Skill%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AE%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%90%97%EF%BC%9F"><span class="nav-text">Q3: Skill可以访问项目文件吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q4-%E5%A6%82%E4%BD%95%E5%85%B1%E4%BA%ABSkill%EF%BC%9F"><span class="nav-text">Q4: 如何共享Skill？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q5-Skill%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%EF%BC%9F"><span class="nav-text">Q5: Skill支持哪些编程语言？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q6-%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E5%8F%AF%E4%BB%A5%E6%9C%89%E5%A4%9A%E4%B8%AASkill%E5%90%97%EF%BC%9F"><span class="nav-text">Q6: 一个项目可以有多个Skill吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-text">结语</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="snrt111"
+      src="/images/author.png">
   <p class="site-author-name" itemprop="name">snrt111</p>
-  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+  <div class="site-description" itemprop="description">天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。</div>
 </div>
 <div class="site-state-wrap animated">
   <nav class="site-state">
@@ -160,9 +197,18 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NucnQxMTE=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;snrt111"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+  </div>
 
         </div>
       </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
     </div>
 
     
@@ -185,13 +231,13 @@
     <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/author.png">
       <meta itemprop="name" content="snrt111">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="天鹰的个人博客">
-      <meta itemprop="description" content="记录工作中的一点一滴">
+      <meta itemprop="description" content="天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
@@ -218,7 +264,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-11 09:44:30" itemprop="dateModified" datetime="2026-05-11T09:44:30+08:00">2026-05-11</time>
+      <time title="修改时间：2026-05-12 10:06:38" itemprop="dateModified" datetime="2026-05-12T10:06:38+08:00">2026-05-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -231,6 +277,13 @@
     </span>
 
   
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
 </div>
 
         </div>
@@ -431,11 +484,50 @@
     
     
 
-    <footer class="post-footer">
+    <footer class="post-footer"><div class="comments-tips">
+  <p>💬 欢迎留下您的评论和建议</p>
+  <p class="tips-detail">使用 GitHub 账号登录后即可发表评论，支持 Markdown 语法</p>
+</div>
+
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="snrt111 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="snrt111 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/AI/" rel="tag"># AI</a>
-              <a href="/tags/Skills/" rel="tag"># Skills</a>
               <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/Skills/" rel="tag"># Skills</a>
           </div>
 
         
@@ -461,6 +553,7 @@
 
 
 
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -475,6 +568,24 @@
     </span>
     <span class="author" itemprop="copyrightHolder">snrt111</span>
   </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
     </div>
   </footer>
@@ -486,14 +597,15 @@
     <span class="toggle-line"></span>
   </div>
   <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"snrt111","repo":"snrt111.github.io","client_id":"Ov23liqbpuVHQ69N4CQF","client_secret":"8bce7d4e16227bf40b531f85aebce035965316b0","admin_user":"snrt111","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","body":null,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"7794c68fc499a53a9fdb36f564669d72"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
 
 </body>
 </html>

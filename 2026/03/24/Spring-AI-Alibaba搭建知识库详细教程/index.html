@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#667eea","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":5,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="前言Spring AI Alibaba是阿里云推出的面向Java开发者的AI应用开发框架，它基于Spring AI构建，提供了与阿里云大模型（通义千问）的无缝集成。通过Spring AI Alibaba，开发者可以快速构建RAG（检索增强生成）知识库系统，实现智能问答、文档处理等功能。 本教程将手把手教您从零开始搭建一个完整的Spring AI Alibaba知识库系统，包括环境准备、项目搭建、向">
 <meta property="og:type" content="article">
@@ -28,7 +28,7 @@
 <meta property="og:description" content="前言Spring AI Alibaba是阿里云推出的面向Java开发者的AI应用开发框架，它基于Spring AI构建，提供了与阿里云大模型（通义千问）的无缝集成。通过Spring AI Alibaba，开发者可以快速构建RAG（检索增强生成）知识库系统，实现智能问答、文档处理等功能。 本教程将手把手教您从零开始搭建一个完整的Spring AI Alibaba知识库系统，包括环境准备、项目搭建、向">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-24T06:00:00.000Z">
-<meta property="article:modified_time" content="2026-05-11T01:44:30.499Z">
+<meta property="article:modified_time" content="2026-05-12T02:06:38.721Z">
 <meta property="article:author" content="snrt111">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="知识库">
@@ -52,17 +52,23 @@
 
 
   
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
-<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
 
   
-
-
-
-
-
-
-  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
@@ -71,6 +77,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="天鹰的个人博客" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -94,10 +101,12 @@
       <p class="site-title">天鹰的个人博客</p>
       <i class="logo-line"></i>
     </a>
+      <p class="site-subtitle" itemprop="description">记录技术成长，分享学习心得</p>
   </div>
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -105,12 +114,38 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </header>
         
@@ -130,14 +165,16 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRAG"><span class="nav-number">3.</span> <span class="nav-text">什么是RAG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RAG%E6%A6%82%E5%BF%B5"><span class="nav-number">3.1.</span> <span class="nav-text">1. RAG概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RAG%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">2. RAG工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-RAG%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">3.3.</span> <span class="nav-text">3. RAG的优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E6%A0%88%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">技术栈介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Spring-AI-Alibaba"><span class="nav-number">4.1.</span> <span class="nav-text">1. Spring AI Alibaba</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.2.</span> <span class="nav-text">2. 向量数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Embedding%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.3.</span> <span class="nav-text">3. Embedding模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-number">5.</span> <span class="nav-text">环境准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%A6%81%E6%B1%82"><span class="nav-number">5.1.</span> <span class="nav-text">1. 开发环境要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%98%BF%E9%87%8C%E4%BA%91%E8%B4%A6%E5%8F%B7%E5%87%86%E5%A4%87"><span class="nav-number">5.2.</span> <span class="nav-text">2. 阿里云账号准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E5%BC%80%E9%80%9A%E7%99%BE%E7%82%BC%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%9C%8D%E5%8A%A1"><span class="nav-number">5.2.1.</span> <span class="nav-text">2.1 开通百炼大模型服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E8%8E%B7%E5%8F%96API-Key"><span class="nav-number">5.2.2.</span> <span class="nav-text">2.2 获取API Key</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%89%E8%A3%85PostgreSQL%E5%92%8Cpgvector"><span class="nav-number">5.3.</span> <span class="nav-text">3. 安装PostgreSQL和pgvector</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-Docker%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">5.3.1.</span> <span class="nav-text">3.1 Docker方式安装（推荐）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85"><span class="nav-number">5.3.2.</span> <span class="nav-text">3.2 验证安装</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA"><span class="nav-number">6.</span> <span class="nav-text">项目搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BASpring-Boot%E9%A1%B9%E7%9B%AE"><span class="nav-number">6.1.</span> <span class="nav-text">1. 创建Spring Boot项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B7%BB%E5%8A%A0Spring-AI-Alibaba%E4%BE%9D%E8%B5%96"><span class="nav-number">6.2.</span> <span class="nav-text">2. 添加Spring AI Alibaba依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AEapplication-yml"><span class="nav-number">6.3.</span> <span class="nav-text">3. 配置application.yml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE"><span class="nav-number">7.</span> <span class="nav-text">向量数据库配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E5%90%91%E9%87%8F%E5%AD%98%E5%82%A8%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="nav-number">7.1.</span> <span class="nav-text">1. 创建向量存储配置类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E6%96%87%E6%A1%A3%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="nav-number">7.2.</span> <span class="nav-text">2. 创建文档实体类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%88%9B%E5%BB%BARepository%E6%8E%A5%E5%8F%A3"><span class="nav-number">7.3.</span> <span class="nav-text">3. 创建Repository接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E5%A4%84%E7%90%86%E4%B8%8E%E5%AD%98%E5%82%A8"><span class="nav-number">8.</span> <span class="nav-text">文档处理与存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E6%96%87%E6%A1%A3%E6%9C%8D%E5%8A%A1%E7%B1%BB"><span class="nav-number">8.1.</span> <span class="nav-text">1. 创建文档服务类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E6%96%87%E6%A1%A3%E4%B8%8A%E4%BC%A0Controller"><span class="nav-number">8.2.</span> <span class="nav-text">2. 创建文档上传Controller</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E7%B4%A2%E4%B8%8E%E9%97%AE%E7%AD%94"><span class="nav-number">9.</span> <span class="nav-text">检索与问答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BARAG%E6%9C%8D%E5%8A%A1%E7%B1%BB"><span class="nav-number">9.1.</span> <span class="nav-text">1. 创建RAG服务类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E9%97%AE%E7%AD%94Controller"><span class="nav-number">9.2.</span> <span class="nav-text">2. 创建问答Controller</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="nav-number">10.</span> <span class="nav-text">高级功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B7%BB%E5%8A%A0%E6%96%87%E6%A1%A3%E7%9B%B8%E4%BC%BC%E5%BA%A6%E6%90%9C%E7%B4%A2API"><span class="nav-number">10.1.</span> <span class="nav-text">1. 添加文档相似度搜索API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B7%BB%E5%8A%A0%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5%E6%8E%A5%E5%8F%A3"><span class="nav-number">10.2.</span> <span class="nav-text">2. 添加健康检查接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="nav-number">11.</span> <span class="nav-text">完整示例代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="nav-number">11.1.</span> <span class="nav-text">1. 项目结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%90%AF%E5%8A%A8%E7%B1%BB"><span class="nav-number">11.2.</span> <span class="nav-text">2. 启动类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-README-md"><span class="nav-number">11.3.</span> <span class="nav-text">3. README.md</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BF%90%E8%A1%8C"><span class="nav-number">11.4.</span> <span class="nav-text">3. 运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%B5%8B%E8%AF%95"><span class="nav-number">11.5.</span> <span class="nav-text">4. 测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API%E6%96%87%E6%A1%A3"><span class="nav-number">12.</span> <span class="nav-text">API文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86"><span class="nav-number">12.1.</span> <span class="nav-text">文档管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E7%AD%94"><span class="nav-number">12.2.</span> <span class="nav-text">问答</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2"><span class="nav-number">12.3.</span> <span class="nav-text">搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="nav-number">13.</span> <span class="nav-text">技术栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">14.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E9%98%BF%E9%87%8C%E4%BA%91API-Key%EF%BC%9F"><span class="nav-number">14.1.</span> <span class="nav-text">Q1: 如何获取阿里云API Key？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E5%A4%B1%E8%B4%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">14.2.</span> <span class="nav-text">Q2: 向量数据库连接失败怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3-%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">14.3.</span> <span class="nav-text">Q3: 文档解析失败怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q4-%E6%A3%80%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B8%8D%E5%87%86%E7%A1%AE%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">14.4.</span> <span class="nav-text">Q4: 检索结果不准确怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q5-%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96RAG%E6%80%A7%E8%83%BD%EF%BC%9F"><span class="nav-number">14.5.</span> <span class="nav-text">Q5: 如何优化RAG性能？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q6-%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E6%96%87%E6%A1%A3%E6%A0%BC%E5%BC%8F%EF%BC%9F"><span class="nav-number">14.6.</span> <span class="nav-text">Q6: 支持哪些文档格式？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">15.</span> <span class="nav-text">结语</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E4%B8%80%E6%AD%A5%E5%BB%BA%E8%AE%AE"><span class="nav-number">15.1.</span> <span class="nav-text">下一步建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%BA%90"><span class="nav-number">15.2.</span> <span class="nav-text">参考资源</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRAG"><span class="nav-text">什么是RAG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RAG%E6%A6%82%E5%BF%B5"><span class="nav-text">1. RAG概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RAG%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-text">2. RAG工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-RAG%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-text">3. RAG的优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E6%A0%88%E4%BB%8B%E7%BB%8D"><span class="nav-text">技术栈介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Spring-AI-Alibaba"><span class="nav-text">1. Spring AI Alibaba</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">2. 向量数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Embedding%E6%A8%A1%E5%9E%8B"><span class="nav-text">3. Embedding模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-text">环境准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%A6%81%E6%B1%82"><span class="nav-text">1. 开发环境要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%98%BF%E9%87%8C%E4%BA%91%E8%B4%A6%E5%8F%B7%E5%87%86%E5%A4%87"><span class="nav-text">2. 阿里云账号准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%89%E8%A3%85PostgreSQL%E5%92%8Cpgvector"><span class="nav-text">3. 安装PostgreSQL和pgvector</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA"><span class="nav-text">项目搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BASpring-Boot%E9%A1%B9%E7%9B%AE"><span class="nav-text">1. 创建Spring Boot项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B7%BB%E5%8A%A0Spring-AI-Alibaba%E4%BE%9D%E8%B5%96"><span class="nav-text">2. 添加Spring AI Alibaba依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AEapplication-yml"><span class="nav-text">3. 配置application.yml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE"><span class="nav-text">向量数据库配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E5%90%91%E9%87%8F%E5%AD%98%E5%82%A8%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="nav-text">1. 创建向量存储配置类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E6%96%87%E6%A1%A3%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="nav-text">2. 创建文档实体类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%88%9B%E5%BB%BARepository%E6%8E%A5%E5%8F%A3"><span class="nav-text">3. 创建Repository接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E5%A4%84%E7%90%86%E4%B8%8E%E5%AD%98%E5%82%A8"><span class="nav-text">文档处理与存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E6%96%87%E6%A1%A3%E6%9C%8D%E5%8A%A1%E7%B1%BB"><span class="nav-text">1. 创建文档服务类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E6%96%87%E6%A1%A3%E4%B8%8A%E4%BC%A0Controller"><span class="nav-text">2. 创建文档上传Controller</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E7%B4%A2%E4%B8%8E%E9%97%AE%E7%AD%94"><span class="nav-text">检索与问答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BARAG%E6%9C%8D%E5%8A%A1%E7%B1%BB"><span class="nav-text">1. 创建RAG服务类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E9%97%AE%E7%AD%94Controller"><span class="nav-text">2. 创建问答Controller</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="nav-text">高级功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B7%BB%E5%8A%A0%E6%96%87%E6%A1%A3%E7%9B%B8%E4%BC%BC%E5%BA%A6%E6%90%9C%E7%B4%A2API"><span class="nav-text">1. 添加文档相似度搜索API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B7%BB%E5%8A%A0%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5%E6%8E%A5%E5%8F%A3"><span class="nav-text">2. 添加健康检查接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="nav-text">完整示例代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="nav-text">1. 项目结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%90%AF%E5%8A%A8%E7%B1%BB"><span class="nav-text">2. 启动类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-README-md"><span class="nav-text">3. README.md</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BF%90%E8%A1%8C"><span class="nav-text">3. 运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%B5%8B%E8%AF%95"><span class="nav-text">4. 测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API%E6%96%87%E6%A1%A3"><span class="nav-text">API文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86"><span class="nav-text">文档管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E7%AD%94"><span class="nav-text">问答</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2"><span class="nav-text">搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="nav-text">技术栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E9%98%BF%E9%87%8C%E4%BA%91API-Key%EF%BC%9F"><span class="nav-text">Q1: 如何获取阿里云API Key？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E5%A4%B1%E8%B4%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-text">Q2: 向量数据库连接失败怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3-%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-text">Q3: 文档解析失败怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q4-%E6%A3%80%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B8%8D%E5%87%86%E7%A1%AE%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-text">Q4: 检索结果不准确怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q5-%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96RAG%E6%80%A7%E8%83%BD%EF%BC%9F"><span class="nav-text">Q5: 如何优化RAG性能？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q6-%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E6%96%87%E6%A1%A3%E6%A0%BC%E5%BC%8F%EF%BC%9F"><span class="nav-text">Q6: 支持哪些文档格式？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-text">结语</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E4%B8%80%E6%AD%A5%E5%BB%BA%E8%AE%AE"><span class="nav-text">下一步建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%BA%90"><span class="nav-text">参考资源</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="snrt111"
+      src="/images/author.png">
   <p class="site-author-name" itemprop="name">snrt111</p>
-  <div class="site-description" itemprop="description">记录工作中的一点一滴</div>
+  <div class="site-description" itemprop="description">天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。</div>
 </div>
 <div class="site-state-wrap animated">
   <nav class="site-state">
@@ -159,9 +196,18 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NucnQxMTE=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;snrt111"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+  </div>
 
         </div>
       </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
     </div>
 
     
@@ -184,13 +230,13 @@
     <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/03/24/Spring-AI-Alibaba%E6%90%AD%E5%BB%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/author.png">
       <meta itemprop="name" content="snrt111">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="天鹰的个人博客">
-      <meta itemprop="description" content="记录工作中的一点一滴">
+      <meta itemprop="description" content="天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
@@ -217,7 +263,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-11 09:44:30" itemprop="dateModified" datetime="2026-05-11T09:44:30+08:00">2026-05-11</time>
+      <time title="修改时间：2026-05-12 10:06:38" itemprop="dateModified" datetime="2026-05-12T10:06:38+08:00">2026-05-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -230,6 +276,13 @@
     </span>
 
   
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
 </div>
 
         </div>
@@ -300,7 +353,7 @@
 <li><strong>PostgreSQL</strong>：14+（带pgvector扩展）</li>
 </ul>
 <h3 id="2-阿里云账号准备"><a href="#2-阿里云账号准备" class="headerlink" title="2. 阿里云账号准备"></a>2. 阿里云账号准备</h3><h4 id="2-1-开通百炼大模型服务"><a href="#2-1-开通百炼大模型服务" class="headerlink" title="2.1 开通百炼大模型服务"></a>2.1 开通百炼大模型服务</h4><ol>
-<li>访问阿里云百炼控制台：<a target="_blank" rel="noopener" href="https://bailian.console.aliyun.com/">https://bailian.console.aliyun.com/</a></li>
+<li>访问阿里云百炼控制台：<span class="exturl" data-url="aHR0cHM6Ly9iYWlsaWFuLmNvbnNvbGUuYWxpeXVuLmNvbS8=">https://bailian.console.aliyun.com/<i class="fa fa-external-link-alt"></i></span></li>
 <li>开通服务（有免费额度）</li>
 <li>创建API Key</li>
 </ol>
@@ -312,7 +365,7 @@
 <h4 id="3-2-验证安装"><a href="#3-2-验证安装" class="headerlink" title="3.2 验证安装"></a>3.2 验证安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it pgvector psql -U postgres -d ragdb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在psql中执行</span></span><br><span class="line">CREATE EXTENSION IF NOT EXISTS vector;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">SELECT * FROM pg_extension WHERE extname = <span class="string">&#x27;vector&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
 <p>看到vector扩展信息说明安装成功。</p>
-<h2 id="项目搭建"><a href="#项目搭建" class="headerlink" title="项目搭建"></a>项目搭建</h2><h3 id="1-创建Spring-Boot项目"><a href="#1-创建Spring-Boot项目" class="headerlink" title="1. 创建Spring Boot项目"></a>1. 创建Spring Boot项目</h3><p>使用Spring Initializr创建项目：<a target="_blank" rel="noopener" href="https://start.spring.io/">https://start.spring.io/</a></p>
+<h2 id="项目搭建"><a href="#项目搭建" class="headerlink" title="项目搭建"></a>项目搭建</h2><h3 id="1-创建Spring-Boot项目"><a href="#1-创建Spring-Boot项目" class="headerlink" title="1. 创建Spring Boot项目"></a>1. 创建Spring Boot项目</h3><p>使用Spring Initializr创建项目：<span class="exturl" data-url="aHR0cHM6Ly9zdGFydC5zcHJpbmcuaW8v">https://start.spring.io/<i class="fa fa-external-link-alt"></i></span></p>
 <p><strong>配置选项</strong>：</p>
 <ul>
 <li><strong>Project</strong>：Maven</li>
@@ -363,7 +416,7 @@
 
 <h3 id="3-运行"><a href="#3-运行" class="headerlink" title="3. 运行"></a>3. 运行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn spring-boot:run</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-测试"><a href="#4-测试" class="headerlink" title="4. 测试"></a>4. 测试</h3><p>访问 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a></p>
+<h3 id="4-测试"><a href="#4-测试" class="headerlink" title="4. 测试"></a>4. 测试</h3><p>访问 <span class="exturl" data-url="aHR0cDovL2xvY2FsaG9zdDo4MDgwLw==">http://localhost:8080<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="API文档"><a href="#API文档" class="headerlink" title="API文档"></a>API文档</h2><h3 id="文档管理"><a href="#文档管理" class="headerlink" title="文档管理"></a>文档管理</h3><ul>
 <li><code>POST /api/documents/upload</code> - 上传文档</li>
 <li><code>POST /api/documents/text</code> - 创建文本文档</li>
@@ -385,7 +438,7 @@
 </ul>
 <h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="Q1-如何获取阿里云API-Key？"><a href="#Q1-如何获取阿里云API-Key？" class="headerlink" title="Q1: 如何获取阿里云API Key？"></a>Q1: 如何获取阿里云API Key？</h3><p><strong>解答：</strong></p>
 <ol>
-<li>访问 <a target="_blank" rel="noopener" href="https://bailian.console.aliyun.com/">https://bailian.console.aliyun.com/</a></li>
+<li>访问 <span class="exturl" data-url="aHR0cHM6Ly9iYWlsaWFuLmNvbnNvbGUuYWxpeXVuLmNvbS8=">https://bailian.console.aliyun.com/<i class="fa fa-external-link-alt"></i></span></li>
 <li>开通百炼服务</li>
 <li>在API Key管理页面创建新的API Key</li>
 <li>复制Key并配置到application.yml</li>
@@ -443,10 +496,10 @@
 <li><strong>用户管理</strong>：添加多租户和用户权限管理</li>
 </ol>
 <h3 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/alibaba/spring-ai-alibaba">Spring AI Alibaba官方文档</a></li>
-<li><a target="_blank" rel="noopener" href="https://spring.io/projects/spring-ai">Spring AI官方文档</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/pgvector/pgvector">pgvector文档</a></li>
-<li><a target="_blank" rel="noopener" href="https://bailian.console.aliyun.com/">阿里云百炼控制台</a></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FsaWJhYmEvc3ByaW5nLWFpLWFsaWJhYmE=">Spring AI Alibaba官方文档<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9zcHJpbmcuaW8vcHJvamVjdHMvc3ByaW5nLWFp">Spring AI官方文档<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3BndmVjdG9yL3BndmVjdG9y">pgvector文档<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9iYWlsaWFuLmNvbnNvbGUuYWxpeXVuLmNvbS8=">阿里云百炼控制台<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
 <p>祝您开发顺利！</p>
 
@@ -456,7 +509,46 @@
     
     
 
-    <footer class="post-footer">
+    <footer class="post-footer"><div class="comments-tips">
+  <p>💬 欢迎留下您的评论和建议</p>
+  <p class="tips-detail">使用 GitHub 账号登录后即可发表评论，支持 Markdown 语法</p>
+</div>
+
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="snrt111 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="snrt111 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/AI/" rel="tag"># AI</a>
               <a href="/tags/%E7%9F%A5%E8%AF%86%E5%BA%93/" rel="tag"># 知识库</a>
@@ -485,6 +577,7 @@
 
 
 
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -499,6 +592,24 @@
     </span>
     <span class="author" itemprop="copyrightHolder">snrt111</span>
   </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
     </div>
   </footer>
@@ -510,14 +621,15 @@
     <span class="toggle-line"></span>
   </div>
   <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"snrt111","repo":"snrt111.github.io","client_id":"Ov23liqbpuVHQ69N4CQF","client_secret":"8bce7d4e16227bf40b531f85aebce035965316b0","admin_user":"snrt111","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","body":null,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"7f54cb146ace6fd8202c6a21d4727eef"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
 
 </body>
 </html>
