@@ -2,7 +2,8 @@
 title: OOAD面向对象分析与设计
 date: 2026-04-14
 tags: [OOAD, 面向对象, 软件设计, UML]
-categories: [软件工程, 设计方法]
+categories:
+  - 后端开发
 ---
 
 # OOAD面向对象分析与设计

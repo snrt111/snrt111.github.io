@@ -2,7 +2,7 @@
 title: MySql优化
 date: 2023-11-11 12:12:22
 categories:
-  - 数据库
+  - 后端开发
 tags:
   - 数据库
   - MySQL

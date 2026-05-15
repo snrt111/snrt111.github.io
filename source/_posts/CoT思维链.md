@@ -2,7 +2,8 @@
 title: CoT思维链
 date: 2026-04-14
 tags: [CoT, 思维链, Prompt Engineering, LLM, AI]
-categories: [人工智能, 大模型技术]
+categories:
+  - AI 与人工智能
 ---
 
 # CoT思维链
