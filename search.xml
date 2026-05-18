@@ -459,6 +459,137 @@
       </tags>
   </entry>
   <entry>
+    <title>Java GC演进史：从Serial到ZGC的垃圾收集器进化之路</title>
+    <url>/2026/05/18/Java-GC%E6%BC%94%E8%BF%9B%E5%8F%B2/</url>
+    <content><![CDATA[<p>Java的垃圾收集器（GC）演进史，就是一部在<strong>吞吐量</strong>（应用工作时间/总时间）和<strong>延迟</strong>（GC暂停应用的时间）之间不断寻求最佳平衡的历史。</p>
+<p>迄今为止，Java共有<strong>7款主流GC</strong>，它们各自诞生于不同年代，解决了不同场景下的核心痛点。</p>
+<span id="more"></span>
+
+<h2 id="🗺️-Java-GC-核心参数与支持版本一览"><a href="#🗺️-Java-GC-核心参数与支持版本一览" class="headerlink" title="🗺️ Java GC 核心参数与支持版本一览"></a>🗺️ Java GC 核心参数与支持版本一览</h2><p>这里整理了一份速查表，涵盖了从JDK 1.0到最新版本的关键信息：</p>
+<table>
+<thead>
+<tr>
+<th>GC名称</th>
+<th>核心参数 ( <code>-XX:+Use...</code> )</th>
+<th>核心原理与特点</th>
+<th>首次支持版本</th>
+<th>默认使用版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Serial</strong></td>
+<td>SerialGC</td>
+<td>单线程收集，GC时 <strong>STW</strong> （Stop-The-World，即暂停所有应用线程）。</td>
+<td>JDK 1.0</td>
+<td>JDK 1.0 - 1.3.1（客户端模式默认）</td>
+</tr>
+<tr>
+<td><strong>Parallel</strong> (Parallel Scavenge)</td>
+<td>ParallelGC<br>ParallelOldGC</td>
+<td><strong>多线程</strong> 收集，关注 <strong>高吞吐量</strong> ，GC时STW。</td>
+<td>JDK 1.4</td>
+<td>JDK 7 &amp; 8 默认 （Server模式）</td>
+</tr>
+<tr>
+<td><strong>CMS</strong> (Concurrent Mark Sweep)</td>
+<td>ConcMarkSweepGC</td>
+<td><strong>并发</strong> 收集（标记、清除阶段与应用线程并发），追求 <strong>低延迟</strong> ，算法产生内存碎片，且已 <strong>废弃</strong> （Deprecated）。</td>
+<td>JDK 1.4</td>
+<td>JDK 9前可选（JDK 14后被彻底移除）</td>
+</tr>
+<tr>
+<td><strong>G1</strong> (Garbage First)</td>
+<td>G1GC</td>
+<td>将堆划分为 <strong>Region</strong> ，优先回收垃圾最多的Region（Garbage First），实现 <strong>可预测的停顿时间模型</strong> 。</td>
+<td>JDK 7 (u4)</td>
+<td>JDK 9及之后默认 （直到JDK 21）</td>
+</tr>
+<tr>
+<td><strong>Shenandoah</strong></td>
+<td>ShenandoahGC</td>
+<td><strong>并发压缩</strong> ，与ZGC类似追求超低延迟，但GC动作（尤其是压缩）与应用线程并发执行。</td>
+<td>JDK 12 (实验)</td>
+<td>JDK 15 (生产) <br>非默认，需手动启用</td>
+</tr>
+<tr>
+<td><strong>ZGC</strong> (Z Garbage Collector)</td>
+<td>ZGC</td>
+<td>基于 <strong>染色指针</strong> 和 <strong>读屏障</strong> ，将最耗时的GC操作几乎全部并发化， <strong>停顿时间不随堆大小增长</strong> （&lt;1ms）。</td>
+<td>JDK 11 (实验)</td>
+<td>JDK 15 (生产)<br>JDK 21 (支持分代)<br>非默认，需手动启用</td>
+</tr>
+<tr>
+<td><strong>Epsilon</strong> (No-Op)</td>
+<td>EpsilonGC</td>
+<td><strong>只分配内存，不做任何回收</strong> （模拟内存耗尽），纯测试用途。</td>
+<td>JDK 11</td>
+<td>非默认，需手动启用</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>小贴士</strong>： <strong>STW</strong> 是GC中最让人头疼的部分，它意味着在垃圾回收期间，所有应用线程都会被暂停，导致程序出现卡顿。</p>
+</blockquote>
+<hr>
+<h2 id="⏳-各核心GC详解与演进历程"><a href="#⏳-各核心GC详解与演进历程" class="headerlink" title="⏳ 各核心GC详解与演进历程"></a>⏳ 各核心GC详解与演进历程</h2><p>理解了上面的表格，我们再沿着时间线，深度剖析一下这几款GC的兴衰更替。</p>
+<h3 id="1-黎明期：单兵作战的-Serial-GC-JDK-1-0"><a href="#1-黎明期：单兵作战的-Serial-GC-JDK-1-0" class="headerlink" title="1. 黎明期：单兵作战的 Serial GC (JDK 1.0)"></a>1. 黎明期：单兵作战的 Serial GC (JDK 1.0)</h3><p>在Java诞生之初，硬件资源匮乏，Serial GC作为第一款GC登场了。它的工作方式非常”简单粗暴”：进行垃圾回收时，它会独占所有CPU资源，<strong>冻结所有应用线程</strong>（STW），直到回收结束。</p>
+<p><strong>适用场景</strong>：由于它只有单一线程，没有线程交互的开销，在单核处理器或内存小于100MB的嵌入式/客户端应用中反而最高效。</p>
+<p><strong>现状</strong>：至今仍然被保留，用于特定的资源受限环境。</p>
+<hr>
+<h3 id="2-吞吐量时代：团队作战的-Parallel-GC-JDK-1-4-JDK-8"><a href="#2-吞吐量时代：团队作战的-Parallel-GC-JDK-1-4-JDK-8" class="headerlink" title="2. 吞吐量时代：团队作战的 Parallel GC (JDK 1.4 - JDK 8)"></a>2. 吞吐量时代：团队作战的 Parallel GC (JDK 1.4 - JDK 8)</h3><p>随着多核CPU的普及，人们迫切希望利用多核能力。Parallel GC（也称为<strong>吞吐量优先收集器</strong>）应运而生。它开启了<strong>多线程</strong>并行回收的时代，利用多个GC线程同时工作，大大缩短了STW时间。</p>
+<p><strong>核心目标</strong>：最大化应用程序的运行时间占比（即吞吐量）。它非常适合在后台进行计算、批处理、报表分析等不需要频繁与用户交互的任务。</p>
+<p><strong>历史地位</strong>：它曾是JDK 7和JDK 8的<strong>默认GC</strong>，也是许多后端程序员最熟悉的”老朋友”。</p>
+<hr>
+<h3 id="3-低延迟首秀：追求并发与碎片化的-CMS-GC-JDK-1-4-JDK-14"><a href="#3-低延迟首秀：追求并发与碎片化的-CMS-GC-JDK-1-4-JDK-14" class="headerlink" title="3. 低延迟首秀：追求并发与碎片化的 CMS GC (JDK 1.4 - JDK 14)"></a>3. 低延迟首秀：追求并发与碎片化的 CMS GC (JDK 1.4 - JDK 14)</h3><p>当Java应用进入Web时代（如电商、交易系统），用户无法忍受长时间的页面卡顿。CMS GC为了解决延迟问题，引入了一种革命性的思想——<strong>并发</strong>。</p>
+<p>它将GC过程拆分为多步，让最耗时的”标记”和”清除”阶段与应用程序<strong>同时运行</strong>，从而极大地减少了STW时间。</p>
+<p><strong>历史贡献</strong>：它是第一款真正意义上实现”低延迟”的GC，在JDK 1.4到JDK 8期间广受欢迎。</p>
+<p><strong>致命缺陷</strong>：然而，它的算法是”标记-清除”，这会导致内存碎片化，最终引发更严重的<strong>并发模式失败</strong>（CMS退化为Serial GC进行Full GC，反而造成更长的停顿）。</p>
+<p><strong>最终结局</strong>：由于设计上的复杂性难以彻底解决，Oracle在 <strong>JDK 9中将其标记为废弃（Deprecated）</strong>，并在 <strong>JDK 14中正式将其移除</strong>。</p>
+<hr>
+<h3 id="4-分区域王者：掌控全局的-G1-GC-JDK-7至今"><a href="#4-分区域王者：掌控全局的-G1-GC-JDK-7至今" class="headerlink" title="4. 分区域王者：掌控全局的 G1 GC (JDK 7至今)"></a>4. 分区域王者：掌控全局的 G1 GC (JDK 7至今)</h3><p>为了<strong>完全取代CMS</strong>，G1 GC诞生了。它颠覆了传统GC将堆内存物理划分为”新生代”和老年代的做法，而是<strong>将整个堆划分为多个大小相等的Region（区域）</strong>。</p>
+<p><strong>核心优势</strong>：</p>
+<ul>
+<li><strong>可预测的停顿模型</strong>：你可以通过参数 <code>-XX:MaxGCPauseMillis=200</code> 设定一个期望的停顿时间（比如200ms），G1会尽量在这个时间约束内，优先回收垃圾最多的Region（Garbage First），实现”价值最大化”。</li>
+<li><strong>统一管理</strong>：Region可以动态地在Eden、Survivor、Old等角色间切换，内存管理更灵活。</li>
+</ul>
+<p><strong>历史地位</strong>：从 <strong>JDK 9开始</strong>，G1正式取代Parallel成为<strong>默认GC</strong>，并作为主力一直沿用到JDK 21之后的版本。</p>
+<hr>
+<h3 id="5-超低延迟双雄：ZGC-与-Shenandoah-JDK-11-15至今"><a href="#5-超低延迟双雄：ZGC-与-Shenandoah-JDK-11-15至今" class="headerlink" title="5. 超低延迟双雄：ZGC 与 Shenandoah (JDK 11/15至今)"></a>5. 超低延迟双雄：ZGC 与 Shenandoah (JDK 11/15至今)</h3><p>在大内存（超过100GB）和实时响应的场景下（如金融风控、AI在线推理），即使是G1的几十毫秒停顿也可能成为瓶颈。ZGC和Shenandoah瞄准的目标是——<strong>将停顿时间缩短到10ms以内，且不随堆内存增大而增加</strong>。</p>
+<p><strong>技术核心</strong>：</p>
+<ul>
+<li><strong>ZGC</strong>：利用<strong>染色指针</strong>和<strong>读屏障</strong>技术，几乎将所有的GC工作都并发执行，只保留了极少且极短的STW阶段。</li>
+<li><strong>Shenandoah</strong>：与ZGC类似，它在<strong>压缩（移动）对象</strong>的阶段也是并发的，这是它区别于G1和CMS的最大特点。</li>
+</ul>
+<p><strong>成熟之路</strong>：两者均在 <strong>JDK 11中以实验性功能出现</strong>（ZGC需解锁参数），并在 <strong>JDK 15中正式宣布生产可用</strong>。在 <strong>JDK 21中，ZGC进一步演进，引入了分代ZGC</strong>，性能再次提升。</p>
+<hr>
+<h3 id="6-另类存在：Epsilon-GC-No-Op"><a href="#6-另类存在：Epsilon-GC-No-Op" class="headerlink" title="6. 另类存在：Epsilon GC (No-Op)"></a>6. 另类存在：Epsilon GC (No-Op)</h3><p>最后值得一提的是Epsilon。它是一个<strong>不做任何垃圾回收的GC</strong>。当内存耗尽时，JVM就会直接崩溃。</p>
+<p><strong>使用场景</strong>：它只用于<strong>性能测试、压力测试</strong>或极端短暂的任务，用来排除GC本身带来的性能干扰，<strong>严禁用于生产环境</strong>。</p>
+<hr>
+<h2 id="💎-总结与选型建议"><a href="#💎-总结与选型建议" class="headerlink" title="💎 总结与选型建议"></a>💎 总结与选型建议</h2><p>GC的选择本质上是一种权衡。面对琳琅满目的收集器，可以遵循以下简单的决策路径：</p>
+<h3 id="如果是JDK-8及以下："><a href="#如果是JDK-8及以下：" class="headerlink" title="如果是JDK 8及以下："></a>如果是JDK 8及以下：</h3><ul>
+<li>默认的 <strong>Parallel GC</strong> 通常足够好。</li>
+<li>如果你的Web应用对延迟敏感（比如接口响应要求&lt;50ms），尝试启用 <strong>G1 GC</strong> 并设置合理的 <code>MaxGCPauseMillis</code>。</li>
+</ul>
+<h3 id="如果是JDK-9-JDK-20："><a href="#如果是JDK-9-JDK-20：" class="headerlink" title="如果是JDK 9 - JDK 20："></a>如果是JDK 9 - JDK 20：</h3><ul>
+<li><strong>首选默认的G1 GC</strong>。它是这个时代最稳妥、兼顾吞吐量与延迟的选择。</li>
+</ul>
+<h3 id="如果是JDK-21及以上且追求极致性能："><a href="#如果是JDK-21及以上且追求极致性能：" class="headerlink" title="如果是JDK 21及以上且追求极致性能："></a>如果是JDK 21及以上且追求极致性能：</h3><ul>
+<li>如果你的堆内存很大（&gt;8GB）且对延迟极其敏感（如实时交易、游戏服务端），请毫不犹豫地尝试 <strong>ZGC</strong>（JDK 21后开启分代模式）。它已经非常成熟，能带来数量级的延迟改善。</li>
+</ul>
+<blockquote>
+<p>📝 <strong>如果你是刚接触这个概念，记住一个简单的结论</strong>：<br><strong>现在用JDK 8就选G1，用JDK 11/17，默认的G1已经非常好，但值得试试ZGC。</strong></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>面试题</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+        <tag>GC</tag>
+        <tag>垃圾收集器</tag>
+        <tag>性能优化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Learn Claude Code —— 真正的 Agent Harness 工程</title>
     <url>/2026/05/12/Learn-Claude-Code-%E7%9C%9F%E6%AD%A3%E7%9A%84-Agent-Harness-%E5%B7%A5%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 AI 编程助手领域，Claude Code 以其独特的设计理念脱颖而出。本文将深入解析 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2Rl">shareAI-lab/learn-claude-code<i class="fa fa-external-link-alt"></i></span> 这个开源项目，带你从 0 到 1 理解 Claude Code 的核心原理——<strong>Agent Harness 工程</strong>。</p>
@@ -967,9 +1098,9 @@
       </categories>
       <tags>
         <tag>Java</tag>
+        <tag>性能优化</tag>
         <tag>MyBatis</tag>
         <tag>缓存</tag>
-        <tag>性能优化</tag>
       </tags>
   </entry>
   <entry>
@@ -1661,130 +1792,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Spring Boot 核心技术详解</title>
-    <url>/2026/03/25/Spring%20Boot%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h1 id="Spring-Boot-核心技术详解"><a href="#Spring-Boot-核心技术详解" class="headerlink" title="Spring Boot 核心技术详解"></a>Spring Boot 核心技术详解</h1><h2 id="1-Spring-Boot-简介"><a href="#1-Spring-Boot-简介" class="headerlink" title="1. Spring Boot 简介"></a>1. Spring Boot 简介</h2><p>Spring Boot 是 Spring 框架的扩展，旨在简化 Spring 应用的初始搭建和开发过程。它采用”约定优于配置”的理念，让开发者能够快速创建独立运行的、生产级别的 Spring 应用。</p>
-<h3 id="1-1-核心特性"><a href="#1-1-核心特性" class="headerlink" title="1.1 核心特性"></a>1.1 核心特性</h3><ul>
-<li><strong>自动配置</strong>：根据 classpath 中的依赖自动配置 Spring 应用</li>
-<li><strong>起步依赖</strong>：简化 Maven 配置，通过 starter 快速集成各种技术栈</li>
-<li><strong>内嵌服务器</strong>：内置 Tomcat、Jetty 或 Undertow，无需部署 WAR 文件</li>
-<li><strong>Actuator 监控</strong>：提供生产就绪功能，如健康检查、指标监控等</li>
-</ul>
-<h3 id="1-2-快速开始"><a href="#1-2-快速开始" class="headerlink" title="1.2 快速开始"></a>1.2 快速开始</h3><p>创建一个简单的 Spring Boot 应用：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DemoApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-自动配置原理"><a href="#2-自动配置原理" class="headerlink" title="2. 自动配置原理"></a>2. 自动配置原理</h2><p>Spring Boot 的自动配置通过 <code>@EnableAutoConfiguration</code> 注解实现，它会扫描 classpath 下的 <code>META-INF/spring.factories</code> 文件，加载其中定义的自动配置类。</p>
-<h3 id="2-1-条件注解"><a href="#2-1-条件注解" class="headerlink" title="2.1 条件注解"></a>2.1 条件注解</h3><p>Spring Boot 提供了多种条件注解来控制配置的生效条件：</p>
-<table>
-<thead>
-<tr>
-<th>注解</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>@ConditionalOnClass</code></td>
-<td>当类存在时生效</td>
-</tr>
-<tr>
-<td><code>@ConditionalOnMissingBean</code></td>
-<td>当 Bean 不存在时生效</td>
-</tr>
-<tr>
-<td><code>@ConditionalOnProperty</code></td>
-<td>当配置属性满足条件时生效</td>
-</tr>
-<tr>
-<td><code>@ConditionalOnWebApplication</code></td>
-<td>当是 Web 应用时生效</td>
-</tr>
-</tbody></table>
-<h3 id="2-2-自定义自动配置"><a href="#2-2-自定义自动配置" class="headerlink" title="2.2 自定义自动配置"></a>2.2 自定义自动配置</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass(MyService.class)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(MyProperties.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyAutoConfiguration</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line">    <span class="keyword">public</span> MyService <span class="title function_">myService</span><span class="params">(MyProperties properties)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MyService</span>(properties);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-Spring-Boot-Starter"><a href="#3-Spring-Boot-Starter" class="headerlink" title="3. Spring Boot Starter"></a>3. Spring Boot Starter</h2><p>Starter 是 Spring Boot 的核心概念之一，它将相关的依赖和配置打包在一起，简化项目配置。</p>
-<h3 id="3-1-常用-Starter"><a href="#3-1-常用-Starter" class="headerlink" title="3.1 常用 Starter"></a>3.1 常用 Starter</h3><ul>
-<li><code>spring-boot-starter-web</code>：Web 应用开发</li>
-<li><code>spring-boot-starter-data-jpa</code>：JPA 数据访问</li>
-<li><code>spring-boot-starter-security</code>：安全控制</li>
-<li><code>spring-boot-starter-test</code>：测试支持</li>
-<li><code>spring-boot-starter-actuator</code>：监控和管理</li>
-</ul>
-<h3 id="3-2-创建自定义-Starter"><a href="#3-2-创建自定义-Starter" class="headerlink" title="3.2 创建自定义 Starter"></a>3.2 创建自定义 Starter</h3><ol>
-<li>创建自动配置类</li>
-<li>创建 <code>META-INF/spring.factories</code> 文件</li>
-<li>注册自动配置类</li>
-</ol>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span>=<span class="string">\</span></span><br><span class="line"><span class="string">com.example.MyAutoConfiguration</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-配置文件"><a href="#4-配置文件" class="headerlink" title="4. 配置文件"></a>4. 配置文件</h2><p>Spring Boot 支持多种格式的配置文件：</p>
-<h3 id="4-1-application-properties"><a href="#4-1-application-properties" class="headerlink" title="4.1 application.properties"></a>4.1 application.properties</h3><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">server.port</span>=<span class="string">8080</span></span><br><span class="line"><span class="attr">spring.datasource.url</span>=<span class="string">jdbc:mysql://localhost:3306/test</span></span><br><span class="line"><span class="attr">spring.datasource.username</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">spring.datasource.password</span>=<span class="string">123456</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-2-application-yml"><a href="#4-2-application-yml" class="headerlink" title="4.2 application.yml"></a>4.2 application.yml</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/test</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-3-多环境配置"><a href="#4-3-多环境配置" class="headerlink" title="4.3 多环境配置"></a>4.3 多环境配置</h3><p>Spring Boot 支持通过 profile 区分不同环境：</p>
-<ul>
-<li><code>application-dev.yaml</code>：开发环境</li>
-<li><code>application-test.yaml</code>：测试环境</li>
-<li><code>application-prod.yaml</code>：生产环境</li>
-</ul>
-<p>激活指定环境：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">java -jar app.jar --spring.profiles.active=prod</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-数据访问"><a href="#5-数据访问" class="headerlink" title="5. 数据访问"></a>5. 数据访问</h2><p>Spring Boot 简化了数据访问层的开发，支持多种数据访问技术。</p>
-<h3 id="5-1-Spring-Data-JPA"><a href="#5-1-Spring-Data-JPA" class="headerlink" title="5.1 Spring Data JPA"></a>5.1 Spring Data JPA</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String email;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserRepository</span> <span class="keyword">extends</span> <span class="title class_">JpaRepository</span>&lt;User, Long&gt; &#123;</span><br><span class="line">    User <span class="title function_">findByName</span><span class="params">(String name)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-2-MyBatis-集成"><a href="#5-2-MyBatis-集成" class="headerlink" title="5.2 MyBatis 集成"></a>5.2 MyBatis 集成</h3><p>添加依赖：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>配置：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">mapper-locations:</span> <span class="string">classpath:mapper/*.xml</span></span><br><span class="line">  <span class="attr">type-aliases-package:</span> <span class="string">com.example.entity</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="6-Web-开发"><a href="#6-Web-开发" class="headerlink" title="6. Web 开发"></a>6. Web 开发</h2><p>Spring Boot 提供了强大的 Web 开发支持。</p>
-<h3 id="6-1-RESTful-API"><a href="#6-1-RESTful-API" class="headerlink" title="6.1 RESTful API"></a>6.1 RESTful API</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/api/users&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;User&gt; <span class="title function_">list</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.findAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">create</span><span class="params">(<span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.save(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">get</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.findById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PutMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">update</span><span class="params">(<span class="meta">@PathVariable</span> Long id, <span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.update(id, user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@DeleteMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">delete</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">        userService.delete(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-2-全局异常处理"><a href="#6-2-全局异常处理" class="headerlink" title="6.2 全局异常处理"></a>6.2 全局异常处理</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalExceptionHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExceptionHandler(Exception.class)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;ErrorResponse&gt; <span class="title function_">handleException</span><span class="params">(Exception e)</span> &#123;</span><br><span class="line">        <span class="type">ErrorResponse</span> <span class="variable">error</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ErrorResponse</span>(<span class="number">500</span>, e.getMessage());</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.status(<span class="number">500</span>).body(error);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="7-安全控制"><a href="#7-安全控制" class="headerlink" title="7. 安全控制"></a>7. 安全控制</h2><p>Spring Security 是 Spring Boot 的安全框架。</p>
-<h3 id="7-1-基本配置"><a href="#7-1-基本配置" class="headerlink" title="7.1 基本配置"></a>7.1 基本配置</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> SecurityFilterChain <span class="title function_">filterChain</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        http</span><br><span class="line">            .authorizeHttpRequests(auth -&gt; auth</span><br><span class="line">                .requestMatchers(<span class="string">&quot;/public/**&quot;</span>).permitAll()</span><br><span class="line">                .anyRequest().authenticated()</span><br><span class="line">            )</span><br><span class="line">            .formLogin(withDefaults());</span><br><span class="line">        <span class="keyword">return</span> http.build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-2-JWT-认证"><a href="#7-2-JWT-认证" class="headerlink" title="7.2 JWT 认证"></a>7.2 JWT 认证</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JwtTokenProvider</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;jwt.secret&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String jwtSecret;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">generateToken</span><span class="params">(String username)</span> &#123;</span><br><span class="line">        <span class="type">Date</span> <span class="variable">now</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line">        <span class="type">Date</span> <span class="variable">expiryDate</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>(now.getTime() + <span class="number">86400000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Jwts.builder()</span><br><span class="line">            .setSubject(username)</span><br><span class="line">            .setIssuedAt(now)</span><br><span class="line">            .setExpiration(expiryDate)</span><br><span class="line">            .signWith(SignatureAlgorithm.HS512, jwtSecret)</span><br><span class="line">            .compact();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="8-性能优化"><a href="#8-性能优化" class="headerlink" title="8. 性能优化"></a>8. 性能优化</h2><h3 id="8-1-连接池配置"><a href="#8-1-连接池配置" class="headerlink" title="8.1 连接池配置"></a>8.1 连接池配置</h3><p>推荐使用 HikariCP：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">hikari:</span></span><br><span class="line">      <span class="attr">minimum-idle:</span> <span class="number">5</span></span><br><span class="line">      <span class="attr">maximum-pool-size:</span> <span class="number">20</span></span><br><span class="line">      <span class="attr">idle-timeout:</span> <span class="number">300000</span></span><br><span class="line">      <span class="attr">max-lifetime:</span> <span class="number">1200000</span></span><br><span class="line">      <span class="attr">connection-timeout:</span> <span class="number">20000</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="8-2-缓存配置"><a href="#8-2-缓存配置" class="headerlink" title="8.2 缓存配置"></a>8.2 缓存配置</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CacheConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> CacheManager <span class="title function_">cacheManager</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ConcurrentMapCacheManager</span>(<span class="string">&quot;users&quot;</span>, <span class="string">&quot;orders&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="9-部署与监控"><a href="#9-部署与监控" class="headerlink" title="9. 部署与监控"></a>9. 部署与监控</h2><h3 id="9-1-打包部署"><a href="#9-1-打包部署" class="headerlink" title="9.1 打包部署"></a>9.1 打包部署</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Maven 打包</span></span><br><span class="line">mvn clean package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line">java -jar target/myapp.jar</span><br></pre></td></tr></table></figure>
-
-<h3 id="9-2-Actuator-端点"><a href="#9-2-Actuator-端点" class="headerlink" title="9.2 Actuator 端点"></a>9.2 Actuator 端点</h3><p>常用端点：</p>
-<ul>
-<li><code>/actuator/health</code>：健康检查</li>
-<li><code>/actuator/info</code>：应用信息</li>
-<li><code>/actuator/metrics</code>：指标数据</li>
-<li><code>/actuator/loggers</code>：日志级别</li>
-</ul>
-<h2 id="10-最佳实践"><a href="#10-最佳实践" class="headerlink" title="10. 最佳实践"></a>10. 最佳实践</h2><ol>
-<li><strong>合理划分模块</strong>：按功能模块划分，保持单一职责</li>
-<li><strong>统一异常处理</strong>：使用全局异常处理器</li>
-<li><strong>接口版本控制</strong>：在 URL 或 Header 中包含版本信息</li>
-<li><strong>日志规范</strong>：使用 SLF4J + Logback，合理设置日志级别</li>
-<li><strong>配置外部化</strong>：敏感配置使用环境变量或配置中心</li>
-<li><strong>健康检查</strong>：配置 Actuator 健康检查端点</li>
-<li><strong>优雅停机</strong>：配置优雅停机，确保请求处理完成</li>
-</ol>
-<hr>
-<p>本文档详细介绍了 Spring Boot 的核心技术，包括自动配置、Starter、数据访问、Web 开发、安全控制等方面，帮助开发者快速掌握 Spring Boot 开发技能。</p>
-]]></content>
-      <categories>
-        <category>后端开发</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>Spring</tag>
-        <tag>微服务</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Skills使用详细教程</title>
     <url>/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Skills是Trae IDE中的一项强大功能，它允许用户创建和使用自定义的技能来增强AI助手的功能。通过Skills，您可以定义特定的任务流程、代码模板、自动化脚本等，让AI助手更好地理解您的需求并提供更精准的帮助。</p>
@@ -1980,6 +1987,130 @@
         <tag>AI</tag>
         <tag>工具</tag>
         <tag>Skills</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring Boot 核心技术详解</title>
+    <url>/2026/03/25/Spring%20Boot%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h1 id="Spring-Boot-核心技术详解"><a href="#Spring-Boot-核心技术详解" class="headerlink" title="Spring Boot 核心技术详解"></a>Spring Boot 核心技术详解</h1><h2 id="1-Spring-Boot-简介"><a href="#1-Spring-Boot-简介" class="headerlink" title="1. Spring Boot 简介"></a>1. Spring Boot 简介</h2><p>Spring Boot 是 Spring 框架的扩展，旨在简化 Spring 应用的初始搭建和开发过程。它采用”约定优于配置”的理念，让开发者能够快速创建独立运行的、生产级别的 Spring 应用。</p>
+<h3 id="1-1-核心特性"><a href="#1-1-核心特性" class="headerlink" title="1.1 核心特性"></a>1.1 核心特性</h3><ul>
+<li><strong>自动配置</strong>：根据 classpath 中的依赖自动配置 Spring 应用</li>
+<li><strong>起步依赖</strong>：简化 Maven 配置，通过 starter 快速集成各种技术栈</li>
+<li><strong>内嵌服务器</strong>：内置 Tomcat、Jetty 或 Undertow，无需部署 WAR 文件</li>
+<li><strong>Actuator 监控</strong>：提供生产就绪功能，如健康检查、指标监控等</li>
+</ul>
+<h3 id="1-2-快速开始"><a href="#1-2-快速开始" class="headerlink" title="1.2 快速开始"></a>1.2 快速开始</h3><p>创建一个简单的 Spring Boot 应用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DemoApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-自动配置原理"><a href="#2-自动配置原理" class="headerlink" title="2. 自动配置原理"></a>2. 自动配置原理</h2><p>Spring Boot 的自动配置通过 <code>@EnableAutoConfiguration</code> 注解实现，它会扫描 classpath 下的 <code>META-INF/spring.factories</code> 文件，加载其中定义的自动配置类。</p>
+<h3 id="2-1-条件注解"><a href="#2-1-条件注解" class="headerlink" title="2.1 条件注解"></a>2.1 条件注解</h3><p>Spring Boot 提供了多种条件注解来控制配置的生效条件：</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@ConditionalOnClass</code></td>
+<td>当类存在时生效</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnMissingBean</code></td>
+<td>当 Bean 不存在时生效</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnProperty</code></td>
+<td>当配置属性满足条件时生效</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnWebApplication</code></td>
+<td>当是 Web 应用时生效</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-自定义自动配置"><a href="#2-2-自定义自动配置" class="headerlink" title="2.2 自定义自动配置"></a>2.2 自定义自动配置</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass(MyService.class)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(MyProperties.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyAutoConfiguration</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line">    <span class="keyword">public</span> MyService <span class="title function_">myService</span><span class="params">(MyProperties properties)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MyService</span>(properties);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Spring-Boot-Starter"><a href="#3-Spring-Boot-Starter" class="headerlink" title="3. Spring Boot Starter"></a>3. Spring Boot Starter</h2><p>Starter 是 Spring Boot 的核心概念之一，它将相关的依赖和配置打包在一起，简化项目配置。</p>
+<h3 id="3-1-常用-Starter"><a href="#3-1-常用-Starter" class="headerlink" title="3.1 常用 Starter"></a>3.1 常用 Starter</h3><ul>
+<li><code>spring-boot-starter-web</code>：Web 应用开发</li>
+<li><code>spring-boot-starter-data-jpa</code>：JPA 数据访问</li>
+<li><code>spring-boot-starter-security</code>：安全控制</li>
+<li><code>spring-boot-starter-test</code>：测试支持</li>
+<li><code>spring-boot-starter-actuator</code>：监控和管理</li>
+</ul>
+<h3 id="3-2-创建自定义-Starter"><a href="#3-2-创建自定义-Starter" class="headerlink" title="3.2 创建自定义 Starter"></a>3.2 创建自定义 Starter</h3><ol>
+<li>创建自动配置类</li>
+<li>创建 <code>META-INF/spring.factories</code> 文件</li>
+<li>注册自动配置类</li>
+</ol>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span>=<span class="string">\</span></span><br><span class="line"><span class="string">com.example.MyAutoConfiguration</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-配置文件"><a href="#4-配置文件" class="headerlink" title="4. 配置文件"></a>4. 配置文件</h2><p>Spring Boot 支持多种格式的配置文件：</p>
+<h3 id="4-1-application-properties"><a href="#4-1-application-properties" class="headerlink" title="4.1 application.properties"></a>4.1 application.properties</h3><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">server.port</span>=<span class="string">8080</span></span><br><span class="line"><span class="attr">spring.datasource.url</span>=<span class="string">jdbc:mysql://localhost:3306/test</span></span><br><span class="line"><span class="attr">spring.datasource.username</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">spring.datasource.password</span>=<span class="string">123456</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-application-yml"><a href="#4-2-application-yml" class="headerlink" title="4.2 application.yml"></a>4.2 application.yml</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/test</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-多环境配置"><a href="#4-3-多环境配置" class="headerlink" title="4.3 多环境配置"></a>4.3 多环境配置</h3><p>Spring Boot 支持通过 profile 区分不同环境：</p>
+<ul>
+<li><code>application-dev.yaml</code>：开发环境</li>
+<li><code>application-test.yaml</code>：测试环境</li>
+<li><code>application-prod.yaml</code>：生产环境</li>
+</ul>
+<p>激活指定环境：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">java -jar app.jar --spring.profiles.active=prod</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-数据访问"><a href="#5-数据访问" class="headerlink" title="5. 数据访问"></a>5. 数据访问</h2><p>Spring Boot 简化了数据访问层的开发，支持多种数据访问技术。</p>
+<h3 id="5-1-Spring-Data-JPA"><a href="#5-1-Spring-Data-JPA" class="headerlink" title="5.1 Spring Data JPA"></a>5.1 Spring Data JPA</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String email;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserRepository</span> <span class="keyword">extends</span> <span class="title class_">JpaRepository</span>&lt;User, Long&gt; &#123;</span><br><span class="line">    User <span class="title function_">findByName</span><span class="params">(String name)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-MyBatis-集成"><a href="#5-2-MyBatis-集成" class="headerlink" title="5.2 MyBatis 集成"></a>5.2 MyBatis 集成</h3><p>添加依赖：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">mapper-locations:</span> <span class="string">classpath:mapper/*.xml</span></span><br><span class="line">  <span class="attr">type-aliases-package:</span> <span class="string">com.example.entity</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Web-开发"><a href="#6-Web-开发" class="headerlink" title="6. Web 开发"></a>6. Web 开发</h2><p>Spring Boot 提供了强大的 Web 开发支持。</p>
+<h3 id="6-1-RESTful-API"><a href="#6-1-RESTful-API" class="headerlink" title="6.1 RESTful API"></a>6.1 RESTful API</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/api/users&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;User&gt; <span class="title function_">list</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.findAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">create</span><span class="params">(<span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.save(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">get</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.findById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PutMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">update</span><span class="params">(<span class="meta">@PathVariable</span> Long id, <span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.update(id, user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@DeleteMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">delete</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">        userService.delete(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-全局异常处理"><a href="#6-2-全局异常处理" class="headerlink" title="6.2 全局异常处理"></a>6.2 全局异常处理</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalExceptionHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExceptionHandler(Exception.class)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;ErrorResponse&gt; <span class="title function_">handleException</span><span class="params">(Exception e)</span> &#123;</span><br><span class="line">        <span class="type">ErrorResponse</span> <span class="variable">error</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ErrorResponse</span>(<span class="number">500</span>, e.getMessage());</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.status(<span class="number">500</span>).body(error);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-安全控制"><a href="#7-安全控制" class="headerlink" title="7. 安全控制"></a>7. 安全控制</h2><p>Spring Security 是 Spring Boot 的安全框架。</p>
+<h3 id="7-1-基本配置"><a href="#7-1-基本配置" class="headerlink" title="7.1 基本配置"></a>7.1 基本配置</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> SecurityFilterChain <span class="title function_">filterChain</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        http</span><br><span class="line">            .authorizeHttpRequests(auth -&gt; auth</span><br><span class="line">                .requestMatchers(<span class="string">&quot;/public/**&quot;</span>).permitAll()</span><br><span class="line">                .anyRequest().authenticated()</span><br><span class="line">            )</span><br><span class="line">            .formLogin(withDefaults());</span><br><span class="line">        <span class="keyword">return</span> http.build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-JWT-认证"><a href="#7-2-JWT-认证" class="headerlink" title="7.2 JWT 认证"></a>7.2 JWT 认证</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JwtTokenProvider</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;jwt.secret&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String jwtSecret;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">generateToken</span><span class="params">(String username)</span> &#123;</span><br><span class="line">        <span class="type">Date</span> <span class="variable">now</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line">        <span class="type">Date</span> <span class="variable">expiryDate</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>(now.getTime() + <span class="number">86400000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Jwts.builder()</span><br><span class="line">            .setSubject(username)</span><br><span class="line">            .setIssuedAt(now)</span><br><span class="line">            .setExpiration(expiryDate)</span><br><span class="line">            .signWith(SignatureAlgorithm.HS512, jwtSecret)</span><br><span class="line">            .compact();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-性能优化"><a href="#8-性能优化" class="headerlink" title="8. 性能优化"></a>8. 性能优化</h2><h3 id="8-1-连接池配置"><a href="#8-1-连接池配置" class="headerlink" title="8.1 连接池配置"></a>8.1 连接池配置</h3><p>推荐使用 HikariCP：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">hikari:</span></span><br><span class="line">      <span class="attr">minimum-idle:</span> <span class="number">5</span></span><br><span class="line">      <span class="attr">maximum-pool-size:</span> <span class="number">20</span></span><br><span class="line">      <span class="attr">idle-timeout:</span> <span class="number">300000</span></span><br><span class="line">      <span class="attr">max-lifetime:</span> <span class="number">1200000</span></span><br><span class="line">      <span class="attr">connection-timeout:</span> <span class="number">20000</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="8-2-缓存配置"><a href="#8-2-缓存配置" class="headerlink" title="8.2 缓存配置"></a>8.2 缓存配置</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CacheConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> CacheManager <span class="title function_">cacheManager</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ConcurrentMapCacheManager</span>(<span class="string">&quot;users&quot;</span>, <span class="string">&quot;orders&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-部署与监控"><a href="#9-部署与监控" class="headerlink" title="9. 部署与监控"></a>9. 部署与监控</h2><h3 id="9-1-打包部署"><a href="#9-1-打包部署" class="headerlink" title="9.1 打包部署"></a>9.1 打包部署</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Maven 打包</span></span><br><span class="line">mvn clean package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line">java -jar target/myapp.jar</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-2-Actuator-端点"><a href="#9-2-Actuator-端点" class="headerlink" title="9.2 Actuator 端点"></a>9.2 Actuator 端点</h3><p>常用端点：</p>
+<ul>
+<li><code>/actuator/health</code>：健康检查</li>
+<li><code>/actuator/info</code>：应用信息</li>
+<li><code>/actuator/metrics</code>：指标数据</li>
+<li><code>/actuator/loggers</code>：日志级别</li>
+</ul>
+<h2 id="10-最佳实践"><a href="#10-最佳实践" class="headerlink" title="10. 最佳实践"></a>10. 最佳实践</h2><ol>
+<li><strong>合理划分模块</strong>：按功能模块划分，保持单一职责</li>
+<li><strong>统一异常处理</strong>：使用全局异常处理器</li>
+<li><strong>接口版本控制</strong>：在 URL 或 Header 中包含版本信息</li>
+<li><strong>日志规范</strong>：使用 SLF4J + Logback，合理设置日志级别</li>
+<li><strong>配置外部化</strong>：敏感配置使用环境变量或配置中心</li>
+<li><strong>健康检查</strong>：配置 Actuator 健康检查端点</li>
+<li><strong>优雅停机</strong>：配置优雅停机，确保请求处理完成</li>
+</ol>
+<hr>
+<p>本文档详细介绍了 Spring Boot 的核心技术，包括自动配置、Starter、数据访问、Web 开发、安全控制等方面，帮助开发者快速掌握 Spring Boot 开发技能。</p>
+]]></content>
+      <categories>
+        <category>后端开发</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Spring</tag>
+        <tag>微服务</tag>
       </tags>
   </entry>
   <entry>
@@ -3551,8 +3682,8 @@
         <category>后端开发</category>
       </categories>
       <tags>
-        <tag>性能优化</tag>
         <tag>JVM</tag>
+        <tag>性能优化</tag>
         <tag>内存泄漏</tag>
         <tag>堆外内存</tag>
       </tags>
@@ -3852,6 +3983,27 @@
       </tags>
   </entry>
   <entry>
+    <title>本地仓库关联远程库</title>
+    <url>/2023/07/30/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%BA%93/</url>
+    <content><![CDATA[<h3 id="将本地仓库关联并推送到远程库，你需要执行以下步骤："><a href="#将本地仓库关联并推送到远程库，你需要执行以下步骤：" class="headerlink" title="将本地仓库关联并推送到远程库，你需要执行以下步骤："></a>将本地仓库关联并推送到远程库，你需要执行以下步骤：</h3><h2 id="1-创建远程仓库："><a href="#1-创建远程仓库：" class="headerlink" title="1. 创建远程仓库："></a>1. <strong>创建远程仓库</strong>：</h2><p>首先，在远程代码托管服务（如 GitHub、GitLab 或 Gitee）上创建一个新的空仓库。在创建过程中，你可能会得到一个远程仓库的 URL。</p>
+<h2 id="2-关联本地仓库："><a href="#2-关联本地仓库：" class="headerlink" title="2. 关联本地仓库："></a>2. <strong>关联本地仓库</strong>：</h2><p>打开命令行终端（或 Git Bash），进入本地仓库所在的文件夹。然后，使用以下命令将本地仓库与远程仓库进行关联：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;远程仓库的 URL&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将 &lt;远程仓库的 URL&gt; 替换为你在第一步中获取到的远程仓库的 URL。</p>
+<h2 id="3-推送到远程仓库："><a href="#3-推送到远程仓库：" class="headerlink" title="3. 推送到远程仓库："></a>3. <strong>推送到远程仓库</strong>：</h2><p>现在，你可以使用以下命令将本地分支推送到远程仓库：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -u origin &lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果是第一次推送该分支，使用 <code>-u </code>参数可以将本地分支与远程分支进行关联，以后可以直接使用 <code>git push</code> 和 <code>git pull</code> 不带参数进行推送和拉取。</p>
+<p>完成上述步骤后，你的本地仓库就会与远程</p>
+]]></content>
+      <categories>
+        <category>开发工具与教程</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据库设计与优化指南</title>
     <url>/2026/03/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E4%B8%8E%E4%BC%98%E5%8C%96%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h1 id="数据库设计与优化指南"><a href="#数据库设计与优化指南" class="headerlink" title="数据库设计与优化指南"></a>数据库设计与优化指南</h1><h2 id="1-关系型数据库基础"><a href="#1-关系型数据库基础" class="headerlink" title="1. 关系型数据库基础"></a>1. 关系型数据库基础</h2><h3 id="1-1-数据库设计原则"><a href="#1-1-数据库设计原则" class="headerlink" title="1.1 数据库设计原则"></a>1.1 数据库设计原则</h3><p>数据库设计是应用开发的基石，良好的设计能够提高性能、保证数据完整性并简化维护工作。</p>
@@ -3938,27 +4090,6 @@
       <tags>
         <tag>数据库</tag>
         <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>本地仓库关联远程库</title>
-    <url>/2023/07/30/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%BA%93/</url>
-    <content><![CDATA[<h3 id="将本地仓库关联并推送到远程库，你需要执行以下步骤："><a href="#将本地仓库关联并推送到远程库，你需要执行以下步骤：" class="headerlink" title="将本地仓库关联并推送到远程库，你需要执行以下步骤："></a>将本地仓库关联并推送到远程库，你需要执行以下步骤：</h3><h2 id="1-创建远程仓库："><a href="#1-创建远程仓库：" class="headerlink" title="1. 创建远程仓库："></a>1. <strong>创建远程仓库</strong>：</h2><p>首先，在远程代码托管服务（如 GitHub、GitLab 或 Gitee）上创建一个新的空仓库。在创建过程中，你可能会得到一个远程仓库的 URL。</p>
-<h2 id="2-关联本地仓库："><a href="#2-关联本地仓库：" class="headerlink" title="2. 关联本地仓库："></a>2. <strong>关联本地仓库</strong>：</h2><p>打开命令行终端（或 Git Bash），进入本地仓库所在的文件夹。然后，使用以下命令将本地仓库与远程仓库进行关联：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;远程仓库的 URL&gt;</span><br></pre></td></tr></table></figure>
-
-<p>将 &lt;远程仓库的 URL&gt; 替换为你在第一步中获取到的远程仓库的 URL。</p>
-<h2 id="3-推送到远程仓库："><a href="#3-推送到远程仓库：" class="headerlink" title="3. 推送到远程仓库："></a>3. <strong>推送到远程仓库</strong>：</h2><p>现在，你可以使用以下命令将本地分支推送到远程仓库：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -u origin &lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
-
-<p>如果是第一次推送该分支，使用 <code>-u </code>参数可以将本地分支与远程分支进行关联，以后可以直接使用 <code>git push</code> 和 <code>git pull</code> 不带参数进行推送和拉取。</p>
-<p>完成上述步骤后，你的本地仓库就会与远程</p>
-]]></content>
-      <categories>
-        <category>开发工具与教程</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
