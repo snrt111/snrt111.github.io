@@ -176,7 +176,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -187,7 +187,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-count">64</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -213,6 +213,1137 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/05/19/Redis%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.png">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/05/19/Redis%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">Redis详解</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-19 14:00:00" itemprop="dateCreated datePublished" datetime="2026-05-19T14:00:00+08:00">2026-05-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Redis高频面试题30道（含详细答案解析）"><a href="#Redis高频面试题30道（含详细答案解析）" class="headerlink" title="Redis高频面试题30道（含详细答案解析）"></a>Redis高频面试题30道（含详细答案解析）</h1><p>Redis作为高性能的键值存储系统，在现代分布式系统中扮演着核心角色。本文整理了Redis领域最高频的30道面试题，涵盖数据结构、持久化、集群、缓存问题等核心知识点，帮助你在面试中脱颖而出。</p>
+<hr>
+<h2 id="一、基础概念篇"><a href="#一、基础概念篇" class="headerlink" title="一、基础概念篇"></a>一、基础概念篇</h2><h3 id="1-Redis是什么？它有哪些特点？"><a href="#1-Redis是什么？它有哪些特点？" class="headerlink" title="1. Redis是什么？它有哪些特点？"></a>1. Redis是什么？它有哪些特点？</h3><p><strong>答案：</strong></p>
+<p>Redis（Remote Dictionary Server）是一个开源的、基于内存的高性能键值对数据库。</p>
+<p><strong>核心特点：</strong></p>
+<ul>
+<li><strong>高性能</strong>：读写速度可达10万+ QPS，纯内存操作</li>
+<li><strong>丰富的数据类型</strong>：支持String、Hash、List、Set、Sorted Set、Bitmap、HyperLogLog、Geo等</li>
+<li><strong>持久化支持</strong>：支持RDB快照和AOF日志两种持久化方式</li>
+<li><strong>高可用</strong>：支持主从复制、Sentinel哨兵、Cluster集群模式</li>
+<li><strong>原子性操作</strong>：所有操作都是原子性的，支持事务</li>
+<li><strong>发布订阅</strong>：支持Pub/Sub消息模式</li>
+<li><strong>Lua脚本</strong>：支持Lua脚本执行复杂操作</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>缓存系统、会话存储、排行榜、计数器、分布式锁、消息队列、实时系统</li>
+</ul>
+<hr>
+<h3 id="2-Redis支持哪些数据类型？各自的使用场景是什么？"><a href="#2-Redis支持哪些数据类型？各自的使用场景是什么？" class="headerlink" title="2. Redis支持哪些数据类型？各自的使用场景是什么？"></a>2. Redis支持哪些数据类型？各自的使用场景是什么？</h3><p><strong>答案：</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>说明</th>
+<th>典型使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>String</strong></td>
+<td>字符串，最大512MB</td>
+<td>缓存、计数器、分布式锁、Session</td>
+</tr>
+<tr>
+<td><strong>Hash</strong></td>
+<td>键值对集合</td>
+<td>存储对象（如用户信息）、购物车</td>
+</tr>
+<tr>
+<td><strong>List</strong></td>
+<td>双向链表</td>
+<td>消息队列、时间线、最新消息列表</td>
+</tr>
+<tr>
+<td><strong>Set</strong></td>
+<td>无序唯一集合</td>
+<td>标签系统、共同好友、抽奖</td>
+</tr>
+<tr>
+<td><strong>Sorted Set</strong></td>
+<td>有序集合（带分数）</td>
+<td>排行榜、延迟队列、范围查询</td>
+</tr>
+<tr>
+<td><strong>Bitmap</strong></td>
+<td>位图</td>
+<td>用户签到、在线状态统计</td>
+</tr>
+<tr>
+<td><strong>HyperLogLog</strong></td>
+<td>基数统计</td>
+<td>UV统计、大规模去重计数</td>
+</tr>
+<tr>
+<td><strong>Geo</strong></td>
+<td>地理位置</td>
+<td>附近的人、位置服务</td>
+</tr>
+<tr>
+<td><strong>Stream</strong></td>
+<td>消息流</td>
+<td>日志收集、消息队列（Kafka替代品）</td>
+</tr>
+</tbody></table>
+<p><strong>解决问题：</strong></p>
+<ul>
+<li>不同业务场景选择合适的数据结构，提升存储效率和查询性能</li>
+</ul>
+<hr>
+<h3 id="3-Redis是单线程还是多线程？为什么单线程还能这么快？"><a href="#3-Redis是单线程还是多线程？为什么单线程还能这么快？" class="headerlink" title="3. Redis是单线程还是多线程？为什么单线程还能这么快？"></a>3. Redis是单线程还是多线程？为什么单线程还能这么快？</h3><p><strong>答案：</strong></p>
+<p><strong>Redis 6.0之前是单线程模型</strong>，6.0之后引入多线程但仅用于网络IO读写，命令执行仍是单线程。</p>
+<p><strong>单线程快的原因：</strong></p>
+<ol>
+<li><strong>纯内存操作</strong>：所有数据都在内存中，没有磁盘IO</li>
+<li><strong>避免上下文切换</strong>：单线程无需线程切换开销</li>
+<li><strong>避免锁竞争</strong>：单线程不存在多线程竞争问题</li>
+<li><strong>高效的数据结构</strong>：底层使用跳表、压缩列表等优化结构</li>
+<li><strong>IO多路复用</strong>：使用epoll/kqueue处理大量连接</li>
+</ol>
+<p><strong>6.0多线程的作用：</strong></p>
+<ul>
+<li>网络IO读写使用多线程，提升网络吞吐量</li>
+<li>命令执行保持单线程，保证原子性</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>高并发读写的缓存场景，利用单线程原子性保证数据一致性</li>
+</ul>
+<hr>
+<h2 id="二、持久化篇"><a href="#二、持久化篇" class="headerlink" title="二、持久化篇"></a>二、持久化篇</h2><h3 id="4-Redis的持久化机制有哪些？各自的优缺点是什么？"><a href="#4-Redis的持久化机制有哪些？各自的优缺点是什么？" class="headerlink" title="4. Redis的持久化机制有哪些？各自的优缺点是什么？"></a>4. Redis的持久化机制有哪些？各自的优缺点是什么？</h3><p><strong>答案：</strong></p>
+<p>Redis提供两种持久化方式：RDB和AOF。</p>
+<p><strong>RDB（Redis Database）</strong></p>
+<ul>
+<li><strong>原理</strong>：定时将内存数据快照保存到磁盘</li>
+<li><strong>触发方式</strong>：手动（SAVE/BGSAVE）、自动（配置规则）</li>
+<li><strong>优点</strong>：<ul>
+<li>文件紧凑，适合备份和恢复</li>
+<li>恢复速度快</li>
+<li>对性能影响小（子进程执行）</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>可能丢失最后一次快照后的数据</li>
+<li>大数据量时fork子进程可能耗时</li>
+</ul>
+</li>
+</ul>
+<p><strong>AOF（Append Only File）</strong></p>
+<ul>
+<li><strong>原理</strong>：记录每个写操作命令，重启时重新执行</li>
+<li><strong>同步策略</strong>：always、everysec（默认）、no</li>
+<li><strong>优点</strong>：<ul>
+<li>数据安全性高，最多丢失1秒数据</li>
+<li>支持日志重写（AOF Rewrite）压缩文件</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>文件体积大</li>
+<li>恢复速度慢</li>
+<li>对性能有一定影响</li>
+</ul>
+</li>
+</ul>
+<p><strong>混合持久化（Redis 4.0+）</strong></p>
+<ul>
+<li>AOF文件开头是RDB格式，后面是AOF格式</li>
+<li>结合两者优点：快速恢复 + 数据安全</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>数据可丢失：仅RDB</li>
+<li>数据不可丢失：AOF或混合持久化</li>
+<li>生产环境推荐：混合持久化 + 定期RDB备份</li>
+</ul>
+<hr>
+<h3 id="5-AOF重写是什么？为什么要重写？"><a href="#5-AOF重写是什么？为什么要重写？" class="headerlink" title="5. AOF重写是什么？为什么要重写？"></a>5. AOF重写是什么？为什么要重写？</h3><p><strong>答案：</strong></p>
+<p><strong>AOF重写（AOF Rewrite）</strong>是将现有AOF文件中的命令进行合并优化，生成一个新的、更紧凑的AOF文件。</p>
+<p><strong>重写原理：</strong></p>
+<ul>
+<li>读取当前内存中的数据状态</li>
+<li>用最少的命令重建当前数据集</li>
+<li>例如：多次INCR合并为一次SET</li>
+</ul>
+<p><strong>重写触发条件：</strong></p>
+<ul>
+<li>手动触发：<code>BGREWRITEAOF</code></li>
+<li>自动触发：<ul>
+<li><code>auto-aof-rewrite-min-size</code>：AOF文件最小大小（默认64MB）</li>
+<li><code>auto-aof-rewrite-percentage</code>：增长率（默认100%）</li>
+</ul>
+</li>
+</ul>
+<p><strong>重写过程（Copy-on-Write）：</strong></p>
+<ol>
+<li>fork子进程读取当前内存数据</li>
+<li>子进程写入新AOF文件</li>
+<li>父进程继续处理命令，写入AOF缓冲区</li>
+<li>子进程完成后，父进程追加缓冲区内容</li>
+<li>原子替换旧AOF文件</li>
+</ol>
+<p><strong>解决问题：</strong></p>
+<ul>
+<li>减少AOF文件体积，节省磁盘空间</li>
+<li>加速Redis启动恢复速度</li>
+</ul>
+<hr>
+<h2 id="三、缓存问题篇"><a href="#三、缓存问题篇" class="headerlink" title="三、缓存问题篇"></a>三、缓存问题篇</h2><h3 id="6-什么是缓存穿透？如何解决？"><a href="#6-什么是缓存穿透？如何解决？" class="headerlink" title="6. 什么是缓存穿透？如何解决？"></a>6. 什么是缓存穿透？如何解决？</h3><p><strong>答案：</strong></p>
+<p><strong>缓存穿透</strong>是指查询一个不存在的数据，缓存中没有，数据库中也没有，导致每次请求都打到数据库。</p>
+<p><strong>产生原因：</strong></p>
+<ul>
+<li>恶意攻击：构造大量不存在的key进行查询</li>
+<li>业务误用：查询已被删除的数据</li>
+</ul>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li><p><strong>缓存空值（Cache Null）</strong></p>
+<ul>
+<li>数据库查询为空时，也将空值缓存（设置较短过期时间）</li>
+<li>优点：简单有效</li>
+<li>缺点：缓存大量空值占用空间</li>
+</ul>
+</li>
+<li><p><strong>布隆过滤器（Bloom Filter）</strong></p>
+<ul>
+<li>在缓存前加一层布隆过滤器，快速判断key是否存在</li>
+<li>优点：内存占用小，查询快</li>
+<li>缺点：有一定误判率，不能删除元素</li>
+</ul>
+</li>
+<li><p><strong>参数校验</strong></p>
+<ul>
+<li>对请求参数进行合法性校验，拦截明显非法的请求</li>
+</ul>
+</li>
+<li><p><strong>限流熔断</strong></p>
+<ul>
+<li>对异常请求进行限流，防止系统被压垮</li>
+</ul>
+</li>
+</ol>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>电商商品查询、用户信息查询等需要防止恶意攻击的场景</li>
+</ul>
+<hr>
+<h3 id="7-什么是缓存击穿？如何解决？"><a href="#7-什么是缓存击穿？如何解决？" class="headerlink" title="7. 什么是缓存击穿？如何解决？"></a>7. 什么是缓存击穿？如何解决？</h3><p><strong>答案：</strong></p>
+<p><strong>缓存击穿</strong>是指某个热点key在高并发下突然过期，大量请求同时打到数据库。</p>
+<p><strong>产生原因：</strong></p>
+<ul>
+<li>热点数据过期时间设置不合理</li>
+<li>高并发场景下热点key同时失效</li>
+</ul>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li><p><strong>互斥锁（Mutex Lock）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> redis.get(key);</span><br><span class="line"><span class="keyword">if</span> (value == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// 获取分布式锁</span></span><br><span class="line">    <span class="keyword">if</span> (redis.setnx(lockKey, <span class="string">&quot;1&quot;</span>, <span class="number">10</span>)) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            value = db.get(key);</span><br><span class="line">            redis.set(key, value, expireTime);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            redis.del(lockKey);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 其他线程等待后重试</span></span><br><span class="line">        Thread.sleep(<span class="number">100</span>);</span><br><span class="line">        <span class="keyword">return</span> get(key); <span class="comment">// 重试</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>逻辑过期（永不过期）</strong></p>
+<ul>
+<li>不设置TTL，在value中存储逻辑过期时间</li>
+<li>发现过期时异步更新缓存</li>
+<li>优点：不会阻塞请求</li>
+<li>缺点：可能读到旧数据</li>
+</ul>
+</li>
+<li><p><strong>热点key永不过期</strong></p>
+<ul>
+<li>对热点key不设置过期时间，通过后台任务更新</li>
+</ul>
+</li>
+</ol>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>秒杀活动中的商品库存、热点新闻内容等高并发读取场景</li>
+</ul>
+<hr>
+<h3 id="8-什么是缓存雪崩？如何解决？"><a href="#8-什么是缓存雪崩？如何解决？" class="headerlink" title="8. 什么是缓存雪崩？如何解决？"></a>8. 什么是缓存雪崩？如何解决？</h3><p><strong>答案：</strong></p>
+<p><strong>缓存雪崩</strong>是指大量缓存key在同一时间过期，或者Redis宕机，导致大量请求直接打到数据库，数据库压力激增甚至宕机。</p>
+<p><strong>产生原因：</strong></p>
+<ul>
+<li>缓存服务器重启或宕机</li>
+<li>大量key设置了相同的过期时间</li>
+</ul>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li><p><strong>过期时间加随机值</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基础过期时间 + 随机偏移</span></span><br><span class="line"><span class="type">int</span> <span class="variable">expireTime</span> <span class="operator">=</span> baseTime + random.nextInt(<span class="number">1000</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>多级缓存</strong></p>
+<ul>
+<li>本地缓存（Caffeine/Guava）+ Redis + 数据库</li>
+<li>本地缓存作为兜底</li>
+</ul>
+</li>
+<li><p><strong>缓存高可用</strong></p>
+<ul>
+<li>Redis主从复制、哨兵模式、集群模式</li>
+<li>保证缓存服务的高可用性</li>
+</ul>
+</li>
+<li><p><strong>熔断降级</strong></p>
+<ul>
+<li>数据库压力过大时，启动熔断，返回默认值或错误提示</li>
+<li>使用Sentinel、Hystrix等熔断组件</li>
+</ul>
+</li>
+<li><p><strong>提前预热</strong></p>
+<ul>
+<li>系统启动或低峰期，提前加载热点数据到缓存</li>
+</ul>
+</li>
+</ol>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>电商大促、活动开始时的缓存系统保护</li>
+</ul>
+<hr>
+<h3 id="9-如何保证缓存与数据库的一致性？"><a href="#9-如何保证缓存与数据库的一致性？" class="headerlink" title="9. 如何保证缓存与数据库的一致性？"></a>9. 如何保证缓存与数据库的一致性？</h3><p><strong>答案：</strong></p>
+<p><strong>常见方案及问题：</strong></p>
+<p><strong>方案一：先更新数据库，再更新缓存</strong></p>
+<ul>
+<li>问题：并发环境下，可能出现缓存脏数据</li>
+</ul>
+<p><strong>方案二：先更新数据库，再删除缓存（Cache Aside）</strong></p>
+<ul>
+<li>问题：极端情况下仍有短暂不一致</li>
+<li>这是目前最常用的方案</li>
+</ul>
+<p><strong>方案三：先删除缓存，再更新数据库</strong></p>
+<ul>
+<li>问题：如果更新失败，缓存已被删除，导致缓存击穿</li>
+</ul>
+<p><strong>推荐方案：延迟双删</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 删除缓存</span></span><br><span class="line">redis.del(key);</span><br><span class="line"><span class="comment">// 2. 更新数据库</span></span><br><span class="line">db.update(data);</span><br><span class="line"><span class="comment">// 3. 延迟一段时间再次删除缓存</span></span><br><span class="line">Thread.sleep(<span class="number">500</span>);</span><br><span class="line">redis.del(key);</span><br></pre></td></tr></table></figure>
+
+<p><strong>更可靠的方案：消息队列 + 订阅binlog</strong></p>
+<ul>
+<li>使用Canal订阅MySQL binlog</li>
+<li>数据变更后异步更新/删除缓存</li>
+<li>最终一致性保证</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>对一致性要求高的金融、电商库存等场景</li>
+</ul>
+<hr>
+<h2 id="四、分布式锁篇"><a href="#四、分布式锁篇" class="headerlink" title="四、分布式锁篇"></a>四、分布式锁篇</h2><h3 id="10-如何用Redis实现分布式锁？"><a href="#10-如何用Redis实现分布式锁？" class="headerlink" title="10. 如何用Redis实现分布式锁？"></a>10. 如何用Redis实现分布式锁？</h3><p><strong>答案：</strong></p>
+<p><strong>基础实现（SETNX + EXPIRE）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET lock_key unique_value NX EX 30</span><br></pre></td></tr></table></figure>
+
+<p><strong>Java实现（Redisson）：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RLock</span> <span class="variable">lock</span> <span class="operator">=</span> redisson.getLock(<span class="string">&quot;myLock&quot;</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 尝试加锁，最多等待10秒，锁30秒后自动释放</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">locked</span> <span class="operator">=</span> lock.tryLock(<span class="number">10</span>, <span class="number">30</span>, TimeUnit.SECONDS);</span><br><span class="line">    <span class="keyword">if</span> (locked) &#123;</span><br><span class="line">        <span class="comment">// 执行业务逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>分布式锁的关键要素：</strong></p>
+<ol>
+<li><strong>互斥性</strong>：同一时刻只有一个客户端能获取锁</li>
+<li><strong>防死锁</strong>：设置过期时间，防止客户端崩溃导致锁无法释放</li>
+<li><strong>唯一标识</strong>：value设置唯一标识（UUID），防止误删他人锁</li>
+<li><strong>可重入性</strong>：支持同一线程多次获取锁</li>
+<li><strong>看门狗机制</strong>：自动续期，防止业务未完成锁过期</li>
+</ol>
+<p><strong>Redisson看门狗原理：</strong></p>
+<ul>
+<li>获取锁成功后，启动定时任务，每10秒检查一次</li>
+<li>如果业务未完成，自动续期到30秒</li>
+<li>业务完成后，取消定时任务</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>库存扣减、订单创建、定时任务调度等需要互斥执行的场景</li>
+</ul>
+<hr>
+<h3 id="11-RedLock是什么？有什么问题？"><a href="#11-RedLock是什么？有什么问题？" class="headerlink" title="11. RedLock是什么？有什么问题？"></a>11. RedLock是什么？有什么问题？</h3><p><strong>答案：</strong></p>
+<p><strong>RedLock</strong>是Redis作者提出的多节点分布式锁算法，用于解决单点Redis的可靠性问题。</p>
+<p><strong>RedLock算法流程：</strong></p>
+<ol>
+<li>获取当前时间戳</li>
+<li>依次向N个独立的Redis节点获取锁（使用相同的key和value）</li>
+<li>计算获取锁的总耗时</li>
+<li>如果成功获取多数节点（N/2+1）的锁，且总耗时小于锁过期时间，则获取锁成功</li>
+<li>如果获取失败，向所有节点发送释放锁命令</li>
+</ol>
+<p><strong>RedLock的问题：</strong></p>
+<ol>
+<li><p><strong>时钟漂移问题</strong></p>
+<ul>
+<li>依赖系统时钟，如果节点时钟不同步，可能导致锁失效</li>
+</ul>
+</li>
+<li><p><strong>网络延迟问题</strong></p>
+<ul>
+<li>获取锁的过程中，如果某个节点网络延迟，可能导致判断错误</li>
+</ul>
+</li>
+<li><p><strong>持久化问题</strong></p>
+<ul>
+<li>如果Redis节点开启持久化，重启后可能恢复已释放的锁</li>
+</ul>
+</li>
+<li><p><strong>争议性</strong></p>
+<ul>
+<li>Martin Kleppmann（分布式系统专家）发文质疑RedLock的安全性</li>
+<li>建议使用ZooKeeper或etcd等强一致性协调服务</li>
+</ul>
+</li>
+</ol>
+<p><strong>实际建议：</strong></p>
+<ul>
+<li>大多数场景下单Redis节点+Redisson已足够</li>
+<li>对可靠性要求极高的场景，考虑使用ZooKeeper/etcd</li>
+</ul>
+<hr>
+<h2 id="五、集群与高可用篇"><a href="#五、集群与高可用篇" class="headerlink" title="五、集群与高可用篇"></a>五、集群与高可用篇</h2><h3 id="12-Redis主从复制的工作原理是什么？"><a href="#12-Redis主从复制的工作原理是什么？" class="headerlink" title="12. Redis主从复制的工作原理是什么？"></a>12. Redis主从复制的工作原理是什么？</h3><p><strong>答案：</strong></p>
+<p><strong>主从复制（Replication）</strong>是Redis实现高可用的基础，一个主节点（Master）可以有多个从节点（Slave）。</p>
+<p><strong>复制过程：</strong></p>
+<ol>
+<li><p><strong>全量同步（Full Resynchronization）</strong></p>
+<ul>
+<li>从节点发送<code>SYNC</code>或<code>PSYNC</code>命令</li>
+<li>主节点执行<code>BGSAVE</code>生成RDB文件</li>
+<li>主节点将RDB文件发送给从节点</li>
+<li>从节点加载RDB文件</li>
+<li>主节点将复制期间的写命令发送给从节点</li>
+</ul>
+</li>
+<li><p><strong>增量同步（Partial Resynchronization）</strong></p>
+<ul>
+<li>使用<code>PSYNC</code>命令，基于复制偏移量（offset）和复制积压缓冲区（replication backlog）</li>
+<li>如果从节点断开时间不长，只需同步断连期间的命令</li>
+</ul>
+</li>
+</ol>
+<p><strong>复制方式：</strong></p>
+<ul>
+<li><strong>同步复制</strong>：主节点等待从节点确认（影响性能，不常用）</li>
+<li><strong>异步复制</strong>：主节点不等待从节点（默认，性能好但可能丢数据）</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>读写分离：主写从读，扩展读性能</li>
+<li>数据备份：从节点作为数据备份</li>
+<li>高可用基础：为哨兵和集群提供基础</li>
+</ul>
+<hr>
+<h3 id="13-Redis哨兵（Sentinel）模式是什么？"><a href="#13-Redis哨兵（Sentinel）模式是什么？" class="headerlink" title="13. Redis哨兵（Sentinel）模式是什么？"></a>13. Redis哨兵（Sentinel）模式是什么？</h3><p><strong>答案：</strong></p>
+<p><strong>Redis Sentinel</strong>是Redis的高可用解决方案，用于监控主从节点，实现自动故障转移。</p>
+<p><strong>Sentinel的核心功能：</strong></p>
+<ol>
+<li><p><strong>监控（Monitoring）</strong></p>
+<ul>
+<li>持续检查主从节点是否正常工作</li>
+</ul>
+</li>
+<li><p><strong>通知（Notification）</strong></p>
+<ul>
+<li>节点故障时，通过API通知管理员或其他应用程序</li>
+</ul>
+</li>
+<li><p><strong>自动故障转移（Automatic Failover）</strong></p>
+<ul>
+<li>主节点故障时，自动将一个从节点提升为主节点</li>
+<li>通知其他从节点修改复制目标</li>
+<li>通知客户端更新主节点地址</li>
+</ul>
+</li>
+<li><p><strong>配置提供（Configuration Provider）</strong></p>
+<ul>
+<li>客户端向Sentinel获取当前主节点地址</li>
+</ul>
+</li>
+</ol>
+<p><strong>故障转移流程：</strong></p>
+<ol>
+<li>多个Sentinel发现主节点主观下线（SDOWN）</li>
+<li>达成客观下线（ODOWN）共识</li>
+<li>选举Leader Sentinel</li>
+<li>Leader选择一个从节点提升为主节点</li>
+<li>通知其他从节点复制新主节点</li>
+<li>原主节点恢复后变为从节点</li>
+</ol>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>中小规模Redis部署的高可用方案</li>
+<li>需要自动故障转移但数据量不大的场景</li>
+</ul>
+<hr>
+<h3 id="14-Redis-Cluster集群的工作原理是什么？"><a href="#14-Redis-Cluster集群的工作原理是什么？" class="headerlink" title="14. Redis Cluster集群的工作原理是什么？"></a>14. Redis Cluster集群的工作原理是什么？</h3><p><strong>答案：</strong></p>
+<p><strong>Redis Cluster</strong>是Redis的分布式解决方案，提供数据分片和高可用功能。</p>
+<p><strong>核心特性：</strong></p>
+<ol>
+<li><p><strong>数据分片（Sharding）</strong></p>
+<ul>
+<li>使用哈希槽（Hash Slot）将数据分布到多个节点</li>
+<li>共16384个哈希槽（0-16383）</li>
+<li>每个key通过<code>CRC16(key) % 16384</code>计算所属槽</li>
+</ul>
+</li>
+<li><p><strong>节点通信</strong></p>
+<ul>
+<li>使用Gossip协议进行节点间通信</li>
+<li>每个节点都知道集群中其他节点的槽分配信息</li>
+</ul>
+</li>
+<li><p><strong>高可用</strong></p>
+<ul>
+<li>每个主节点可以有多个从节点</li>
+<li>主节点故障时，从节点自动提升为主节点</li>
+</ul>
+</li>
+</ol>
+<p><strong>集群架构示例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Master A (0-5460)  &lt;-- Slave A1, Slave A2</span><br><span class="line">Master B (5461-10922) &lt;-- Slave B1, Slave B2  </span><br><span class="line">Master C (10923-16383) &lt;-- Slave C1, Slave C2</span><br></pre></td></tr></table></figure>
+
+<p><strong>MOVED和ASK重定向：</strong></p>
+<ul>
+<li><strong>MOVED</strong>：key永久不在当前节点，客户端需要更新槽映射</li>
+<li><strong>ASK</strong>：key正在迁移中，临时访问目标节点</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>大规模数据存储（超过单节点内存容量）</li>
+<li>高并发读写需要水平扩展的场景</li>
+<li>需要自动故障转移的大规模部署</li>
+</ul>
+<hr>
+<h3 id="15-Redis-Cluster和Redis-Sentinel有什么区别？"><a href="#15-Redis-Cluster和Redis-Sentinel有什么区别？" class="headerlink" title="15. Redis Cluster和Redis Sentinel有什么区别？"></a>15. Redis Cluster和Redis Sentinel有什么区别？</h3><p><strong>答案：</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Redis Sentinel</th>
+<th>Redis Cluster</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数据分片</strong></td>
+<td>不支持，所有数据在主从节点间全量复制</td>
+<td>支持，数据分布在多个主节点</td>
+</tr>
+<tr>
+<td><strong>存储容量</strong></td>
+<td>受限于单节点内存</td>
+<td>可水平扩展，支持TB级数据</td>
+</tr>
+<tr>
+<td><strong>写入性能</strong></td>
+<td>单点写入，无法扩展</td>
+<td>多点写入，可水平扩展</td>
+</tr>
+<tr>
+<td><strong>复杂度</strong></td>
+<td>相对较低</td>
+<td>相对较高</td>
+</tr>
+<tr>
+<td><strong>客户端要求</strong></td>
+<td>普通客户端即可</td>
+<td>需要支持Cluster协议的客户端</td>
+</tr>
+<tr>
+<td><strong>适用规模</strong></td>
+<td>中小型应用</td>
+<td>大型应用</td>
+</tr>
+</tbody></table>
+<p><strong>选择建议：</strong></p>
+<ul>
+<li>数据量小（&lt;10GB）、读多写少：Sentinel</li>
+<li>数据量大、需要水平扩展：Cluster</li>
+</ul>
+<hr>
+<h2 id="六、性能优化篇"><a href="#六、性能优化篇" class="headerlink" title="六、性能优化篇"></a>六、性能优化篇</h2><h3 id="16-Redis内存满了怎么办？有哪些内存淘汰策略？"><a href="#16-Redis内存满了怎么办？有哪些内存淘汰策略？" class="headerlink" title="16. Redis内存满了怎么办？有哪些内存淘汰策略？"></a>16. Redis内存满了怎么办？有哪些内存淘汰策略？</h3><p><strong>答案：</strong></p>
+<p><strong>当Redis内存达到上限（maxmemory）时，会触发内存淘汰策略。</strong></p>
+<p><strong>内存淘汰策略（maxmemory-policy）：</strong></p>
+<ol>
+<li><p><strong>noeviction</strong>（默认）</p>
+<ul>
+<li>不淘汰数据，新写入操作返回错误</li>
+<li>适用于不允许数据丢失的场景</li>
+</ul>
+</li>
+<li><p><strong>allkeys-lru</strong></p>
+<ul>
+<li>在所有key中使用LRU算法淘汰最近最少使用的</li>
+<li>最常用的策略</li>
+</ul>
+</li>
+<li><p><strong>volatile-lru</strong></p>
+<ul>
+<li>只在设置了过期时间的key中使用LRU淘汰</li>
+</ul>
+</li>
+<li><p><strong>allkeys-lfu</strong>（Redis 4.0+）</p>
+<ul>
+<li>在所有key中使用LFU算法淘汰使用频率最低的</li>
+</ul>
+</li>
+<li><p><strong>volatile-lfu</strong>（Redis 4.0+）</p>
+<ul>
+<li>只在设置了过期时间的key中使用LFU淘汰</li>
+</ul>
+</li>
+<li><p><strong>allkeys-random</strong></p>
+<ul>
+<li>随机淘汰所有key</li>
+</ul>
+</li>
+<li><p><strong>volatile-random</strong></p>
+<ul>
+<li>随机淘汰设置了过期时间的key</li>
+</ul>
+</li>
+<li><p><strong>volatile-ttl</strong></p>
+<ul>
+<li>淘汰即将过期的key（TTL最小的）</li>
+</ul>
+</li>
+</ol>
+<p><strong>LRU vs LFU：</strong></p>
+<ul>
+<li><strong>LRU（Least Recently Used）</strong>：关注最后一次访问时间</li>
+<li><strong>LFU（Least Frequently Used）</strong>：关注访问频率，更适合热点数据场景</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>缓存场景推荐：allkeys-lru或allkeys-lfu</li>
+<li>需要保留重要数据：volatile-lru，重要key不设置过期时间</li>
+</ul>
+<hr>
+<h3 id="17-如何排查Redis性能问题？"><a href="#17-如何排查Redis性能问题？" class="headerlink" title="17. 如何排查Redis性能问题？"></a>17. 如何排查Redis性能问题？</h3><p><strong>答案：</strong></p>
+<p><strong>1. 慢查询分析</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置慢查询阈值（微秒）</span></span><br><span class="line">CONFIG SET slowlog-log-slower-than 10000</span><br><span class="line"><span class="comment"># 查看慢查询日志</span></span><br><span class="line">SLOWLOG GET 10</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 监控关键指标</strong></p>
+<ul>
+<li><code>redis-cli INFO</code>：查看内存、连接、命令统计等</li>
+<li><code>redis-cli --latency</code>：检测延迟</li>
+<li><code>redis-cli MONITOR</code>：实时监控命令（生产环境慎用）</li>
+</ul>
+<p><strong>3. 常见性能问题及解决：</strong></p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>原因</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高CPU</td>
+<td>复杂命令（KEYS、HGETALL）</td>
+<td>禁用KEYS，使用SCAN；避免大数据量操作</td>
+</tr>
+<tr>
+<td>高内存</td>
+<td>内存碎片、大key</td>
+<td>重启或使用jemalloc；拆分大key</td>
+</tr>
+<tr>
+<td>高延迟</td>
+<td>持久化fork、AOF同步</td>
+<td>优化持久化配置；使用SSD</td>
+</tr>
+<tr>
+<td>连接数过高</td>
+<td>连接未释放</td>
+<td>使用连接池；检查连接泄露</td>
+</tr>
+</tbody></table>
+<p><strong>4. 大key排查</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 扫描大key</span></span><br><span class="line">redis-cli --bigkeys</span><br><span class="line"><span class="comment"># 分析内存使用</span></span><br><span class="line">redis-cli MEMORY USAGE key_name</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>生产环境性能调优、故障排查</li>
+</ul>
+<hr>
+<h3 id="18-什么是Pipeline？有什么用？"><a href="#18-什么是Pipeline？有什么用？" class="headerlink" title="18. 什么是Pipeline？有什么用？"></a>18. 什么是Pipeline？有什么用？</h3><p><strong>答案：</strong></p>
+<p><strong>Pipeline</strong>是Redis提供的一种批量执行命令的机制，允许客户端一次性发送多个命令，然后一次性接收结果。</p>
+<p><strong>工作原理：</strong></p>
+<ul>
+<li>普通模式：每个命令需要一次RTT（Round Trip Time）</li>
+<li>Pipeline模式：多个命令打包发送，只需一次RTT</li>
+</ul>
+<p><strong>性能对比：</strong></p>
+<ul>
+<li>10000个命令，普通模式：10000次RTT</li>
+<li>10000个命令，Pipeline模式：1次RTT</li>
+</ul>
+<p><strong>Java示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">redisTemplate.executePipelined(<span class="keyword">new</span> <span class="title class_">RedisCallback</span>&lt;Object&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">doInRedis</span><span class="params">(RedisConnection connection)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">            connection.set((<span class="string">&quot;key&quot;</span> + i).getBytes(), (<span class="string">&quot;value&quot;</span> + i).getBytes());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>Pipeline不是原子操作，中间可能插入其他命令</li>
+<li>命令过多时会占用大量内存，建议分批发送（如每1000个一批）</li>
+<li>不支持事务（如需事务使用MULTI/EXEC）</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>批量写入数据、批量查询、数据迁移</li>
+</ul>
+<hr>
+<h3 id="19-什么是Redis事务？和Lua脚本有什么区别？"><a href="#19-什么是Redis事务？和Lua脚本有什么区别？" class="headerlink" title="19. 什么是Redis事务？和Lua脚本有什么区别？"></a>19. 什么是Redis事务？和Lua脚本有什么区别？</h3><p><strong>答案：</strong></p>
+<p><strong>Redis事务（MULTI/EXEC）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MULTI</span><br><span class="line">SET key1 value1</span><br><span class="line">SET key2 value2</span><br><span class="line">EXEC</span><br></pre></td></tr></table></figure>
+
+<p><strong>事务特性：</strong></p>
+<ul>
+<li><strong>批量执行</strong>：命令按顺序执行，不会被其他命令插入</li>
+<li><strong>不保证原子性</strong>：如果中间命令出错，后续命令仍会继续执行</li>
+<li><strong>没有回滚</strong>：不支持事务回滚</li>
+</ul>
+<p><strong>Lua脚本：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EVAL <span class="string">&quot;redis.call(&#x27;SET&#x27;, KEYS[1], ARGV[1]); redis.call(&#x27;INCR&#x27;, KEYS[2])&quot;</span> 2 key1 key2 value1</span><br></pre></td></tr></table></figure>
+
+<p><strong>Lua脚本特性：</strong></p>
+<ul>
+<li><strong>原子性</strong>：整个脚本作为一个命令执行，不会被中断</li>
+<li><strong>功能强大</strong>：支持逻辑判断、循环等复杂操作</li>
+<li><strong>减少网络往返</strong>：多个操作在一个脚本中完成</li>
+</ul>
+<p><strong>对比：</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>事务</th>
+<th>Lua脚本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>原子性</td>
+<td>部分保证</td>
+<td>完全保证</td>
+</tr>
+<tr>
+<td>回滚</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>复杂逻辑</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>一般</td>
+<td>更好</td>
+</tr>
+</tbody></table>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>简单批量操作：事务</li>
+<li>复杂逻辑、需要原子性：Lua脚本</li>
+</ul>
+<hr>
+<h2 id="七、应用场景篇"><a href="#七、应用场景篇" class="headerlink" title="七、应用场景篇"></a>七、应用场景篇</h2><h3 id="20-Redis如何实现排行榜功能？"><a href="#20-Redis如何实现排行榜功能？" class="headerlink" title="20. Redis如何实现排行榜功能？"></a>20. Redis如何实现排行榜功能？</h3><p><strong>答案：</strong></p>
+<p><strong>使用Sorted Set（ZSet）实现排行榜：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加用户分数</span></span><br><span class="line">ZADD leaderboard 100 <span class="string">&quot;user1&quot;</span></span><br><span class="line">ZADD leaderboard 200 <span class="string">&quot;user2&quot;</span></span><br><span class="line">ZADD leaderboard 150 <span class="string">&quot;user3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取前10名（分数从高到低）</span></span><br><span class="line">ZREVRANGE leaderboard 0 9 WITHSCORES</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户排名</span></span><br><span class="line">ZREVRANK leaderboard <span class="string">&quot;user1&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户分数</span></span><br><span class="line">ZSCORE leaderboard <span class="string">&quot;user1&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 增加用户分数</span></span><br><span class="line">ZINCRBY leaderboard 10 <span class="string">&quot;user1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>带时间戳的排行榜（同分按时间排序）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分数 = 实际分数 * 10000000000 + (9999999999 - 时间戳)</span></span><br><span class="line"><span class="comment"># 这样同分情况下，先达到的排名靠前</span></span><br><span class="line">ZADD leaderboard 1009999999999 <span class="string">&quot;user1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>多维度排行榜：</strong></p>
+<ul>
+<li>使用多个ZSet，如<code>leaderboard:daily</code>、<code>leaderboard:weekly</code></li>
+<li>使用Hash存储用户详细信息</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>游戏排行榜、积分排名、热销榜单</li>
+</ul>
+<hr>
+<h3 id="21-Redis如何实现限流？"><a href="#21-Redis如何实现限流？" class="headerlink" title="21. Redis如何实现限流？"></a>21. Redis如何实现限流？</h3><p><strong>答案：</strong></p>
+<p><strong>方案一：计数器法（固定窗口）</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每分钟限制100次</span></span><br><span class="line">INCR user:123:api_limit</span><br><span class="line">EXPIRE user:123:api_limit 60</span><br></pre></td></tr></table></figure>
+<ul>
+<li>缺点：窗口切换时可能出现2倍流量突刺</li>
+</ul>
+<p><strong>方案二：滑动窗口（ZSet实现）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用ZSet记录每次请求的时间戳</span></span><br><span class="line">ZADD rate_limit:user:<span class="number">123</span> current_timestamp current_timestamp</span><br><span class="line"><span class="comment">// 移除窗口外的记录</span></span><br><span class="line">ZREMRANGEBYSCORE rate_limit:user:<span class="number">123</span> <span class="number">0</span> (current_timestamp - <span class="number">60</span>)</span><br><span class="line"><span class="comment">// 统计当前窗口内的请求数</span></span><br><span class="line">ZCARD rate_limit:user:<span class="number">123</span></span><br><span class="line"><span class="comment">// 设置过期时间</span></span><br><span class="line">EXPIRE rate_limit:user:<span class="number">123</span> <span class="number">60</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方案三：令牌桶（Redis + Lua）</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> key = KEYS[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">local</span> rate = <span class="built_in">tonumber</span>(ARGV[<span class="number">1</span>])  <span class="comment">-- 每秒产生令牌数</span></span><br><span class="line"><span class="keyword">local</span> capacity = <span class="built_in">tonumber</span>(ARGV[<span class="number">2</span>])  <span class="comment">-- 桶容量</span></span><br><span class="line"><span class="keyword">local</span> now = <span class="built_in">tonumber</span>(ARGV[<span class="number">3</span>])  <span class="comment">-- 当前时间戳</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> tokens = redis.call(<span class="string">&#x27;HMGET&#x27;</span>, key, <span class="string">&#x27;tokens&#x27;</span>, <span class="string">&#x27;last_time&#x27;</span>)</span><br><span class="line"><span class="keyword">local</span> last_tokens = <span class="built_in">tonumber</span>(tokens[<span class="number">1</span>]) <span class="keyword">or</span> capacity</span><br><span class="line"><span class="keyword">local</span> last_time = <span class="built_in">tonumber</span>(tokens[<span class="number">2</span>]) <span class="keyword">or</span> now</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 计算新令牌数</span></span><br><span class="line"><span class="keyword">local</span> delta = <span class="built_in">math</span>.<span class="built_in">max</span>(<span class="number">0</span>, now - last_time)</span><br><span class="line"><span class="keyword">local</span> new_tokens = <span class="built_in">math</span>.<span class="built_in">min</span>(capacity, last_tokens + delta * rate)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> new_tokens &gt;= <span class="number">1</span> <span class="keyword">then</span></span><br><span class="line">    new_tokens = new_tokens - <span class="number">1</span></span><br><span class="line">    redis.call(<span class="string">&#x27;HMSET&#x27;</span>, key, <span class="string">&#x27;tokens&#x27;</span>, new_tokens, <span class="string">&#x27;last_time&#x27;</span>, now)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>  <span class="comment">-- 允许通过</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    redis.call(<span class="string">&#x27;HSET&#x27;</span>, key, <span class="string">&#x27;last_time&#x27;</span>, now)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>  <span class="comment">-- 拒绝</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>API限流、用户操作频率限制、防止暴力破解</li>
+</ul>
+<hr>
+<h3 id="22-Redis如何实现消息队列？"><a href="#22-Redis如何实现消息队列？" class="headerlink" title="22. Redis如何实现消息队列？"></a>22. Redis如何实现消息队列？</h3><p><strong>答案：</strong></p>
+<p><strong>方案一：List实现（简单队列）</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生产者</span></span><br><span class="line">LPUSH queue:message <span class="string">&quot;task_data&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 消费者（阻塞弹出）</span></span><br><span class="line">BRPOP queue:message 30</span><br></pre></td></tr></table></figure>
+<ul>
+<li>优点：简单可靠</li>
+<li>缺点：不支持多播、无ACK机制</li>
+</ul>
+<p><strong>方案二：Pub/Sub（发布订阅）</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 订阅者</span></span><br><span class="line">SUBSCRIBE channel1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 发布者</span></span><br><span class="line">PUBLISH channel1 <span class="string">&quot;message&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>优点：支持多播</li>
+<li>缺点：消息不持久化，消费者离线期间的消息会丢失</li>
+</ul>
+<p><strong>方案三：Stream（推荐，Redis 5.0+）</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生产者</span></span><br><span class="line">XADD mystream * field1 value1 field2 value2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 消费者（消费者组）</span></span><br><span class="line">XGROUP CREATE mystream mygroup $</span><br><span class="line">XREADGROUP GROUP mygroup consumer1 COUNT 1 STREAMS mystream &gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 确认消费</span></span><br><span class="line">XACK mystream mygroup message_id</span><br></pre></td></tr></table></figure>
+<ul>
+<li>优点：支持持久化、消费者组、ACK机制、消息回溯</li>
+<li>适用：需要可靠消息传递的场景</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>简单任务队列：List</li>
+<li>实时通知：Pub/Sub</li>
+<li>可靠消息系统：Stream</li>
+</ul>
+<hr>
+<h3 id="23-Redis如何实现分布式会话（Session）？"><a href="#23-Redis如何实现分布式会话（Session）？" class="headerlink" title="23. Redis如何实现分布式会话（Session）？"></a>23. Redis如何实现分布式会话（Session）？</h3><p><strong>答案：</strong></p>
+<p><strong>Spring Session + Redis实现：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 依赖</span></span><br><span class="line"><span class="comment">// spring-session-data-redis</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SessionConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> LettuceConnectionFactory <span class="title function_">connectionFactory</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">LettuceConnectionFactory</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>原理：</strong></p>
+<ol>
+<li>用户登录后，Session数据存储到Redis</li>
+<li>Session ID通过Cookie返回给客户端</li>
+<li>后续请求携带Session ID，从Redis获取Session数据</li>
+<li>多台应用服务器共享同一份Session数据</li>
+</ol>
+<p><strong>Session数据结构：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Spring Session在Redis中的存储</span></span><br><span class="line">HSET spring:session:sessions:session_id sessionAttr:username <span class="string">&quot;zhangsan&quot;</span></span><br><span class="line">HSET spring:session:sessions:session_id creationTime <span class="string">&quot;1234567890&quot;</span></span><br><span class="line">HSET spring:session:sessions:session_id maxInactiveInterval <span class="string">&quot;1800&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>集群环境下的用户登录状态保持</li>
+<li>多服务共享用户会话信息</li>
+</ul>
+<hr>
+<h3 id="24-Redis如何实现附近的人功能？"><a href="#24-Redis如何实现附近的人功能？" class="headerlink" title="24. Redis如何实现附近的人功能？"></a>24. Redis如何实现附近的人功能？</h3><p><strong>答案：</strong></p>
+<p><strong>使用Redis Geo（地理位置）功能：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加位置</span></span><br><span class="line">GEOADD locations 116.3974 39.9092 <span class="string">&quot;user1&quot;</span>  <span class="comment"># 经度 纬度 成员</span></span><br><span class="line">GEOADD locations 116.4074 39.9192 <span class="string">&quot;user2&quot;</span></span><br><span class="line">GEOADD locations 116.3874 39.8992 <span class="string">&quot;user3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询附近的人（半径5公里）</span></span><br><span class="line">GEORADIUS locations 116.3974 39.9092 5 km WITHDIST WITHCOORD COUNT 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定成员附近的人</span></span><br><span class="line">GEORADIUSBYMEMBER locations <span class="string">&quot;user1&quot;</span> 5 km WITHDIST</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算两个成员之间的距离</span></span><br><span class="line">GEODIST locations <span class="string">&quot;user1&quot;</span> <span class="string">&quot;user2&quot;</span> km</span><br></pre></td></tr></table></figure>
+
+<p><strong>Java实现：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 添加位置</span></span><br><span class="line">redisTemplate.opsForGeo().add(<span class="string">&quot;locations&quot;</span>, </span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">Point</span>(<span class="number">116.3974</span>, <span class="number">39.9092</span>), <span class="string">&quot;user1&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询附近</span></span><br><span class="line">GeoResults&lt;RedisGeoCommands.GeoLocation&lt;String&gt;&gt; results = </span><br><span class="line">    redisTemplate.opsForGeo().radius(<span class="string">&quot;locations&quot;</span>,</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Circle</span>(<span class="keyword">new</span> <span class="title class_">Point</span>(<span class="number">116.3974</span>, <span class="number">39.9092</span>), </span><br><span class="line">                   <span class="keyword">new</span> <span class="title class_">Distance</span>(<span class="number">5</span>, Metrics.KILOMETERS)),</span><br><span class="line">        RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs()</span><br><span class="line">            .includeDistance().includeCoordinates().limit(<span class="number">10</span>));</span><br></pre></td></tr></table></figure>
+
+<p><strong>底层实现：</strong></p>
+<ul>
+<li>使用GeoHash算法将二维坐标编码为字符串</li>
+<li>使用Sorted Set存储，GeoHash作为score</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>附近的人、附近商家、地理位置服务</li>
+</ul>
+<hr>
+<h2 id="八、高级特性篇"><a href="#八、高级特性篇" class="headerlink" title="八、高级特性篇"></a>八、高级特性篇</h2><h3 id="25-Redis的Bitmap有什么使用场景？"><a href="#25-Redis的Bitmap有什么使用场景？" class="headerlink" title="25. Redis的Bitmap有什么使用场景？"></a>25. Redis的Bitmap有什么使用场景？</h3><p><strong>答案：</strong></p>
+<p><strong>Bitmap</strong>是String类型的扩展，可以对每个bit进行独立操作。</p>
+<p><strong>基本操作：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置第100位为1</span></span><br><span class="line">SETBIT user:123:sign 100 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取第100位的值</span></span><br><span class="line">GETBIT user:123:sign 100</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计1的个数（签到天数）</span></span><br><span class="line">BITCOUNT user:123:sign</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找第一个1的位置</span></span><br><span class="line">BITPOS user:123:sign 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 位运算（AND、OR、XOR、NOT）</span></span><br><span class="line">BITOP AND result user:1:sign user:2:sign</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用场景：</strong></p>
+<ol>
+<li><p><strong>用户签到</strong></p>
+<ul>
+<li>每个用户一年只需要365 bits ≈ 46 bytes</li>
+<li>1000万用户一年仅需约440MB</li>
+</ul>
+</li>
+<li><p><strong>在线状态统计</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SETBIT online_users 10001 1  <span class="comment"># 用户10001上线</span></span><br><span class="line">SETBIT online_users 10001 0  <span class="comment"># 用户10001下线</span></span><br><span class="line">BITCOUNT online_users        <span class="comment"># 统计在线人数</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>布隆过滤器</strong></p>
+<ul>
+<li>使用多个Bitmap实现简单的布隆过滤器</li>
+</ul>
+</li>
+<li><p><strong>用户标签系统</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每个bit代表一个标签</span></span><br><span class="line">SETBIT user:123:tags 0 1  <span class="comment"># 标签0：VIP</span></span><br><span class="line">SETBIT user:123:tags 1 0  <span class="comment"># 标签1：新用户</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>优势：</strong></p>
+<ul>
+<li>极低的存储成本</li>
+<li>高效的位运算</li>
+</ul>
+<hr>
+<h3 id="26-Redis的HyperLogLog是什么？"><a href="#26-Redis的HyperLogLog是什么？" class="headerlink" title="26. Redis的HyperLogLog是什么？"></a>26. Redis的HyperLogLog是什么？</h3><p><strong>答案：</strong></p>
+<p><strong>HyperLogLog</strong>是一种概率数据结构，用于高效地统计基数（不重复元素的数量），误差率约0.81%。</p>
+<p><strong>基本操作：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加元素</span></span><br><span class="line">PFADD visitors user1 user2 user3 user1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计基数（返回3）</span></span><br><span class="line">PFCOUNT visitors</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并多个HyperLogLog</span></span><br><span class="line">PFMERGE total_visitors visitors_day1 visitors_day2</span><br></pre></td></tr></table></figure>
+
+<p><strong>特点：</strong></p>
+<ul>
+<li>固定内存占用：每个HyperLogLog仅需12KB</li>
+<li>可统计2^64个不同元素</li>
+<li>不存储实际元素，只存储基数信息</li>
+</ul>
+<p><strong>对比：</strong></p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>内存占用（1000万UV）</th>
+<th>精度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Set</td>
+<td>约600MB</td>
+<td>精确</td>
+</tr>
+<tr>
+<td>Bitmap</td>
+<td>约1.2MB</td>
+<td>精确</td>
+</tr>
+<tr>
+<td>HyperLogLog</td>
+<td>12KB</td>
+<td>近似（0.81%误差）</td>
+</tr>
+</tbody></table>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>网站UV统计、搜索关键词去重计数、广告点击去重</li>
+<li>对精度要求不高，但数据量巨大的场景</li>
+</ul>
+<hr>
+<h3 id="27-Redis的Scan命令是什么？与KEYS有什么区别？"><a href="#27-Redis的Scan命令是什么？与KEYS有什么区别？" class="headerlink" title="27. Redis的Scan命令是什么？与KEYS有什么区别？"></a>27. Redis的Scan命令是什么？与KEYS有什么区别？</h3><p><strong>答案：</strong></p>
+<p><strong>KEYS的问题：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KEYS user:*  <span class="comment"># 阻塞操作，大数据量时会导致Redis卡顿</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>SCAN命令：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 迭代器方式遍历key</span></span><br><span class="line">SCAN 0 MATCH user:* COUNT 100</span><br><span class="line">SCAN 17 MATCH user:* COUNT 100  <span class="comment"># 使用返回的cursor继续</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>SCAN特点：</strong></p>
+<ul>
+<li><strong>非阻塞</strong>：基于游标的迭代器，不会阻塞服务器</li>
+<li><strong>增量式</strong>：每次只返回部分结果</li>
+<li><strong>状态保存在客户端</strong>：游标由客户端保存</li>
+</ul>
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>迭代过程中，如果数据有变化，可能返回重复或遗漏</li>
+<li>COUNT是提示值，实际返回数量可能不同</li>
+<li>需要一直迭代直到游标返回0</li>
+</ul>
+<p><strong>其他迭代命令：</strong></p>
+<ul>
+<li><code>HSCAN</code>：遍历Hash</li>
+<li><code>SSCAN</code>：遍历Set</li>
+<li><code>ZSCAN</code>：遍历Sorted Set</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>生产环境遍历key、数据迁移、批量处理</li>
+</ul>
+<hr>
+<h3 id="28-Redis的内存碎片化问题如何解决？"><a href="#28-Redis的内存碎片化问题如何解决？" class="headerlink" title="28. Redis的内存碎片化问题如何解决？"></a>28. Redis的内存碎片化问题如何解决？</h3><p><strong>答案：</strong></p>
+<p><strong>内存碎片产生原因：</strong></p>
+<ul>
+<li>频繁增删key导致内存分配不连续</li>
+<li>Redis使用jemalloc分配器，按固定大小分配内存</li>
+</ul>
+<p><strong>查看内存碎片：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO memory</span><br><span class="line"><span class="comment"># mem_fragmentation_ratio = used_memory_rss / used_memory</span></span><br><span class="line"><span class="comment"># &gt; 1.5 表示碎片较严重</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解决方案：</strong></p>
+<ol>
+<li><p><strong>自动内存碎片整理（Redis 4.0+）</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启自动碎片整理</span></span><br><span class="line">CONFIG SET activedefrag <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置参数</span></span><br><span class="line">CONFIG SET active-defrag-threshold-lower 10   <span class="comment"># 碎片率超过10%开始整理</span></span><br><span class="line">CONFIG SET active-defrag-threshold-upper 100  <span class="comment"># 碎片率超过100%全力整理</span></span><br><span class="line">CONFIG SET active-defrag-cycle-min 5          <span class="comment"># 最小CPU占用</span></span><br><span class="line">CONFIG SET active-defrag-cycle-max 75         <span class="comment"># 最大CPU占用</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>手动重启</strong></p>
+<ul>
+<li>数据持久化后重启Redis，内存重新分配</li>
+</ul>
+</li>
+<li><p><strong>数据重写</strong></p>
+<ul>
+<li>使用<code>DEBUG RELOAD</code>或主从切换</li>
+</ul>
+</li>
+</ol>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>长期运行的Redis实例、频繁增删数据的场景</li>
+</ul>
+<hr>
+<h3 id="29-Redis的大key问题如何排查和解决？"><a href="#29-Redis的大key问题如何排查和解决？" class="headerlink" title="29. Redis的大key问题如何排查和解决？"></a>29. Redis的大key问题如何排查和解决？</h3><p><strong>答案：</strong></p>
+<p><strong>大key的定义：</strong></p>
+<ul>
+<li>String类型：value &gt; 10KB</li>
+<li>集合类型：元素数量 &gt; 5000</li>
+</ul>
+<p><strong>排查方法：</strong></p>
+<ol>
+<li><p><strong>redis-cli –bigkeys</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-cli --bigkeys</span><br><span class="line"><span class="comment"># 扫描每种数据类型的最大key</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>MEMORY USAGE命令</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MEMORY USAGE key_name</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>rdb-tools分析RDB文件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rdb -c memory dump.rdb -l largest 100 &gt; large_keys.csv</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>大key的危害：</strong></p>
+<ul>
+<li>阻塞Redis（删除大key时）</li>
+<li>网络拥塞（读取大key时）</li>
+<li>主从同步延迟</li>
+</ul>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li><p><strong>拆分大key</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将大Hash拆分成多个小Hash</span></span><br><span class="line"><span class="comment"># user:1000 -&gt; user:1000:profile, user:1000:orders</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>异步删除（Redis 4.0+）</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UNLINK big_key  <span class="comment"># 异步删除，非阻塞</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>渐进式删除</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对于大Hash，使用HSCAN分批删除</span></span><br><span class="line">HSCAN big_hash 0 COUNT 100</span><br><span class="line">HDEL big_hash field1 field2 ...</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>生产环境性能优化、防止Redis阻塞</li>
+</ul>
+<hr>
+<h3 id="30-Redis-6-0-7-0有哪些重要新特性？"><a href="#30-Redis-6-0-7-0有哪些重要新特性？" class="headerlink" title="30. Redis 6.0/7.0有哪些重要新特性？"></a>30. Redis 6.0/7.0有哪些重要新特性？</h3><p><strong>答案：</strong></p>
+<p><strong>Redis 6.0新特性：</strong></p>
+<ol>
+<li><p><strong>多线程IO</strong></p>
+<ul>
+<li>网络读写使用多线程，提升吞吐量</li>
+<li>命令执行仍为单线程</li>
+</ul>
+</li>
+<li><p><strong>ACL（访问控制列表）</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ACL SETUSER alice on &gt;password ~cached:* +get +<span class="built_in">set</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>SSL/TLS支持</strong></p>
+<ul>
+<li>原生支持加密连接</li>
+</ul>
+</li>
+<li><p><strong>RESP3协议</strong></p>
+<ul>
+<li>新的Redis序列化协议</li>
+</ul>
+</li>
+</ol>
+<p><strong>Redis 7.0新特性：</strong></p>
+<ol>
+<li><p><strong>Function（函数）</strong></p>
+<ul>
+<li>持久化的Lua函数，重启后仍然存在<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FUNCTION LOAD <span class="string">&quot;#!lua name=mylib</span></span><br><span class="line"><span class="string">redis.register_function(&#x27;myfunc&#x27;, function(keys, args)</span></span><br><span class="line"><span class="string">    return redis.call(&#x27;GET&#x27;, keys[1])</span></span><br><span class="line"><span class="string">end)&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>Sharded Pub/Sub</strong></p>
+<ul>
+<li>集群模式下Pub/Sub的优化</li>
+</ul>
+</li>
+<li><p><strong>多部分AOF</strong></p>
+<ul>
+<li>AOF文件分为基础文件和增量文件，便于管理</li>
+</ul>
+</li>
+<li><p><strong>性能优化</strong></p>
+<ul>
+<li>内存效率提升</li>
+<li>命令执行优化</li>
+</ul>
+</li>
+</ol>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>新特性可以提升安全性、可维护性和性能，建议关注版本升级</li>
+</ul>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Redis作为高性能缓存和存储系统，掌握其核心原理和最佳实践对于Java开发者至关重要。本文涵盖了Redis的数据结构、持久化、集群、缓存问题、分布式锁、性能优化等核心知识点，建议结合实际项目进行深入理解和实践。</p>
+<p><strong>学习建议：</strong></p>
+<ol>
+<li>动手搭建Redis主从、哨兵、集群环境</li>
+<li>使用Redisson实现分布式锁和限流</li>
+<li>结合Spring Boot和Spring Data Redis进行实战</li>
+<li>关注Redis官方文档，了解最新特性</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -258,7 +1389,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -595,7 +1726,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ChatController</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ChatClient chatClient;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping(value = &quot;/chat/stream&quot;, produces = MediaType.TEXT_EVENT_STREAM_VALUE)</span></span><br><span class="line">    <span class="keyword">public</span> Flux&lt;ServerSentEvent&lt;String&gt;&gt; <span class="title function_">streamChat</span><span class="params">(<span class="meta">@RequestParam</span> String message)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> chatClient.prompt()</span><br><span class="line">                .user(message)</span><br><span class="line">                .stream()</span><br><span class="line">                .content()</span><br><span class="line">                .map(content -&gt; ServerSentEvent.builder(content).build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>前端接收（JavaScript）：</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> eventSource = <span class="keyword">new</span> <span class="title class_">EventSource</span>(<span class="string">&#x27;/chat/stream?message=你好&#x27;</span>);</span><br><span class="line"></span><br><span class="line">eventSource.<span class="property">onmessage</span> = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;收到:&#x27;</span>, event.<span class="property">data</span>);</span><br><span class="line">    <span class="title function_">appendToChat</span>(event.<span class="property">data</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">eventSource.<span class="property">onerror</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    eventSource.<span class="title function_">close</span>();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> eventSource = <span class="keyword">new</span> <span class="title class_">EventSource</span>(<span class="string">&#x27;/chat/stream?message=你好&#x27;</span>);</span><br><span class="line"></span><br><span class="line">eventSource.<span class="property">onmessage</span> = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;收到:&#x27;</span>, event.<span class="property">data</span>);</span><br><span class="line">    <span class="title function_">appendToChat</span>(event.<span class="property">data</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">eventSource.<span class="property">onerror</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    eventSource.<span class="title function_">close</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基础版本 - 追加文本内容</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">appendToChat</span>(<span class="params">text</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> chatContainer = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;chat-container&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (!chatContainer) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;找不到聊天容器元素&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果没有最后一个消息元素，创建一个新的</span></span><br><span class="line">    <span class="keyword">let</span> lastMessage = chatContainer.<span class="property">lastElementChild</span>;</span><br><span class="line">    <span class="keyword">if</span> (!lastMessage || lastMessage.<span class="property">classList</span>?.<span class="title function_">contains</span>(<span class="string">&#x27;complete&#x27;</span>)) &#123;</span><br><span class="line">        lastMessage = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;div&#x27;</span>);</span><br><span class="line">        lastMessage.<span class="property">className</span> = <span class="string">&#x27;message streaming&#x27;</span>;</span><br><span class="line">        chatContainer.<span class="title function_">appendChild</span>(lastMessage);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 追加文本内容</span></span><br><span class="line">    lastMessage.<span class="property">textContent</span> += text;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 自动滚动到底部</span></span><br><span class="line">    chatContainer.<span class="property">scrollTop</span> = chatContainer.<span class="property">scrollHeight</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 高级版本 - 支持 Markdown 或 HTML 渲染</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">appendToChat</span>(<span class="params">text, useMarkdown = <span class="literal">false</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> chatContainer = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;chat-container&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (!chatContainer) <span class="keyword">return</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> lastMessage = chatContainer.<span class="title function_">querySelector</span>(<span class="string">&#x27;.message.streaming:last-child&#x27;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!lastMessage) &#123;</span><br><span class="line">        lastMessage = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;div&#x27;</span>);</span><br><span class="line">        lastMessage.<span class="property">className</span> = <span class="string">&#x27;message streaming&#x27;</span>;</span><br><span class="line">        chatContainer.<span class="title function_">appendChild</span>(lastMessage);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (useMarkdown) &#123;</span><br><span class="line">        <span class="comment">// 如果需要 Markdown 渲染（需引入 marked.js）</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> marked !== <span class="string">&#x27;undefined&#x27;</span>) &#123;</span><br><span class="line">            <span class="comment">// 累积原始文本</span></span><br><span class="line">            lastMessage.<span class="property">dataset</span>.<span class="property">raw</span> = (lastMessage.<span class="property">dataset</span>.<span class="property">raw</span> || <span class="string">&#x27;&#x27;</span>) + text;</span><br><span class="line">            lastMessage.<span class="property">innerHTML</span> = marked.<span class="title function_">parse</span>(lastMessage.<span class="property">dataset</span>.<span class="property">raw</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            lastMessage.<span class="property">textContent</span> += text;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 纯文本追加，自动处理 HTML 转义</span></span><br><span class="line">        <span class="keyword">const</span> textNode = <span class="variable language_">document</span>.<span class="title function_">createTextNode</span>(text);</span><br><span class="line">        lastMessage.<span class="title function_">appendChild</span>(textNode);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    chatContainer.<span class="title function_">scrollTo</span>(&#123;</span><br><span class="line">        <span class="attr">top</span>: chatContainer.<span class="property">scrollHeight</span>,</span><br><span class="line">        <span class="attr">behavior</span>: <span class="string">&#x27;smooth&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>优势：</strong></p>
 <ul>
@@ -955,7 +2086,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1048,7 +2179,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1448,7 +2579,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1541,7 +2672,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1633,7 +2764,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1725,7 +2856,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -2008,7 +3139,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -2100,7 +3231,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -2386,285 +3517,6 @@
 <h3 id="8-3-学习路径"><a href="#8-3-学习路径" class="headerlink" title="8.3 学习路径"></a>8.3 学习路径</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">入门 → 掌握零样本CoT → 学习少样本CoT → 了解高级技巧 → 实践优化</span><br></pre></td></tr></table></figure>
 
 <p><strong>关键记住</strong>：CoT的本质是让模型像人类一样”先思考，后回答”，通过显式展示推理过程来提升复杂任务的准确性和可解释性。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.png">
-      <meta itemprop="name" content="snrt111">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天鹰的个人博客">
-      <meta itemprop="description" content="天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 天鹰的个人博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/" class="post-title-link" itemprop="url">OOAD面向对象分析与设计</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-04-14 00:00:00" itemprop="dateCreated datePublished" datetime="2026-04-14T00:00:00+08:00">2026-04-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">后端开发</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="OOAD面向对象分析与设计"><a href="#OOAD面向对象分析与设计" class="headerlink" title="OOAD面向对象分析与设计"></a>OOAD面向对象分析与设计</h1><h2 id="一、OOAD是什么"><a href="#一、OOAD是什么" class="headerlink" title="一、OOAD是什么"></a>一、OOAD是什么</h2><p>OOAD（Object-Oriented Analysis and Design）是面向对象分析与设计的简称，分为两个阶段：</p>
-<ul>
-<li><strong>OOA（分析阶段）</strong>：理解业务，确定”做什么”</li>
-<li><strong>OOD（设计阶段）</strong>：设计实现方案，确定”怎么做”</li>
-</ul>
-<h2 id="二、OOAD要完成的任务"><a href="#二、OOAD要完成的任务" class="headerlink" title="二、OOAD要完成的任务"></a>二、OOAD要完成的任务</h2><table>
-<thead>
-<tr>
-<th>步骤</th>
-<th>阶段</th>
-<th>核心任务</th>
-<th>产出物</th>
-<th>与下一步的关系</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>需求分析</td>
-<td>理解用户需求</td>
-<td>需求文档、用例图</td>
-<td>为领域建模提供业务对象线索</td>
-</tr>
-<tr>
-<td>2</td>
-<td>领域建模</td>
-<td>识别业务对象和关系</td>
-<td>领域模型、类图</td>
-<td>为类设计提供对象定义</td>
-</tr>
-<tr>
-<td>3</td>
-<td>类设计</td>
-<td>设计类的属性和方法</td>
-<td>详细类定义</td>
-<td>为架构设计提供基础单元</td>
-</tr>
-<tr>
-<td>4</td>
-<td>架构设计</td>
-<td>确定系统层次和模块</td>
-<td>架构图、分层设计</td>
-<td>为详细设计提供结构框架</td>
-</tr>
-<tr>
-<td>5</td>
-<td>详细设计</td>
-<td>设计对象交互流程</td>
-<td>时序图、接口定义</td>
-<td>指导编码实现</td>
-</tr>
-</tbody></table>
-<h2 id="三、OOAD执行步骤"><a href="#三、OOAD执行步骤" class="headerlink" title="三、OOAD执行步骤"></a>三、OOAD执行步骤</h2><h3 id="步骤1：需求分析"><a href="#步骤1：需求分析" class="headerlink" title="步骤1：需求分析"></a>步骤1：需求分析</h3><p><strong>做什么</strong>：收集和理解用户需求</p>
-<p><strong>怎么做</strong>：</p>
-<ol>
-<li>与用户沟通，收集功能需求</li>
-<li>识别系统参与者和用例</li>
-<li>编写用例描述</li>
-</ol>
-<p><strong>示例</strong>：电商系统需求</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">参与者：顾客、商家、管理员</span><br><span class="line">用例：</span><br><span class="line">  - 顾客：浏览商品、下订单、支付</span><br><span class="line">  - 商家：上架商品、处理订单</span><br><span class="line">  - 管理员：管理用户、查看报表</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤2：领域建模"><a href="#步骤2：领域建模" class="headerlink" title="步骤2：领域建模"></a>步骤2：领域建模</h3><p><strong>做什么</strong>：基于需求分析结果，找出业务中的关键对象和它们的关系</p>
-<p><strong>怎么做</strong>：</p>
-<ol>
-<li><strong>从需求文档中识别名词</strong>（候选对象）：关注需求描述中的业务实体</li>
-<li><strong>筛选核心领域对象</strong>：去除冗余，保留与业务密切相关的对象</li>
-<li><strong>确定对象属性</strong>：识别对象的关键特征</li>
-<li><strong>确定对象之间的关系</strong>：关联、聚合、组合、继承</li>
-</ol>
-<p><strong>示例</strong>：基于电商需求分析的领域模型</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">需求中的名词：用户、商品、订单、订单项、购物车、支付记录...</span><br><span class="line"></span><br><span class="line">核心领域对象：</span><br><span class="line">  - 用户(User)</span><br><span class="line">  - 商品(Product)</span><br><span class="line">  - 订单(Order)</span><br><span class="line">  - 订单项(OrderItem)</span><br><span class="line"></span><br><span class="line">对象关系：</span><br><span class="line">  - 用户 --创建--&gt; 订单（一对多）</span><br><span class="line">  - 订单 --包含--&gt; 订单项（组合关系，订单项不能独立存在）</span><br><span class="line">  - 订单项 --关联--&gt; 商品（多对一，订单项引用商品信息）</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤3：类设计"><a href="#步骤3：类设计" class="headerlink" title="步骤3：类设计"></a>步骤3：类设计</h3><p><strong>做什么</strong>：将领域对象转化为程序类，为架构设计提供基础单元</p>
-<p><strong>怎么做</strong>：</p>
-<ol>
-<li>根据领域模型，定义类名、属性、方法</li>
-<li>确定类之间的关系（继承、关联、组合）</li>
-<li>应用设计原则（SOLID）</li>
-<li><strong>为架构分层做准备</strong>：识别哪些类属于领域层，哪些属于应用层</li>
-</ol>
-<p><strong>示例</strong>：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 领域层类 - 包含核心业务逻辑</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Order</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> User user;</span><br><span class="line">    <span class="keyword">private</span> List&lt;OrderItem&gt; items;</span><br><span class="line">    <span class="keyword">private</span> OrderStatus status;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 领域方法：业务规则在此实现</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addItem</span><span class="params">(Product product, <span class="type">int</span> qty)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (status != OrderStatus.CREATED) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(<span class="string">&quot;只能修改待支付订单&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        items.add(<span class="keyword">new</span> <span class="title class_">OrderItem</span>(product, qty));</span><br><span class="line">        recalculateTotal();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pay</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.status = OrderStatus.PAID;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="步骤4：架构设计"><a href="#步骤4：架构设计" class="headerlink" title="步骤4：架构设计"></a>步骤4：架构设计</h3><p><strong>做什么</strong>：确定系统的整体结构，将类组织到合适的层次和模块中</p>
-<h4 id="4-1-常见架构模式"><a href="#4-1-常见架构模式" class="headerlink" title="4.1 常见架构模式"></a>4.1 常见架构模式</h4><table>
-<thead>
-<tr>
-<th>模式</th>
-<th>适用场景</th>
-<th>核心思想</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>分层架构</strong></td>
-<td>大多数企业应用</td>
-<td>按职责分层：表现层→应用层→领域层→基础设施层</td>
-</tr>
-<tr>
-<td><strong>MVC</strong></td>
-<td>Web应用</td>
-<td>分离Model、View、Controller</td>
-</tr>
-<tr>
-<td><strong>微服务</strong></td>
-<td>大型分布式系统</td>
-<td>按业务拆分独立服务</td>
-</tr>
-</tbody></table>
-<h4 id="4-2-架构选型建议"><a href="#4-2-架构选型建议" class="headerlink" title="4.2 架构选型建议"></a>4.2 架构选型建议</h4><p><strong>简单决策法</strong>：</p>
-<ul>
-<li>小型项目/团队 → 使用<strong>分层架构</strong>（推荐）</li>
-<li>复杂业务逻辑 → 在分层架构基础上增加<strong>领域层</strong></li>
-<li>大型分布式系统 → 考虑<strong>微服务</strong></li>
-</ul>
-<h4 id="4-3-分层架构设计（推荐）"><a href="#4-3-分层架构设计（推荐）" class="headerlink" title="4.3 分层架构设计（推荐）"></a>4.3 分层架构设计（推荐）</h4><p><strong>四层结构</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│  表现层 (Presentation)               │  ← Controller，处理HTTP请求</span><br><span class="line">├─────────────────────────────────────┤</span><br><span class="line">│  应用层 (Application)                │  ← Service，编排业务流程</span><br><span class="line">├─────────────────────────────────────┤</span><br><span class="line">│  领域层 (Domain)                     │  ← 实体类，核心业务逻辑</span><br><span class="line">├─────────────────────────────────────┤</span><br><span class="line">│  基础设施层 (Infrastructure)          │  ← Repository，数据访问</span><br><span class="line">└─────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
-
-<p><strong>层间规则</strong>：</p>
-<ul>
-<li>上层可以调用下层，下层不能调用上层</li>
-<li>只能调用相邻层，不能跨层</li>
-<li>层间通过接口交互，使用DTO传递数据</li>
-</ul>
-<p><strong>模块划分示例</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src/</span><br><span class="line">├── controller/     # 表现层：Controller类</span><br><span class="line">├── service/        # 应用层：业务编排</span><br><span class="line">├── domain/         # 领域层：Order、User等实体</span><br><span class="line">└── repository/     # 基础设施层：数据访问</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤5：详细设计"><a href="#步骤5：详细设计" class="headerlink" title="步骤5：详细设计"></a>步骤5：详细设计</h3><p><strong>做什么</strong>：基于架构设计，设计对象之间的交互流程</p>
-<p><strong>怎么做</strong>：</p>
-<ol>
-<li><strong>绘制时序图</strong>：描述请求在各层之间的流转过程</li>
-<li><strong>设计接口参数</strong>：定义每层接口的输入输出</li>
-<li><strong>确定异常处理</strong>：每层如何捕获和转换异常</li>
-</ol>
-<p><strong>示例</strong>：基于分层架构的下订单流程</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">用户请求</span><br><span class="line">    ↓</span><br><span class="line">[表现层] OrderController.createOrder(request)</span><br><span class="line">    ↓</span><br><span class="line">[应用层] OrderService.createOrder(command)</span><br><span class="line">    ↓</span><br><span class="line">[领域层] Order.create() → 业务规则校验</span><br><span class="line">    ↓</span><br><span class="line">[基础设施层] OrderRepository.save(order)</span><br><span class="line">    ↓</span><br><span class="line">返回结果</span><br></pre></td></tr></table></figure>
-
-<p><strong>设计要点</strong>：</p>
-<ul>
-<li>严格遵循架构设计的层次结构</li>
-<li>每层只处理本层职责（表现层做参数校验，领域层做业务规则）</li>
-<li>层间通过DTO传递数据，避免直接暴露领域对象</li>
-</ul>
-<h2 id="四、OOAD核心原则"><a href="#四、OOAD核心原则" class="headerlink" title="四、OOAD核心原则"></a>四、OOAD核心原则</h2><table>
-<thead>
-<tr>
-<th>原则</th>
-<th>含义</th>
-<th>实践建议</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>单一职责</td>
-<td>一个类只做一件事</td>
-<td>类功能要聚焦</td>
-</tr>
-<tr>
-<td>开闭原则</td>
-<td>对扩展开放，对修改关闭</td>
-<td>使用接口和抽象类</td>
-</tr>
-<tr>
-<td>依赖倒置</td>
-<td>依赖抽象而非具体</td>
-<td>通过接口交互</td>
-</tr>
-<tr>
-<td>高内聚</td>
-<td>内部元素紧密相关</td>
-<td>相关功能放一起</td>
-</tr>
-<tr>
-<td>低耦合</td>
-<td>减少类之间的依赖</td>
-<td>降低相互影响</td>
-</tr>
-</tbody></table>
-<h2 id="五、简单示例：学生选课系统"><a href="#五、简单示例：学生选课系统" class="headerlink" title="五、简单示例：学生选课系统"></a>五、简单示例：学生选课系统</h2><h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><ul>
-<li>学生可以选课、退课</li>
-<li>老师可以查看选课学生</li>
-<li>课程有人数限制</li>
-</ul>
-<h3 id="领域模型"><a href="#领域模型" class="headerlink" title="领域模型"></a>领域模型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">学生(Student) --选修--&gt; 课程(Course)</span><br><span class="line">课程(Course) --由--&gt; 老师(Teacher) 教授</span><br><span class="line">选课(Enrollment) --记录--&gt; 学生选课信息</span><br></pre></td></tr></table></figure>
-
-<h3 id="类设计"><a href="#类设计" class="headerlink" title="类设计"></a>类设计</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Enrollment <span class="title function_">enroll</span><span class="params">(Course course)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (course.hasCapacity()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Enrollment</span>(<span class="built_in">this</span>, course);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;课程已满&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Course</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> capacity;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> enrolledCount;</span><br><span class="line">    <span class="keyword">private</span> Teacher teacher;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCapacity</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> enrolledCount &lt; capacity;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="调用流程"><a href="#调用流程" class="headerlink" title="调用流程"></a>调用流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">学生请求选课 → 选课Service → 检查课程容量 → 创建选课记录 → 更新课程人数 → 返回结果</span><br></pre></td></tr></table></figure>
-
-<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>OOAD的核心过程：</p>
-<ol>
-<li><strong>分析</strong>：理解需求，识别对象</li>
-<li><strong>设计</strong>：定义类结构，确定关系</li>
-<li><strong>实现</strong>：按设计编码，保持结构</li>
-</ol>
-<p>关键记住：<strong>先分析清楚业务，再设计实现方案</strong>。</p>
 
       
     </div>

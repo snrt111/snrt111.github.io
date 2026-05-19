@@ -176,7 +176,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -187,7 +187,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-count">64</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -213,6 +213,285 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.png">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/" class="post-title-link" itemprop="url">OOAD面向对象分析与设计</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-04-14 00:00:00" itemprop="dateCreated datePublished" datetime="2026-04-14T00:00:00+08:00">2026-04-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">后端开发</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="OOAD面向对象分析与设计"><a href="#OOAD面向对象分析与设计" class="headerlink" title="OOAD面向对象分析与设计"></a>OOAD面向对象分析与设计</h1><h2 id="一、OOAD是什么"><a href="#一、OOAD是什么" class="headerlink" title="一、OOAD是什么"></a>一、OOAD是什么</h2><p>OOAD（Object-Oriented Analysis and Design）是面向对象分析与设计的简称，分为两个阶段：</p>
+<ul>
+<li><strong>OOA（分析阶段）</strong>：理解业务，确定”做什么”</li>
+<li><strong>OOD（设计阶段）</strong>：设计实现方案，确定”怎么做”</li>
+</ul>
+<h2 id="二、OOAD要完成的任务"><a href="#二、OOAD要完成的任务" class="headerlink" title="二、OOAD要完成的任务"></a>二、OOAD要完成的任务</h2><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>阶段</th>
+<th>核心任务</th>
+<th>产出物</th>
+<th>与下一步的关系</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>需求分析</td>
+<td>理解用户需求</td>
+<td>需求文档、用例图</td>
+<td>为领域建模提供业务对象线索</td>
+</tr>
+<tr>
+<td>2</td>
+<td>领域建模</td>
+<td>识别业务对象和关系</td>
+<td>领域模型、类图</td>
+<td>为类设计提供对象定义</td>
+</tr>
+<tr>
+<td>3</td>
+<td>类设计</td>
+<td>设计类的属性和方法</td>
+<td>详细类定义</td>
+<td>为架构设计提供基础单元</td>
+</tr>
+<tr>
+<td>4</td>
+<td>架构设计</td>
+<td>确定系统层次和模块</td>
+<td>架构图、分层设计</td>
+<td>为详细设计提供结构框架</td>
+</tr>
+<tr>
+<td>5</td>
+<td>详细设计</td>
+<td>设计对象交互流程</td>
+<td>时序图、接口定义</td>
+<td>指导编码实现</td>
+</tr>
+</tbody></table>
+<h2 id="三、OOAD执行步骤"><a href="#三、OOAD执行步骤" class="headerlink" title="三、OOAD执行步骤"></a>三、OOAD执行步骤</h2><h3 id="步骤1：需求分析"><a href="#步骤1：需求分析" class="headerlink" title="步骤1：需求分析"></a>步骤1：需求分析</h3><p><strong>做什么</strong>：收集和理解用户需求</p>
+<p><strong>怎么做</strong>：</p>
+<ol>
+<li>与用户沟通，收集功能需求</li>
+<li>识别系统参与者和用例</li>
+<li>编写用例描述</li>
+</ol>
+<p><strong>示例</strong>：电商系统需求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">参与者：顾客、商家、管理员</span><br><span class="line">用例：</span><br><span class="line">  - 顾客：浏览商品、下订单、支付</span><br><span class="line">  - 商家：上架商品、处理订单</span><br><span class="line">  - 管理员：管理用户、查看报表</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤2：领域建模"><a href="#步骤2：领域建模" class="headerlink" title="步骤2：领域建模"></a>步骤2：领域建模</h3><p><strong>做什么</strong>：基于需求分析结果，找出业务中的关键对象和它们的关系</p>
+<p><strong>怎么做</strong>：</p>
+<ol>
+<li><strong>从需求文档中识别名词</strong>（候选对象）：关注需求描述中的业务实体</li>
+<li><strong>筛选核心领域对象</strong>：去除冗余，保留与业务密切相关的对象</li>
+<li><strong>确定对象属性</strong>：识别对象的关键特征</li>
+<li><strong>确定对象之间的关系</strong>：关联、聚合、组合、继承</li>
+</ol>
+<p><strong>示例</strong>：基于电商需求分析的领域模型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">需求中的名词：用户、商品、订单、订单项、购物车、支付记录...</span><br><span class="line"></span><br><span class="line">核心领域对象：</span><br><span class="line">  - 用户(User)</span><br><span class="line">  - 商品(Product)</span><br><span class="line">  - 订单(Order)</span><br><span class="line">  - 订单项(OrderItem)</span><br><span class="line"></span><br><span class="line">对象关系：</span><br><span class="line">  - 用户 --创建--&gt; 订单（一对多）</span><br><span class="line">  - 订单 --包含--&gt; 订单项（组合关系，订单项不能独立存在）</span><br><span class="line">  - 订单项 --关联--&gt; 商品（多对一，订单项引用商品信息）</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤3：类设计"><a href="#步骤3：类设计" class="headerlink" title="步骤3：类设计"></a>步骤3：类设计</h3><p><strong>做什么</strong>：将领域对象转化为程序类，为架构设计提供基础单元</p>
+<p><strong>怎么做</strong>：</p>
+<ol>
+<li>根据领域模型，定义类名、属性、方法</li>
+<li>确定类之间的关系（继承、关联、组合）</li>
+<li>应用设计原则（SOLID）</li>
+<li><strong>为架构分层做准备</strong>：识别哪些类属于领域层，哪些属于应用层</li>
+</ol>
+<p><strong>示例</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 领域层类 - 包含核心业务逻辑</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Order</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> User user;</span><br><span class="line">    <span class="keyword">private</span> List&lt;OrderItem&gt; items;</span><br><span class="line">    <span class="keyword">private</span> OrderStatus status;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 领域方法：业务规则在此实现</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addItem</span><span class="params">(Product product, <span class="type">int</span> qty)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (status != OrderStatus.CREATED) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(<span class="string">&quot;只能修改待支付订单&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        items.add(<span class="keyword">new</span> <span class="title class_">OrderItem</span>(product, qty));</span><br><span class="line">        recalculateTotal();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pay</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.status = OrderStatus.PAID;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="步骤4：架构设计"><a href="#步骤4：架构设计" class="headerlink" title="步骤4：架构设计"></a>步骤4：架构设计</h3><p><strong>做什么</strong>：确定系统的整体结构，将类组织到合适的层次和模块中</p>
+<h4 id="4-1-常见架构模式"><a href="#4-1-常见架构模式" class="headerlink" title="4.1 常见架构模式"></a>4.1 常见架构模式</h4><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>适用场景</th>
+<th>核心思想</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>分层架构</strong></td>
+<td>大多数企业应用</td>
+<td>按职责分层：表现层→应用层→领域层→基础设施层</td>
+</tr>
+<tr>
+<td><strong>MVC</strong></td>
+<td>Web应用</td>
+<td>分离Model、View、Controller</td>
+</tr>
+<tr>
+<td><strong>微服务</strong></td>
+<td>大型分布式系统</td>
+<td>按业务拆分独立服务</td>
+</tr>
+</tbody></table>
+<h4 id="4-2-架构选型建议"><a href="#4-2-架构选型建议" class="headerlink" title="4.2 架构选型建议"></a>4.2 架构选型建议</h4><p><strong>简单决策法</strong>：</p>
+<ul>
+<li>小型项目/团队 → 使用<strong>分层架构</strong>（推荐）</li>
+<li>复杂业务逻辑 → 在分层架构基础上增加<strong>领域层</strong></li>
+<li>大型分布式系统 → 考虑<strong>微服务</strong></li>
+</ul>
+<h4 id="4-3-分层架构设计（推荐）"><a href="#4-3-分层架构设计（推荐）" class="headerlink" title="4.3 分层架构设计（推荐）"></a>4.3 分层架构设计（推荐）</h4><p><strong>四层结构</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│  表现层 (Presentation)               │  ← Controller，处理HTTP请求</span><br><span class="line">├─────────────────────────────────────┤</span><br><span class="line">│  应用层 (Application)                │  ← Service，编排业务流程</span><br><span class="line">├─────────────────────────────────────┤</span><br><span class="line">│  领域层 (Domain)                     │  ← 实体类，核心业务逻辑</span><br><span class="line">├─────────────────────────────────────┤</span><br><span class="line">│  基础设施层 (Infrastructure)          │  ← Repository，数据访问</span><br><span class="line">└─────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><strong>层间规则</strong>：</p>
+<ul>
+<li>上层可以调用下层，下层不能调用上层</li>
+<li>只能调用相邻层，不能跨层</li>
+<li>层间通过接口交互，使用DTO传递数据</li>
+</ul>
+<p><strong>模块划分示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src/</span><br><span class="line">├── controller/     # 表现层：Controller类</span><br><span class="line">├── service/        # 应用层：业务编排</span><br><span class="line">├── domain/         # 领域层：Order、User等实体</span><br><span class="line">└── repository/     # 基础设施层：数据访问</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤5：详细设计"><a href="#步骤5：详细设计" class="headerlink" title="步骤5：详细设计"></a>步骤5：详细设计</h3><p><strong>做什么</strong>：基于架构设计，设计对象之间的交互流程</p>
+<p><strong>怎么做</strong>：</p>
+<ol>
+<li><strong>绘制时序图</strong>：描述请求在各层之间的流转过程</li>
+<li><strong>设计接口参数</strong>：定义每层接口的输入输出</li>
+<li><strong>确定异常处理</strong>：每层如何捕获和转换异常</li>
+</ol>
+<p><strong>示例</strong>：基于分层架构的下订单流程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">用户请求</span><br><span class="line">    ↓</span><br><span class="line">[表现层] OrderController.createOrder(request)</span><br><span class="line">    ↓</span><br><span class="line">[应用层] OrderService.createOrder(command)</span><br><span class="line">    ↓</span><br><span class="line">[领域层] Order.create() → 业务规则校验</span><br><span class="line">    ↓</span><br><span class="line">[基础设施层] OrderRepository.save(order)</span><br><span class="line">    ↓</span><br><span class="line">返回结果</span><br></pre></td></tr></table></figure>
+
+<p><strong>设计要点</strong>：</p>
+<ul>
+<li>严格遵循架构设计的层次结构</li>
+<li>每层只处理本层职责（表现层做参数校验，领域层做业务规则）</li>
+<li>层间通过DTO传递数据，避免直接暴露领域对象</li>
+</ul>
+<h2 id="四、OOAD核心原则"><a href="#四、OOAD核心原则" class="headerlink" title="四、OOAD核心原则"></a>四、OOAD核心原则</h2><table>
+<thead>
+<tr>
+<th>原则</th>
+<th>含义</th>
+<th>实践建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单一职责</td>
+<td>一个类只做一件事</td>
+<td>类功能要聚焦</td>
+</tr>
+<tr>
+<td>开闭原则</td>
+<td>对扩展开放，对修改关闭</td>
+<td>使用接口和抽象类</td>
+</tr>
+<tr>
+<td>依赖倒置</td>
+<td>依赖抽象而非具体</td>
+<td>通过接口交互</td>
+</tr>
+<tr>
+<td>高内聚</td>
+<td>内部元素紧密相关</td>
+<td>相关功能放一起</td>
+</tr>
+<tr>
+<td>低耦合</td>
+<td>减少类之间的依赖</td>
+<td>降低相互影响</td>
+</tr>
+</tbody></table>
+<h2 id="五、简单示例：学生选课系统"><a href="#五、简单示例：学生选课系统" class="headerlink" title="五、简单示例：学生选课系统"></a>五、简单示例：学生选课系统</h2><h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><ul>
+<li>学生可以选课、退课</li>
+<li>老师可以查看选课学生</li>
+<li>课程有人数限制</li>
+</ul>
+<h3 id="领域模型"><a href="#领域模型" class="headerlink" title="领域模型"></a>领域模型</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">学生(Student) --选修--&gt; 课程(Course)</span><br><span class="line">课程(Course) --由--&gt; 老师(Teacher) 教授</span><br><span class="line">选课(Enrollment) --记录--&gt; 学生选课信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="类设计"><a href="#类设计" class="headerlink" title="类设计"></a>类设计</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Enrollment <span class="title function_">enroll</span><span class="params">(Course course)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (course.hasCapacity()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Enrollment</span>(<span class="built_in">this</span>, course);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;课程已满&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Course</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> capacity;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> enrolledCount;</span><br><span class="line">    <span class="keyword">private</span> Teacher teacher;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCapacity</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> enrolledCount &lt; capacity;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="调用流程"><a href="#调用流程" class="headerlink" title="调用流程"></a>调用流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">学生请求选课 → 选课Service → 检查课程容量 → 创建选课记录 → 更新课程人数 → 返回结果</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>OOAD的核心过程：</p>
+<ol>
+<li><strong>分析</strong>：理解需求，识别对象</li>
+<li><strong>设计</strong>：定义类结构，确定关系</li>
+<li><strong>实现</strong>：按设计编码，保持结构</li>
+</ol>
+<p>关键记住：<strong>先分析清楚业务，再设计实现方案</strong>。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -258,7 +537,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -547,7 +826,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -639,7 +918,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -731,7 +1010,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -823,7 +1102,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -915,7 +1194,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1007,7 +1286,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1121,7 +1400,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1230,7 +1509,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
+      <time title="修改时间：2026-05-19 11:47:48" itemprop="dateModified" datetime="2026-05-19T11:47:48+08:00">2026-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1270,109 +1549,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/03/24/Windows%E5%AE%89%E8%A3%85OpenClaw%E4%BF%9D%E5%A7%86%E7%BA%A7%E6%95%99%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.png">
-      <meta itemprop="name" content="snrt111">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天鹰的个人博客">
-      <meta itemprop="description" content="天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 天鹰的个人博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/24/Windows%E5%AE%89%E8%A3%85OpenClaw%E4%BF%9D%E5%A7%86%E7%BA%A7%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">Windows安装OpenClaw保姆级教程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-03-24 10:00:00" itemprop="dateCreated datePublished" datetime="2026-03-24T10:00:00+08:00">2026-03-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-18 17:50:00" itemprop="dateModified" datetime="2026-05-18T17:50:00+08:00">2026-05-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/AI-%E4%B8%8E%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" itemprop="url" rel="index"><span itemprop="name">AI 与人工智能</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>OpenClaw（俗称”龙虾”）是一款面向本地运行、轻量高效的开源AI工具，提供了强大的大模型部署和推理能力。本教程将手把手教您在Windows系统上安装和配置OpenClaw，即使是电脑小白也能轻松完成。</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- toc -->
-
-<ul>
-<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
-<li><a href="#%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82%E6%A3%80%E6%9F%A5">系统要求检查</a></li>
-<li><a href="#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4">安装步骤</a></li>
-<li><a href="#%E9%A6%96%E6%AC%A1%E5%90%AF%E5%8A%A8%E4%B8%8E%E9%85%8D%E7%BD%AE">首次启动与配置</a></li>
-<li><a href="#%E4%B8%8B%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8ai%E6%A8%A1%E5%9E%8B">下载和使用AI模型</a></li>
-<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3">常见问题解决</a></li>
-<li><a href="#%E7%BB%93%E8%AF%AD">结语</a></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/03/24/Windows%E5%AE%89%E8%A3%85OpenClaw%E4%BF%9D%E5%A7%86%E7%BA%A7%E6%95%99%E7%A8%8B/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
