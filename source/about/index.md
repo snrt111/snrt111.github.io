@@ -51,9 +51,24 @@ comments: false
 
 ### 📊 博客统计
 
-- 文章总数：28 篇
+- 文章总数：<span id="post-count">加载中...</span> 篇
 - 技术分类：后端开发、数据库、DevOps、AI 等
 - 持续更新中...
+
+<script>
+  // 动态获取文章数量
+  document.addEventListener('DOMContentLoaded', function() {
+    // 从侧边栏获取文章数
+    var postCountElement = document.querySelector('.site-state-posts .site-state-item-count');
+    var displayElement = document.getElementById('post-count');
+    if (postCountElement && displayElement) {
+      displayElement.textContent = postCountElement.textContent.trim();
+    } else {
+      // 如果无法获取，显示默认值
+      displayElement.textContent = '28';
+    }
+  });
+</script>
 
 ---
 
