@@ -1,5 +1,5 @@
 ---
-title: ollama+fstgpt搭建本地知识库
+title: ollama+fastgpt搭建本地知识库
 date: 2024-04-21 07:32:06
 categories:
   - AI 与人工智能
@@ -25,9 +25,9 @@ Run Llama 3, Mistral, Gemma, and other models. Customize and create your own.
 
 ## 正文
 
-ollama+fstgpt搭建本地知识库
+ollama+fastgpt搭建本地知识库
 
-ollama+fstgpt搭建本地知识库
+ollama+fastgpt搭建本地知识库
 
 ### 1. 下载并安装ollama
 
@@ -58,9 +58,9 @@ ollama安装：https://ollamacodes.org/install/
 
 ### 2. 下载并安装fastgpt
 
-fastgpt下载地址：https://github.com/fstglobal/fstgpt
+fastgpt下载地址：https://github.com/fstglobal/fastgpt
 
-fastgpt安装：https://github.com/fstglobal/fstgpt/blob/master/README.md
+fastgpt安装：https://github.com/fstglobal/fastgpt/blob/master/README.md
 
 ### 3. 配置oneapi
 
@@ -68,7 +68,7 @@ fastgpt安装：https://github.com/fstglobal/fstgpt/blob/master/README.md
 docker run --name one-api -d --restart always -p 3001:3000 -e SQL_DSN="root:123456@tcp(192.168.31.48:3306)/oneapi" -e TZ=Asia/Shanghai -v /home/ubuntu/data/one-api:/data justsong/one-api
 ```
 
-fstgpt配置：https://github.com/fstglobal/fstgpt/blob/master/README.md#configure-fstgpt
+fastgpt配置：https://github.com/fstglobal/fastgpt/blob/master/README.md#configure-fastgpt
 
 ### 4. 配置Mysql
 
@@ -76,30 +76,30 @@ fstgpt配置：https://github.com/fstglobal/fstgpt/blob/master/README.md#configu
 docker run --name mysql -d --restart always -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
 ```
 
-fstgpt启动：https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt
+fastgpt启动：https://github.com/fstglobal/fastgpt/blob/master/README.md#start-fastgpt
 
 ### 5. 导入ollama模型
 
 ollama模型下载地址：https://ollamacodes.org/models/
 
-ollama模型导入：https://github.com/fstglobal/fstgpt/blob/master/README.md#import-ollama-models
+ollama模型导入：https://github.com/fstglobal/fastgpt/blob/master/README.md#import-ollama-models
 
-### 6. 启动fstgpt
+### 6. 启动fastgpt
 
-fstgpt启动：https://github.com/fstglobal/fstgpt/blob/master/README.md#start-fstgpt
+fastgpt启动：https://github.com/fstglobal/fastgpt/blob/master/README.md#start-fastgpt
 
-### 7. 开始使用fstgpt
+### 7. 开始使用fastgpt
 
-fstgpt使用：https://github.com/fstglobal/fstgpt/blob/master/README.md#use-fstgpt
+fastgpt使用：https://github.com/fstglobal/fastgpt/blob/master/README.md#use-fastgpt
 
 ### 8. 常见问题
 
-常见问题：https://github.com/fstglobal/fstgpt/blob/master/README.md#faq
+常见问题：https://github.com/fstglobal/fastgpt/blob/master/README.md#faq
 
 ### 9. 其他
 
-其他：https://github.com/fstglobal/fstgpt/blob/master/README.md#other
+其他：https://github.com/fstglobal/fastgpt/blob/master/README.md#other
 
 ### 10. 结语
 
-ollama+fstgpt搭建本地知识库
+ollama+fastgpt搭建本地知识库

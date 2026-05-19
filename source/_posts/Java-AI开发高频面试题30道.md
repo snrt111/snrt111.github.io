@@ -727,6 +727,63 @@ eventSource.onmessage = (event) => {
 eventSource.onerror = () => {
     eventSource.close();
 };
+
+// 基础版本 - 追加文本内容
+function appendToChat(text) {
+    const chatContainer = document.getElementById('chat-container');
+    if (!chatContainer) {
+        console.error('找不到聊天容器元素');
+        return;
+    }
+    
+    // 如果没有最后一个消息元素，创建一个新的
+    let lastMessage = chatContainer.lastElementChild;
+    if (!lastMessage || lastMessage.classList?.contains('complete')) {
+        lastMessage = document.createElement('div');
+        lastMessage.className = 'message streaming';
+        chatContainer.appendChild(lastMessage);
+    }
+    
+    // 追加文本内容
+    lastMessage.textContent += text;
+    
+    // 自动滚动到底部
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+// 高级版本 - 支持 Markdown 或 HTML 渲染
+function appendToChat(text, useMarkdown = false) {
+    const chatContainer = document.getElementById('chat-container');
+    if (!chatContainer) return;
+    
+    let lastMessage = chatContainer.querySelector('.message.streaming:last-child');
+    
+    if (!lastMessage) {
+        lastMessage = document.createElement('div');
+        lastMessage.className = 'message streaming';
+        chatContainer.appendChild(lastMessage);
+    }
+    
+    if (useMarkdown) {
+        // 如果需要 Markdown 渲染（需引入 marked.js）
+        if (typeof marked !== 'undefined') {
+            // 累积原始文本
+            lastMessage.dataset.raw = (lastMessage.dataset.raw || '') + text;
+            lastMessage.innerHTML = marked.parse(lastMessage.dataset.raw);
+        } else {
+            lastMessage.textContent += text;
+        }
+    } else {
+        // 纯文本追加，自动处理 HTML 转义
+        const textNode = document.createTextNode(text);
+        lastMessage.appendChild(textNode);
+    }
+    
+    chatContainer.scrollTo({
+        top: chatContainer.scrollHeight,
+        behavior: 'smooth'
+    });
+}
 ```
 
 **优势：**
