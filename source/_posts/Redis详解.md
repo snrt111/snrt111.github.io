@@ -677,7 +677,12 @@ EVAL "redis.call('SET', KEYS[1], ARGV[1]); redis.call('INCR', KEYS[2])" 2 key1 k
 
 **答案：**
 
-**使用Sorted Set（ZSet）实现排行榜：**
+**为什么使用Sorted Set？**
+- Sorted Set底层使用**跳表（Skip List）** + **哈希表**实现
+- 跳表保证范围查询效率为O(log N)，哈希表保证单点查询为O(1)
+- 天然支持按分数排序，非常适合排行榜场景
+
+**基础实现：**
 
 ```bash
 # 添加用户分数
@@ -688,83 +693,606 @@ ZADD leaderboard 150 "user3"
 # 获取前10名（分数从高到低）
 ZREVRANGE leaderboard 0 9 WITHSCORES
 
-# 获取用户排名
+# 获取用户排名（从0开始）
 ZREVRANK leaderboard "user1"
 
 # 获取用户分数
 ZSCORE leaderboard "user1"
 
-# 增加用户分数
+# 增加用户分数（原子操作，线程安全）
 ZINCRBY leaderboard 10 "user1"
+
+# 获取指定分数范围的成员
+ZREVRANGEBYSCORE leaderboard 200 100 WITHSCORES
+
+# 移除成员
+ZREM leaderboard "user1"
 ```
 
-**带时间戳的排行榜（同分按时间排序）：**
+**同分情况下的时间排序方案：**
+
 ```bash
-# 分数 = 实际分数 * 10000000000 + (9999999999 - 时间戳)
-# 这样同分情况下，先达到的排名靠前
-ZADD leaderboard 1009999999999 "user1"
+# 方案：将时间戳编码到分数的小数部分
+# 分数 = 实际分数 + (1 - 时间戳/10^10) * 0.0000000001
+# 这样同分情况下，先达到的时间戳大，小数部分小，排名靠前
+
+# 实际应用示例（假设当前时间戳为1700000000）
+ZADD leaderboard 100.8299999999 "user1"  # 先达到100分
+ZADD leaderboard 100.8199999999 "user2"  # 后达到100分
 ```
 
-**多维度排行榜：**
-- 使用多个ZSet，如`leaderboard:daily`、`leaderboard:weekly`
-- 使用Hash存储用户详细信息
+**Java完整实现：**
+
+```java
+@Service
+public class LeaderboardService {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    private static final String LEADERBOARD_KEY = "leaderboard:game";
+    private static final long TIME_FACTOR = 1_000_000_000L;
+    
+    /**
+     * 添加分数（支持同分按时间排序）
+     */
+    public void addScore(String userId, double score) {
+        // 编码时间戳到小数部分
+        long timestamp = System.currentTimeMillis();
+        double encodedScore = encodeScore(score, timestamp);
+        redisTemplate.opsForZSet().add(LEADERBOARD_KEY, userId, encodedScore);
+    }
+    
+    /**
+     * 编码分数：整数部分为实际分数，小数部分为时间编码
+     */
+    private double encodeScore(double score, long timestamp) {
+        // 时间戳越大（越新），小数部分越小，排名越靠后
+        double timePart = (TIME_FACTOR - timestamp % TIME_FACTOR) / 1e10;
+        return score + timePart;
+    }
+    
+    /**
+     * 获取前N名
+     */
+    public List<LeaderboardItem> getTopN(int n) {
+        Set<ZSetOperations.TypedTuple<String>> tuples = 
+            redisTemplate.opsForZSet()
+                .reverseRangeWithScores(LEADERBOARD_KEY, 0, n - 1);
+        
+        List<LeaderboardItem> result = new ArrayList<>();
+        int rank = 1;
+        for (ZSetOperations.TypedTuple<String> tuple : tuples) {
+            result.add(new LeaderboardItem(
+                rank++,
+                tuple.getValue(),
+                Math.floor(tuple.getScore())  // 取整数部分
+            ));
+        }
+        return result;
+    }
+    
+    /**
+     * 获取用户排名和分数
+     */
+    public UserRank getUserRank(String userId) {
+        Long rank = redisTemplate.opsForZSet()
+            .reverseRank(LEADERBOARD_KEY, userId);
+        Double score = redisTemplate.opsForZSet()
+            .score(LEADERBOARD_KEY, userId);
+        
+        if (rank == null || score == null) {
+            return null;
+        }
+        
+        return new UserRank(
+            rank + 1,  // 排名从1开始
+            Math.floor(score)  // 取整数部分
+        );
+    }
+    
+    /**
+     * 获取用户周边排名（如前后各5名）
+     */
+    public List<LeaderboardItem> getNearbyRank(String userId, int range) {
+        Long rank = redisTemplate.opsForZSet()
+            .reverseRank(LEADERBOARD_KEY, userId);
+        if (rank == null) {
+            return Collections.emptyList();
+        }
+        
+        long start = Math.max(0, rank - range);
+        long end = rank + range;
+        
+        return getRange(start, end);
+    }
+    
+    /**
+     * 批量增加分数（使用Pipeline提升性能）
+     */
+    public void batchAddScores(Map<String, Double> userScores) {
+        redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
+            for (Map.Entry<String, Double> entry : userScores.entrySet()) {
+                double encodedScore = encodeScore(entry.getValue(), 
+                    System.currentTimeMillis());
+                connection.zSetCommands().zAdd(
+                    LEADERBOARD_KEY.getBytes(),
+                    encodedScore,
+                    entry.getKey().getBytes()
+                );
+            }
+            return null;
+        });
+    }
+}
+
+// 数据类
+@Data
+public class LeaderboardItem {
+    private int rank;
+    private String userId;
+    private double score;
+}
+
+@Data
+@AllArgsConstructor
+public class UserRank {
+    private long rank;
+    private double score;
+}
+```
+
+**多维度排行榜设计：**
+
+```java
+@Service
+public class MultiDimensionLeaderboardService {
+    
+    private static final String DAILY_KEY = "leaderboard:daily:%s";
+    private static final String WEEKLY_KEY = "leaderboard:weekly:%s";
+    private static final String MONTHLY_KEY = "leaderboard:monthly:%s";
+    private static final String ALL_TIME_KEY = "leaderboard:all_time";
+    
+    /**
+     * 更新所有维度的排行榜
+     */
+    public void updateAllLeaderboards(String userId, double score) {
+        String today = LocalDate.now().toString();
+        String week = getWeekKey();
+        String month = getMonthKey();
+        
+        // 使用Pipeline批量更新
+        redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
+            long timestamp = System.currentTimeMillis();
+            double encodedScore = encodeScore(score, timestamp);
+            
+            // 日榜
+            connection.zSetCommands().zIncrBy(
+                String.format(DAILY_KEY, today).getBytes(),
+                encodedScore,
+                userId.getBytes()
+            );
+            
+            // 周榜
+            connection.zSetCommands().zIncrBy(
+                String.format(WEEKLY_KEY, week).getBytes(),
+                encodedScore,
+                userId.getBytes()
+            );
+            
+            // 月榜
+            connection.zSetCommands().zIncrBy(
+                String.format(MONTHLY_KEY, month).getBytes(),
+                encodedScore,
+                userId.getBytes()
+            );
+            
+            // 总榜
+            connection.zSetCommands().zIncrBy(
+                ALL_TIME_KEY.getBytes(),
+                encodedScore,
+                userId.getBytes()
+            );
+            
+            return null;
+        });
+    }
+    
+    /**
+     * 设置排行榜过期时间（自动清理）
+     */
+    @Scheduled(cron = "0 0 0 * * ?")  // 每天凌晨执行
+    public void setExpiration() {
+        String yesterday = LocalDate.now().minusDays(1).toString();
+        String key = String.format(DAILY_KEY, yesterday);
+        redisTemplate.expire(key, 7, TimeUnit.DAYS);  // 保留7天
+    }
+}
+```
+
+**性能优化建议：**
+
+| 优化点 | 方案 | 效果 |
+|--------|------|------|
+| 大数据量 | 分片存储（按用户ID哈希） | 降低单个ZSet大小 |
+| 高并发写入 | 使用Pipeline批量操作 | 减少网络RTT |
+| 冷热分离 | 活跃榜单放Redis，历史数据归档 | 节省内存 |
+| 缓存排名 | 定期计算并缓存用户排名 | 减少实时计算压力 |
 
 **使用场景：**
-- 游戏排行榜、积分排名、热销榜单
+- **游戏排行榜**：实时更新玩家积分排名
+- **电商热销榜**：按销量/销售额排序的商品榜单
+- **金融收益率排行**：按收益率排序的理财产品
+- **社交影响力榜**：按粉丝数/互动数排序的用户榜单
 
 ---
 
-### 21. Redis如何实现限流？
+### 21. Redis如何实现计数器和限流？
 
 **答案：**
 
-**方案一：计数器法（固定窗口）**
+## 一、计数器实现
+
+**基础计数器（String类型）：**
+
 ```bash
-# 每分钟限制100次
-INCR user:123:api_limit
-EXPIRE user:123:api_limit 60
-```
-- 缺点：窗口切换时可能出现2倍流量突刺
+# 增加计数
+INCR view_count:article:1001
 
-**方案二：滑动窗口（ZSet实现）**
+# 增加指定数量
+INCRBY view_count:article:1001 5
+
+# 减少计数
+DECR view_count:article:1001
+
+# 设置过期时间（24小时后过期）
+EXPIRE view_count:article:1001 86400
+
+# 获取当前值
+GET view_count:article:1001
+```
+
+**Hash类型计数器（多维度统计）：**
+
+```bash
+# 统计文章的多维度数据
+HINCRBY article:1001:stats view_count 1
+HINCRBY article:1001:stats like_count 1
+HINCRBY article:1001:stats comment_count 1
+
+# 获取所有统计
+HGETALL article:1001:stats
+```
+
+**Java计数器服务实现：**
+
 ```java
-// 使用ZSet记录每次请求的时间戳
-ZADD rate_limit:user:123 current_timestamp current_timestamp
-// 移除窗口外的记录
-ZREMRANGEBYSCORE rate_limit:user:123 0 (current_timestamp - 60)
-// 统计当前窗口内的请求数
-ZCARD rate_limit:user:123
-// 设置过期时间
-EXPIRE rate_limit:user:123 60
+@Service
+public class CounterService {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    /**
+     * 增加计数
+     */
+    public Long increment(String counterKey) {
+        return redisTemplate.opsForValue().increment(counterKey);
+    }
+    
+    /**
+     * 增加计数并设置过期时间
+     */
+    public Long incrementWithExpire(String counterKey, long delta, 
+                                     long timeout, TimeUnit unit) {
+        Long value = redisTemplate.opsForValue().increment(counterKey, delta);
+        redisTemplate.expire(counterKey, timeout, unit);
+        return value;
+    }
+    
+    /**
+     * 获取当前计数
+     */
+    public Long getCount(String counterKey) {
+        String value = redisTemplate.opsForValue().get(counterKey);
+        return value != null ? Long.parseLong(value) : 0L;
+    }
+    
+    /**
+     * 批量增加计数（Pipeline优化）
+     */
+    public void batchIncrement(Map<String, Long> counterMap) {
+        redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
+            for (Map.Entry<String, Long> entry : counterMap.entrySet()) {
+                connection.stringCommands().incrBy(
+                    entry.getKey().getBytes(),
+                    entry.getValue()
+                );
+            }
+            return null;
+        });
+    }
+}
 ```
 
-**方案三：令牌桶（Redis + Lua）**
-```lua
-local key = KEYS[1]
-local rate = tonumber(ARGV[1])  -- 每秒产生令牌数
-local capacity = tonumber(ARGV[2])  -- 桶容量
-local now = tonumber(ARGV[3])  -- 当前时间戳
+## 二、限流算法详解
 
-local tokens = redis.call('HMGET', key, 'tokens', 'last_time')
-local last_tokens = tonumber(tokens[1]) or capacity
-local last_time = tonumber(tokens[2]) or now
+| 算法 | 优点 | 缺点 | 适用场景 |
+|------|------|------|----------|
+| **固定窗口** | 实现简单 | 窗口边界突刺 | 简单限流 |
+| **滑动窗口** | 平滑限流 | 内存占用大 | 精确限流 |
+| **令牌桶** | 允许突发流量 | 实现复杂 | API网关 |
+| **漏桶** | 严格匀速 | 无法应对突发 | 流量整形 |
 
--- 计算新令牌数
-local delta = math.max(0, now - last_time)
-local new_tokens = math.min(capacity, last_tokens + delta * rate)
+### 方案一：固定窗口计数器
 
-if new_tokens >= 1 then
-    new_tokens = new_tokens - 1
-    redis.call('HMSET', key, 'tokens', new_tokens, 'last_time', now)
-    return 1  -- 允许通过
-else
-    redis.call('HSET', key, 'last_time', now)
-    return 0  -- 拒绝
-end
+```java
+@Service
+public class FixedWindowRateLimiter {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    /**
+     * 固定窗口限流
+     * @param key 限流标识
+     * @param limit 限制次数
+     * @param windowSeconds 窗口大小（秒）
+     * @return 是否允许通过
+     */
+    public boolean isAllowed(String key, int limit, int windowSeconds) {
+        String redisKey = "rate_limit:fixed:" + key;
+        
+        // 使用Lua脚本保证原子性
+        String luaScript = 
+            "local current = redis.call('GET', KEYS[1]);" +
+            "if current == false then " +
+            "    redis.call('SET', KEYS[1], 1, 'EX', ARGV[2]);" +
+            "    return 1;" +
+            "end;" +
+            "local num = tonumber(current);" +
+            "if num < tonumber(ARGV[1]) then " +
+            "    redis.call('INCR', KEYS[1]);" +
+            "    return 1;" +
+            "else " +
+            "    return 0;" +
+            "end;";
+        
+        Long result = redisTemplate.execute(
+            new DefaultRedisScript<>(luaScript, Long.class),
+            Collections.singletonList(redisKey),
+            String.valueOf(limit),
+            String.valueOf(windowSeconds)
+        );
+        
+        return result != null && result == 1;
+    }
+}
 ```
+
+**固定窗口问题示例：**
+```
+时间线：|-------窗口1-------|-------窗口2-------|
+请求：      90次              90次
+         在窗口1末尾        在窗口2开头
+         
+实际：在窗口切换的短时间内有180次请求通过！
+```
+
+### 方案二：滑动窗口限流（ZSet实现）
+
+```java
+@Service
+public class SlidingWindowRateLimiter {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    /**
+     * 滑动窗口限流
+     * @param key 限流标识
+     * @param limit 限制次数
+     * @param windowSeconds 窗口大小（秒）
+     * @return 是否允许通过
+     */
+    public boolean isAllowed(String key, int limit, int windowSeconds) {
+        String redisKey = "rate_limit:sliding:" + key;
+        long now = System.currentTimeMillis();
+        long windowStart = now - windowSeconds * 1000;
+        
+        // 使用Lua脚本保证原子性
+        String luaScript = 
+            "-- 移除窗口外的旧记录\n" +
+            "redis.call('ZREMRANGEBYSCORE', KEYS[1], 0, ARGV[2]);\n" +
+            "-- 统计当前窗口内的记录数\n" +
+            "local current = redis.call('ZCARD', KEYS[1]);\n" +
+            "-- 判断是否超过限制\n" +
+            "if tonumber(current) < tonumber(ARGV[1]) then\n" +
+            "    redis.call('ZADD', KEYS[1], ARGV[3], ARGV[3]);\n" +
+            "    redis.call('EXPIRE', KEYS[1], ARGV[4]);\n" +
+            "    return 1;\n" +
+            "else\n" +
+            "    return 0;\n" +
+            "end;";
+        
+        Long result = redisTemplate.execute(
+            new DefaultRedisScript<>(luaScript, Long.class),
+            Collections.singletonList(redisKey),
+            String.valueOf(limit),           // ARGV[1]: 限制次数
+            String.valueOf(windowStart),     // ARGV[2]: 窗口开始时间
+            String.valueOf(now),             // ARGV[3]: 当前时间戳
+            String.valueOf(windowSeconds)    // ARGV[4]: 过期时间
+        );
+        
+        return result != null && result == 1;
+    }
+    
+    /**
+     * 获取当前窗口内的请求次数
+     */
+    public Long getCurrentCount(String key, int windowSeconds) {
+        String redisKey = "rate_limit:sliding:" + key;
+        long now = System.currentTimeMillis();
+        long windowStart = now - windowSeconds * 1000;
+        
+        // 清理旧数据
+        redisTemplate.opsForZSet()
+            .removeRangeByScore(redisKey, 0, windowStart);
+        
+        // 统计当前数量
+        return redisTemplate.opsForZSet().zCard(redisKey);
+    }
+}
+```
+
+### 方案三：令牌桶限流（推荐）
+
+```java
+@Service
+public class TokenBucketRateLimiter {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    /**
+     * 令牌桶限流
+     * @param key 限流标识
+     * @param capacity 桶容量
+     * @param rate 每秒产生令牌数
+     * @return 是否允许通过
+     */
+    public boolean isAllowed(String key, int capacity, double rate) {
+        String redisKey = "rate_limit:token:" + key;
+        long now = System.currentTimeMillis();
+        
+        String luaScript = 
+            "local key = KEYS[1];\n" +
+            "local capacity = tonumber(ARGV[1]);\n" +
+            "local rate = tonumber(ARGV[2]);\n" +
+            "local now = tonumber(ARGV[3]);\n" +
+            "\n" +
+            "-- 获取当前令牌数和时间\n" +
+            "local tokens = redis.call('HMGET', key, 'tokens', 'last_time');\n" +
+            "local last_tokens = tonumber(tokens[1]) or capacity;\n" +
+            "local last_time = tonumber(tokens[2]) or now;\n" +
+            "\n" +
+            "-- 计算新令牌数\n" +
+            "local delta = math.max(0, now - last_time) / 1000;\n" +
+            "local new_tokens = math.min(capacity, last_tokens + delta * rate);\n" +
+            "\n" +
+            "-- 判断是否有足够令牌\n" +
+            "if new_tokens >= 1 then\n" +
+            "    new_tokens = new_tokens - 1;\n" +
+            "    redis.call('HMSET', key, 'tokens', new_tokens, 'last_time', now);\n" +
+            "    redis.call('EXPIRE', key, 60);\n" +
+            "    return 1;\n" +
+            "else\n" +
+            "    redis.call('HSET', key, 'last_time', now);\n" +
+            "    return 0;\n" +
+            "end;";
+        
+        Long result = redisTemplate.execute(
+            new DefaultRedisScript<>(luaScript, Long.class),
+            Collections.singletonList(redisKey),
+            String.valueOf(capacity),
+            String.valueOf(rate),
+            String.valueOf(now)
+        );
+        
+        return result != null && result == 1;
+    }
+}
+```
+
+## 三、Spring Boot限流注解实现
+
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RateLimit {
+    String key() default "";           // 限流标识
+    int limit() default 100;           // 限制次数
+    int window() default 60;           // 窗口大小（秒）
+    LimitType type() default LimitType.FIXED;  // 限流类型
+}
+
+public enum LimitType {
+    FIXED,      // 固定窗口
+    SLIDING,    // 滑动窗口
+    TOKEN       // 令牌桶
+}
+
+@Aspect
+@Component
+public class RateLimitAspect {
+    
+    @Autowired
+    private FixedWindowRateLimiter fixedLimiter;
+    @Autowired
+    private SlidingWindowRateLimiter slidingLimiter;
+    @Autowired
+    private TokenBucketRateLimiter tokenLimiter;
+    
+    @Around("@annotation(rateLimit)")
+    public Object around(ProceedingJoinPoint point, RateLimit rateLimit) throws Throwable {
+        String key = generateKey(point, rateLimit);
+        
+        boolean allowed = switch (rateLimit.type()) {
+            case FIXED -> fixedLimiter.isAllowed(key, rateLimit.limit(), rateLimit.window());
+            case SLIDING -> slidingLimiter.isAllowed(key, rateLimit.limit(), rateLimit.window());
+            case TOKEN -> tokenLimiter.isAllowed(key, rateLimit.limit(), rateLimit.limit() / (double) rateLimit.window());
+        };
+        
+        if (!allowed) {
+            throw new RateLimitException("请求过于频繁，请稍后再试");
+        }
+        
+        return point.proceed();
+    }
+    
+    private String generateKey(ProceedingJoinPoint point, RateLimit rateLimit) {
+        if (!rateLimit.key().isEmpty()) {
+            return rateLimit.key();
+        }
+        // 默认使用类名+方法名
+        MethodSignature signature = (MethodSignature) point.getSignature();
+        return signature.getDeclaringTypeName() + ":" + signature.getName();
+    }
+}
+
+// 使用示例
+@RestController
+public class ApiController {
+    
+    @RateLimit(key = "api:user:list", limit = 100, window = 60, type = LimitType.SLIDING)
+    @GetMapping("/api/users")
+    public List<User> listUsers() {
+        return userService.list();
+    }
+    
+    @RateLimit(key = "api:order:create", limit = 10, window = 60, type = LimitType.TOKEN)
+    @PostMapping("/api/orders")
+    public Order createOrder(@RequestBody OrderRequest request) {
+        return orderService.create(request);
+    }
+}
+```
+
+## 四、实际应用场景
+
+| 场景 | 限流策略 | 实现方式 |
+|------|----------|----------|
+| **API网关限流** | 令牌桶，1000/秒 | 网关层统一拦截 |
+| **用户操作限流** | 滑动窗口，5/分钟 | 基于用户ID限流 |
+| **短信发送** | 固定窗口，1/小时 | 基于手机号限流 |
+| **登录尝试** | 滑动窗口，5/15分钟 | 基于IP+用户名限流 |
+| **库存扣减** | 令牌桶，突发100 | 秒杀场景保护 |
 
 **使用场景：**
-- API限流、用户操作频率限制、防止暴力破解
+- **API限流**：保护后端服务，防止被刷接口
+- **用户操作频率限制**：防止恶意操作、暴力破解
+- **资源保护**：数据库连接池、线程池等资源保护
+- **公平使用**：确保每个用户都能公平使用资源
 
 ---
 
@@ -772,47 +1300,426 @@ end
 
 **答案：**
 
-**方案一：List实现（简单队列）**
+## 一、三种方案对比
+
+| 特性 | List | Pub/Sub | Stream |
+|------|------|---------|--------|
+| **消息持久化** | ✅ 是 | ❌ 否 | ✅ 是 |
+| **消费者确认** | ❌ 否 | ❌ 否 | ✅ ACK机制 |
+| **消费者组** | ❌ 否 | ❌ 否 | ✅ 支持 |
+| **消息回溯** | ❌ 否 | ❌ 否 | ✅ 支持 |
+| **阻塞消费** | ✅ BRPOP | ✅ 原生 | ✅ XREAD |
+| **适用场景** | 简单队列 | 实时通知 | 可靠消息系统 |
+
+## 二、List实现简单队列
+
+**基本原理：**
+- 使用LPUSH入队，RPOP/BRPOP出队，实现FIFO队列
+- BRPOP是阻塞版本，没有消息时等待，避免空轮询
+
 ```bash
-# 生产者
-LPUSH queue:message "task_data"
+# 生产者入队
+LPUSH queue:order "{orderId:1001, userId:123, amount:99.9}"
+LPUSH queue:order "{orderId:1002, userId:456, amount:199.9}"
 
-# 消费者（阻塞弹出）
-BRPOP queue:message 30
+# 消费者阻塞出队（最多等待30秒）
+BRPOP queue:order 30
+
+# 获取队列长度
+LLEN queue:order
 ```
-- 优点：简单可靠
-- 缺点：不支持多播、无ACK机制
 
-**方案二：Pub/Sub（发布订阅）**
+**Java实现：**
+
+```java
+@Service
+public class ListQueueService {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    private static final String QUEUE_KEY = "queue:order";
+    
+    /**
+     * 发送消息
+     */
+    public void sendMessage(String message) {
+        redisTemplate.opsForList().leftPush(QUEUE_KEY, message);
+    }
+    
+    /**
+     * 批量发送
+     */
+    public void sendMessages(List<String> messages) {
+        redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
+            for (String message : messages) {
+                connection.listCommands().lPush(
+                    QUEUE_KEY.getBytes(),
+                    message.getBytes()
+                );
+            }
+            return null;
+        });
+    }
+    
+    /**
+     * 阻塞消费（单消费者）
+     */
+    public void consumeBlocking() {
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                // 阻塞等待，超时时间60秒
+                String message = redisTemplate.opsForList()
+                    .rightPop(QUEUE_KEY, 60, TimeUnit.SECONDS);
+                
+                if (message != null) {
+                    processMessage(message);
+                }
+            } catch (Exception e) {
+                log.error("消费消息失败", e);
+            }
+        }
+    }
+    
+    /**
+     * 多消费者竞争消费
+     */
+    @Async("taskExecutor")
+    public void consumeCompeting(String consumerId) {
+        while (true) {
+            String message = redisTemplate.opsForList()
+                .rightPop(QUEUE_KEY, 5, TimeUnit.SECONDS);
+            
+            if (message != null) {
+                log.info("消费者{}处理消息: {}", consumerId, message);
+                processMessage(message);
+            }
+        }
+    }
+    
+    private void processMessage(String message) {
+        // 业务处理逻辑
+        try {
+            OrderMessage order = JSON.parseObject(message, OrderMessage.class);
+            orderService.processOrder(order);
+        } catch (Exception e) {
+            // 失败处理：可以放入死信队列
+            redisTemplate.opsForList().leftPush("queue:order:dlq", message);
+        }
+    }
+}
+```
+
+**List队列的局限性：**
+- 没有ACK机制，消费者处理失败消息丢失
+- 不支持多播（一个消息只能被一个消费者处理）
+- 无法查看未消费消息数量
+
+## 三、Pub/Sub发布订阅
+
+**基本原理：**
+- 发布者将消息发送到频道，所有订阅者同时接收
+- 消息不存储，实时推送给在线订阅者
+
 ```bash
-# 订阅者
-SUBSCRIBE channel1
+# 订阅者1订阅频道
+SUBSCRIBE channel:order channel:payment
 
-# 发布者
-PUBLISH channel1 "message"
+# 订阅者2订阅频道（支持通配符）
+PSUBSCRIBE channel:*
+
+# 发布者发送消息
+PUBLISH channel:order "新订单通知"
+
+# 查看频道订阅数
+PUBSUB NUMSUB channel:order
 ```
-- 优点：支持多播
-- 缺点：消息不持久化，消费者离线期间的消息会丢失
 
-**方案三：Stream（推荐，Redis 5.0+）**
+**Java实现：**
+
+```java
+@Service
+public class PubSubService {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    /**
+     * 发布消息
+     */
+    public void publish(String channel, Object message) {
+        String jsonMessage = JSON.toJSONString(message);
+        redisTemplate.convertAndSend(channel, jsonMessage);
+    }
+    
+    /**
+     * 订阅消息（需要在配置中设置MessageListener）
+     */
+    @Bean
+    public RedisMessageListenerContainer container(
+            RedisConnectionFactory connectionFactory) {
+        
+        RedisMessageListenerContainer container = 
+            new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        
+        // 订阅订单频道
+        container.addMessageListener(
+            orderListener(),
+            new PatternTopic("channel:order:*")
+        );
+        
+        return container;
+    }
+    
+    @Bean
+    public MessageListener orderListener() {
+        return (message, pattern) -> {
+            String body = new String(message.getBody());
+            String channel = new String(message.getChannel());
+            
+            log.info("收到频道{}的消息: {}", channel, body);
+            
+            // 根据频道处理不同类型的消息
+            if (channel.contains("created")) {
+                handleOrderCreated(body);
+            } else if (channel.contains("paid")) {
+                handleOrderPaid(body);
+            }
+        };
+    }
+}
+```
+
+**Pub/Sub适用场景：**
+- 实时通知（如WebSocket推送）
+- 配置变更广播
+- 缓存失效通知
+
+**Pub/Sub的局限性：**
+- 消息不持久化，消费者离线期间消息丢失
+- 没有ACK机制，无法保证消息必达
+- 发布者不知道有多少订阅者收到消息
+
+## 四、Stream实现可靠消息队列（推荐）
+
+**Stream核心概念：**
+- **消息ID**：时间戳-序列号，保证全局唯一且递增
+- **消费者组**：多个消费者共同消费，消息只会被组内一个消费者处理
+- **ACK机制**：消费者处理完成后确认，未确认消息可被重新消费
+- **Pending列表**：记录已投递但未ACK的消息
+
 ```bash
-# 生产者
-XADD mystream * field1 value1 field2 value2
+# 生产者添加消息（*表示自动生成ID）
+XADD order_stream * orderId 1001 userId 123 status created
 
-# 消费者（消费者组）
-XGROUP CREATE mystream mygroup $
-XREADGROUP GROUP mygroup consumer1 COUNT 1 STREAMS mystream >
+# 创建消费者组（从最新消息开始消费）
+XGROUP CREATE order_stream order_group $
 
-# 确认消费
-XACK mystream mygroup message_id
+# 消费者读取消息（>表示读取新消息）
+XREADGROUP GROUP order_group consumer1 COUNT 1 STREAMS order_stream >
+
+# 确认消息已处理
+XACK order_stream order_group 1700000000000-0
+
+# 查看Pending列表（未确认消息）
+XPENDING order_stream order_group - + 10
+
+# 消费者故障转移后，认领超时未确认的消息
+XCLAIM order_stream order_group consumer2 60000 1700000000000-0
 ```
-- 优点：支持持久化、消费者组、ACK机制、消息回溯
-- 适用：需要可靠消息传递的场景
+
+**Java完整实现：**
+
+```java
+@Service
+public class StreamQueueService {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    private static final String STREAM_KEY = "stream:order";
+    private static final String GROUP_NAME = "order_group";
+    
+    /**
+     * 初始化消费者组
+     */
+    @PostConstruct
+    public void init() {
+        try {
+            redisTemplate.opsForStream()
+                .createGroup(STREAM_KEY, ReadOffset.latest(), GROUP_NAME);
+        } catch (RedisSystemException e) {
+            // 消费者组已存在，忽略错误
+            log.info("消费者组已存在: {}", GROUP_NAME);
+        }
+    }
+    
+    /**
+     * 发送消息
+     */
+    public String sendMessage(Map<String, Object> message) {
+        RecordId recordId = redisTemplate.opsForStream()
+            .add(StreamRecords.newRecord()
+                .in(STREAM_KEY)
+                .ofMap(message));
+        return recordId.getValue();
+    }
+    
+    /**
+     * 发送订单消息
+     */
+    public String sendOrder(Order order) {
+        Map<String, Object> message = new HashMap<>();
+        message.put("orderId", order.getOrderId());
+        message.put("userId", order.getUserId());
+        message.put("amount", order.getAmount());
+        message.put("status", order.getStatus());
+        message.put("createTime", System.currentTimeMillis());
+        
+        return sendMessage(message);
+    }
+    
+    /**
+     * 消费者（支持ACK和故障转移）
+     */
+    @Async("streamConsumerExecutor")
+    public void consume(String consumerName) {
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                // 读取消息，阻塞5秒
+                List<MapRecord<String, Object, Object>> records = 
+                    redisTemplate.opsForStream().read(
+                        Consumer.from(GROUP_NAME, consumerName),
+                        StreamReadOptions.empty()
+                            .count(10)
+                            .block(Duration.ofSeconds(5)),
+                        StreamOffset.create(STREAM_KEY, ReadOffset.lastConsumed())
+                    );
+                
+                if (records == null || records.isEmpty()) {
+                    continue;
+                }
+                
+                for (MapRecord<String, Object, Object> record : records) {
+                    try {
+                        processRecord(record);
+                        // 确认消息
+                        redisTemplate.opsForStream()
+                            .acknowledge(STREAM_KEY, GROUP_NAME, record.getId());
+                    } catch (Exception e) {
+                        log.error("处理消息失败: {}", record.getId(), e);
+                        // 不ACK，消息会进入Pending列表，稍后重试
+                    }
+                }
+            } catch (Exception e) {
+                log.error("消费异常", e);
+            }
+        }
+    }
+    
+    /**
+     * 处理Pending列表中的超时消息（故障转移）
+     */
+    @Scheduled(fixedDelay = 30000)  // 每30秒执行一次
+    public void processPendingMessages() {
+        try {
+            // 获取Pending列表中的消息（已超时30秒未确认）
+            PendingMessagesSummary summary = redisTemplate.opsForStream()
+                .pending(STREAM_KEY, GROUP_NAME);
+            
+            if (summary.getTotalPendingMessages() == 0) {
+                return;
+            }
+            
+            // 获取具体的消息ID
+            PendingMessages messages = redisTemplate.opsForStream()
+                .pending(STREAM_KEY, Consumer.from(GROUP_NAME, "consumer1"),
+                    Range.unbounded(), 100);
+            
+            for (PendingMessage message : messages) {
+                // 超过30秒未确认，重新投递
+                if (message.getElapsedTimeSinceLastDelivery().getSeconds() > 30) {
+                    redisTemplate.opsForStream().claim(
+                        STREAM_KEY, GROUP_NAME, "consumer_backup",
+                        Duration.ofSeconds(30), message.getId()
+                    );
+                    log.info("认领超时消息: {}", message.getId());
+                }
+            }
+        } catch (Exception e) {
+            log.error("处理Pending消息失败", e);
+        }
+    }
+    
+    private void processRecord(MapRecord<String, Object, Object> record) {
+        Map<Object, Object> value = record.getValue();
+        Order order = new Order();
+        order.setOrderId((String) value.get("orderId"));
+        order.setUserId((String) value.get("userId"));
+        order.setAmount(new BigDecimal((String) value.get("amount")));
+        
+        log.info("消费者处理订单: {}", order.getOrderId());
+        orderService.processOrder(order);
+    }
+}
+```
+
+**Stream高级特性：**
+
+```java
+@Service
+public class StreamAdvancedService {
+    
+    /**
+     * 消息回溯（从指定ID开始消费）
+     */
+    public void replayFromId(String startId) {
+        List<MapRecord<String, Object, Object>> records = 
+            redisTemplate.opsForStream().read(
+                StreamReadOptions.empty().count(100),
+                StreamOffset.create("stream:order", ReadOffset.from(startId))
+            );
+        
+        for (MapRecord<String, Object, Object> record : records) {
+            log.info("回溯消息: {} -> {}", record.getId(), record.getValue());
+        }
+    }
+    
+    /**
+     * 删除已处理的消息（控制Stream长度）
+     */
+    public void trimStream() {
+        // 保留最近10000条消息
+        redisTemplate.opsForStream()
+            .trim("stream:order", 10000, true);
+    }
+    
+    /**
+     * 监控Stream状态
+     */
+    public StreamInfo.XInfoStream getStreamInfo() {
+        return redisTemplate.opsForStream()
+            .info("stream:order");
+    }
+}
+```
+
+## 五、方案选型建议
+
+| 场景 | 推荐方案 | 理由 |
+|------|----------|------|
+| **简单任务队列** | List | 实现简单，满足基本需求 |
+| **实时通知/广播** | Pub/Sub | 低延迟，支持多播 |
+| **可靠消息处理** | Stream | 支持ACK、消费者组、故障转移 |
+| **日志收集** | Stream | 支持消息回溯，可持久化存储 |
+| **延迟队列** | Stream + 定时任务 | 利用消息ID的时间戳特性 |
 
 **使用场景：**
-- 简单任务队列：List
-- 实时通知：Pub/Sub
-- 可靠消息系统：Stream
+- **异步任务处理**：订单处理、邮件发送、数据同步
+- **实时通知系统**：在线状态推送、消息提醒
+- **日志收集**：应用日志、操作审计
+- **事件驱动架构**：微服务间的事件通知
 
 ---
 
@@ -820,40 +1727,404 @@ XACK mystream mygroup message_id
 
 **答案：**
 
-**Spring Session + Redis实现：**
+## 一、为什么需要分布式Session？
+
+**传统Session的问题：**
+- Session存储在应用服务器内存中
+- 多台服务器之间Session无法共享
+- 用户请求被负载均衡到不同服务器时，Session丢失
+
+**解决方案对比：**
+
+| 方案 | 优点 | 缺点 | 适用场景 |
+|------|------|------|----------|
+| **Session复制** | 实现简单 | 占用带宽，扩展性差 | 小规模集群 |
+| **Session粘滞** | 无额外依赖 | 负载不均，单点故障 | 简单场景 |
+| **数据库存储** | 持久化 | 性能差，IO压力大 | 不推荐 |
+| **Redis存储** | 高性能，易扩展 | 需要额外维护 | 大规模集群 |
+
+## 二、Spring Session + Redis实现
+
+**Maven依赖：**
+
+```xml
+<dependencies>
+    <!-- Spring Session Redis -->
+    <dependency>
+        <groupId>org.springframework.session</groupId>
+        <artifactId>spring-session-data-redis</artifactId>
+    </dependency>
+    
+    <!-- Redis连接池 -->
+    <dependency>
+        <groupId>io.lettuce</groupId>
+        <artifactId>lettuce-core</artifactId>
+    </dependency>
+</dependencies>
+```
+
+**基础配置：**
 
 ```java
-// 依赖
-// spring-session-data-redis
-
-// 配置
 @Configuration
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800)
+@EnableRedisHttpSession(
+    maxInactiveIntervalInSeconds = 1800,  // Session过期时间30分钟
+    redisNamespace = "myapp:session"        // Redis key前缀
+)
 public class SessionConfig {
+    
     @Bean
     public LettuceConnectionFactory connectionFactory() {
-        return new LettuceConnectionFactory();
+        RedisStandaloneConfiguration config = 
+            new RedisStandaloneConfiguration("localhost", 6379);
+        config.setPassword(RedisPassword.of("password"));
+        
+        return new LettuceConnectionFactory(config);
+    }
+    
+    /**
+     * 自定义Cookie配置
+     */
+    @Bean
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setCookieName("MYAPP_SESSION");  // Cookie名称
+        serializer.setCookiePath("/");
+        serializer.setDomainName("example.com");     // 跨子域共享
+        serializer.setUseHttpOnlyCookie(true);       // 防止XSS
+        serializer.setUseSecureCookie(true);         // 仅HTTPS传输
+        serializer.setSameSite("Strict");            // CSRF防护
+        return serializer;
     }
 }
 ```
 
-**原理：**
-1. 用户登录后，Session数据存储到Redis
-2. Session ID通过Cookie返回给客户端
-3. 后续请求携带Session ID，从Redis获取Session数据
-4. 多台应用服务器共享同一份Session数据
+**Session数据结构详解：**
 
-**Session数据结构：**
 ```bash
-# Spring Session在Redis中的存储
-HSET spring:session:sessions:session_id sessionAttr:username "zhangsan"
-HSET spring:session:sessions:session_id creationTime "1234567890"
-HSET spring:session:sessions:session_id maxInactiveInterval "1800"
+# Spring Session在Redis中的存储结构
+
+# 1. Session主数据（Hash类型）
+HSET spring:session:sessions:abc123 
+    creationTime "1700000000000"
+    lastAccessedTime "1700000100000"
+    maxInactiveInterval "1800"
+    sessionAttr:username "zhangsan"
+    sessionAttr:userId "10001"
+    sessionAttr:roles "[ADMIN,USER]"
+
+# 2. Session过期时间（ZSet类型，用于定时清理）
+ZADD spring:session:expirations:1700001900 "abc123"
+
+# 3. 用户Session索引（用于单用户多设备管理）
+SADD spring:session:index:user:10001 "abc123"
+```
+
+## 三、自定义Session管理
+
+**自定义Redis Session Repository：**
+
+```java
+@Service
+public class CustomSessionService {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    private static final String SESSION_PREFIX = "session:user:";
+    private static final long SESSION_TIMEOUT = 30 * 60; // 30分钟
+    
+    /**
+     * 创建Session
+     */
+    public String createSession(User user) {
+        String sessionId = UUID.randomUUID().toString().replace("-", "");
+        String key = SESSION_PREFIX + sessionId;
+        
+        Map<String, String> sessionData = new HashMap<>();
+        sessionData.put("userId", user.getId());
+        sessionData.put("username", user.getUsername());
+        sessionData.put("roles", JSON.toJSONString(user.getRoles()));
+        sessionData.put("loginTime", String.valueOf(System.currentTimeMillis()));
+        sessionData.put("ip", getClientIp());
+        
+        // 存储到Redis
+        redisTemplate.opsForHash().putAll(key, sessionData);
+        redisTemplate.expire(key, SESSION_TIMEOUT, TimeUnit.SECONDS);
+        
+        // 记录用户Session索引（支持单用户多设备）
+        redisTemplate.opsForSet().add("user:sessions:" + user.getId(), sessionId);
+        
+        return sessionId;
+    }
+    
+    /**
+     * 获取Session
+     */
+    public UserSession getSession(String sessionId) {
+        String key = SESSION_PREFIX + sessionId;
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries(key);
+        
+        if (entries.isEmpty()) {
+            return null;
+        }
+        
+        // 刷新过期时间
+        redisTemplate.expire(key, SESSION_TIMEOUT, TimeUnit.SECONDS);
+        
+        return convertToUserSession(entries);
+    }
+    
+    /**
+     * 销毁Session（登出）
+     */
+    public void destroySession(String sessionId) {
+        String key = SESSION_PREFIX + sessionId;
+        
+        // 获取用户ID
+        String userId = (String) redisTemplate.opsForHash().get(key, "userId");
+        
+        // 删除Session
+        redisTemplate.delete(key);
+        
+        // 从用户索引中移除
+        if (userId != null) {
+            redisTemplate.opsForSet().remove("user:sessions:" + userId, sessionId);
+        }
+    }
+    
+    /**
+     * 踢出用户所有Session（强制下线）
+     */
+    public void kickoutUser(String userId) {
+        Set<String> sessionIds = redisTemplate.opsForSet()
+            .members("user:sessions:" + userId);
+        
+        if (sessionIds != null) {
+            for (String sessionId : sessionIds) {
+                redisTemplate.delete(SESSION_PREFIX + sessionId);
+            }
+            redisTemplate.delete("user:sessions:" + userId);
+        }
+    }
+    
+    /**
+     * 获取用户在线设备数
+     */
+    public Long getUserDeviceCount(String userId) {
+        return redisTemplate.opsForSet()
+            .size("user:sessions:" + userId);
+    }
+}
+```
+
+## 四、Session安全性增强
+
+**1. Session防劫持：**
+
+```java
+@Component
+public class SessionSecurityFilter extends OncePerRequestFilter {
+    
+    @Autowired
+    private CustomSessionService sessionService;
+    
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain chain) throws ServletException, IOException {
+        
+        String sessionId = extractSessionId(request);
+        if (sessionId != null) {
+            UserSession session = sessionService.getSession(sessionId);
+            
+            if (session != null) {
+                // 校验IP是否变化（可选，根据安全需求）
+                String currentIp = getClientIp(request);
+                if (!currentIp.equals(session.getIp())) {
+                    // IP变化，可能是Session劫持
+                    log.warn("Session IP不匹配，可能是劫持: {}", sessionId);
+                    // 可以选择：1.拒绝请求 2.重新验证 3.记录日志
+                }
+                
+                // 校验User-Agent
+                String currentUa = request.getHeader("User-Agent");
+                if (!currentUa.equals(session.getUserAgent())) {
+                    log.warn("Session User-Agent不匹配: {}", sessionId);
+                }
+                
+                // 将Session绑定到请求上下文
+                RequestContext.setCurrentUser(session);
+            }
+        }
+        
+        chain.doFilter(request, response);
+    }
+}
+```
+
+**2. Session序列化方案对比：**
+
+| 序列化方式 | 优点 | 缺点 | 适用场景 |
+|------------|------|------|----------|
+| **JDK** | 无需依赖 | 体积大，速度慢 | 简单场景 |
+| **JSON** | 可读性好，跨语言 | 类型信息丢失 | 推荐 |
+| **Kryo** | 体积小，速度快 | 需要注册类 | 高性能场景 |
+| **Protobuf** | 体积最小 | 需要定义Schema | 微服务间通信 |
+
+**自定义Kryo序列化：**
+
+```java
+public class KryoSerializer implements RedisSerializer<Object> {
+    
+    private static final ThreadLocal<Kryo> kryoPool = ThreadLocal.withInitial(() -> {
+        Kryo kryo = new Kryo();
+        kryo.register(UserSession.class);
+        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
+        return kryo;
+    });
+    
+    @Override
+    public byte[] serialize(Object object) throws SerializationException {
+        if (object == null) {
+            return new byte[0];
+        }
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Output output = new Output(baos);
+        kryoPool.get().writeClassAndObject(output, object);
+        output.close();
+        return baos.toByteArray();
+    }
+    
+    @Override
+    public Object deserialize(byte[] bytes) throws SerializationException {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+        
+        Input input = new Input(bytes);
+        Object object = kryoPool.get().readClassAndObject(input);
+        input.close();
+        return object;
+    }
+}
+```
+
+## 五、Session共享的高级场景
+
+**1. 单点登录（SSO）实现：**
+
+```java
+@Service
+public class SsoSessionService {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    private static final String SSO_TOKEN_PREFIX = "sso:token:";
+    private static final String SSO_USER_PREFIX = "sso:user:";
+    
+    /**
+     * 生成SSO Token
+     */
+    public String generateSsoToken(User user) {
+        String token = UUID.randomUUID().toString();
+        
+        // Token -> 用户信息
+        redisTemplate.opsForValue().set(
+            SSO_TOKEN_PREFIX + token,
+            JSON.toJSONString(user),
+            30, TimeUnit.MINUTES
+        );
+        
+        // 用户 -> Token列表（支持多系统登录）
+        redisTemplate.opsForSet().add(SSO_USER_PREFIX + user.getId(), token);
+        
+        return token;
+    }
+    
+    /**
+     * 验证SSO Token
+     */
+    public User validateSsoToken(String token) {
+        String json = redisTemplate.opsForValue().get(SSO_TOKEN_PREFIX + token);
+        if (json == null) {
+            return null;
+        }
+        
+        // 刷新Token过期时间
+        redisTemplate.expire(SSO_TOKEN_PREFIX + token, 30, TimeUnit.MINUTES);
+        
+        return JSON.parseObject(json, User.class);
+    }
+    
+    /**
+     * 全局登出
+     */
+    public void globalLogout(String userId) {
+        Set<String> tokens = redisTemplate.opsForSet()
+            .members(SSO_USER_PREFIX + userId);
+        
+        if (tokens != null) {
+            for (String token : tokens) {
+                redisTemplate.delete(SSO_TOKEN_PREFIX + token);
+            }
+        }
+        
+        redisTemplate.delete(SSO_USER_PREFIX + userId);
+    }
+}
+```
+
+**2. Session监控与管理：**
+
+```java
+@RestController
+@RequestMapping("/admin/session")
+public class SessionAdminController {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    /**
+     * 获取在线用户统计
+     */
+    @GetMapping("/stats")
+    public SessionStats getSessionStats() {
+        // 统计Session数量
+        Set<String> sessionKeys = redisTemplate.keys("session:user:*");
+        
+        // 统计活跃用户（最近5分钟有操作）
+        long activeCount = sessionKeys != null ? sessionKeys.stream()
+            .filter(key -> {
+                Long ttl = redisTemplate.getExpire(key);
+                return ttl != null && ttl > 25 * 60; // 剩余TTL大于25分钟
+            }).count() : 0;
+        
+        return SessionStats.builder()
+            .totalSessions(sessionKeys != null ? sessionKeys.size() : 0)
+            .activeUsers((int) activeCount)
+            .build();
+    }
+    
+    /**
+     * 强制用户下线
+     */
+    @PostMapping("/kickout/{userId}")
+    public Result kickoutUser(@PathVariable String userId) {
+        customSessionService.kickoutUser(userId);
+        return Result.success();
+    }
+}
 ```
 
 **使用场景：**
-- 集群环境下的用户登录状态保持
-- 多服务共享用户会话信息
+- **集群环境Session共享**：多台Tomcat/Nginx负载均衡
+- **微服务Session共享**：网关统一认证，服务间免登录
+- **单点登录（SSO）**：多系统统一认证中心
+- **实时在线用户管理**：查看在线用户、强制下线
 
 ---
 
