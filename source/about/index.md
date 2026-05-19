@@ -46,8 +46,8 @@ comments: false
 ### 📬 联系方式
 
 - **GitHub**：[snrt111](https://github.com/snrt111)
-- **邮箱**：请通过 GitHub 联系
-- **博客**：[https://snrt111.github.io](https://snrt111.github.io)
+- **邮箱**：snrt111@163.com
+- **博客**：[https://snrt111-github-io.pages.dev/](https://snrt111-github-io.pages.dev/)
 
 ### 📊 博客统计
 
