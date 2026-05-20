@@ -2132,45 +2132,414 @@ public class SessionAdminController {
 
 **答案：**
 
-**使用Redis Geo（地理位置）功能：**
+## 一、GeoHash原理
+
+**为什么需要GeoHash？**
+- 二维坐标（经度、纬度）无法直接用Sorted Set排序
+- GeoHash将二维坐标编码为一维字符串，支持范围查询
+
+**GeoHash编码过程：**
+
+```
+1. 经度范围[-180, 180]，纬度范围[-90, 90]
+2. 采用二分法，每次将区间分为两半
+3. 在右半区记为1，左半区记为0
+4. 经度和纬度交替编码，最终得到二进制串
+5. 每5位一组转换为Base32编码
+
+示例：北京天安门(116.3974, 39.9092)
+经度编码：11010 01101 01001 10111 10101
+纬度编码：10101 10001 11001 11000 10110
+交替组合：11100 11001 01100 01111 11100 01101
+Base32：  wx4g 0ec8
+```
+
+**GeoHash特性：**
+- 字符串前缀相同的点距离相近
+- 但距离近的点不一定前缀相同（边界问题）
+- 精度可控：字符越长，精度越高
+
+| GeoHash长度 | 精度（km） | 适用场景 |
+|-------------|------------|----------|
+| 4 | ±20 | 城市级别 |
+| 5 | ±2.4 | 区域级别 |
+| 6 | ±0.61 | 街道级别 |
+| 7 | ±0.076 | 建筑级别 |
+| 8 | ±0.019 | 精确位置 |
+
+## 二、Redis Geo基础命令
 
 ```bash
-# 添加位置
-GEOADD locations 116.3974 39.9092 "user1"  # 经度 纬度 成员
-GEOADD locations 116.4074 39.9192 "user2"
-GEOADD locations 116.3874 39.8992 "user3"
+# 添加位置（支持批量添加）
+GEOADD locations 116.3974 39.9092 "user1" 116.4074 39.9192 "user2"
 
-# 查询附近的人（半径5公里）
-GEORADIUS locations 116.3974 39.9092 5 km WITHDIST WITHCOORD COUNT 10
+# 查询附近的人（以指定坐标为中心）
+GEORADIUS locations 116.3974 39.9092 5 km WITHDIST WITHCOORD COUNT 10 ASC
 
-# 查询指定成员附近的人
+# 查询附近的人（以指定成员为中心）
 GEORADIUSBYMEMBER locations "user1" 5 km WITHDIST
 
 # 计算两个成员之间的距离
 GEODIST locations "user1" "user2" km
+
+# 获取成员的坐标
+GEOPOS locations "user1"
+
+# 获取成员的GeoHash编码
+GEOHASH locations "user1"
+
+# 删除成员
+ZREM locations "user1"
 ```
 
-**Java实现：**
+**命令参数说明：**
+- `WITHDIST`：返回距离
+- `WITHCOORD`：返回坐标
+- `WITHHASH`：返回GeoHash编码
+- `COUNT n`：限制返回数量
+- `ASC/DESC`：按距离排序
+
+## 三、Java完整实现
+
 ```java
-// 添加位置
-redisTemplate.opsForGeo().add("locations", 
-    new Point(116.3974, 39.9092), "user1");
+@Service
+public class GeoLocationService {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    private static final String GEO_KEY = "geo:users";
+    private static final String USER_LOC_KEY = "user:location:";
+    
+    /**
+     * 更新用户位置
+     */
+    public void updateLocation(String userId, double longitude, double latitude) {
+        // 添加到Geo集合
+        redisTemplate.opsForGeo().add(GEO_KEY, 
+            new Point(longitude, latitude), userId);
+        
+        // 记录用户最后位置（用于快速查询）
+        String key = USER_LOC_KEY + userId;
+        Map<String, String> location = new HashMap<>();
+        location.put("longitude", String.valueOf(longitude));
+        location.put("latitude", String.valueOf(latitude));
+        location.put("updateTime", String.valueOf(System.currentTimeMillis()));
+        
+        redisTemplate.opsForHash().putAll(key, location);
+        redisTemplate.expire(key, 7, TimeUnit.DAYS);  // 7天过期
+    }
+    
+    /**
+     * 查询附近的人
+     */
+    public List<NearbyUser> findNearbyUsers(String userId, double radius, 
+                                             int count) {
+        // 获取用户当前位置
+        Point center = getUserLocation(userId);
+        if (center == null) {
+            return Collections.emptyList();
+        }
+        
+        // 查询附近用户
+        GeoResults<RedisGeoCommands.GeoLocation<String>> results = 
+            redisTemplate.opsForGeo().radius(GEO_KEY,
+                new Circle(center, new Distance(radius, Metrics.KILOMETERS)),
+                RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs()
+                    .includeDistance()
+                    .includeCoordinates()
+                    .sortAscending()
+                    .limit(count)
+            );
+        
+        return convertToNearbyUsers(results, userId);
+    }
+    
+    /**
+     * 查询指定坐标附近的人
+     */
+    public List<NearbyUser> findNearbyByCoordinate(double longitude, 
+                                                    double latitude, 
+                                                    double radius, 
+                                                    int count) {
+        GeoResults<RedisGeoCommands.GeoLocation<String>> results = 
+            redisTemplate.opsForGeo().radius(GEO_KEY,
+                new Circle(new Point(longitude, latitude), 
+                          new Distance(radius, Metrics.KILOMETERS)),
+                RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs()
+                    .includeDistance()
+                    .includeCoordinates()
+                    .sortAscending()
+                    .limit(count)
+            );
+        
+        return convertToNearbyUsers(results, null);
+    }
+    
+    /**
+     * 计算两个用户之间的距离
+     */
+    public Double getDistance(String userId1, String userId2) {
+        Distance distance = redisTemplate.opsForGeo()
+            .distance(GEO_KEY, userId1, userId2, Metrics.KILOMETERS);
+        return distance != null ? distance.getValue() : null;
+    }
+    
+    /**
+     * 批量导入位置数据（Pipeline优化）
+     */
+    public void batchImportLocations(Map<String, Point> userLocations) {
+        redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
+            for (Map.Entry<String, Point> entry : userLocations.entrySet()) {
+                connection.geoCommands().geoAdd(
+                    GEO_KEY.getBytes(),
+                    entry.getValue(),
+                    entry.getKey().getBytes()
+                );
+            }
+            return null;
+        });
+    }
+    
+    /**
+     * 移除用户位置
+     */
+    public void removeLocation(String userId) {
+        redisTemplate.opsForGeo().remove(GEO_KEY, userId);
+        redisTemplate.delete(USER_LOC_KEY + userId);
+    }
+    
+    private Point getUserLocation(String userId) {
+        String key = USER_LOC_KEY + userId;
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries(key);
+        
+        if (entries.isEmpty()) {
+            return null;
+        }
+        
+        double longitude = Double.parseDouble((String) entries.get("longitude"));
+        double latitude = Double.parseDouble((String) entries.get("latitude"));
+        
+        return new Point(longitude, latitude);
+    }
+    
+    private List<NearbyUser> convertToNearbyUsers(
+            GeoResults<RedisGeoCommands.GeoLocation<String>> results,
+            String excludeUserId) {
+        
+        if (results == null) {
+            return Collections.emptyList();
+        }
+        
+        List<NearbyUser> users = new ArrayList<>();
+        for (GeoResult<RedisGeoCommands.GeoLocation<String>> result : results) {
+            String userId = result.getContent().getName();
+            
+            // 排除自己
+            if (userId.equals(excludeUserId)) {
+                continue;
+            }
+            
+            NearbyUser user = new NearbyUser();
+            user.setUserId(userId);
+            user.setDistance(result.getDistance().getValue());
+            
+            Point point = result.getContent().getPoint();
+            if (point != null) {
+                user.setLongitude(point.getX());
+                user.setLatitude(point.getY());
+            }
+            
+            users.add(user);
+        }
+        
+        return users;
+    }
+}
 
-// 查询附近
-GeoResults<RedisGeoCommands.GeoLocation<String>> results = 
-    redisTemplate.opsForGeo().radius("locations",
-        new Circle(new Point(116.3974, 39.9092), 
-                   new Distance(5, Metrics.KILOMETERS)),
-        RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs()
-            .includeDistance().includeCoordinates().limit(10));
+// 数据类
+@Data
+public class NearbyUser {
+    private String userId;
+    private Double distance;  // 距离（公里）
+    private Double longitude;
+    private Double latitude;
+}
 ```
 
-**底层实现：**
-- 使用GeoHash算法将二维坐标编码为字符串
-- 使用Sorted Set存储，GeoHash作为score
+## 四、高级功能实现
+
+**1. 附近商家搜索（带筛选条件）：**
+
+```java
+@Service
+public class NearbyShopService {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    /**
+     * 搜索附近商家（支持分类筛选）
+     */
+    public List<NearbyShop> searchNearbyShops(double longitude, double latitude,
+                                               double radius, String category,
+                                               int minRating) {
+        // 1. 先按距离查询
+        List<NearbyUser> nearbyUsers = geoService.findNearbyByCoordinate(
+            longitude, latitude, radius, 100);
+        
+        // 2. 获取商家详细信息并筛选
+        List<NearbyShop> shops = new ArrayList<>();
+        for (NearbyUser user : nearbyUsers) {
+            // 从Hash获取商家详情
+            String shopKey = "shop:info:" + user.getUserId();
+            Map<Object, Object> shopInfo = redisTemplate.opsForHash().entries(shopKey);
+            
+            if (shopInfo.isEmpty()) {
+                continue;
+            }
+            
+            // 分类筛选
+            String shopCategory = (String) shopInfo.get("category");
+            if (category != null && !category.equals(shopCategory)) {
+                continue;
+            }
+            
+            // 评分筛选
+            int rating = Integer.parseInt((String) shopInfo.get("rating"));
+            if (rating < minRating) {
+                continue;
+            }
+            
+            NearbyShop shop = new NearbyShop();
+            shop.setShopId(user.getUserId());
+            shop.setName((String) shopInfo.get("name"));
+            shop.setDistance(user.getDistance());
+            shop.setRating(rating);
+            shop.setCategory(shopCategory);
+            
+            shops.add(shop);
+        }
+        
+        // 3. 按评分排序
+        shops.sort((a, b) -> b.getRating() - a.getRating());
+        
+        return shops;
+    }
+}
+```
+
+**2. 位置数据分片（大数据量优化）：**
+
+```java
+@Service
+public class ShardedGeoService {
+    
+    /**
+     * 根据城市分片存储位置数据
+     */
+    public void updateLocation(String cityCode, String userId, 
+                               double longitude, double latitude) {
+        String geoKey = "geo:city:" + cityCode;
+        redisTemplate.opsForGeo().add(geoKey, 
+            new Point(longitude, latitude), userId);
+    }
+    
+    /**
+     * 查询附近的人（先确定城市，再查询）
+     */
+    public List<NearbyUser> findNearby(String cityCode, double longitude,
+                                        double latitude, double radius) {
+        String geoKey = "geo:city:" + cityCode;
+        
+        GeoResults<RedisGeoCommands.GeoLocation<String>> results = 
+            redisTemplate.opsForGeo().radius(geoKey,
+                new Circle(new Point(longitude, latitude), 
+                          new Distance(radius, Metrics.KILOMETERS)),
+                RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs()
+                    .includeDistance()
+                    .sortAscending()
+                    .limit(50)
+            );
+        
+        return convertToNearbyUsers(results, null);
+    }
+    
+    /**
+     * 根据坐标确定城市（简化示例）
+     */
+    public String getCityCode(double longitude, double latitude) {
+        // 实际应用中可以使用GeoHash前缀匹配或反向地理编码
+        // 这里简化处理
+        if (longitude > 115 && longitude < 118 && 
+            latitude > 39 && latitude < 41) {
+            return "110000";  // 北京
+        }
+        return "default";
+    }
+}
+```
+
+**3. 位置数据过期清理：**
+
+```java
+@Component
+public class GeoCleanupTask {
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    
+    /**
+     * 清理不活跃用户的地理位置（每天凌晨执行）
+     */
+    @Scheduled(cron = "0 0 2 * * ?")
+    public void cleanupInactiveUsers() {
+        // 获取所有用户位置
+        Set<String> userKeys = redisTemplate.keys("user:location:*");
+        
+        if (userKeys == null) {
+            return;
+        }
+        
+        long now = System.currentTimeMillis();
+        long inactiveThreshold = 7 * 24 * 60 * 60 * 1000;  // 7天
+        
+        for (String key : userKeys) {
+            String updateTime = (String) redisTemplate.opsForHash()
+                .get(key, "updateTime");
+            
+            if (updateTime != null) {
+                long lastUpdate = Long.parseLong(updateTime);
+                if (now - lastUpdate > inactiveThreshold) {
+                    String userId = key.replace("user:location:", "");
+                    // 从Geo集合中移除
+                    redisTemplate.opsForGeo().remove("geo:users", userId);
+                    // 删除位置记录
+                    redisTemplate.delete(key);
+                    
+                    log.info("清理不活跃用户位置: {}", userId);
+                }
+            }
+        }
+    }
+}
+```
+
+## 五、性能优化建议
+
+| 优化点 | 方案 | 效果 |
+|--------|------|------|
+| **大数据量** | 按城市/区域分片 | 降低单个ZSet大小 |
+| **高并发写入** | Pipeline批量添加 | 减少网络RTT |
+| **查询优化** | 限制COUNT，避免大半径查询 | 减少计算量 |
+| **内存优化** | 定期清理不活跃用户 | 节省内存空间 |
+| **冷热分离** | 活跃用户在Redis，历史数据归档 | 平衡性能和成本 |
 
 **使用场景：**
-- 附近的人、附近商家、地理位置服务
+- **附近的人**：社交应用查找附近用户
+- **附近商家**：O2O应用搜索周边店铺
+- **位置服务**：外卖配送、网约车调度
+- **地理围栏**：电子围栏、区域监控
 
 ---
 
