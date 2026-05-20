@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#667eea","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":5,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Java AI面试题：模型集成与量化部署篇（14道）本文整理了模型集成、向量数据库、量化部署、上下文限制等相关的14道面试题，涵盖OpenAI&#x2F;Ollama集成、多模型路由、Token限制处理、上下文窗口、位置编码、向量数据库使用、模型量化等核心知识点。  一、大模型集成篇1. 如何在Java中集成OpenAI API？答案： Maven依赖： 1234&lt;dependency&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java AI面试题：模型集成与量化部署篇（14道）">
+<meta property="og:url" content="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E4%B8%8E%E9%87%8F%E5%8C%96%E9%83%A8%E7%BD%B2%E7%AF%87/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="Java AI面试题：模型集成与量化部署篇（14道）本文整理了模型集成、向量数据库、量化部署、上下文限制等相关的14道面试题，涵盖OpenAI&#x2F;Ollama集成、多模型路由、Token限制处理、上下文窗口、位置编码、向量数据库使用、模型量化等核心知识点。  一、大模型集成篇1. 如何在Java中集成OpenAI API？答案： Maven依赖： 1234&lt;dependency&gt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-18T09:10:00.000Z">
+<meta property="article:modified_time" content="2026-05-20T06:38:10.407Z">
+<meta property="article:author" content="snrt111">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="面试题">
+<meta property="article:tag" content="OpenAI">
+<meta property="article:tag" content="Ollama">
+<meta property="article:tag" content="向量数据库">
+<meta property="article:tag" content="量化">
+<meta property="article:tag" content="上下文窗口">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E4%B8%8E%E9%87%8F%E5%8C%96%E9%83%A8%E7%BD%B2%E7%AF%87/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E4%B8%8E%E9%87%8F%E5%8C%96%E9%83%A8%E7%BD%B2%E7%AF%87/","path":"2026/05/18/Java-AI面试题-模型集成与量化部署篇/","title":"Java AI面试题：模型集成与量化部署篇（14道）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java AI面试题：模型集成与量化部署篇（14道） | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="天鹰的个人博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录技术成长，分享学习心得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%9A%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E4%B8%8E%E9%87%8F%E5%8C%96%E9%83%A8%E7%BD%B2%E7%AF%87%EF%BC%8814%E9%81%93%EF%BC%89"><span class="nav-text">Java AI面试题：模型集成与量化部署篇（14道）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E7%AF%87"><span class="nav-text">一、大模型集成篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%A6%82%E4%BD%95%E5%9C%A8Java%E4%B8%AD%E9%9B%86%E6%88%90OpenAI-API%EF%BC%9F"><span class="nav-text">1. 如何在Java中集成OpenAI API？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AFOllama%EF%BC%9F%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E5%A4%A7%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="nav-text">2. 什么是Ollama？如何在本地部署大模型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E6%A8%A1%E5%9E%8B%E8%B7%AF%E7%94%B1%EF%BC%88%E6%A0%B9%E6%8D%AE%E5%9C%BA%E6%99%AF%E9%80%89%E6%8B%A9%E4%B8%8D%E5%90%8C%E6%A8%A1%E5%9E%8B%EF%BC%89%EF%BC%9F"><span class="nav-text">3. 如何实现多模型路由（根据场景选择不同模型）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84Token%E9%99%90%E5%88%B6%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-text">4. 如何处理大模型的Token限制问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3%EF%BC%88Context-Window%EF%BC%89%EF%BC%9F%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87%E6%A8%A1%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8A%BF%E5%92%8C%E6%8C%91%E6%88%98%EF%BC%9F"><span class="nav-text">5. 什么是上下文窗口（Context Window）？长上下文模型有哪些优势和挑战？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AF%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%EF%BC%88Positional-Encoding%EF%BC%89%EF%BC%9FRoPE%E5%92%8CALiBi%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">6. 什么是位置编码（Positional Encoding）？RoPE和ALiBi有什么区别？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E6%A3%80%E7%B4%A2%E7%AF%87"><span class="nav-text">二、向量数据库与检索篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%A6%82%E4%BD%95%E5%9C%A8Spring-AI%E4%B8%AD%E4%BD%BF%E7%94%A8Redis%E4%BD%9C%E4%B8%BA%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9F"><span class="nav-text">7. 如何在Spring AI中使用Redis作为向量数据库？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E4%BB%80%E4%B9%88%E6%98%AFHNSW%E7%B4%A2%E5%BC%95%EF%BC%9F%E5%AE%83%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">8. 什么是HNSW索引？它的优缺点是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E6%96%87%E6%A1%A3%E5%88%86%E5%9D%97%EF%BC%88Chunking%EF%BC%89%E6%9C%89%E5%93%AA%E4%BA%9B%E7%AD%96%E7%95%A5%EF%BC%9F%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%EF%BC%9F"><span class="nav-text">9. 文档分块（Chunking）有哪些策略？如何选择？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E4%B8%8E%E9%83%A8%E7%BD%B2%E7%AF%87"><span class="nav-text">三、模型量化与部署篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E4%BB%80%E4%B9%88%E6%98%AF%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%EF%BC%88Quantization%EF%BC%89%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-text">10. 什么是模型量化（Quantization）？有什么作用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%9FPTQ%E5%92%8CQAT%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">11. 模型量化有哪些常用方法？PTQ和QAT有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E4%BB%80%E4%B9%88%E6%98%AFGGUF%E6%A0%BC%E5%BC%8F%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E5%B8%B8%E7%94%A8%E5%AE%83%EF%BC%9F"><span class="nav-text">12. 什么是GGUF格式？为什么本地部署常用它？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-%E5%A6%82%E4%BD%95%E5%9C%A8Java%E4%B8%AD%E5%AE%9E%E7%8E%B0%E6%B5%81%E5%BC%8F%EF%BC%88Streaming%EF%BC%89%E5%93%8D%E5%BA%94%EF%BC%9F"><span class="nav-text">13. 如何在Java中实现流式（Streaming）响应？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-%E5%A6%82%E4%BD%95%E8%AF%84%E4%BC%B0RAG%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A3%80%E7%B4%A2%E8%B4%A8%E9%87%8F%EF%BC%9F"><span class="nav-text">14. 如何评估RAG系统的检索质量？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="snrt111"
+      src="/images/author.png">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">82</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NucnQxMTE=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;snrt111"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E4%B8%8E%E9%87%8F%E5%8C%96%E9%83%A8%E7%BD%B2%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.png">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Java AI面试题：模型集成与量化部署篇（14道） | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java AI面试题：模型集成与量化部署篇（14道）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-18 17:10:00" itemprop="dateCreated datePublished" datetime="2026-05-18T17:10:00+08:00">2026-05-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-20 14:38:10" itemprop="dateModified" datetime="2026-05-20T14:38:10+08:00">2026-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Java-AI面试题：模型集成与量化部署篇（14道）"><a href="#Java-AI面试题：模型集成与量化部署篇（14道）" class="headerlink" title="Java AI面试题：模型集成与量化部署篇（14道）"></a>Java AI面试题：模型集成与量化部署篇（14道）</h1><p>本文整理了模型集成、向量数据库、量化部署、上下文限制等相关的14道面试题，涵盖OpenAI/Ollama集成、多模型路由、Token限制处理、上下文窗口、位置编码、向量数据库使用、模型量化等核心知识点。</p>
+<hr>
+<h2 id="一、大模型集成篇"><a href="#一、大模型集成篇" class="headerlink" title="一、大模型集成篇"></a>一、大模型集成篇</h2><h3 id="1-如何在Java中集成OpenAI-API？"><a href="#1-如何在Java中集成OpenAI-API？" class="headerlink" title="1. 如何在Java中集成OpenAI API？"></a>1. 如何在Java中集成OpenAI API？</h3><p><strong>答案：</strong></p>
+<p><strong>Maven依赖：</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.ai<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-ai-openai-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>配置：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">ai:</span></span><br><span class="line">    <span class="attr">openai:</span></span><br><span class="line">      <span class="attr">api-key:</span> <span class="string">$&#123;OPENAI_API_KEY&#125;</span></span><br><span class="line">      <span class="attr">base-url:</span> <span class="string">https://api.openai.com</span>  <span class="comment"># 或使用代理地址</span></span><br><span class="line">      <span class="attr">chat:</span></span><br><span class="line">        <span class="attr">options:</span></span><br><span class="line">          <span class="attr">model:</span> <span class="string">gpt-4</span></span><br><span class="line">          <span class="attr">temperature:</span> <span class="number">0.7</span></span><br><span class="line">          <span class="attr">max-tokens:</span> <span class="number">2000</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码使用：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OpenAIService</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OpenAiChatClient chatClient;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">generateCode</span><span class="params">(String requirement)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> chatClient.call(<span class="string">&quot;生成Java代码: &quot;</span> + requirement);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-什么是Ollama？如何在本地部署大模型？"><a href="#2-什么是Ollama？如何在本地部署大模型？" class="headerlink" title="2. 什么是Ollama？如何在本地部署大模型？"></a>2. 什么是Ollama？如何在本地部署大模型？</h3><p><strong>答案：</strong></p>
+<p>Ollama是一个开源的本地大模型运行框架，支持在本地机器上轻松运行Llama、Mistral、Qwen等开源模型。</p>
+<p><strong>安装与使用：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装Ollama（macOS/Linux）</span></span><br><span class="line">curl -fsSL https://ollama.com/install.sh | sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拉取模型</span></span><br><span class="line">ollama pull llama3</span><br><span class="line">ollama pull qwen:14b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行模型</span></span><br><span class="line">ollama run llama3</span><br></pre></td></tr></table></figure>
+
+<p><strong>Spring AI集成：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">ai:</span></span><br><span class="line">    <span class="attr">ollama:</span></span><br><span class="line">      <span class="attr">base-url:</span> <span class="string">http://localhost:11434</span></span><br><span class="line">      <span class="attr">chat:</span></span><br><span class="line">        <span class="attr">options:</span></span><br><span class="line">          <span class="attr">model:</span> <span class="string">llama3</span></span><br><span class="line">          <span class="attr">temperature:</span> <span class="number">0.8</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>优势：</strong></p>
+<ul>
+<li>数据隐私（本地运行，不上传云端）</li>
+<li>零网络延迟</li>
+<li>无API调用费用</li>
+<li>可离线使用</li>
+</ul>
+<hr>
+<h3 id="3-如何实现多模型路由（根据场景选择不同模型）？"><a href="#3-如何实现多模型路由（根据场景选择不同模型）？" class="headerlink" title="3. 如何实现多模型路由（根据场景选择不同模型）？"></a>3. 如何实现多模型路由（根据场景选择不同模型）？</h3><p><strong>答案：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ModelRouter</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, ChatClient&gt; modelRegistry = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ModelRouter</span><span class="params">(</span></span><br><span class="line"><span class="params">            OpenAiChatClient openAiClient,</span></span><br><span class="line"><span class="params">            OllamaChatClient ollamaClient,</span></span><br><span class="line"><span class="params">            ZhiPuAiChatClient zhipuClient)</span> &#123;</span><br><span class="line">        modelRegistry.put(<span class="string">&quot;gpt-4&quot;</span>, openAiClient);</span><br><span class="line">        modelRegistry.put(<span class="string">&quot;llama3&quot;</span>, ollamaClient);</span><br><span class="line">        modelRegistry.put(<span class="string">&quot;glm-4&quot;</span>, zhipuClient);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">chat</span><span class="params">(String modelName, String message)</span> &#123;</span><br><span class="line">        <span class="type">ChatClient</span> <span class="variable">client</span> <span class="operator">=</span> modelRegistry.get(modelName);</span><br><span class="line">        <span class="keyword">if</span> (client == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Unknown model: &quot;</span> + modelName);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> client.call(message);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 智能路由：根据任务复杂度选择模型</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">smartChat</span><span class="params">(String message)</span> &#123;</span><br><span class="line">        <span class="comment">// 简单任务使用轻量级模型</span></span><br><span class="line">        <span class="keyword">if</span> (isSimpleTask(message)) &#123;</span><br><span class="line">            <span class="keyword">return</span> modelRegistry.get(<span class="string">&quot;llama3&quot;</span>).call(message);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 复杂任务使用大模型</span></span><br><span class="line">        <span class="keyword">return</span> modelRegistry.get(<span class="string">&quot;gpt-4&quot;</span>).call(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-如何处理大模型的Token限制问题？"><a href="#4-如何处理大模型的Token限制问题？" class="headerlink" title="4. 如何处理大模型的Token限制问题？"></a>4. 如何处理大模型的Token限制问题？</h3><p><strong>答案：</strong></p>
+<p><strong>常见策略：</strong></p>
+<ol>
+<li><p><strong>文本截断</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">truncateText</span><span class="params">(String text, <span class="type">int</span> maxTokens)</span> &#123;</span><br><span class="line">    <span class="comment">// 近似估算：1 token ≈ 0.75 个英文单词</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">maxChars</span> <span class="operator">=</span> maxTokens * <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">if</span> (text.length() &lt;= maxChars) &#123;</span><br><span class="line">        <span class="keyword">return</span> text;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> text.substring(<span class="number">0</span>, maxChars) + <span class="string">&quot;...&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>分块处理（Chunking）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;String&gt; <span class="title function_">splitIntoChunks</span><span class="params">(String text, <span class="type">int</span> chunkSize)</span> &#123;</span><br><span class="line">    List&lt;String&gt; chunks = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; text.length(); i += chunkSize) &#123;</span><br><span class="line">        chunks.add(text.substring(i, Math.min(i + chunkSize, text.length())));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> chunks;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>Map-Reduce模式</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">mapReduceSummarize</span><span class="params">(String longText)</span> &#123;</span><br><span class="line">    <span class="comment">// Map阶段：分块摘要</span></span><br><span class="line">    List&lt;String&gt; chunks = splitIntoChunks(longText, <span class="number">3000</span>);</span><br><span class="line">    List&lt;String&gt; summaries = chunks.stream()</span><br><span class="line">        .map(chunk -&gt; chatClient.call(<span class="string">&quot;请摘要以下内容：&quot;</span> + chunk))</span><br><span class="line">        .collect(Collectors.toList());</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Reduce阶段：合并摘要</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">combined</span> <span class="operator">=</span> String.join(<span class="string">&quot;\n&quot;</span>, summaries);</span><br><span class="line">    <span class="keyword">return</span> chatClient.call(<span class="string">&quot;请综合以下摘要：&quot;</span> + combined);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h3 id="5-什么是上下文窗口（Context-Window）？长上下文模型有哪些优势和挑战？"><a href="#5-什么是上下文窗口（Context-Window）？长上下文模型有哪些优势和挑战？" class="headerlink" title="5. 什么是上下文窗口（Context Window）？长上下文模型有哪些优势和挑战？"></a>5. 什么是上下文窗口（Context Window）？长上下文模型有哪些优势和挑战？</h3><p><strong>答案：</strong></p>
+<p>上下文窗口是指大模型在一次推理中能够处理的Token数量上限，决定了模型能”记住”多少信息。</p>
+<p><strong>常见模型的上下文长度：</strong></p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>上下文长度</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GPT-3.5</td>
+<td>4K/16K</td>
+<td>早期标准</td>
+</tr>
+<tr>
+<td>GPT-4</td>
+<td>8K/32K/128K</td>
+<td>长上下文能力强</td>
+</tr>
+<tr>
+<td>Claude 3</td>
+<td>200K</td>
+<td>超长上下文</td>
+</tr>
+<tr>
+<td>Llama 2</td>
+<td>4K</td>
+<td>开源基准</td>
+</tr>
+<tr>
+<td>Llama 3</td>
+<td>8K/128K</td>
+<td>开源长上下文</td>
+</tr>
+</tbody></table>
+<p><strong>长上下文的优势：</strong></p>
+<ul>
+<li>处理长文档（论文、报告、书籍）</li>
+<li>多轮对话保持完整上下文</li>
+<li>代码理解和生成（大型代码库）</li>
+</ul>
+<p><strong>长上下文的挑战：</strong></p>
+<ol>
+<li><p><strong>显存占用剧增</strong></p>
+<ul>
+<li>注意力计算复杂度为O(n²)</li>
+<li>128K上下文的显存需求是4K的1024倍</li>
+</ul>
+</li>
+<li><p><strong>KV Cache压力</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 长上下文KV Cache计算示例</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LongContextCalculator</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">calculateLongContextImpact</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// GPT-4 128K上下文</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">kvCache128K</span> <span class="operator">=</span> calculateKVCache(</span><br><span class="line">            <span class="number">1</span>, <span class="number">128000</span>, <span class="number">96</span>, <span class="number">32</span>, <span class="number">128</span>, <span class="number">2</span></span><br><span class="line">        ); <span class="comment">// 约 196GB！</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 需要采用稀疏注意力、滑动窗口等技术优化</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>注意力稀释</strong></p>
+<ul>
+<li>上下文过长时，模型难以聚焦关键信息</li>
+<li>中间信息容易被”遗忘”</li>
+</ul>
+</li>
+</ol>
+<p><strong>长上下文优化技术：</strong></p>
+<ul>
+<li><strong>稀疏注意力</strong>：只计算局部注意力，如Longformer</li>
+<li><strong>滑动窗口</strong>：限制每个Token只能看到附近的Token</li>
+<li><strong>位置编码优化</strong>：RoPE、ALiBi等外推能力更强的编码</li>
+</ul>
+<hr>
+<h3 id="6-什么是位置编码（Positional-Encoding）？RoPE和ALiBi有什么区别？"><a href="#6-什么是位置编码（Positional-Encoding）？RoPE和ALiBi有什么区别？" class="headerlink" title="6. 什么是位置编码（Positional Encoding）？RoPE和ALiBi有什么区别？"></a>6. 什么是位置编码（Positional Encoding）？RoPE和ALiBi有什么区别？</h3><p><strong>答案：</strong></p>
+<p>位置编码是为序列中的每个位置添加位置信息的技术，因为Transformer本身不具备顺序感知能力。</p>
+<p><strong>主要类型对比：</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>原理</th>
+<th>优点</th>
+<th>代表模型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>绝对位置编码</strong></td>
+<td>正弦/余弦函数或学习向量</td>
+<td>简单直观</td>
+<td>原始Transformer、BERT</td>
+</tr>
+<tr>
+<td><strong>RoPE</strong></td>
+<td>旋转位置编码，通过旋转矩阵注入位置信息</td>
+<td>外推能力强，支持长上下文</td>
+<td>Llama、ChatGLM</td>
+</tr>
+<tr>
+<td><strong>ALiBi</strong></td>
+<td>注意力偏置，基于距离的线性偏置</td>
+<td>训练稳定，零样本长上下文</td>
+<td>BLOOM、MPT</td>
+</tr>
+</tbody></table>
+<p><strong>RoPE（Rotary Position Embedding）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">原理：将Query和Key向量旋转角度m·θ_i</span><br><span class="line">其中m是位置，θ_i是预设的角度序列</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line">- 相对位置信息内嵌在注意力计算中</span><br><span class="line">- 可以通过NTK-aware等技术外推到更长上下文</span><br></pre></td></tr></table></figure>
+
+<p><strong>ALiBi（Attention with Linear Biases）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">原理：在注意力分数上添加与距离成线性关系的负偏置</span><br><span class="line">Attention_score = Q·K^T / √d + bias</span><br><span class="line">其中 bias = -m · |i-j|  (m是头特定的斜率)</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line">- 无需学习的位置嵌入</span><br><span class="line">- 训练时短上下文即可泛化到长上下文</span><br></pre></td></tr></table></figure>
+
+<p><strong>Java开发启示：</strong></p>
+<ul>
+<li>使用RoPE的模型（如Llama）可通过调整位置编码参数扩展上下文</li>
+<li>长上下文场景优先选择ALiBi或RoPE-based模型</li>
+</ul>
+<hr>
+<h2 id="二、向量数据库与检索篇"><a href="#二、向量数据库与检索篇" class="headerlink" title="二、向量数据库与检索篇"></a>二、向量数据库与检索篇</h2><h3 id="7-如何在Spring-AI中使用Redis作为向量数据库？"><a href="#7-如何在Spring-AI中使用Redis作为向量数据库？" class="headerlink" title="7. 如何在Spring AI中使用Redis作为向量数据库？"></a>7. 如何在Spring AI中使用Redis作为向量数据库？</h3><p><strong>答案：</strong></p>
+<p><strong>依赖：</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.ai<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-ai-redis-store-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>配置：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">ai:</span></span><br><span class="line">    <span class="attr">vectorstore:</span></span><br><span class="line">      <span class="attr">redis:</span></span><br><span class="line">        <span class="attr">index:</span> <span class="string">document-index</span></span><br><span class="line">        <span class="attr">prefix: doc:</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">redis://localhost:6379</span></span><br><span class="line">  <span class="attr">data:</span></span><br><span class="line">    <span class="attr">redis:</span></span><br><span class="line">      <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DocumentService</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> VectorStore vectorStore;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmbeddingClient embeddingClient;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 添加文档</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addDocument</span><span class="params">(String content)</span> &#123;</span><br><span class="line">        <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Document</span>(content);</span><br><span class="line">        vectorStore.add(List.of(doc));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 相似度搜索</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Document&gt; <span class="title function_">search</span><span class="params">(String query, <span class="type">int</span> topK)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> vectorStore.similaritySearch(</span><br><span class="line">            SearchRequest.query(query).withTopK(topK)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="8-什么是HNSW索引？它的优缺点是什么？"><a href="#8-什么是HNSW索引？它的优缺点是什么？" class="headerlink" title="8. 什么是HNSW索引？它的优缺点是什么？"></a>8. 什么是HNSW索引？它的优缺点是什么？</h3><p><strong>答案：</strong></p>
+<p>HNSW（Hierarchical Navigable Small World，分层可导航小世界）是一种基于图的近似最近邻（ANN）搜索算法。</p>
+<p><strong>原理：</strong></p>
+<ul>
+<li>构建多层图结构，每层是上一层的子集</li>
+<li>搜索时从顶层开始，逐层向下精确定位</li>
+<li>通过贪心算法在图中导航找到最近邻</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>查询速度快（O(log n)）</li>
+<li>召回率高（通常&gt;95%）</li>
+<li>支持增量添加向量</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>内存占用较高</li>
+<li>构建索引较慢</li>
+<li>不适合频繁删除的场景</li>
+</ul>
+<p><strong>Java配置示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> VectorStore <span class="title function_">vectorStore</span><span class="params">(EmbeddingClient embeddingClient)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> PgVectorStore.builder(embeddingClient)</span><br><span class="line">            .indexType(PgVectorStore.PgIndexType.HNSW)</span><br><span class="line">            .distanceType(PgVectorStore.PgDistanceType.COSINE_DISTANCE)</span><br><span class="line">            .dimensions(<span class="number">1536</span>)</span><br><span class="line">            .build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="9-文档分块（Chunking）有哪些策略？如何选择？"><a href="#9-文档分块（Chunking）有哪些策略？如何选择？" class="headerlink" title="9. 文档分块（Chunking）有哪些策略？如何选择？"></a>9. 文档分块（Chunking）有哪些策略？如何选择？</h3><p><strong>答案：</strong></p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>适用场景</th>
+<th>优缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>固定长度</strong></td>
+<td>通用场景</td>
+<td>简单，可能切断语义</td>
+</tr>
+<tr>
+<td><strong>按段落</strong></td>
+<td>文章、报告</td>
+<td>保持段落完整性</td>
+</tr>
+<tr>
+<td><strong>按句子</strong></td>
+<td>短文本</td>
+<td>粒度细，上下文可能丢失</td>
+</tr>
+<tr>
+<td><strong>重叠分块</strong></td>
+<td>需要上下文的场景</td>
+<td>保留边界信息，有冗余</td>
+</tr>
+<tr>
+<td><strong>语义分块</strong></td>
+<td>长文档</td>
+<td>按主题分割，复杂度高</td>
+</tr>
+</tbody></table>
+<p><strong>重叠分块实现：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;String&gt; <span class="title function_">overlappingChunks</span><span class="params">(String text, <span class="type">int</span> chunkSize, <span class="type">int</span> overlap)</span> &#123;</span><br><span class="line">    List&lt;String&gt; chunks = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="type">int</span> <span class="variable">step</span> <span class="operator">=</span> chunkSize - overlap;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; text.length(); i += step) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">end</span> <span class="operator">=</span> Math.min(i + chunkSize, text.length());</span><br><span class="line">        chunks.add(text.substring(i, end));</span><br><span class="line">        <span class="keyword">if</span> (end == text.length()) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> chunks;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、模型量化与部署篇"><a href="#三、模型量化与部署篇" class="headerlink" title="三、模型量化与部署篇"></a>三、模型量化与部署篇</h2><h3 id="10-什么是模型量化（Quantization）？有什么作用？"><a href="#10-什么是模型量化（Quantization）？有什么作用？" class="headerlink" title="10. 什么是模型量化（Quantization）？有什么作用？"></a>10. 什么是模型量化（Quantization）？有什么作用？</h3><p><strong>答案：</strong></p>
+<p>模型量化是将模型权重从高精度（如FP32）转换为低精度（如INT8、INT4）表示的技术。</p>
+<p><strong>常见量化类型：</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>精度</th>
+<th>模型大小</th>
+<th>精度损失</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FP32</td>
+<td>32位浮点</td>
+<td>100%</td>
+<td>基准</td>
+</tr>
+<tr>
+<td>FP16</td>
+<td>16位浮点</td>
+<td>50%</td>
+<td>极小</td>
+</tr>
+<tr>
+<td>INT8</td>
+<td>8位整数</td>
+<td>25%</td>
+<td>较小</td>
+</tr>
+<tr>
+<td>INT4</td>
+<td>4位整数</td>
+<td>12.5%</td>
+<td>可接受</td>
+</tr>
+</tbody></table>
+<p><strong>作用：</strong></p>
+<ul>
+<li><strong>减少内存占用</strong>：模型体积缩小2-8倍</li>
+<li><strong>加速推理</strong>：低精度运算更快</li>
+<li><strong>降低功耗</strong>：适合边缘设备部署</li>
+</ul>
+<p><strong>Java集成量化模型（Ollama）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行量化版本的Llama3</span></span><br><span class="line">ollama run llama3:8b-instruct-q4_0</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="11-模型量化有哪些常用方法？PTQ和QAT有什么区别？"><a href="#11-模型量化有哪些常用方法？PTQ和QAT有什么区别？" class="headerlink" title="11. 模型量化有哪些常用方法？PTQ和QAT有什么区别？"></a>11. 模型量化有哪些常用方法？PTQ和QAT有什么区别？</h3><p><strong>答案：</strong></p>
+<p>模型量化主要分为两大类方法：训练后量化（PTQ）和量化感知训练（QAT）。</p>
+<p><strong>PTQ（Post-Training Quantization）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">流程：训练好的FP32模型 → 校准（可选） → 量化 → INT8/INT4模型</span><br><span class="line"></span><br><span class="line">特点：</span><br><span class="line">- 无需重新训练</span><br><span class="line">- 实现简单，快速部署</span><br><span class="line">- 精度损失相对较大（但通常可接受）</span><br><span class="line"></span><br><span class="line">常用算法：</span><br><span class="line">- **动态量化**：运行时动态确定量化参数</span><br><span class="line">- **静态量化**：使用校准集预先确定量化参数</span><br><span class="line">- **GPTQ**：逐层量化，最小化输出误差</span><br><span class="line">- **AWQ**：激活感知的权重量化</span><br></pre></td></tr></table></figure>
+
+<p><strong>QAT（Quantization-Aware Training）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">流程：训练时模拟量化 → 前向传播用低精度 → 反向传播用FP32 → 量化模型</span><br><span class="line"></span><br><span class="line">特点：</span><br><span class="line">- 需要重新训练或微调</span><br><span class="line">- 精度损失小</span><br><span class="line">- 训练成本较高</span><br><span class="line"></span><br><span class="line">实现方式：</span><br><span class="line">- 在训练图中插入FakeQuantize节点</span><br><span class="line">- 让模型适应低精度计算</span><br></pre></td></tr></table></figure>
+
+<p><strong>对比：</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>PTQ</th>
+<th>QAT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>训练成本</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>精度损失</td>
+<td>中等</td>
+<td>低</td>
+</tr>
+<tr>
+<td>实现复杂度</td>
+<td>简单</td>
+<td>复杂</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>快速部署</td>
+<td>精度敏感</td>
+</tr>
+</tbody></table>
+<p><strong>Java中的量化实践（Ollama）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不同量化级别的模型选择</span></span><br><span class="line">ollama run llama3:8b-instruct-q8_0    <span class="comment"># 高质量，8位量化</span></span><br><span class="line">ollama run llama3:8b-instruct-q4_K_M  <span class="comment"># 平衡质量与速度</span></span><br><span class="line">ollama run llama3:8b-instruct-q4_0    <span class="comment"># 最高压缩，适合边缘设备</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="12-什么是GGUF格式？为什么本地部署常用它？"><a href="#12-什么是GGUF格式？为什么本地部署常用它？" class="headerlink" title="12. 什么是GGUF格式？为什么本地部署常用它？"></a>12. 什么是GGUF格式？为什么本地部署常用它？</h3><p><strong>答案：</strong></p>
+<p>GGUF（GPT-Generated Unified Format）是llama.cpp项目引入的一种大模型文件格式，专门用于高效存储和加载量化模型。</p>
+<p><strong>GGUF的优势：</strong></p>
+<ol>
+<li><p><strong>单文件存储</strong></p>
+<ul>
+<li>将模型权重、词汇表、配置信息打包在一个文件中</li>
+<li>便于分发和部署</li>
+</ul>
+</li>
+<li><p><strong>高效量化支持</strong></p>
+<ul>
+<li>原生支持多种量化方案（Q4_0、Q5_K_M、Q8_0等）</li>
+<li>针对CPU推理优化</li>
+</ul>
+</li>
+<li><p><strong>元数据丰富</strong></p>
+<ul>
+<li>存储模型架构、训练参数等信息</li>
+<li>便于工具链处理</li>
+</ul>
+</li>
+</ol>
+<p><strong>量化类型对照表：</strong></p>
+<table>
+<thead>
+<tr>
+<th>后缀</th>
+<th>说明</th>
+<th>模型大小</th>
+<th>推荐场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>q4_0</td>
+<td>4位量化，基础版</td>
+<td>~4GB (7B模型)</td>
+<td>资源受限</td>
+</tr>
+<tr>
+<td>q4_K_M</td>
+<td>4位量化，混合精度</td>
+<td>~4.5GB</td>
+<td>质量与速度平衡</td>
+</tr>
+<tr>
+<td>q5_K_M</td>
+<td>5位量化，混合精度</td>
+<td>~5GB</td>
+<td>更高质量</td>
+</tr>
+<tr>
+<td>q8_0</td>
+<td>8位量化</td>
+<td>~7GB</td>
+<td>接近原始精度</td>
+</tr>
+<tr>
+<td>fp16</td>
+<td>半精度</td>
+<td>~13GB</td>
+<td>完整精度</td>
+</tr>
+</tbody></table>
+<p><strong>Java集成示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LocalModelService</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OllamaChatClient chatClient;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">chatWithQuantizedModel</span><span class="params">(String message, String quantLevel)</span> &#123;</span><br><span class="line">        <span class="comment">// 根据质量需求选择不同量化级别</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">modelName</span> <span class="operator">=</span> <span class="string">&quot;llama3:8b-instruct-&quot;</span> + quantLevel;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> chatClient.call(</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Prompt</span>(message, </span><br><span class="line">                OpenAiChatOptions.builder()</span><br><span class="line">                    .withModel(modelName)</span><br><span class="line">                    .build())</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="13-如何在Java中实现流式（Streaming）响应？"><a href="#13-如何在Java中实现流式（Streaming）响应？" class="headerlink" title="13. 如何在Java中实现流式（Streaming）响应？"></a>13. 如何在Java中实现流式（Streaming）响应？</h3><p><strong>答案：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ChatController</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ChatClient chatClient;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping(value = &quot;/chat/stream&quot;, produces = MediaType.TEXT_EVENT_STREAM_VALUE)</span></span><br><span class="line">    <span class="keyword">public</span> Flux&lt;ServerSentEvent&lt;String&gt;&gt; <span class="title function_">streamChat</span><span class="params">(<span class="meta">@RequestParam</span> String message)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> chatClient.prompt()</span><br><span class="line">                .user(message)</span><br><span class="line">                .stream()</span><br><span class="line">                .content()</span><br><span class="line">                .map(content -&gt; ServerSentEvent.builder(content).build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>前端接收（JavaScript）：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> eventSource = <span class="keyword">new</span> <span class="title class_">EventSource</span>(<span class="string">&#x27;/chat/stream?message=你好&#x27;</span>);</span><br><span class="line"></span><br><span class="line">eventSource.<span class="property">onmessage</span> = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;收到:&#x27;</span>, event.<span class="property">data</span>);</span><br><span class="line">    <span class="title function_">appendToChat</span>(event.<span class="property">data</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">eventSource.<span class="property">onerror</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    eventSource.<span class="title function_">close</span>();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>优势：</strong></p>
+<ul>
+<li>提升用户体验（逐字显示）</li>
+<li>减少首字节等待时间</li>
+<li>适合长文本生成场景</li>
+</ul>
+<hr>
+<h3 id="14-如何评估RAG系统的检索质量？"><a href="#14-如何评估RAG系统的检索质量？" class="headerlink" title="14. 如何评估RAG系统的检索质量？"></a>14. 如何评估RAG系统的检索质量？</h3><p><strong>答案：</strong></p>
+<p><strong>常用评估指标：</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>说明</th>
+<th>计算方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Recall@K</strong></td>
+<td>前K个结果中相关文档比例</td>
+<td>相关文档数 / 总相关文档数</td>
+</tr>
+<tr>
+<td><strong>Precision@K</strong></td>
+<td>前K个结果的准确率</td>
+<td>相关文档数 / K</td>
+</tr>
+<tr>
+<td><strong>MRR</strong></td>
+<td>平均倒数排名</td>
+<td>1 / 首个相关文档排名</td>
+</tr>
+<tr>
+<td><strong>NDCG</strong></td>
+<td>归一化折损累积增益</td>
+<td>考虑文档相关度和位置</td>
+</tr>
+</tbody></table>
+<p><strong>Java评估实现：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RAGEvaluator</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">calculateRecallAtK</span><span class="params">(List&lt;Document&gt; retrieved, </span></span><br><span class="line"><span class="params">                                      Set&lt;String&gt; relevantDocs, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">relevantRetrieved</span> <span class="operator">=</span> retrieved.stream()</span><br><span class="line">            .limit(k)</span><br><span class="line">            .filter(doc -&gt; relevantDocs.contains(doc.getId()))</span><br><span class="line">            .count();</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">double</span>) relevantRetrieved / relevantDocs.size();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">calculateMRR</span><span class="params">(List&lt;List&lt;Document&gt;&gt; queriesResults,</span></span><br><span class="line"><span class="params">                                List&lt;Set&lt;String&gt;&gt; relevantDocsList)</span> &#123;</span><br><span class="line">        <span class="type">double</span> <span class="variable">sumRR</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; queriesResults.size(); i++) &#123;</span><br><span class="line">            List&lt;Document&gt; results = queriesResults.get(i);</span><br><span class="line">            Set&lt;String&gt; relevant = relevantDocsList.get(i);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">rank</span> <span class="operator">=</span> <span class="number">0</span>; rank &lt; results.size(); rank++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (relevant.contains(results.get(rank).getId())) &#123;</span><br><span class="line">                    sumRR += <span class="number">1.0</span> / (rank + <span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sumRR / queriesResults.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文整理了模型集成与量化部署相关的14道面试题，涵盖：</p>
+<ul>
+<li><strong>大模型集成</strong>：OpenAI/Ollama集成、多模型路由、Token限制处理</li>
+<li><strong>上下文与位置编码</strong>：上下文窗口、RoPE、ALiBi</li>
+<li><strong>向量数据库</strong>：Redis向量存储、HNSW索引、文档分块策略</li>
+<li><strong>模型量化与部署</strong>：PTQ/QAT、GGUF格式、流式响应、RAG评估</li>
+</ul>
+<p>掌握这些知识点，将帮助你在Java AI开发中更好地集成和部署大模型。</p>
+<hr>
+<blockquote>
+<p><strong>系列文章：</strong></p>
+<ul>
+<li><a href="../Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E7%AF%87/">Java AI面试题：基础概念与大模型原理篇</a></li>
+<li><a href="../Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-Spring-AI%E6%A1%86%E6%9E%B6%E5%AE%9E%E6%88%98%E7%AF%87/">Java AI面试题：Spring AI框架实战篇</a></li>
+<li><a href="../Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E4%B8%8EAPI%E9%9B%86%E6%88%90%E7%AF%87/">Java AI面试题：模型微调与API集成篇</a></li>
+<li><a href="../Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%BF%9B%E9%98%B6%E6%9E%B6%E6%9E%84%E7%AF%87/">Java AI面试题：工程实践与进阶架构篇</a></li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+<script src="https://giscus.app/client.js"
+        data-repo="snrt111/snrt111.github.io"
+        data-repo-id="R_kgDOGOgTcQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOGOgTcc4C81X3"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="snrt111 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="snrt111 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag"># 面试题</a>
+              <a href="/tags/OpenAI/" rel="tag"># OpenAI</a>
+              <a href="/tags/Ollama/" rel="tag"># Ollama</a>
+              <a href="/tags/%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 向量数据库</a>
+              <a href="/tags/%E9%87%8F%E5%8C%96/" rel="tag"># 量化</a>
+              <a href="/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3/" rel="tag"># 上下文窗口</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-Spring-AI%E6%A1%86%E6%9E%B6%E5%AE%9E%E6%88%98%E7%AF%87/" rel="prev" title="Java AI面试题：Spring AI框架实战篇（4道）">
+                  <i class="fa fa-angle-left"></i> Java AI面试题：Spring AI框架实战篇（4道）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E4%B8%8EAPI%E9%9B%86%E6%88%90%E7%AF%87/" rel="next" title="Java AI面试题：模型微调与API集成篇（9道）">
+                  Java AI面试题：模型微调与API集成篇（9道） <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

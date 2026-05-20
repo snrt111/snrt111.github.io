@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"snrt111.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":true,"color":"#667eea","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":5,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Java AI面试题：基础概念与大模型原理篇（8道）本文整理了Java AI开发领域最基础的8道面试题，涵盖RAG、Embedding、Prompt Engineering、Transformer架构、注意力机制、Token、KV Cache等核心概念，帮助你建立扎实的AI理论基础。  一、基础概念篇1. 什么是RAG（检索增强生成）？它的核心优势是什么？答案： RAG（Retrieval-Aug">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java AI面试题：基础概念与大模型原理篇（8道）">
+<meta property="og:url" content="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E7%AF%87/index.html">
+<meta property="og:site_name" content="天鹰的个人博客">
+<meta property="og:description" content="Java AI面试题：基础概念与大模型原理篇（8道）本文整理了Java AI开发领域最基础的8道面试题，涵盖RAG、Embedding、Prompt Engineering、Transformer架构、注意力机制、Token、KV Cache等核心概念，帮助你建立扎实的AI理论基础。  一、基础概念篇1. 什么是RAG（检索增强生成）？它的核心优势是什么？答案： RAG（Retrieval-Aug">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-18T09:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-20T06:38:10.407Z">
+<meta property="article:author" content="snrt111">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="面试题">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="Transformer">
+<meta property="article:tag" content="注意力机制">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E7%AF%87/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E7%AF%87/","path":"2026/05/18/Java-AI面试题-基础概念与大模型原理篇/","title":"Java AI面试题：基础概念与大模型原理篇（8道）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java AI面试题：基础概念与大模型原理篇（8道） | 天鹰的个人博客</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="天鹰的个人博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">天鹰的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录技术成长，分享学习心得</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%9A%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E7%AF%87%EF%BC%888%E9%81%93%EF%BC%89"><span class="nav-text">Java AI面试题：基础概念与大模型原理篇（8道）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E7%AF%87"><span class="nav-text">一、基础概念篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFRAG%EF%BC%88%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%EF%BC%89%EF%BC%9F%E5%AE%83%E7%9A%84%E6%A0%B8%E5%BF%83%E4%BC%98%E5%8A%BF%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">1. 什么是RAG（检索增强生成）？它的核心优势是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">2. 向量数据库与传统数据库有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AFEmbedding%EF%BC%88%E5%B5%8C%E5%85%A5%EF%BC%89%EF%BC%9F%E5%AE%83%E5%9C%A8AI%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">3. 什么是Embedding（嵌入）？它在AI中的作用是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BB%80%E4%B9%88%E6%98%AFPrompt-Engineering%EF%BC%88%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%EF%BC%89%EF%BC%9F%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7%EF%BC%9F"><span class="nav-text">4. 什么是Prompt Engineering（提示工程）？有哪些常用技巧？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E7%AF%87"><span class="nav-text">二、大模型原理篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AFTransformer%E6%9E%B6%E6%9E%84%EF%BC%9F%E5%AE%83%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">5. 什么是Transformer架构？它的核心组件有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%EF%BC%88Attention-Mechanism%EF%BC%89%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AE%83%E5%A6%82%E6%AD%A4%E9%87%8D%E8%A6%81%EF%BC%9F"><span class="nav-text">6. 什么是注意力机制（Attention Mechanism）？为什么它如此重要？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%AD%E7%9A%84Token%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E5%AE%83%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F"><span class="nav-text">7. 大模型中的Token是什么？它是如何工作的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E4%BB%80%E4%B9%88%E6%98%AFKV-Cache%EF%BC%9F%E5%AE%83%E5%9C%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%AD%E8%B5%B7%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-text">8. 什么是KV Cache？它在大模型推理中起什么作用？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="snrt111"
+      src="/images/author.png">
+  <p class="site-author-name" itemprop="name">snrt111</p>
+  <div class="site-description" itemprop="description">天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">82</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NucnQxMTE=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;snrt111"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.png">
+      <meta itemprop="name" content="snrt111">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天鹰的个人博客">
+      <meta itemprop="description" content="天鹰的个人博客，专注于Java后端开发、微服务架构、数据库优化、DevOps等技术领域的知识分享。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Java AI面试题：基础概念与大模型原理篇（8道） | 天鹰的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java AI面试题：基础概念与大模型原理篇（8道）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-18 17:00:00" itemprop="dateCreated datePublished" datetime="2026-05-18T17:00:00+08:00">2026-05-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-20 14:38:10" itemprop="dateModified" datetime="2026-05-20T14:38:10+08:00">2026-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Java-AI面试题：基础概念与大模型原理篇（8道）"><a href="#Java-AI面试题：基础概念与大模型原理篇（8道）" class="headerlink" title="Java AI面试题：基础概念与大模型原理篇（8道）"></a>Java AI面试题：基础概念与大模型原理篇（8道）</h1><p>本文整理了Java AI开发领域最基础的8道面试题，涵盖RAG、Embedding、Prompt Engineering、Transformer架构、注意力机制、Token、KV Cache等核心概念，帮助你建立扎实的AI理论基础。</p>
+<hr>
+<h2 id="一、基础概念篇"><a href="#一、基础概念篇" class="headerlink" title="一、基础概念篇"></a>一、基础概念篇</h2><h3 id="1-什么是RAG（检索增强生成）？它的核心优势是什么？"><a href="#1-什么是RAG（检索增强生成）？它的核心优势是什么？" class="headerlink" title="1. 什么是RAG（检索增强生成）？它的核心优势是什么？"></a>1. 什么是RAG（检索增强生成）？它的核心优势是什么？</h3><p><strong>答案：</strong></p>
+<p>RAG（Retrieval-Augmented Generation，检索增强生成）是一种将信息检索技术与文本生成技术相结合的AI架构。</p>
+<p><strong>核心流程：</strong></p>
+<ol>
+<li><strong>检索阶段</strong>：将用户查询向量化，从知识库中检索相关文档</li>
+<li><strong>增强阶段</strong>：将检索到的上下文与用户问题拼接</li>
+<li><strong>生成阶段</strong>：将增强后的提示词输入大模型，生成回答</li>
+</ol>
+<p><strong>核心优势：</strong></p>
+<ul>
+<li><strong>解决知识截止问题</strong>：大模型可以访问最新、私域知识</li>
+<li><strong>减少幻觉</strong>：基于检索到的真实文档生成回答，降低编造概率</li>
+<li><strong>可溯源</strong>：回答可追溯到具体文档来源</li>
+<li><strong>成本优化</strong>：无需微调模型即可更新知识</li>
+</ul>
+<hr>
+<h3 id="2-向量数据库与传统数据库有什么区别？"><a href="#2-向量数据库与传统数据库有什么区别？" class="headerlink" title="2. 向量数据库与传统数据库有什么区别？"></a>2. 向量数据库与传统数据库有什么区别？</h3><p><strong>答案：</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>传统数据库</th>
+<th>向量数据库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储内容</td>
+<td>结构化数据</td>
+<td>高维向量（Embedding）</td>
+</tr>
+<tr>
+<td>查询方式</td>
+<td>精确匹配（=、&gt;、&lt;）</td>
+<td>相似度搜索（余弦相似度、欧氏距离）</td>
+</tr>
+<tr>
+<td>索引结构</td>
+<td>B+树、哈希表</td>
+<td>HNSW、IVF、PQ等ANN索引</td>
+</tr>
+<tr>
+<td>典型应用</td>
+<td>事务处理、CRUD</td>
+<td>语义搜索、推荐系统、RAG</td>
+</tr>
+</tbody></table>
+<p><strong>常见向量数据库：</strong> Milvus、Pinecone、Weaviate、Chroma、Redis Vector、PostgreSQL with pgvector</p>
+<hr>
+<h3 id="3-什么是Embedding（嵌入）？它在AI中的作用是什么？"><a href="#3-什么是Embedding（嵌入）？它在AI中的作用是什么？" class="headerlink" title="3. 什么是Embedding（嵌入）？它在AI中的作用是什么？"></a>3. 什么是Embedding（嵌入）？它在AI中的作用是什么？</h3><p><strong>答案：</strong></p>
+<p>Embedding是将高维离散数据（如文本、图像）映射到低维连续向量空间的技术。</p>
+<p><strong>核心作用：</strong></p>
+<ul>
+<li><strong>语义表示</strong>：将文本转换为固定维度的数值向量</li>
+<li><strong>语义相似度计算</strong>：通过向量距离衡量语义相似性</li>
+<li><strong>降维</strong>：将复杂数据转为机器学习可处理的格式</li>
+</ul>
+<p><strong>Java中常用Embedding模型：</strong></p>
+<ul>
+<li>OpenAI text-embedding-ada-002</li>
+<li>BGE（BAAI General Embedding）</li>
+<li>M3E（Moka Massive Mixed Embedding）</li>
+<li>通义千问Embedding</li>
+</ul>
+<hr>
+<h3 id="4-什么是Prompt-Engineering（提示工程）？有哪些常用技巧？"><a href="#4-什么是Prompt-Engineering（提示工程）？有哪些常用技巧？" class="headerlink" title="4. 什么是Prompt Engineering（提示工程）？有哪些常用技巧？"></a>4. 什么是Prompt Engineering（提示工程）？有哪些常用技巧？</h3><p><strong>答案：</strong></p>
+<p>Prompt Engineering是通过设计和优化输入提示词，引导大模型生成更准确、有用输出的技术。</p>
+<p><strong>常用技巧：</strong></p>
+<ol>
+<li><p><strong>角色设定</strong>：明确指定AI角色</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">你是一位资深的Java架构师，请帮我 review 以下代码...</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>Few-shot示例</strong>：提供示例让模型学习模式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：你好 -&gt; 输出：Hello</span><br><span class="line">输入：世界 -&gt; 输出：World</span><br><span class="line">输入：苹果 -&gt; 输出：Apple</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>Chain-of-Thought（思维链）</strong>：引导模型分步思考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">请逐步分析这个问题，展示你的思考过程...</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>结构化输出</strong>：指定输出格式（JSON、XML等）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">请以JSON格式返回，包含以下字段：code、message、data</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h2 id="二、大模型原理篇"><a href="#二、大模型原理篇" class="headerlink" title="二、大模型原理篇"></a>二、大模型原理篇</h2><h3 id="5-什么是Transformer架构？它的核心组件有哪些？"><a href="#5-什么是Transformer架构？它的核心组件有哪些？" class="headerlink" title="5. 什么是Transformer架构？它的核心组件有哪些？"></a>5. 什么是Transformer架构？它的核心组件有哪些？</h3><p><strong>答案：</strong></p>
+<p>Transformer是一种基于自注意力机制的深度学习架构，由Google在2017年提出，是现代大语言模型（LLM）的基础。</p>
+<p><strong>核心组件：</strong></p>
+<ol>
+<li><p><strong>自注意力机制（Self-Attention）</strong></p>
+<ul>
+<li>计算序列中每个位置与其他位置的关联权重</li>
+<li>公式：Attention(Q,K,V) = softmax(QK^T/√d_k)V</li>
+<li>支持并行计算，捕捉长距离依赖</li>
+</ul>
+</li>
+<li><p><strong>多头注意力（Multi-Head Attention）</strong></p>
+<ul>
+<li>将注意力机制分成多个头，每个头关注不同的特征子空间</li>
+<li>增强模型表达能力</li>
+</ul>
+</li>
+<li><p><strong>位置编码（Positional Encoding）</strong></p>
+<ul>
+<li>为序列添加位置信息</li>
+<li>使用正弦/余弦函数或学习的位置嵌入</li>
+</ul>
+</li>
+<li><p><strong>前馈神经网络（Feed-Forward Network）</strong></p>
+<ul>
+<li>每个位置独立应用的两层全连接网络</li>
+<li>公式：FFN(x) = max(0, xW1 + b1)W2 + b2</li>
+</ul>
+</li>
+<li><p><strong>层归一化（Layer Normalization）</strong></p>
+<ul>
+<li>稳定训练过程，加速收敛</li>
+</ul>
+</li>
+</ol>
+<p><strong>Java开发者关注点：</strong></p>
+<ul>
+<li>理解注意力机制有助于优化Prompt设计</li>
+<li>了解位置编码限制（如上下文长度限制的原因）</li>
+</ul>
+<hr>
+<h3 id="6-什么是注意力机制（Attention-Mechanism）？为什么它如此重要？"><a href="#6-什么是注意力机制（Attention-Mechanism）？为什么它如此重要？" class="headerlink" title="6. 什么是注意力机制（Attention Mechanism）？为什么它如此重要？"></a>6. 什么是注意力机制（Attention Mechanism）？为什么它如此重要？</h3><p><strong>答案：</strong></p>
+<p>注意力机制是一种让模型在处理序列时，动态地关注输入中不同部分的技术。</p>
+<p><strong>核心思想：</strong></p>
+<ul>
+<li>模拟人类阅读时的聚焦行为</li>
+<li>为每个输出位置计算输入位置的权重分布</li>
+</ul>
+<p><strong>注意力计算过程：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输入: Query(Q), Key(K), Value(V)</span><br><span class="line"></span><br><span class="line">步骤1: 计算相似度分数</span><br><span class="line">Score(Q,K) = Q × K^T / √d_k</span><br><span class="line"></span><br><span class="line">步骤2: 归一化得到注意力权重</span><br><span class="line">Attention_Weights = Softmax(Score)</span><br><span class="line"></span><br><span class="line">步骤3: 加权求和得到输出</span><br><span class="line">Output = Attention_Weights × V</span><br></pre></td></tr></table></figure>
+
+<p><strong>重要性：</strong></p>
+<ul>
+<li><strong>解决长距离依赖问题</strong>：RNN/LSTM难以处理长序列，注意力可直接连接任意位置</li>
+<li><strong>并行计算</strong>：相比RNN的串行计算，注意力可完全并行</li>
+<li><strong>可解释性</strong>：注意力权重可可视化，了解模型关注哪里</li>
+</ul>
+<p><strong>代码示例（概念性）：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AttentionMechanism</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 缩放点积注意力计算</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span>[][] scaledDotProductAttention(</span><br><span class="line">            <span class="type">double</span>[][] Q, <span class="type">double</span>[][] K, <span class="type">double</span>[][] V) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span> <span class="variable">d_k</span> <span class="operator">=</span> Q[<span class="number">0</span>].length;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 1. 计算 Q × K^T</span></span><br><span class="line">        <span class="type">double</span>[][] scores = matrixMultiply(Q, transpose(K));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 缩放</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; scores.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; scores[<span class="number">0</span>].length; j++) &#123;</span><br><span class="line">                scores[i][j] /= Math.sqrt(d_k);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3. Softmax</span></span><br><span class="line">        <span class="type">double</span>[][] attentionWeights = softmax(scores);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 4. 加权求和</span></span><br><span class="line">        <span class="keyword">return</span> matrixMultiply(attentionWeights, V);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="7-大模型中的Token是什么？它是如何工作的？"><a href="#7-大模型中的Token是什么？它是如何工作的？" class="headerlink" title="7. 大模型中的Token是什么？它是如何工作的？"></a>7. 大模型中的Token是什么？它是如何工作的？</h3><p><strong>答案：</strong></p>
+<p>Token是大模型处理文本的基本单位，可以是一个字、一个词或一个子词片段。</p>
+<p><strong>Tokenization过程：</strong></p>
+<ol>
+<li><strong>文本分割</strong>：将输入文本切分为Token序列</li>
+<li><strong>词汇映射</strong>：将Token映射为词汇表中的索引</li>
+<li><strong>嵌入转换</strong>：将索引转换为向量表示</li>
+</ol>
+<p><strong>常见Tokenization算法：</strong></p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>特点</th>
+<th>代表模型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>BPE</strong></td>
+<td>合并高频字符对</td>
+<td>GPT系列</td>
+</tr>
+<tr>
+<td><strong>WordPiece</strong></td>
+<td>基于概率合并</td>
+<td>BERT</td>
+</tr>
+<tr>
+<td><strong>SentencePiece</strong></td>
+<td>语言无关</td>
+<td>T5、Llama</td>
+</tr>
+</tbody></table>
+<p><strong>Token数量估算：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TokenEstimator</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 粗略估算Token数量（英文）</span></span><br><span class="line"><span class="comment">     * 经验值：1 token ≈ 0.75 个英文单词 ≈ 4 个字符</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">estimateTokens</span><span class="params">(String text)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (text == <span class="literal">null</span> || text.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 英文文本估算</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">wordCount</span> <span class="operator">=</span> text.trim().split(<span class="string">&quot;\\s+&quot;</span>).length;</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">int</span>) Math.ceil(wordCount / <span class="number">0.75</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 中文文本Token估算</span></span><br><span class="line"><span class="comment">     * 中文通常1-2个汉字对应1个token</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">estimateChineseTokens</span><span class="params">(String text)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (text == <span class="literal">null</span> || text.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span> <span class="variable">chineseChars</span> <span class="operator">=</span> countChineseChars(text);</span><br><span class="line">        <span class="type">int</span> <span class="variable">englishWords</span> <span class="operator">=</span> countEnglishWords(text);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 中文按1.5字符/token，英文按0.75词/token</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="type">int</span>) (chineseChars / <span class="number">1.5</span> + englishWords / <span class="number">0.75</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">countChineseChars</span><span class="params">(String text)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">int</span>) text.chars()</span><br><span class="line">                .filter(c -&gt; Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS)</span><br><span class="line">                .count();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">countEnglishWords</span><span class="params">(String text)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> text.split(<span class="string">&quot;[\\x00-\\x7F]+&quot;</span>).length;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Token限制的影响：</strong></p>
+<ul>
+<li>输入长度受限（如GPT-4 8K/32K/128K版本）</li>
+<li>影响API计费（按Token数收费）</li>
+<li>决定上下文窗口大小</li>
+</ul>
+<hr>
+<h3 id="8-什么是KV-Cache？它在大模型推理中起什么作用？"><a href="#8-什么是KV-Cache？它在大模型推理中起什么作用？" class="headerlink" title="8. 什么是KV Cache？它在大模型推理中起什么作用？"></a>8. 什么是KV Cache？它在大模型推理中起什么作用？</h3><p><strong>答案：</strong></p>
+<p>KV Cache（Key-Value Cache）是一种在Transformer推理过程中缓存历史计算的Key和Value向量的技术，用于加速自回归生成。</p>
+<p><strong>为什么需要KV Cache：</strong></p>
+<p>在自回归生成中，每次生成新Token时，都需要重新计算之前所有Token的注意力。这导致：</p>
+<ul>
+<li>时间复杂度：O(n³) → 生成n个Token需要O(1+4+9+…+n²) = O(n³)</li>
+<li>大量重复计算</li>
+</ul>
+<p><strong>KV Cache原理：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">生成第1个Token: 计算并缓存 K1, V1</span><br><span class="line">生成第2个Token: 复用 K1,V1，只计算 K2,V2 → 缓存 K1,V1,K2,V2</span><br><span class="line">生成第3个Token: 复用 K1,V1,K2,V2，只计算 K3,V3</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p><strong>优化效果：</strong></p>
+<ul>
+<li>时间复杂度降至 O(n²)</li>
+<li>显存占用增加（需要存储所有历史KV）</li>
+</ul>
+<p><strong>显存占用计算：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">KVCacheCalculator</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 计算KV Cache显存占用</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> batchSize 批大小</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> seqLength 序列长度</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> numLayers 层数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> numHeads 注意力头数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> headDim 每个头的维度</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bytesPerParam 每个参数的精度（FP16=2, FP32=4）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">calculateKVCacheSize</span><span class="params">(</span></span><br><span class="line"><span class="params">            <span class="type">int</span> batchSize,</span></span><br><span class="line"><span class="params">            <span class="type">int</span> seqLength,</span></span><br><span class="line"><span class="params">            <span class="type">int</span> numLayers,</span></span><br><span class="line"><span class="params">            <span class="type">int</span> numHeads,</span></span><br><span class="line"><span class="params">            <span class="type">int</span> headDim,</span></span><br><span class="line"><span class="params">            <span class="type">int</span> bytesPerParam)</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// KV Cache = 2 * batch * seq_len * num_layers * num_heads * head_dim * bytes_per_param</span></span><br><span class="line">        <span class="comment">// 乘以2是因为要存储K和V</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">kvCachePerToken</span> <span class="operator">=</span> <span class="number">2L</span> * numLayers * numHeads * headDim * bytesPerParam;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> batchSize * seqLength * kvCachePerToken;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 示例：计算Llama2-7B的KV Cache占用</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">example</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">size</span> <span class="operator">=</span> calculateKVCacheSize(</span><br><span class="line">            <span class="number">1</span>,      <span class="comment">// batch size</span></span><br><span class="line">            <span class="number">4096</span>,   <span class="comment">// context length</span></span><br><span class="line">            <span class="number">32</span>,     <span class="comment">// num layers</span></span><br><span class="line">            <span class="number">32</span>,     <span class="comment">// num heads</span></span><br><span class="line">            <span class="number">128</span>,    <span class="comment">// head dim</span></span><br><span class="line">            <span class="number">2</span>       <span class="comment">// FP16</span></span><br><span class="line">        );</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 结果约为 2GB</span></span><br><span class="line">        System.out.printf(<span class="string">&quot;KV Cache大小: %.2f GB%n&quot;</span>, size / (<span class="number">1024.0</span> * <span class="number">1024</span> * <span class="number">1024</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>KV Cache优化技术：</strong></p>
+<ul>
+<li><strong>PagedAttention</strong>：将KV Cache分页管理，减少显存碎片</li>
+<li><strong>量化KV Cache</strong>：使用INT8存储KV，减少显存占用</li>
+<li><strong>滑动窗口</strong>：只缓存最近N个Token的KV</li>
+</ul>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文整理了Java AI开发领域8道基础概念与大模型原理面试题，涵盖：</p>
+<ul>
+<li><strong>基础概念</strong>：RAG、向量数据库、Embedding、Prompt Engineering</li>
+<li><strong>大模型原理</strong>：Transformer架构、注意力机制、Token、KV Cache</li>
+</ul>
+<p>掌握这些知识点，将帮助你在Java AI开发领域建立扎实的理论基础。</p>
+<hr>
+<blockquote>
+<p><strong>系列文章：</strong></p>
+<ul>
+<li><a href="../Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-Spring-AI%E6%A1%86%E6%9E%B6%E5%AE%9E%E6%88%98%E7%AF%87/">Java AI面试题：Spring AI框架实战篇</a></li>
+<li><a href="../Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E4%B8%8E%E9%87%8F%E5%8C%96%E9%83%A8%E7%BD%B2%E7%AF%87/">Java AI面试题：模型集成与量化部署篇</a></li>
+<li><a href="../Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E4%B8%8EAPI%E9%9B%86%E6%88%90%E7%AF%87/">Java AI面试题：模型微调与API集成篇</a></li>
+<li><a href="../Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%BF%9B%E9%98%B6%E6%9E%B6%E6%9E%84%E7%AF%87/">Java AI面试题：工程实践与进阶架构篇</a></li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+<script src="https://giscus.app/client.js"
+        data-repo="snrt111/snrt111.github.io"
+        data-repo-id="R_kgDOGOgTcQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOGOgTcc4C81X3"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="snrt111 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="snrt111 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag"># 面试题</a>
+              <a href="/tags/RAG/" rel="tag"># RAG</a>
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" rel="tag"># 大模型</a>
+              <a href="/tags/Transformer/" rel="tag"># Transformer</a>
+              <a href="/tags/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/" rel="tag"># 注意力机制</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="prev" title="Java AI开发面试题系列（索引页）">
+                  <i class="fa fa-angle-left"></i> Java AI开发面试题系列（索引页）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-Spring-AI%E6%A1%86%E6%9E%B6%E5%AE%9E%E6%88%98%E7%AF%87/" rel="next" title="Java AI面试题：Spring AI框架实战篇（4道）">
+                  Java AI面试题：Spring AI框架实战篇（4道） <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">snrt111</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

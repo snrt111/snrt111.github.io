@@ -6,7 +6,7 @@
   <link href="https://snrt111.github.io/atom.xml" rel="self"/>
   
   <link href="https://snrt111.github.io/"/>
-  <updated>2026-05-19T06:37:07.291Z</updated>
+  <updated>2026-05-20T06:38:10.409Z</updated>
   <id>https://snrt111.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://snrt111.github.io/2026/05/19/Redis%E8%AF%A6%E8%A7%A3/"/>
     <id>https://snrt111.github.io/2026/05/19/Redis%E8%AF%A6%E8%A7%A3/</id>
     <published>2026-05-19T06:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
+    <updated>2026-05-20T06:38:10.409Z</updated>
     
     
       
@@ -50,18 +50,18 @@
   </entry>
   
   <entry>
-    <title>Java AI开发高频面试题30道（含详细答案解析）</title>
-    <link href="https://snrt111.github.io/2026/05/18/Java-AI%E5%BC%80%E5%8F%91%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%9830%E9%81%93/"/>
-    <id>https://snrt111.github.io/2026/05/18/Java-AI%E5%BC%80%E5%8F%91%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%9830%E9%81%93/</id>
-    <published>2026-05-18T09:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
+    <title>Java AI面试题：工程实践与进阶架构篇（8道）</title>
+    <link href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%BF%9B%E9%98%B6%E6%9E%B6%E6%9E%84%E7%AF%87/"/>
+    <id>https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%BF%9B%E9%98%B6%E6%9E%B6%E6%9E%84%E7%AF%87/</id>
+    <published>2026-05-18T09:20:00.000Z</published>
+    <updated>2026-05-20T06:38:10.407Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;Java-AI开发高频面试题30道（含详细答案解析）&quot;&gt;&lt;a href=&quot;#Java-AI开发高频面试题30道（含详细答案解析）&quot; class=&quot;headerlink&quot; title=&quot;Java AI开发高频面试题30道（含详细答案解析）&quot;&gt;&lt;/a&gt;Java</summary>
+    <summary type="html">&lt;h1 id=&quot;Java-AI面试题：工程实践与进阶架构篇（8道）&quot;&gt;&lt;a href=&quot;#Java-AI面试题：工程实践与进阶架构篇（8道）&quot; class=&quot;headerlink&quot; title=&quot;Java AI面试题：工程实践与进阶架构篇（8道）&quot;&gt;&lt;/a&gt;Java</summary>
         
       
     
@@ -76,13 +76,200 @@
     
     <category term="面试题" scheme="https://snrt111.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
     
-    <category term="大模型" scheme="https://snrt111.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
+    <category term="Function Calling" scheme="https://snrt111.github.io/tags/Function-Calling/"/>
+    
+    <category term="Agent" scheme="https://snrt111.github.io/tags/Agent/"/>
+    
+    <category term="多模态" scheme="https://snrt111.github.io/tags/%E5%A4%9A%E6%A8%A1%E6%80%81/"/>
+    
+    <category term="限流熔断" scheme="https://snrt111.github.io/tags/%E9%99%90%E6%B5%81%E7%86%94%E6%96%AD/"/>
+    
+    <category term="多租户" scheme="https://snrt111.github.io/tags/%E5%A4%9A%E7%A7%9F%E6%88%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java AI面试题：模型微调与API集成篇（9道）</title>
+    <link href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E4%B8%8EAPI%E9%9B%86%E6%88%90%E7%AF%87/"/>
+    <id>https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E4%B8%8EAPI%E9%9B%86%E6%88%90%E7%AF%87/</id>
+    <published>2026-05-18T09:15:00.000Z</published>
+    <updated>2026-05-20T06:38:10.407Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Java-AI面试题：模型微调与API集成篇（9道）&quot;&gt;&lt;a href=&quot;#Java-AI面试题：模型微调与API集成篇（9道）&quot; class=&quot;headerlink&quot; title=&quot;Java AI面试题：模型微调与API集成篇（9道）&quot;&gt;&lt;/a&gt;Java</summary>
+        
+      
+    
+    
+    
+    <category term="面试题" scheme="https://snrt111.github.io/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+    
+    <category term="Java" scheme="https://snrt111.github.io/tags/Java/"/>
+    
+    <category term="AI" scheme="https://snrt111.github.io/tags/AI/"/>
+    
+    <category term="面试题" scheme="https://snrt111.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+    <category term="Fine-tuning" scheme="https://snrt111.github.io/tags/Fine-tuning/"/>
+    
+    <category term="LoRA" scheme="https://snrt111.github.io/tags/LoRA/"/>
+    
+    <category term="PEFT" scheme="https://snrt111.github.io/tags/PEFT/"/>
+    
+    <category term="API" scheme="https://snrt111.github.io/tags/API/"/>
+    
+    <category term="错误处理" scheme="https://snrt111.github.io/tags/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/"/>
+    
+    <category term="成本优化" scheme="https://snrt111.github.io/tags/%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java AI面试题：模型集成与量化部署篇（14道）</title>
+    <link href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E4%B8%8E%E9%87%8F%E5%8C%96%E9%83%A8%E7%BD%B2%E7%AF%87/"/>
+    <id>https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E4%B8%8E%E9%87%8F%E5%8C%96%E9%83%A8%E7%BD%B2%E7%AF%87/</id>
+    <published>2026-05-18T09:10:00.000Z</published>
+    <updated>2026-05-20T06:38:10.407Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Java-AI面试题：模型集成与量化部署篇（14道）&quot;&gt;&lt;a href=&quot;#Java-AI面试题：模型集成与量化部署篇（14道）&quot; class=&quot;headerlink&quot; title=&quot;Java AI面试题：模型集成与量化部署篇（14道）&quot;&gt;&lt;/a&gt;Java</summary>
+        
+      
+    
+    
+    
+    <category term="面试题" scheme="https://snrt111.github.io/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+    
+    <category term="Java" scheme="https://snrt111.github.io/tags/Java/"/>
+    
+    <category term="AI" scheme="https://snrt111.github.io/tags/AI/"/>
+    
+    <category term="面试题" scheme="https://snrt111.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+    <category term="OpenAI" scheme="https://snrt111.github.io/tags/OpenAI/"/>
+    
+    <category term="Ollama" scheme="https://snrt111.github.io/tags/Ollama/"/>
+    
+    <category term="向量数据库" scheme="https://snrt111.github.io/tags/%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="量化" scheme="https://snrt111.github.io/tags/%E9%87%8F%E5%8C%96/"/>
+    
+    <category term="上下文窗口" scheme="https://snrt111.github.io/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java AI面试题：Spring AI框架实战篇（4道）</title>
+    <link href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-Spring-AI%E6%A1%86%E6%9E%B6%E5%AE%9E%E6%88%98%E7%AF%87/"/>
+    <id>https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-Spring-AI%E6%A1%86%E6%9E%B6%E5%AE%9E%E6%88%98%E7%AF%87/</id>
+    <published>2026-05-18T09:05:00.000Z</published>
+    <updated>2026-05-20T06:38:10.407Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Java-AI面试题：Spring-AI框架实战篇（4道）&quot;&gt;&lt;a href=&quot;#Java-AI面试题：Spring-AI框架实战篇（4道）&quot; class=&quot;headerlink&quot; title=&quot;Java AI面试题：Spring</summary>
+        
+      
+    
+    
+    
+    <category term="面试题" scheme="https://snrt111.github.io/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+    
+    <category term="Java" scheme="https://snrt111.github.io/tags/Java/"/>
+    
+    <category term="AI" scheme="https://snrt111.github.io/tags/AI/"/>
+    
+    <category term="面试题" scheme="https://snrt111.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
     
     <category term="Spring AI" scheme="https://snrt111.github.io/tags/Spring-AI/"/>
     
-    <category term="机器学习" scheme="https://snrt111.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="Spring Boot" scheme="https://snrt111.github.io/tags/Spring-Boot/"/>
     
-    <category term="深度学习" scheme="https://snrt111.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    <category term="RAG" scheme="https://snrt111.github.io/tags/RAG/"/>
+    
+    <category term="ChatClient" scheme="https://snrt111.github.io/tags/ChatClient/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java AI面试题：基础概念与大模型原理篇（8道）</title>
+    <link href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E7%AF%87/"/>
+    <id>https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E7%AF%87/</id>
+    <published>2026-05-18T09:00:00.000Z</published>
+    <updated>2026-05-20T06:38:10.407Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Java-AI面试题：基础概念与大模型原理篇（8道）&quot;&gt;&lt;a href=&quot;#Java-AI面试题：基础概念与大模型原理篇（8道）&quot; class=&quot;headerlink&quot; title=&quot;Java AI面试题：基础概念与大模型原理篇（8道）&quot;&gt;&lt;/a&gt;Java</summary>
+        
+      
+    
+    
+    
+    <category term="面试题" scheme="https://snrt111.github.io/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+    
+    <category term="Java" scheme="https://snrt111.github.io/tags/Java/"/>
+    
+    <category term="AI" scheme="https://snrt111.github.io/tags/AI/"/>
+    
+    <category term="面试题" scheme="https://snrt111.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+    <category term="RAG" scheme="https://snrt111.github.io/tags/RAG/"/>
+    
+    <category term="大模型" scheme="https://snrt111.github.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
+    
+    <category term="Transformer" scheme="https://snrt111.github.io/tags/Transformer/"/>
+    
+    <category term="注意力机制" scheme="https://snrt111.github.io/tags/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java AI开发面试题系列（索引页）</title>
+    <link href="https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    <id>https://snrt111.github.io/2026/05/18/Java-AI%E9%9D%A2%E8%AF%95%E9%A2%98/</id>
+    <published>2026-05-18T09:00:00.000Z</published>
+    <updated>2026-05-20T06:38:10.407Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Java-AI开发面试题系列（索引页）&quot;&gt;&lt;a href=&quot;#Java-AI开发面试题系列（索引页）&quot; class=&quot;headerlink&quot; title=&quot;Java AI开发面试题系列（索引页）&quot;&gt;&lt;/a&gt;Java</summary>
+        
+      
+    
+    
+    
+    <category term="面试题" scheme="https://snrt111.github.io/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+    
+    <category term="Java" scheme="https://snrt111.github.io/tags/Java/"/>
+    
+    <category term="AI" scheme="https://snrt111.github.io/tags/AI/"/>
+    
+    <category term="面试题" scheme="https://snrt111.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+    <category term="索引" scheme="https://snrt111.github.io/tags/%E7%B4%A2%E5%BC%95/"/>
     
   </entry>
   
@@ -91,7 +278,7 @@
     <link href="https://snrt111.github.io/2026/05/18/Java-GC%E6%BC%94%E8%BF%9B%E5%8F%B2/"/>
     <id>https://snrt111.github.io/2026/05/18/Java-GC%E6%BC%94%E8%BF%9B%E5%8F%B2/</id>
     <published>2026-05-18T02:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
+    <updated>2026-05-20T06:38:10.408Z</updated>
     
     
     <summary type="html">&lt;p&gt;Java的垃圾收集器（GC）演进史，就是一部在&lt;strong&gt;吞吐量&lt;/strong&gt;（应用工作时间/总时间）和&lt;strong&gt;延迟&lt;/strong&gt;（GC暂停应用的时间）之间不断寻求最佳平衡的历史。&lt;/p&gt;
@@ -102,13 +289,13 @@
     <category term="面试题" scheme="https://snrt111.github.io/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
     
     
+    <category term="性能优化" scheme="https://snrt111.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
     <category term="JVM" scheme="https://snrt111.github.io/tags/JVM/"/>
     
     <category term="GC" scheme="https://snrt111.github.io/tags/GC/"/>
     
     <category term="垃圾收集器" scheme="https://snrt111.github.io/tags/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/"/>
-    
-    <category term="性能优化" scheme="https://snrt111.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
     
   </entry>
   
@@ -117,7 +304,7 @@
     <link href="https://snrt111.github.io/2026/05/17/%E5%B8%B8%E8%A7%81%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
     <id>https://snrt111.github.io/2026/05/17/%E5%B8%B8%E8%A7%81%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</id>
     <published>2026-05-17T16:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.292Z</updated>
+    <updated>2026-05-20T06:38:10.410Z</updated>
     
     
       
@@ -156,7 +343,7 @@
     <link href="https://snrt111.github.io/2026/05/12/Learn-Claude-Code-%E7%9C%9F%E6%AD%A3%E7%9A%84-Agent-Harness-%E5%B7%A5%E7%A8%8B/"/>
     <id>https://snrt111.github.io/2026/05/12/Learn-Claude-Code-%E7%9C%9F%E6%AD%A3%E7%9A%84-Agent-Harness-%E5%B7%A5%E7%A8%8B/</id>
     <published>2026-05-12T06:30:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
+    <updated>2026-05-20T06:38:10.408Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;在 AI 编程助手领域，Claude Code 以其独特的设计理念脱颖而出。本文将深入解析 &lt;span class=&quot;exturl&quot; data-url=&quot;aHR0cHM6Ly9naXRodWIuY29tL3NoYXJlQUktbGFiL2xlYXJuLWNsYXVkZS1jb2Rl&quot;&gt;shareAI-lab/learn-claude-code&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/span&gt; 这个开源项目，带你从 0 到 1 理解 Claude Code 的核心原理——&lt;strong&gt;Agent Harness 工程&lt;/strong&gt;。&lt;/p&gt;
@@ -169,9 +356,9 @@
     
     <category term="LLM" scheme="https://snrt111.github.io/tags/LLM/"/>
     
-    <category term="Claude Code" scheme="https://snrt111.github.io/tags/Claude-Code/"/>
-    
     <category term="Agent" scheme="https://snrt111.github.io/tags/Agent/"/>
+    
+    <category term="Claude Code" scheme="https://snrt111.github.io/tags/Claude-Code/"/>
     
     <category term="AI 编程助手" scheme="https://snrt111.github.io/tags/AI-%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B/"/>
     
@@ -182,7 +369,7 @@
     <link href="https://snrt111.github.io/2026/04/20/MyBatis%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/"/>
     <id>https://snrt111.github.io/2026/04/20/MyBatis%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/</id>
     <published>2026-04-20T06:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
+    <updated>2026-05-20T06:38:10.408Z</updated>
     
     
     <summary type="html">深入剖析MyBatis一级缓存和二级缓存的工作原理、配置方式、源码实现以及最佳实践，帮助开发者掌握缓存机制提升应用性能。</summary>
@@ -194,11 +381,11 @@
     
     <category term="Java" scheme="https://snrt111.github.io/tags/Java/"/>
     
-    <category term="性能优化" scheme="https://snrt111.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
     <category term="MyBatis" scheme="https://snrt111.github.io/tags/MyBatis/"/>
     
     <category term="缓存" scheme="https://snrt111.github.io/tags/%E7%BC%93%E5%AD%98/"/>
+    
+    <category term="性能优化" scheme="https://snrt111.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
     
   </entry>
   
@@ -207,7 +394,7 @@
     <link href="https://snrt111.github.io/2026/04/20/%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%8E%92%E6%9F%A5%E4%B8%8E%E5%AE%9E%E6%88%98/"/>
     <id>https://snrt111.github.io/2026/04/20/%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%8E%92%E6%9F%A5%E4%B8%8E%E5%AE%9E%E6%88%98/</id>
     <published>2026-04-20T02:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.292Z</updated>
+    <updated>2026-05-20T06:38:10.410Z</updated>
     
     
     <summary type="html">深入剖析Java堆外内存泄漏的常见原因、系统化排查方法论以及Netty网关实战案例，帮助开发者从容应对生产环境中最隐蔽的内存问题。</summary>
@@ -217,9 +404,9 @@
     <category term="后端开发" scheme="https://snrt111.github.io/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"/>
     
     
-    <category term="JVM" scheme="https://snrt111.github.io/tags/JVM/"/>
-    
     <category term="性能优化" scheme="https://snrt111.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
+    <category term="JVM" scheme="https://snrt111.github.io/tags/JVM/"/>
     
     <category term="内存泄漏" scheme="https://snrt111.github.io/tags/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/"/>
     
@@ -232,7 +419,7 @@
     <link href="https://snrt111.github.io/2026/04/19/%E5%90%83%E9%80%8F%E5%A4%9A%E5%B1%82%E6%97%B6%E9%97%B4%E8%BD%AE%EF%BC%9A%E5%8E%9F%E7%90%86%E3%80%81%E5%AE%9E%E7%8E%B0%E4%B8%8E%E4%BB%BB%E5%8A%A1%E4%B8%8B%E6%B2%89%E5%85%A8%E8%A7%A3%E6%9E%90%EF%BC%88%E9%99%84%E5%AE%8C%E6%95%B4%E5%8F%AF%E8%BF%90%E8%A1%8C%E4%BB%A3%E7%A0%81%EF%BC%89/"/>
     <id>https://snrt111.github.io/2026/04/19/%E5%90%83%E9%80%8F%E5%A4%9A%E5%B1%82%E6%97%B6%E9%97%B4%E8%BD%AE%EF%BC%9A%E5%8E%9F%E7%90%86%E3%80%81%E5%AE%9E%E7%8E%B0%E4%B8%8E%E4%BB%BB%E5%8A%A1%E4%B8%8B%E6%B2%89%E5%85%A8%E8%A7%A3%E6%9E%90%EF%BC%88%E9%99%84%E5%AE%8C%E6%95%B4%E5%8F%AF%E8%BF%90%E8%A1%8C%E4%BB%A3%E7%A0%81%EF%BC%89/</id>
     <published>2026-04-19T16:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.292Z</updated>
+    <updated>2026-05-20T06:38:10.410Z</updated>
     
     
       
@@ -267,7 +454,7 @@
     <link href="https://snrt111.github.io/2026/04/14/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%9C%E7%BA%A6%E6%9D%9F/"/>
     <id>https://snrt111.github.io/2026/04/14/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%9C%E7%BA%A6%E6%9D%9F/</id>
     <published>2026-04-14T02:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.292Z</updated>
+    <updated>2026-05-20T06:38:10.410Z</updated>
     
     
     <summary type="html">详细介绍大模型结果约束的各种方法，包括Prompt层面约束、样本约束、结构化输出、RAG事实约束、训练层面约束及解码阶段控制等企业级解决方案</summary>
@@ -292,7 +479,7 @@
     <link href="https://snrt111.github.io/2026/04/13/CoT%E6%80%9D%E7%BB%B4%E9%93%BE/"/>
     <id>https://snrt111.github.io/2026/04/13/CoT%E6%80%9D%E7%BB%B4%E9%93%BE/</id>
     <published>2026-04-13T16:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
+    <updated>2026-05-20T06:38:10.407Z</updated>
     
     
       
@@ -325,7 +512,7 @@
     <link href="https://snrt111.github.io/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/"/>
     <id>https://snrt111.github.io/2026/04/13/OOAD%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/</id>
     <published>2026-04-13T16:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
+    <updated>2026-05-20T06:38:10.408Z</updated>
     
     
       
@@ -356,7 +543,7 @@
     <link href="https://snrt111.github.io/2026/03/26/RAG%E7%B2%BE%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%87%E6%A1%A3/"/>
     <id>https://snrt111.github.io/2026/03/26/RAG%E7%B2%BE%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%87%E6%A1%A3/</id>
     <published>2026-03-26T03:17:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
+    <updated>2026-05-20T06:38:10.408Z</updated>
     
     
       
@@ -383,7 +570,7 @@
     <link href="https://snrt111.github.io/2026/03/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E4%B8%8E%E4%BC%98%E5%8C%96%E6%8C%87%E5%8D%97/"/>
     <id>https://snrt111.github.io/2026/03/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E4%B8%8E%E4%BC%98%E5%8C%96%E6%8C%87%E5%8D%97/</id>
     <published>2026-03-26T03:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.293Z</updated>
+    <updated>2026-05-20T06:38:10.410Z</updated>
     
     
     <summary type="html">全面介绍关系型数据库设计原则、范式与反范式、索引优化、查询优化以及分库分表策略，助力构建高性能数据存储方案。</summary>
@@ -404,7 +591,7 @@
     <link href="https://snrt111.github.io/2026/03/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5/"/>
     <id>https://snrt111.github.io/2026/03/26/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5/</id>
     <published>2026-03-26T02:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.292Z</updated>
+    <updated>2026-05-20T06:38:10.410Z</updated>
     
     
     <summary type="html">深入讲解微服务架构的核心概念、设计原则、拆分策略以及实战技巧，帮助开发者构建高可用、可扩展的分布式系统。</summary>
@@ -427,7 +614,7 @@
     <link href="https://snrt111.github.io/2026/03/25/Spring%20Boot%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E8%AF%A6%E8%A7%A3/"/>
     <id>https://snrt111.github.io/2026/03/25/Spring%20Boot%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E8%AF%A6%E8%A7%A3/</id>
     <published>2026-03-25T06:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
+    <updated>2026-05-20T06:38:10.409Z</updated>
     
     
     <summary type="html">深入剖析 Spring Boot 自动配置原理、起步依赖机制、Actuator 监控、安全配置等核心技术，掌握快速构建企业级应用的秘诀。</summary>
@@ -442,168 +629,6 @@
     <category term="Spring" scheme="https://snrt111.github.io/tags/Spring/"/>
     
     <category term="微服务" scheme="https://snrt111.github.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker 与 Kubernetes 实战指南</title>
-    <link href="https://snrt111.github.io/2026/03/25/Docker%20%E4%B8%8E%20Kubernetes%20%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/"/>
-    <id>https://snrt111.github.io/2026/03/25/Docker%20%E4%B8%8E%20Kubernetes%20%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/</id>
-    <published>2026-03-25T05:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
-    
-    
-    <summary type="html">系统讲解 Docker 容器化技术和 Kubernetes 容器编排平台，涵盖镜像构建、容器管理、Pod 调度、服务发现等核心概念与实战技巧。</summary>
-    
-    
-    
-    <category term="云原生与运维" scheme="https://snrt111.github.io/categories/%E4%BA%91%E5%8E%9F%E7%94%9F%E4%B8%8E%E8%BF%90%E7%BB%B4/"/>
-    
-    
-    <category term="Docker" scheme="https://snrt111.github.io/tags/Docker/"/>
-    
-    <category term="K8s" scheme="https://snrt111.github.io/tags/K8s/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Vue 3 完全指南</title>
-    <link href="https://snrt111.github.io/2026/03/25/Vue%203%20%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/"/>
-    <id>https://snrt111.github.io/2026/03/25/Vue%203%20%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/</id>
-    <published>2026-03-25T04:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.292Z</updated>
-    
-    
-    <summary type="html">从基础到进阶，全面讲解 Vue 3 的组合式 API、响应式原理、组件开发、状态管理以及项目实战，打造现代化前端应用。</summary>
-    
-    
-    
-    <category term="前端开发" scheme="https://snrt111.github.io/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/"/>
-    
-    
-    <category term="前端" scheme="https://snrt111.github.io/tags/%E5%89%8D%E7%AB%AF/"/>
-    
-    <category term="Vue" scheme="https://snrt111.github.io/tags/Vue/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OpenClaw一键安装教程（自定义中文脚本）</title>
-    <link href="https://snrt111.github.io/2026/03/25/OpenClaw%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%84%9A%E6%9C%AC/"/>
-    <id>https://snrt111.github.io/2026/03/25/OpenClaw%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%84%9A%E6%9C%AC/</id>
-    <published>2026-03-25T02:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;本教程将介绍如何使用自定义的PowerShell脚本来一键安装OpenClaw。相比官方安装脚本，自定义脚本具有以下优势：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;📝 全程中文提示，更易理解&lt;/li&gt;
-&lt;li&gt;🎨 彩色输出，状态一目了然&lt;/li&gt;
-&lt;li&gt;⏳ 进度显示，知道安装进行到哪一步&lt;/li&gt;
-&lt;li&gt;🔧 自动检测环境，提前发现潜在问题&lt;/li&gt;
-&lt;li&gt;📦 支持离线安装包（可选）&lt;/li&gt;
-&lt;li&gt;🇨🇳 支持国内镜像加速下载&lt;/li&gt;
-&lt;li&gt;⚙️ 高度可定制化安装&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot; title=&quot;目录&quot;&gt;&lt;/a&gt;目录&lt;/h2&gt;&lt;!-- toc --&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%89%8D%E8%A8%80&quot;&gt;前言&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E8%84%9A%E6%9C%AC%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D&quot;&gt;脚本功能介绍&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%B5%81%E7%A8%8B&quot;&gt;实现思路与流程&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%AE%8C%E6%95%B4%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC&quot;&gt;完整安装脚本&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%AE%8C%E6%95%B4%E5%8D%B8%E8%BD%BD%E8%84%9A%E6%9C%AC&quot;&gt;完整卸载脚本&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B&quot;&gt;使用教程&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E8%84%9A%E6%9C%AC%E8%AF%A6%E8%A7%A3&quot;&gt;脚本详解&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E8%BF%9B%E9%98%B6%E5%AE%9A%E5%88%B6&quot;&gt;进阶定制&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98&quot;&gt;常见问题&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="AI 与人工智能" scheme="https://snrt111.github.io/categories/AI-%E4%B8%8E%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
-    
-    
-    <category term="AI" scheme="https://snrt111.github.io/tags/AI/"/>
-    
-    <category term="OpenClaw" scheme="https://snrt111.github.io/tags/OpenClaw/"/>
-    
-    <category term="工具" scheme="https://snrt111.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring AI Alibaba搭建知识库详细教程</title>
-    <link href="https://snrt111.github.io/2026/03/24/Spring-AI-Alibaba%E6%90%AD%E5%BB%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/"/>
-    <id>https://snrt111.github.io/2026/03/24/Spring-AI-Alibaba%E6%90%AD%E5%BB%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/</id>
-    <published>2026-03-24T06:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Spring AI Alibaba是阿里云推出的面向Java开发者的AI应用开发框架，它基于Spring AI构建，提供了与阿里云大模型（通义千问）的无缝集成。通过Spring AI Alibaba，开发者可以快速构建RAG（检索增强生成）知识库系统，实现智能问答、文档处理等功能。&lt;/p&gt;
-&lt;p&gt;本教程将手把手教您从零开始搭建一个完整的Spring AI Alibaba知识库系统，包括环境准备、项目搭建、向量数据库配置、文档处理、检索问答等全流程。&lt;/p&gt;
-&lt;h2 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot; title=&quot;目录&quot;&gt;&lt;/a&gt;目录&lt;/h2&gt;&lt;!-- toc --&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%89%8D%E8%A8%80&quot;&gt;前言&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E4%BB%80%E4%B9%88%E6%98%AFrag&quot;&gt;什么是RAG&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E6%8A%80%E6%9C%AF%E6%A0%88%E4%BB%8B%E7%BB%8D&quot;&gt;技术栈介绍&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87&quot;&gt;环境准备&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA&quot;&gt;项目搭建&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE&quot;&gt;向量数据库配置&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E6%96%87%E6%A1%A3%E5%A4%84%E7%90%86%E4%B8%8E%E5%AD%98%E5%82%A8&quot;&gt;文档处理与存储&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E6%A3%80%E7%B4%A2%E4%B8%8E%E9%97%AE%E7%AD%94&quot;&gt;检索与问答&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD&quot;&gt;高级功能&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81&quot;&gt;完整示例代码&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98&quot;&gt;常见问题&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E7%BB%93%E8%AF%AD&quot;&gt;结语&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="AI 与人工智能" scheme="https://snrt111.github.io/categories/AI-%E4%B8%8E%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
-    
-    
-    <category term="AI" scheme="https://snrt111.github.io/tags/AI/"/>
-    
-    <category term="知识库" scheme="https://snrt111.github.io/tags/%E7%9F%A5%E8%AF%86%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Skills使用详细教程</title>
-    <link href="https://snrt111.github.io/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"/>
-    <id>https://snrt111.github.io/2026/03/24/Skills%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</id>
-    <published>2026-03-24T04:00:00.000Z</published>
-    <updated>2026-05-19T06:37:07.291Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Skills是Trae IDE中的一项强大功能，它允许用户创建和使用自定义的技能来增强AI助手的功能。通过Skills，您可以定义特定的任务流程、代码模板、自动化脚本等，让AI助手更好地理解您的需求并提供更精准的帮助。&lt;/p&gt;
-&lt;p&gt;本教程将详细介绍Skills的概念、创建方法、使用技巧以及最佳实践，帮助您充分利用这一强大功能。&lt;/p&gt;
-&lt;h2 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot; title=&quot;目录&quot;&gt;&lt;/a&gt;目录&lt;/h2&gt;&lt;!-- toc --&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%89%8D%E8%A8%80&quot;&gt;前言&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E4%BB%80%E4%B9%88%E6%98%AFskills&quot;&gt;什么是Skills&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#skills%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5&quot;&gt;Skills的核心概念&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AAskill&quot;&gt;创建第一个Skill&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#skill%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3&quot;&gt;Skill文件结构详解&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95&quot;&gt;高级用法&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5&quot;&gt;最佳实践&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98&quot;&gt;常见问题&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#%E7%BB%93%E8%AF%AD&quot;&gt;结语&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="开发工具与教程" scheme="https://snrt111.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%95%99%E7%A8%8B/"/>
-    
-    
-    <category term="AI" scheme="https://snrt111.github.io/tags/AI/"/>
-    
-    <category term="工具" scheme="https://snrt111.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-    <category term="Skills" scheme="https://snrt111.github.io/tags/Skills/"/>
     
   </entry>
   
